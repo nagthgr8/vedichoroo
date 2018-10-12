@@ -1,0 +1,83 @@
+<!--
+  Generated template for the LovehoroPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-list *ngIf="showList">
+  <form [formGroup]="personalDetailsForm">
+  <ion-item>
+ <ion-label class = "item item-input item-select item-calm">
+          Man's Date of Birth
+      </ion-label>
+	  <ion-datetime formControlName="dob" displayFormat="DD/MM/YYYY HH:mm"></ion-datetime>
+	  </ion-item>
+	  <ion-item>
+ <ion-label class = "item item-input item-select item-balanced">
+         Women's Date of Birth
+      </ion-label>
+	  <ion-datetime formControlName="partnerdob" displayFormat="DD/MM/YYYY HH:mm"></ion-datetime>
+	  </ion-item>
+	   <div padding>
+	   <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+  <button ion-button full (click)="save()">Submit</button>
+  </div>
+    </form>
+  </ion-list>
+  <ion-grid no-padding *ngIf="showGrid">
+    <ion-row class="title"><ion-col col-6>Man</ion-col><ion-col col-6>Women</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='mdob'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='wdob'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Moon Sign</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='msign'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='wsign'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Birth Star</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='mstar'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='wstar'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Ruling Planet</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='mpl'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='wpl'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Ruling Animal</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='maml'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='waml'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Characteristics</ion-col></ion-row>
+    <ion-row><ion-col col-6><div color="primary" ion-text [innerHTML]='mchr'></div></ion-col><ion-col col-6><div color="primary" ion-text [innerHTML]='wchr'></div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Compatibility Report</ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Respect / Strii Diirgha</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>The technique used to determine whether a couple will be inclined to respect each other is known as Strii Diirgha. The Nakshatra (Moons asterism) of the man should be at least 14 away from the womans. If it is not at least 14 away, problems will be likely. If it is not at least 14 away, but only nine to thirteen away, then the problems will be somewhat reduced.<br/>When there are at least 14 Nakshatras from the womans from the mans the shortest flow of energy is from the man to the woman, allowing him to naturally play the masculine role and her to play the feminine. When there is less than 14 the shortest flow of energy is from her to him. This creates a flow of energy that forces her to play the masculine role and him the feminine. The result is a short circuit in their relationship. When there is less then 9 Nakshatras separating them this manifests at its worse.</ion-col></ion-row>
+	<ion-row><ion-col col-12><div color="primary" ion-text [innerHTML]='strii'></div></ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Wavelength / Ashta Kutas</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>The technique that is used to determine your Wavelength points is known as Ashta Kuta, heap of eight. Eight measurements are taken //between your Moons. These eight measurements are known as Nadi Kuta, Bha Kuta, Gana Kuta, Graha Maitram Kuta, Yoni Kuta, Tara Kuta, Vasya Kuta //and Varna Kuta, which are each respectively worth 8, 7, 6, 5, 4, 3, 2 and 1 point.</ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Excess / Nadi Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='nadi'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Constructivism / Bha Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='bha'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Temperment / Gana Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='gana'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Friendship / Graha mitram Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='grha'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Instrinctive Compatibility/  Yoni Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='yoni'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Comfort/  Tara Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='tara'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Innate Giving / Vasya Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='vsya'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>Mutation / Varna Kuta</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='vrna'></div></ion-col></ion-row>
+	<ion-row><ion-col col-3><strong>TOTAL</strong></ion-col><ion-col col-9><div color="primary" ion-text [innerHTML]='totl'></div></ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Innate Sense of Purpose / Mahendra</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>According to classical texts Mahendra indicates longevity and well being; and grants children, grandchildren and prosperity. Mahendra indicates a special affinity and friendship that provides for a sense of meaning and purpose throughout life. If Mahendra is present, and if the rest of the compatibility is solid, even if the couple gets together for the worst of reasons, or immaturely, they will have a great chance of feeling like they should still be together years down the road. If Mahendra is not present the couple should make sure they know the reasons for getting together and that they will be lasting or, years later, they may likely find that they dont have that much reason to be together.</ion-col></ion-row>
+	<ion-row><ion-col col-12><div color="primary" ion-text [innerHTML]='mah'></div></ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Obstructions / Vedha Dosh</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>Vedha is one of the two Maha Doshas, Great Blemishes, that can affect a relationship.</ion-col></ion-row>	
+	<ion-row><ion-col col-12><div color="primary" ion-text [innerHTML]='vedh'></div></ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Misfortune / Rajju Dosha</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>According to the ancient texts, the following are the results of the Moons falling in Nakshatras that are of the same body part<br/>If they both fall in the feet there will always be wandering. <br/>If the both fall in the hip there will be poverty.<br/>If they both fall in the navel there will be loss of children.<br/>If they both fall in the neck the wife will die.<br/>If they both fall in the head the husband will die.<br/>THESE RESULTS ARE MEANT TO BE TAKEN SYMBOLICALLY AND NOT LITERALLY</ion-col></ion-row>	
+	<ion-row><ion-col col-12><div color="primary" ion-text [innerHTML]='raju'></div></ion-col></ion-row>
+    <ion-row><ion-col col-12><strong>Magnetic Attraction / Vasya</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12>This magnetic attraction or draw can cause the person who is drawn to the other to do almost anything for the relationship.</ion-col></ion-row>	
+	<ion-row><ion-col col-12><div color="primary" ion-text [innerHTML]='attr'></div></ion-col></ion-row>
+	<ion-row><ion-col col-12><strong>Kuja Dosha</strong></ion-col></ion-row>
+	<ion-row><ion-col col-12></ion-col></ion-row>
+  </ion-grid>
+  <ion-grid #gridInfo>
+    
+  </ion-grid>
+  
+</ion-content>

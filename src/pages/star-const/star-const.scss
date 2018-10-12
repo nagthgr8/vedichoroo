@@ -1,0 +1,95 @@
+page-star-const {
+ion-grid {
+  margin:0px;
+}
+ion-row {
+  height: 25%;
+}
+ion-col {
+   height: 100%;
+}
+ion-col.week {
+  background-color: #eec1ad;
+  color: #2a397a;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+ion-col.month {
+   font-weight: bold;
+   .mday {
+   font-size: 15px;
+   }
+   .tithi {
+   font-size: 7px;
+   }
+}
+ ion-col div {
+    border: 1px solid #e6e9ee;
+    padding: 5px;
+    text-align: center;
+	display: border-box;
+  }
+  
+  ion-row.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: #3399FF;
+	padding: 5px;
+	color: #FBFCFC;
+  }
+ion-row.maintitle {
+    text-align:center;
+	font-weight:bold;
+	padding: 5px;
+	color: #FBFCFC;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+  ion-row.note div {
+	font-weight:bold;
+	background-color: #c5eded;
+	padding: 5px;
+	color: #222334;
+    text-align:left;
+	font-size:15px;
+  }  
+p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+   .card-background-page {
+
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    color: #fff;
+  }
+ }
+ .card-note {
+  background-color: #ffffb2;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #222334;
+ }
+ 
+}

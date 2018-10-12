@@ -1,0 +1,64 @@
+page-kp-astro {
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+.brownText {
+color: #cc0000;
+}
+.boldText {
+font-weight: bold;
+}
+ion-grid {
+  margin:0px;
+}
+ ion-col div {
+    border: 1px solid #e6e9ee;
+    padding: 5px;
+    text-align: center;
+	display: border-box;
+  }
+  
+  ion-row.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: #3399FF;
+	padding: 5px;
+	color: #FBFCFC;
+    text-transform: uppercase;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+  ion-col div.desc {
+	background-color: #e7f5fe;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+    }
+.note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+  }
+  .recfy {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:center;
+  }
+  ion-card-header {
+	font-size: 25px;
+	font-weight: bold;
+  }
+}

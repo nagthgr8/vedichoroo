@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="card-background-page">
+  <ion-list>
+    <ion-item>
+      <ion-label>Language</ion-label>
+      <ion-select [(ngModel)]="lang" (ionChange)="switchLanguage()">
+        <ion-option value="en">English</ion-option>
+        <ion-option value="hi">Hindi (हिंदी)</ion-option>
+        <ion-option value="ta">Tamil (தமிழ்)</ion-option>
+        <ion-option value="te">Telugu (తెలుగు)</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+<ion-card>
+<img src="https://78.media.tumblr.com/b0ff9ca885bcd41ce5d07a4f2b185f96/tumblr_pdqvl9bYmF1xp0noco1_1280.png"/>
+<div class="card-title"> {{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </div>
+<div class="card-subtitle"><br/><span>{{ 'Sunrise' | translate }} : {{sunrise}}   {{ 'Sunset' | translate }} : {{sunset}}</span><br/><br/>
+	{{ 'Rahu Kaalam' | translate }} : <span style="color:#f44141;font-size:bold">{{rahukal}}</span> <br/>
+	{{ 'Yama Gandam' | translate }} : <span style="color:#f46741;font-size:bold">{{yama}} </span><br/>
+	{{ 'Abhijit' | translate }} : <span style="color:#4176f4;font-size:bold">{{abhjit}}</span><br/>
+	{{ 'Nakshatra' | translate }} : <span style="color:#4176f4;font-size:bold">{{nak}}</span>{{ 'Tithi' | translate }}	: <span style="color:#4176f4;font-size:bold">{{tithi}}</span>
+	{{ 'Lagna' | translate }} :  <span style="color:#4176f4;font-size:bold">{{lagna}}</span><span style="color:#f44141;font-size:bold">  {{lagml}}</span>-<span style="color:#03469a;font-size:bold">{{lagal}}</span>-<span style="color:#2c8e40;font-size:bold">{{lagsl}}</span>
+	</div>
+</ion-card>
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <ion-icon name="{{item.icon}}" item-left></ion-icon>
+      {{item.title | translate}}
+      <div class="item-note">
+        {{item.note | translate}}
+      </div>
+    </button>
+  </ion-list>
+</ion-content>

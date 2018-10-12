@@ -1,0 +1,214 @@
+<!--
+  Generated template for the HoroscopePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-toolbar>
+      <ion-button left menuToggle *ngIf="!selectedItem">
+      <ion-icon name="menu"></ion-icon>
+	  
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+   
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<h1>
+  Your Birth Chart
+</h1>
+
+<div #birthChart></div>
+
+<ion-grid no-padding>
+     <ion-row class="title"><ion-col col-2>PLANET</ion-col><ion-col col-2>POS</ion-col><ion-col col-2>RASI</ion-col><ion-col col-4>NAK</ion-col><ion-col col-2>NAK LORD</ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras1'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl1'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam2'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos2'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras2'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak2'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl2'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam3'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos3'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras3'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak3'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl3'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam4'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos4'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras4'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak4'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl4'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam5'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos5'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras5'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak5'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl5'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam6'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos6'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras6'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak6'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl6'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam7'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos7'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras7'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak7'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl7'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam8'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos8'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras8'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak8'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl8'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam9'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos9'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras9'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak9'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl9'></div></ion-col></ion-row>
+     <ion-row class="note"><ion-col col-12><div color="primary" ion-text [innerHTML]='horo'></div></ion-col></ion-row>
+     <ion-row class="title"><ion-col col-12>VIMSOTTARA DASHA</ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='fdas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='fdasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='f9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='f9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='f99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='f99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='sdas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='sdasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='s9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='s9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='s99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='s99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='tdas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='tdasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='t9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='t9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='t99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='t99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='fodas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='fodasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fo9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fo9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fo99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fo99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='fidas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='fidasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='fi9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='fi9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='fi99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='fi99dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="primary" ion-text [innerHTML]='sxdas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='sxdasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sx9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sx9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sx99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sx99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='svdas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='svdasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='sv9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='sv9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='sv99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='sv99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='edas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='edasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='e9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='e9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='e99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='e99dasp'></div></ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='ndas'></div></ion-col><ion-col col-8><div color="primary" ion-text [innerHTML]='ndasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n1das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n1dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n11das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n11dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n2das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n2dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n22das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n22dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n3das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n3dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n33das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n33dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n4das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n4dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n44das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n44dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n5das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n5dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n55das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n55dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n6das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n6dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n66das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n66dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n7das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n7dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n77das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n77dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n8das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n8dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n88das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n88dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level2" ion-text [innerHTML]='n9das'></div></ion-col><ion-col col-8><div color="level2" ion-text [innerHTML]='n9dasp'></div></ion-col></ion-row>
+    <ion-row><ion-col col-4><div color="level3" ion-text [innerHTML]='n99das'></div></ion-col><ion-col col-8><div color="level3" ion-text [innerHTML]='n99dasp'></div></ion-col></ion-row>
+</ion-grid>
+<div [innerHTML]='akashWani'></div>
+</ion-content>

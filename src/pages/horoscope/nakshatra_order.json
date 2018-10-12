@@ -1,0 +1,274 @@
+{
+"ashwini" :
+	{
+"order":1,	
+"location" :[ "0.00,ar", "13.20,ar"],
+"ruler":"ketu",
+"symbol":"horse head",
+"diety":"ashwini kumar",
+"varna":"merchant",
+"alphabets":"ch,chi,cho,la"
+	},
+"bharani" :
+	{
+"order":2,	
+"location" :[ "13.20,ar", "26.40,ar"],
+"ruler":"venus",
+"symbol":"yoni",
+"diety":"yama",
+"varna":"outcast",
+"alphabets":"le,lu,le,lo"
+	},
+"krittika" :
+	{
+"order":3,	
+"location" :[ "26.40,ar", "10.00,ta"],
+"ruler":"sun",
+"symbol":"razor",
+"diety":"agni",
+"varna":"priest",
+"alphabets":"aa,ee,oo,ay"
+	},
+"rohini" :
+	{
+"order":4,	
+"location" :[ "10.00,ta", "23.20,ta"],
+"ruler":"moon",
+"symbol":"chariot",
+"diety":"brahma",
+"varna":"labourer",
+"alphabets":"o,va,vi,vu"
+	},
+"mrigashira" :
+	{
+"order":5,	
+"location" :[ "23.20,ta", "6.40,ge"],
+"ruler":"mars",
+"symbol":"deer head",
+"diety":"chandra",
+"varna":"servant",
+"alphabets":"ve,vo,ka,kee"
+	},
+"ardra" :
+	{
+"order":6,	
+"location" :[ "6.40,ge", "20.00,ge"],
+"ruler":"rahu",
+"symbol":"tear drop",
+"diety":"rudra",
+"varna":"butcher",
+"alphabets":"ku,ghaa,kha,cha"
+	},
+"punarvasu" :
+	{
+"order":7,	
+"location" :[ "20.00,ge", "3.20,cn"],
+"ruler":"jupiter",
+"symbol":"quiver",
+"diety":"aditi",
+"varna":"merchant",
+"alphabets":"ke,ko,ha,hee"
+	},
+"pushya" :
+	{
+"order":8,	
+"location" :[ "3.20,cn", "16.40,cn"],
+"ruler":"saturn",
+"symbol":"udder",
+"diety":"brihaspati",
+"varna":"warrior",
+"alphabets":"hoo,he,ho,dah"
+	},
+"ashlesha" :
+	{
+"order":9,	
+"location" :[ "16.40,cn", "30.00,cn"],
+"ruler":"mercury",
+"symbol":"serpant",
+"diety":"nag",
+"varna":"outcast",
+"alphabets":"dee,doo,day,doh"
+	},
+"magha" :
+	{
+"order":10,	
+"location" :[ "0.00,le", "13.20,le"],
+"ruler":"ketu",
+"symbol":"throne",
+"diety":"pitras",
+"varna":"labourer",
+"alphabets":"ma,me,mu,me"
+	},
+"purvaphalguni" :
+	{
+"order":11,	
+"location" :[ "13.20,le", "26.40,le"],
+"ruler":"venus",
+"symbol":"hammock",
+"diety":"bhaga",
+"varna":"priest",
+"alphabets":"mo,ta,tee,too"
+	},
+"uttaraaphalguni" :
+	{
+"order":12,	
+"location" :[ "26.40,le", "10.00,vi"],
+"ruler":"sun",
+"symbol":"fig tree",
+"diety":"aryaman",
+"varna":"warrior",
+"alphabets":"tay,to,pa,pee"
+	},
+
+"hastha" :
+	{
+"order":13,	
+"location" :[ "10.00,vi", "23.20,vi"],
+"ruler":"moon",
+"symbol":"hand",
+"diety":"surya",
+"varna":"merchant",
+"alphabets":"pu,sha,nu,tha"
+	},
+"chitra" :
+	{
+"order":14,	
+"location" :[ "23.20,vi", "6.40,li"],
+"ruler":"mars",
+"symbol":"jewel",
+"diety":"vishwakarma",
+"varna":"servant",
+"alphabets":"pe,po,ra,re"
+	},
+"swati" :
+	{
+"order":15,	
+"location" :[ "6.40,li", "20.00,li"],
+"ruler":"rahu",
+"symbol":"coral",
+"diety":"vaayu",
+"varna":"butcher",
+"alphabets":"ru,re,ro,ta"
+	},
+"vishakha" :
+	{
+"order":16,	
+"location" :[ "20.00,li", "3.20,sc"],
+"ruler":"jupiter",
+"symbol":"arch",
+"diety":"indra",
+"varna":"outcast",
+"alphabets":"ti,tu,te,to"
+	},
+"anuradha" :
+	{
+"order":17,	
+"location" :[ "3.20,sc", "16.00,sc"],
+"ruler":"saturn",
+"symbol":"lotus",
+"diety":"mitra",
+"varna":"labourer",
+"alphabets":"na,ni,nu,nay"
+	},
+"jyestha" :
+	{
+"order":18,	
+"location" :[ "16.40,sc", "30.00,sc"],
+"ruler":"mercury",
+"symbol":"amulet",
+"diety":"indra",
+"varna":"servant",
+"alphabets":"no,ya,yi,yu"
+	},
+
+"mula" :
+	{
+"order":19,	
+"location" :[ "0.00,sa", "13.20,sa"],
+"ruler":"ketu",
+"symbol":"roots",
+"diety":"nirriti",
+"varna":"butcher",
+"alphabets":"ye,yo,bha,bhe"
+	},
+"purvaashada" :
+	{
+"order":20,	
+"location" :[ "13.20,sa", "26.40,sa"],
+"ruler":"venus",
+"symbol":"fan",
+"diety":"varuna",
+"varna":"priest",
+"alphabets":"bu,dah,bha,dha"
+	},
+"uttaraashada" :
+	{
+"order":21,	
+"location" :[ "26.40,sa", "10.00,cp"],
+"ruler":"sun",
+"symbol":"tusk",
+"diety":"vishvadevas",
+"varna":"warrior",
+"alphabets":"bi,bo,ja,ji"
+	},
+"shravana" :
+	{
+"order":22,	
+"location" :[ "10.00,cp", "23.20,cp"],
+"ruler":"moon",
+"symbol":"ear",
+"diety":"vishnu",
+"varna":"outcast",
+"alphabets":"ju,je,jo,gha"
+	},
+"danishta" :
+	{
+"order":23,	
+"location" :[ "23.20,cp", "6.40,aq"],
+"ruler":"mars",
+"symbol":"drum",
+"diety":"vasus",
+"varna":"servant",
+"alphabets":"ga,gi,gu,ge"
+	},
+"shatabhisha" :
+	{
+"order":24,	
+"location" :[ "6.40,aq", "20.00,aq"],
+"ruler":"rahu",
+"symbol":"1000 stars",
+"diety":"varuna",
+"varna":"butcher",
+"alphabets":"go,sa,si,su"
+	},
+"purvabhadra" :
+	{
+"order":25,	
+"location" :[ "20.00,aq", "3.20,pi"],
+"ruler":"jupiter",
+"symbol":"funeral cot",
+"diety":"ajalkapada",
+"varna":"priest",
+"alphabets":"se,so,de,di"
+	},
+"uttarabhadra" :
+	{
+"order":26,
+"location":["3.20,pi","16.40,pi"],
+"ruler":"saturn",
+"symbol":"water snake",
+"diety":"ahirbudhnya",
+"varna":"warrior",
+"alphabets":"du,tha,jha,na"
+	},	
+"revati" :
+	{
+"order":27,	
+"location" :[ "16.40,pi", "30.00,pi"],
+"ruler":"mercury",
+"symbol":"fish",
+"diety":"pushan",
+"varna":"labourer",
+"alphabets":"de,to,cha,chi"
+	}
+}

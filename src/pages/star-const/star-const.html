@@ -1,0 +1,79 @@
+<!--
+  Generated template for the StarConstPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+<ion-card no-padding>
+<img src="https://78.media.tumblr.com/b130e3e40a70f1e65c2bb515233903d0/tumblr_pep62tIYJ31xp0noco1_540.png"/>
+
+</ion-card>
+
+<ion-list *ngIf="showList">
+  <form [formGroup]="personalDetailsForm">
+  <ion-item>
+ <ion-label class = "item item-input item-select item-calm">
+          Date of Birth
+      </ion-label>
+	  <ion-datetime formControlName="dob" displayFormat="DD/MM/YYYY HH:mm"></ion-datetime>
+	  </ion-item>
+	   <div padding>
+	   <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+  <button ion-button full (click)="save()">Submit</button>
+  </div>
+    </form>
+
+  </ion-list>
+  <ion-card class="card-note" *ngIf="showBS">
+	<ion-card-content>{{str}}
+	</ion-card-content>
+  </ion-card>
+	<div #hinduCal1>
+	</div>
+	<div #hinduCal2>
+	</div>
+	<div *ngIf="showLgnds">
+	<svg width="100%" height="240">
+<circle width="8" height="8" fill="#ffd700" stroke="#ffd700" stroke-width="6" id="c02" cx="20" cy="10" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="15">{{ 'Sadhana/ Realisation and Ambitions' | translate}}</text>
+<circle width="8" height="8" fill="#ff0000" stroke="#ff0000" stroke-width="6" id="c02" cx="20" cy="30" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="35">{{ 'Naidhana/ Dangers' | translate}}</text>
+<circle width="8" height="8" fill="#ffe1ff" stroke="#ffe1ff" stroke-width="6" id="c02" cx="20" cy="50" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="55">{{ 'Sampat/ Wealth and Prosperity' | translate}}</text>
+<circle width="8" height="8" fill="#ff0000" stroke="#ff0000" stroke-width="6" id="c02" cx="20" cy="70" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="75">{{ 'Vipat/ Dangers, Losses, Accidents' | translate}}</text>
+<circle width="8" height="8" fill="#fff68f" stroke="#fff68f" stroke-width="6" id="c02" cx="20" cy="90" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="95">{{ 'Kshema/ Prosperity' | translate}}</text>
+<circle width="8" height="8" fill="#ff6666" stroke="#ff6666" stroke-width="6" id="c02" cx="20" cy="110" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="115">{{ 'Pratyak/ Obstacles' | translate }}</text>
+<circle width="8" height="8" fill="#b4eeb4" stroke="#b4eeb4" stroke-width="6" id="c02" cx="20" cy="130" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="135">{{ 'Mitra/ Good' | translate }}</text>
+<circle width="8" height="8" fill="#ee4f7c" stroke="#ee4f7c" stroke-width="6" id="c02" cx="20" cy="150" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="155">{{ 'Janma/ danger to body' | translate }}</text>
+<circle width="8" height="8" fill="#00ff7f" stroke="#00ff7f" stroke-width="6" id="c02" cx="20" cy="170" r="4"></circle>
+<text font-size="15px" font-weight="bold" x="30" y="175">{{ 'Prama Mitra/ Very Favourable' | translate }}</text>
+<rect width="10" height="10" x="20"  y="190" stroke-width="3" stroke="#FF5733"  fill-opacity="0.0"></rect>
+<text font-size="15px" font-weight="bold" x="30" y="195">{{ 'Chandrastama' | translate }}</text>
+<rect width="10" height="10" x="20"  y="215" stroke-width="1" stroke="#FF5733"  fill-opacity="0.0"></rect>
+<text font-size="15px" font-weight="bold" x="30" y="220">{{ 'Bad' | translate }}</text>
+</svg>	</div>
+<ion-card *ngIf="showGrid">
+  <ion-card-header>What is Chandrastama?</ion-card-header>
+  <ion-card-content>
+    <span style='color:#4167f4;font-weight:bold'>Moon, the nearest cosmic neighbour to the earth exerts her influence on many matters of our existence. We are all well aware of the fact that even the mighty ocean soars up with high tides due to its attraction. Moon not only acts upon the deep waters of the ocean but also on the deepest recesses of our mind. The Moon exerts a benefic or malefic influence on individuals corresponding to her natal position. Of the malefic influences attributed to the transit of Moon, there is none too strong as the Chandrashtama, i.e., the period that comes every month when Moon in its transit crosses the 8th sign from its natal position. This will be for an average period of 2-1/4 days in every lunar month.<br/>The general effects when Moon transits the 8th sign from her natal position are misery, ill-health, depressive tendencies, and fear from unexpected sources. Astrological classics recommend the performance of propitiatory rites to reduce the evil effects of chandrashtama if important tasks are to be undertaken during that period. As Moon is the primary significator of the mind, this adverse transit of Moon primary causes delusion, anxiety, and the inability to perform up to one’s true potential in all activities of life. This can be countered by cognitive methods and prayers.<br/>Exceptions to Chandrashtama Dosha<br/>The evil effects attributed to Moon’s transit in the ashtama Rasi (8th sign from its natal position) do not come to pass under the following conditions:<br/>1) If Moon is transiting the 15th, 17th, or 19th stars from the natal birth star of the native.<br/>2) If the Chandrashtama occurs during the Krishna paksha (Waning/ dark phase of the Moon),<br/>3) Those born in the dark half of the month (Krishna paksha) do not seem to be affected by chandrashtama dosha (Birth in Krishna paksha is inauspicious in other ways, however!)<br/>4) Those born with debilitated Moon in natal horoscope doe not experience much difficulty due to chandrashtama.<br/>The most difficult time, and consequently the duration when all auspicious events should be strictly avoided is during Moon’s transit through the 4th quarter of the 16th star from the natal birth star (This will be for a maximum duration of 7 hours at most!).<br/><br/>Activities that can be done and which are preferably avoided during chandrashtama<br/>Though Chandrashtama period should be avoided for any auspicious undertakings, things that need a tough handling like court case, disputes, waging wars, dismissing subordinates, dispersing punishments/ memos/ warnings, deploying missiles, learning advanced incantations of the fierce type, etc. can be done with advantage during Chandrashtama period.<br/>Shaving/ trimming hair, cutting nails, intake of new medicines, etc. should be strictly avoided during Moon’s transit in the 4th quarter of the 16th star from natal birth star. The best way to pass-off chandrashtama period would be to devote ourselves to prayer and stick to the normal routines conscientiously avoiding unnecessary risks such as reckless speculative activities, making dangerous strategeic moves to advance one’s position, etc. We should exercise caution in our speech as we may tend to be caustic in our words unintentionally.Experience shows that Chandrashtama periods show strong malefic results on Mondays, Moon Horas, or when Moon is transiting her own constellations (Rohini, Hasta, and Sravana). So, if your chandrashtama happens to coincide with the above factors and you happen to have pressing engagements that cannot be postponed, then certain simple remedies should be performed to mitigate the possible malefic influences upon you.<br/><br/>Effective remedies for Chandrashtama<br/>1) Donate milk for abhishekam of deity in a near-by temple.<br/>2) Sit calmly for 5 minutes before going out. Close your right nostril and inhale/exhale only through the left nostril. At the end of 5 minutes walk out taking your first step with the LEFT FOOT.<br/>3) Prostrate before your mother/ mother’s image in case mother has expired (Moon is the significator for Mother), and then proceed with your duties.<br/>4) Meditate on Goddess Lalitaambika, reclining in “Ksheera Saagara” (Ocean of Milk), and drink about 200 ml. of sweetened milk before venturing out on your errands.<br/>5) Look at your own image in the mirror and affirm “By the Grace of the Almighty who is verily the Form of Time, Space, and Luck, I shall definitely accomplish the task that I set out to achieve. I ordain this UNDER GRACE. Thank You”. Then you can walk out with perfect confidence that your goodluck will shield you in all activities!.<br/>6) COGNITIVE METHOD: Pray to Lord Krishna (born in Chandra Vamsa) using the words the Mighty Warrior Arjuna used in the battlefield of Kurukshetra (Shrimad Bhagavat Gita Chapter 2, Verse 7):<br/>“My nature is weighed down with the taint of feeble-mindedness; my understanding is confused as to what my duty is. I entreat YOU (Lord Krishna), say definitely what is good for me. I am your disciple. Do instruct me – who have taken refuge in YOU.”<br/>Saying this, you should fee confident that your confusion and indecision are dispelled by the Lord’s Grace. This act of total submission removes all the blemishes in our moods or actions caused due to the malefic effect of Chandrashtama. This remedy is highly effective in any situation whenever we are confused and are unable to decide what is best for us.<br/><br/>Article by: Pandit R. DAKSHINAMOORTHI</span>
+  </ion-card-content>
+</ion-card>
+</ion-content>
