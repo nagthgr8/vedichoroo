@@ -2514,44 +2514,8 @@ console.log(svg);
 	
 	getdashatransit()
 	{
-       //this.navCtrl.push(SubscribePage, {
-		 // oplanet: this.oPlanet,
-		  //ohou: this.oHouse
-		  //});
-		  
-		var options = {
-      description: 'Credits towards consultation',
-      image: 'https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png',
-      currency: 'INR',
-      key: 'rzp_test_2SNtDeMC4Q0swS',
-      amount: '12600',
-      name: '1 YEAR TRANSIT REPORT',
-      prefill: {
-        email: 'ruby4leo@gmail.com',
-        contact: '6302626439',
-        name: ''
-      },
-      theme: {
-        color: '#f4a460'
-      },
-      modal: {
-        ondismiss: function() {
-          alert('dismissed')
-        }
-      }
-    };
-	var successCallback = function(payment_id) {
-      alert('payment_id: ' + payment_id);
-    };
-
-    var cancelCallback = function(error) {
-      alert(error.description + ' (Error ' + error.code + ')');
-    };
-    RazorpayCheckout.open(options, successCallback, cancelCallback);
-  }		  
-
-    
-
+ 
+    }		  
 }
 	
 
