@@ -50,15 +50,15 @@ export class ListPage {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.showCard = false;
-    this.icons = ['planet', 'star', 'heart', 'flower', 'podium', 'sunny','paper'];
-	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Based On Your Moon Sign', 'Vedic Astrology Stories']
+    this.icons = ['planet', 'star', 'heart', 'flower', 'body','podium', 'sunny','paper'];
+	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Yogas in Horoscope','Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'Raja Yogas, and other yogas in your horoscope', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Based On Your Moon Sign', 'Vedic Astrology Stories']
     this.items = [];
-    for(let i = 1; i < 8; i++) {
+    for(let i = 1; i < 9; i++) {
       this.items.push({
         title: this.title[i-1],
         note: this.note[i-1],
-        icon: this.icons[i-1] //this.icons[Math.floor(Math.random() * this.icons.length)]
+        icon: this.icons[i-1] 
       });
     }
     this.today = Date.now();
