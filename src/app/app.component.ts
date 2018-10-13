@@ -43,6 +43,7 @@ export class MyApp {
       { title: 'Star Constellation', component: StarConstPage, icon: 'star'},
       { title: 'Love Horoscope', component: LovehoroPage, icon: 'heart' },
       { title: 'KP Astrology', component: PersonalDetailsPage, icon: 'flower' },
+      { title: 'Yogas in Horoscope', component: PersonalDetailsPage, icon: 'body' },
       { title: 'Divisional Charts', component: PersonalDetailsPage, icon: 'podium' },
 	  { title: 'Daily Horoscope', component: DailyForecastPage, icon: 'sunny' },
 	  { title: 'Vedic Stories', component: StoriesPage, icon: 'paper' },
