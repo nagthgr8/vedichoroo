@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.mypubz.eportal" ios-CFBundleVersion="" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>126 Astrology</name>
+    <name>126Astrology</name>
     <description>126 Astrology provides birthchart, vedic hororscope analysis, love compatibility report and daily predictions</description>
     <author email="ruby4leo@gmail.com" href="http://www.makemypublication.com/">Hamsini Smart Solutions</author>
     <content src="index.html" />
