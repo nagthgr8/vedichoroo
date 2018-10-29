@@ -50,18 +50,18 @@ export class ListPage {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.showCard = false;
-    this.icons = ['planet', 'star', 'heart', 'flower', 'body','podium', 'sunny','paper'];
-	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Yogas in Horoscope','Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'Raja Yogas, and other yogas in your horoscope', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Based On Your Moon Sign', 'Vedic Astrology Stories']
+    this.icons = ['planet', 'star', 'heart', 'flower', 'podium', 'sunny','paper'];
+	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Based On Your Moon Sign', 'Vedic Astrology Stories']
     this.items = [];
-    for(let i = 1; i < 9; i++) {
+    for(let i = 1; i < 8; i++) {
       this.items.push({
         title: this.title[i-1],
         note: this.note[i-1],
         icon: this.icons[i-1] 
       });
     }
-    this.today = Date.now();
+      this.today = Date.now();
 	//this.fetching = 'fetching todays panchangam...';
 	this.geolocation.getCurrentPosition().then((resp) => {
 	     // console.log(this.today.getDate());
@@ -203,6 +203,9 @@ export class ListPage {
 		console.log('Error getting location', error);
 	});
   }
+  ionViewDidLoad()
+  {
+  }
   	calcStar(mins: number)
 	{
 		//console.log(mins);
@@ -290,6 +293,7 @@ var nd = new Date(utc + (3600000*offset));
 alert("The local time is " + nd.toLocaleString());
 }
   itemTapped(event, item) {
+   console.log(item.title);
    if(item.title == 'Birth Chart' || item.title == 'KP Astrology' || item.title == 'Divisional Charts') {
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
@@ -298,7 +302,7 @@ alert("The local time is " + nd.toLocaleString());
 	 this.navCtrl.push(StarConstPage, {
       item: item
     });
-	}else if(item.title == 'Yogas in Horoscope') {
+	}else if(item.title == 'Yogas In Your Horoscope') {
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });

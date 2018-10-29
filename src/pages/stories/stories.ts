@@ -33,14 +33,14 @@ export class StoriesPage {
   getStories(refresher){
     this.page= 0;
     this.articles=[];
-	this.info = 'Please wait...';
-    this.horoService.getStories()
-	.subscribe(res => {
-	   this.info = '';
-	   this.articles = res;//this.publishStories(res);
-	},(err) => {
-	this.info = err;
-    });
+	this.info = 'Sorry for the inconvinience as we are making some crucial updates to our blog engine. Please try after few days';
+   // this.horoService.getStories()
+	//.subscribe(res => {
+	 //  this.info = '';
+	  // this.articles = res;//this.publishStories(res);
+	//},(err) => {
+	//this.info = err;
+    //});
   }
   publishStories(stories: any)
   {

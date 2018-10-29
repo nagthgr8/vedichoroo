@@ -7,21 +7,29 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable()
 export class HoroscopeService {
 
-  private apiUrl = 'http://live.makemypublication.com/Publication/Birthchart';
-  private apiUrl2 = 'http://live.makemypublication.com/Publication/DailyHoroscope';
-  private apiUrl3 = 'http://live.makemypublication.com/Publication/SubscribeAstroUser';
-  private apiUrl4 = 'http://live.makemypublication.com/Publication/Birthstars';
-  private apiUrl5 = 'http://live.makemypublication.com/Publication/Birthstar';
-  private apiUrl6 = 'http://live.makemypublication.com/Publication/StarsForMonth';
+  private apiUrl = 'https://live.makemypublication.com/Publication/Birthchart';
+  private apiUrl2 = 'https://live.makemypublication.com/Publication/DailyHoroscope';
+  private apiUrl3 = 'https://live.makemypublication.com/Publication/SubscribeAstroUser';
+  private apiUrl4 = 'https://live.makemypublication.com/Publication/Birthstars';
+  private apiUrl5 = 'https://live.makemypublication.com/Publication/Birthstar';
+  private apiUrl6 = 'https://live.makemypublication.com/Publication/StarsForMonth';
   private apiUrl7 = 'https://maps.googleapis.com/maps/api/timezone/json';
   private apiUrl8 = 'http://www.126news.com/Publication/AstroStories';
-  private apiUrl9 = 'http://live.makemypublication.com/Publication/Getcusps';
-  private apiUrl10 = 'http://live.makemypublication.com/Publication/GetTransits';
-  private apiUrl20 = 'http://live.makemypublication.com/Publication/GetDashTrans';
-  private apiUrl11 = 'http://live.makemypublication.com/Publication/GetDashaTransits';
+  private apiUrl9 = 'https://live.makemypublication.com/Publication/Getcusps';
+  private apiUrl10 = 'https://live.makemypublication.com/Publication/GetTransits';
+  private apiUrl20 = 'https://live.makemypublication.com/Publication/GetDashTrans';
+  private apiUrl11 = 'https://live.makemypublication.com/Publication/GetDashaTransits';
   private apiUrl111 = 'https://translation.googleapis.com/language/translate/v2';
-  private apiUrl1111 = 'http://live.makemypublication.com/Publication/GetYogas';
-  private apiUrl22 = 'http://live.makemypublication.com/Publication/RecfyBT';
+  private apiUrl1111 = 'https://live.makemypublication.com/Publication/GetYogas';
+  private apiUrl22 = 'https://live.makemypublication.com/Publication/RecfyBT';
+  private apiUrl23 = 'https://live.makemypublication.com/Publication/GetPlan';
+  private apiUrl24 = 'https://live.makemypublication.com/Publication/SetPlan';
+  private apiUrl25 = 'https://live.makemypublication.com/Publication/AddCredits';
+  private apiUrl26 = 'https://live.makemypublication.com/Publication/AddDOB';
+  private apiUrl27 = 'https://live.makemypublication.com/Publication/AddTicket';
+  private apiUrl28 = 'https://live.makemypublication.com/Publication/FollowTicket';
+  private apiUrl29 = 'https://live.makemypublication.com/Publication/GetNotif';
+  private apiUrl30 = 'https://live.makemypublication.com/Publication/AddSubscriber';
   private monthList = [
 	{name: "January",   numdays: 31, abbr: "Jan"},
 	{name: "February",  numdays: 28, abbr: "Feb"},
@@ -72,7 +80,21 @@ export class HoroscopeService {
     catchError(this.handleError)
    );
   }
-  getYogas(dmslat: string, dmslng: string, dob: string, tz: string): Observable<{}> {
+  addSubscriber(uuid: string, nam: string, mob: string, eml: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   nam: nam,
+   mob: mob,
+   eml: eml
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl30, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }  
+  getYogas(dmslat: string, dmslng: string, dob: string, tz: string, lang: string): Observable<{}> {
 	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
@@ -83,15 +105,13 @@ export class HoroscopeService {
    tob: '',
    latlng: '',
    timezone: '',
-   name: '',
-   eml: ''
+   lang: ''
    };
    oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
    oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
    oDat.latlng = latlng;
    oDat.timezone = tz;
-   oDat.name = '';
-   oDat.eml = '';
+   oDat.lang = lang;
    //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders();
 	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
@@ -100,7 +120,93 @@ export class HoroscopeService {
     catchError(this.handleError)
    );
   }
-  getHoro(dmslat: string, dmslng: string, dob: string, tz: string): Observable<{}> {
+
+  getNotif(uuid: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl29, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  getPlan(uuid: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl23, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  setPlan(uuid: string, name: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   name: name
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl24, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  addCredits(uuid: string, credits: number): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   credits: credits
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl25, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  addDOB(uuid: string, dob: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   dob: dob
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl26, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  addTicket(uuid: string, cat: string, sub: string, msg: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   cat: cat,
+   sub: sub,
+   msg: msg
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl27, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }  
+  followTicket(uuid: string, guid: string, msg: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid,
+   guid: guid,
+   msg: msg
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl28, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  } 
+getHoro(dmslat: string, dmslng: string, dob: string, tz: string): Observable<{}> {
 	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;

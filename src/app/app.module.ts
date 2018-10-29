@@ -1,14 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { Device } from '@ionic-native/device';
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2';
 import { MyApp } from './app.component';
-
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
 import { AutocompletePage } from '../pages/autocomplete/autocomplete';
 import { HoroscopePage } from '../pages/horoscope/horoscope';
 import { KpAstroPage } from '../pages/kp-astro/kp-astro';
 import { PredictionsPage } from '../pages/predictions/predictions';
 import { SubscribePage } from '../pages/subscribe/subscribe';
+import { CreditsPage } from '../pages/credits/credits';
+import { HelpDeskPage } from '../pages/help-desk/help-desk';
+import { MypubzRespPage } from '../pages/mypubz-resp/mypubz-resp';
 import { LovehoroPage } from '../pages/lovehoro/lovehoro';
 import { StarConstPage } from '../pages/star-const/star-const';
 import { RajayogaPage } from '../pages/rajayoga/rajayoga';
@@ -55,12 +59,15 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	KpAstroPage,
 	PredictionsPage,
 	SubscribePage,
+	CreditsPage,
 	DivchartsPage,
 	ChartAnalysisPage,
 	ChooseLanPage,
 	CareerhoroPage,
 	MoneyhoroPage,
-	PrivacyPage
+	PrivacyPage,
+	HelpDeskPage,
+	MypubzRespPage
   ],
   imports: [
     BrowserModule,
@@ -92,12 +99,17 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	KpAstroPage,
 	PredictionsPage,
 	SubscribePage,
+	CreditsPage,
 	DivchartsPage,
 	ChartAnalysisPage,
 	ChooseLanPage,
-	PrivacyPage
+	PrivacyPage,
+	HelpDeskPage,
+	MypubzRespPage
   ],
   providers: [
+	Device,
+	InAppPurchase2,
     StatusBar,
     SplashScreen,
 	HoroscopeService,

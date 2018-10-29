@@ -1,0 +1,42 @@
+<!--
+  Generated template for the HelpDeskPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select [(ngModel)]="cat">
+        <ion-option value="bi">Billing</ion-option>
+        <ion-option value="te">Technical</ion-option>
+        <ion-option value="ot">Others</ion-option>
+      </ion-select>
+    </ion-item>
+		<ion-item>	
+			<ion-label>Subject</ion-label>
+			<ion-input maxlength="25" [ngModel]="sub" type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Message</ion-label>
+		<ion-textarea maxlength="1024" rows="6" [(ngModel)]="msg"></ion-textarea>
+		</ion-item>
+		<div padding>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<div *ngIf="showSU">
+			<button ion-button full (click)="save()">Submit</button></div>
+		</div>
+  </ion-list>
+</ion-content>

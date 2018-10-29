@@ -36,37 +36,6 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
-  this.appRate.preferences = {
-        displayAppName: '126 Astrology',
-        usesUntilPrompt: 2,
-		simpleMode: true,
-        promptAgainForEachNewVersion: false,
-        storeAppURL: {
-          ios: '1216856883',
-          android: 'market://details?id=com.mypubz.eportal'
-        },
-        customLocale: {
-          title: 'Do you enjoy %@?',
-          message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
-          cancelButtonLabel: 'No, Thanks',
-          laterButtonLabel: 'Remind Me Later',
-          rateButtonLabel: 'Rate It Now',
-		  yesButtonLabel: 'Yes!',
-          noButtonLabel: 'No!'		  
-        },
-        callbacks: {
-          onRateDialogShow: function(callback){
-            console.log('rate dialog shown!');
-          },
-          onButtonClicked: function(buttonIndex){
-            console.log('Selected index: -> ' + buttonIndex);
-          }
-        }
-      };
- 
-      // Opens the rating immediately no matter what preferences you set
-      this.appRate.promptForRating(true);
-	  
 		this.yogas = this.shareService.getYOGAS();
 		console.log(Object.keys(this.yogas));
 	  
@@ -475,7 +444,7 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 		this.renderer.appendChild(svg, defs);
 		var border = 1;
 		var s2 = size * 2;
-		var s3 = (size - size/2)-8;
+		var s3 = size;
 		var s4 = 12;
 		var s5 = size * 2 / 2;
 		for (var i = 0; i < numberPerSide; i++) {
@@ -497,9 +466,11 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 						this.renderer.appendChild(text, document.createTextNode(title));
 						this.renderer.setAttribute(text, "fill", "white");
 						this.renderer.setAttribute(text, "font-size", s4.toString());
+						this.renderer.setAttribute(text, "font-weight", 'bold');
 						this.renderer.setAttribute(text, "x", s3.toString());
 						this.renderer.setAttribute(text, "y", s5.toString());
-						this.renderer.setAttribute(text, "text-align", "center");
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
 						this.renderer.setAttribute(text, "id", "t" + number);
 						g.appendChild(text);
 						svg.appendChild(g);

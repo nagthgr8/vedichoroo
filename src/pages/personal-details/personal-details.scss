@@ -1,6 +1,37 @@
 page-personal-details {
+body {
+  font-family: thohoma;
+}
+ion-card {
+    position: relative;
+    text-align: center;
+  }
  p.info {
    text-align: center;
    font-weight: bold;
+  }
+  p.adtxt1 {
+	font-weight: bold;
+	font-size: 15px;
+  }
+  p.adtxt2 {
+	font-weight: bold;
+	font-size: 15px;
+  }
+  p.adtxt3 {
+	font-weight: bold;
+	font-size: 20px;
+  }
+ .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
   }
 }

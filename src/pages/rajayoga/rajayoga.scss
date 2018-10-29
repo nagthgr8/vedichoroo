@@ -19,10 +19,7 @@ ion-grid {
   }
   
   ion-row.title {
-    text-align:center;
 	font-weight:bold;
-	background-color: #f4a460;
-	color: #FEFAF7;
 	padding: 2px;
   }
   ion-row.subtitle {
@@ -32,6 +29,8 @@ ion-grid {
 ion-row.maintitle {
 	font-weight:bold;
 	font-size:15px;
+	background-color: #f4a460;
+	color: #FEFAF7;
   }  
  .zoom {
     position: fixed;

@@ -18,11 +18,61 @@
 	<div text-center>
 	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
 	</div>
-<div>
-	<img src="https://78.media.tumblr.com/8c639dc663433388190b97dfbbcb8b32/tumblr_pef5evSzQE1xp0noco1_500.png" alt="subscribe"/>
-	<div text-center>
-	<img src="https://78.media.tumblr.com/c937b0d2032dbac3ccdb45ef60947e3c/tumblr_pef5evSzQE1xp0noco2_640.png" alt="subscribe button"/>
-	</div>
-	<img src="https://78.media.tumblr.com/5ec6de6d639fdf535b303004ca9aab43/tumblr_pef5evSzQE1xp0noco3_400.png" alt="one year transit report"/>
+<div  *ngIf="showSU">
+     <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+	<h2>Why you need Subscription?</h2>
+	<h3>Benefit #1</h3>
+	<h4>Talk to Astrologer</h4>
+	<p class="desc">You can publish your profile with your consultation fee in our App which is accessed by users across the globe, users can connect & talk to you either voice or chat from our App, you can either receive payments to your account from the users directly or let user pay through our payment gateway system, however we recommend the first choice as in the later one 30% of fee is deducted upfront by the payment gateway system, with the first choice you need not pay such huge tax upfront.</p>
+	<h3>Benefit #2</h3>
+	<h4>App Customization</h4>
+	<p class="desc">You can customize the App with the themes, logo, fonts of your choice. We can also help you with specialist designers who can design your App look & feel as per your choice. Please note, such design work will be charged seperately </p>
+	<h3>Benefit #3</h3>
+	<h4>Horoscope Rule Engine</h4>
+	<p class="desc">Add or Modify rules & let the App automate horoscope analysis the way you want. As some expert astrologers use different rules while arriving at predictions, for instance some of our Vedic Astrologers effectively make use of Navamsa Chart along with Rashi Chart & so as many such combinations an astrologer has to deal with when making a prediction, our App lets you configure such rules very efficiently, these configurations will be confidential, these are accessible ONLY to your previleged users.</p>
+	<h3>Benefit #4</h3>
+	<h4>Ayanmasa configuration</h4>
+	<p class="desc">While most of our Vedic astrologers follow Lahiri Ayanmasa, KP Astrologers follow KP New Ayanmasa & there are some expert astrologers further fine tune Ayanmasa for most accurate predictions. Our subscribers will have a choice to configure Ayanmasa of their own.</p>
+	<h3>Benefit #5</h3>
+	<h4>Open Source</h4>
+	<p class="desc">If you want to take all fetures from our App & develop a new App of your own, this is possible as we are now Open Source, you can now download <a href="https://github.com/nagthgr8/vedichoroo" >126 Astrology source code</a> we will provide all required knowlede transfer to our subscribers.</p>
+	<h3>Benefit #6</h3>
+	<h4>Publish Blogs</h4>
+	<p class="desc">You can write some nice articles on Vedic Astrology, publish your article in our App & our other sites where you can monetize through ads.</p>
+	<h3>Benefit #7</h3>
+	<h4>Fetch Unrestricted Horoscope Data</h4>
+	<p class="desc">In addition to all front-end features, you can also fetch horoscope data of unlimited number of profiles without any restriction.</p>
+	   <div padding>
+				<button ion-button full (click)="buy()"  *ngIf="showSU">Subscribe now for just Rs. 999/yr</button><br/>
+				</div>
 		</div>
+	   <div padding *ngIf="showCR">
+	        <p ion-text class="adtxt1"><strong>Thanks for being our valuable Subscriber. If you have any questions please contact <ion-badge (click)="help()">Help Desk</ion-badge></strong></p>
+		</div>
+		<div padding *ngIf="showWC">
+		<p ion-text class="adtxt1"><strong>Dear Customer,</strong><br/><br/><span class="desc">Congratulations!! Your subscrption is now upgraded to Premium. One of our representatives will be in touch with you within 24hrs to get started with building your amaizing App. Meanwhile please be prepared with your profile & other relevent meta data such as banner, logo, title, theme, font, etc you may want to customize in your App. There will be maximum upto 15 business days we will be getting your App ready, anytime during this window you can cancel your Subscription & get full refund back. For queries/complaints, please contact <ion-badge  color="secondary" (click)="help()">Help Desk</ion-badge>. <br/><br/>Thank You,</span><br/><strong>MYPUBZ Team</strong></p>
+		</div>
+		<div padding *ngIf="showCI">
+		<ion-list>
+		<p ion-text class="adtxt1"><strong>For us to serve you better please provide your name & number</strong></p><br/>
+	    <form [formGroup]="personalDetailsForm">
+		<ion-item>
+		<ion-label>Name</ion-label>
+		<ion-input maxlength="25" formControlName="nam" type="text" required></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Mobile Number</ion-label>
+		<ion-input type="tel" formControlName="mob"  required></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Email</ion-label>
+		<ion-input type="tel" formControlName="eml"  type="text" ></ion-input>
+		</ion-item>
+	        <p ion-text class="info" color="primary" [innerHTML]='sinf'></p>
+			<button ion-button full (click)="saveSub()" [disabled]="!personalDetailsForm.valid">Submit</button>
+		
+		</form>
+		</ion-list>
+		</div>
+	
 </ion-content>

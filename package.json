@@ -24,8 +24,10 @@
     "@ionic-native/app-rate": "^4.14.0",
     "@ionic-native/background-mode": "^4.13.0",
     "@ionic-native/core": "^4.13.0",
+    "@ionic-native/device": "^4.15.0",
     "@ionic-native/geolocation": "^4.7.0",
-    "@ionic-native/local-notifications": "^4.13.0",
+    "@ionic-native/in-app-purchase-2": "^4.15.0",
+    "@ionic-native/local-notifications": "^4.16.0",
     "@ionic-native/push": "^4.13.0",
     "@ionic-native/splash-screen": "4.6.0",
     "@ionic-native/status-bar": "4.6.0",
@@ -33,6 +35,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "angular-moment": "^1.3.0",
+    "cc.fovea.cordova.purchase": "^7.2.0",
     "cordova-android": "^6.3.0",
     "cordova-ios": "4.5.5",
     "cordova-plugin-apprate": "^1.4.0",
@@ -72,10 +75,14 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-background-mode": {},
-      "cordova-plugin-local-notification": {},
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-apprate": {}
+      "cordova-plugin-apprate": {},
+      "cc.fovea.cordova.purchase": {
+        "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgb0EH47VnbW5TtUazxoSRAK38wPeJHimit9KjCso/VWdzz+3yqOdF+cPqGY4ZiyXtjRqJ9DlojIV1Oo7zvlVA1gyFIbW5zGqG8HuXFWFRLhfVMppTny4HxuGGVNt8CMKVKRpGysZ8pQAafoKuV0k/du1KOkFXBqqTzWigBlWR1UPcZKB4ixAjwSNqr9POx5iwLtPw9Tf+ufLlDtGFEvKbCs5ZSIurOjzHrj1g3i2wQyxyu38+QQNRU0FkIF//UPb1EbLUd1NklnuVyYhnhhd59Cs3zjzbX4nNWPLInB+vbuaDZNlHUAN5J9mv3C2ORVWARe8bdfYp681E8mEgDjdKwIDAQAB"
+      },
+      "cordova-plugin-device": {},
+      "cordova-plugin-local-notification": {},
+      "cordova-plugin-background-mode": {}
     },
     "platforms": [
       "android",

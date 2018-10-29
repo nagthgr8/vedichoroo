@@ -1,5 +1,8 @@
 page-list {
  .card-background-page {
+ body {
+  font-family: thohoma;
+ }
 
   ion-card {
     position: relative;
@@ -9,18 +12,27 @@ page-list {
   .card-title {
     position: absolute;
     top: 30%;
-    font-size: 1.5em;
+   /* font-size: 1.5em;*/
     width: 100%;
     font-weight: bold;
     color: #000000;
   }
 
   .card-subtitle {
-    font-size: 1.0em;
+   /* font-size: 1.0em;*/
     position: absolute;
     top: 10%;
     width: 100%;
     color: #000000;
+  }
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
   }
  }
 

@@ -31,12 +31,12 @@
 	  <ion-datetime formControlName="dob" displayFormat="DD/MM/YYYY HH:mm"></ion-datetime>
 	  </ion-item>
 	   <div padding>
-	   <p ion-text class="info" color="primary" [innerHTML]='info'></p>
   <button ion-button full (click)="save()">Submit</button>
   </div>
     </form>
 
   </ion-list>
+	   <p ion-text class="info" color="primary" [innerHTML]='info'></p>
   <ion-card class="card-note" *ngIf="showBS">
 	<ion-card-content>{{str}}
 	</ion-card-content>

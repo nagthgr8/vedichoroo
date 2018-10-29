@@ -117,6 +117,7 @@ export class StarConstPage {
 	    this.str = ' आप के जन्म नक्षत्र   ' + this.translate(this.birthStar) + ' आप के जन्म राशि  ' + this.translate(this.birthSign) + '. इसके अनुसार अगले 30 दिनों में आप के तारा बहल और चन्द्र भाल नीचे कैलेंडर में है.';
 		}
 		 this.getStarConstReport();
+		 this.showList = false;
 		 this.showLgnds = true;
       }, (err) => {
         this.info = err;
@@ -125,17 +126,18 @@ export class StarConstPage {
   
   getStarConstReport()
   {
+  this.info = 'Generating Your 1 Month Personalized Calendar. Please wait...';
   this.horoService.getStarConst(this.birthStar, this.birthSign, this.birthSignDeg)
        .subscribe(res => {
+	   this.info = '';
 	   this.publishReport(res);
       }, (err) => {
-        this.info = err;
+        this.info = JSON.stringify(err);
       }) ;
   }
   
   publishReport(stars: any)
   {
-    this.showList = false;
 	//this.showCal1 = true;
 	this.mon = stars[0].date.split(',')[0].split(' ')[1];
 	this.yer = stars[0].date.split(',')[1].split(' ')[0];
