@@ -1463,8 +1463,10 @@ console.log(svg);
 					     console.log(oW[key].sssl);
 					     var sls = oW[key].sssl.split(',');
 					     for(var s = 0; s < sls.length; s++) {
-						  var pl = sls[s].split('|')[1].split('-')[2].split(' ')[1];
-						  pls += pl + ' ';
+						    console.log(sls[s]);
+							if(sls[s].indexOf('|') < 0 ) continue;
+						    var pl = sls[s].split('|')[1].split('-')[2].split(' ')[1];
+						    pls += pl + ' ';
 							let trk_d: string = oW[key].date.split(',')[0].split(' ')[2]; 
 							//string = ruler_name[pl.toLowerCase()] + '-' + sls[s].split('|')[1].split('-')[0] + '-' + sls[s].split('|')[0].split('-')[2];
 							if(oTDs.hasOwnProperty(trk_d)) {
@@ -1479,7 +1481,7 @@ console.log(svg);
 								console.log(ruler_name[pl.toLowerCase()] + '-' + sls[s].split('|')[1].split('-')[0] + '-' + sls[s].split('|')[0].split('-')[2] + ' on ' + trk_d);
 							    oTDs[trk_d] = ruler_name[pl.toLowerCase()] + '-' + sls[s].split('|')[1].split('-')[0] + '-' + sls[s].split('|')[0].split('-')[2];
 							}
-						  }
+						 }
 						}
 					//}
 					if(pls != '') {
@@ -1632,6 +1634,7 @@ console.log(svg);
 				   //d++;
 				   //(d >= dys.length) ? d = 0 : d += 1;
 				}
+				console.log('sssl=', key);
 				let star_lord: string = nakshatra_order[key.split('-')[1]].ruler;
 				console.log('star lord=' + star_lord);
 				let const_lord: string = this.oPlanet[star_lord].star;

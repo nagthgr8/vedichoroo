@@ -1,24 +1,23 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { ShareService } from '../../app/share.service'
 import { PersonalDetailsPage } from '../personal-details/personal-details';
 import { StarConstPage } from '../star-const/star-const';
 import { LovehoroPage } from '../lovehoro/lovehoro';
 import { StoriesPage } from '../stories/stories';
 import {DailyForecastPage} from '../dailyforecast/dailyforecast';
-import { Geolocation } from '@ionic-native/geolocation';
+import { PanchangPage } from '../panchang/panchang';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { TranslateService } from '@ngx-translate/core';
 //import * as lagnas from '../horoscope/lagna.json';
 import * as sublords from '../horoscope/sublords.json';
-
 import * as moment from 'moment';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage {
-  lang:any;
+  lang: string;
   icons: string[];
   title: string[];
   note: string[];
@@ -41,14 +40,8 @@ export class ListPage {
   lagsl: string = '';
   nak: string = '';
   tithi: string = '';
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService) {
-    console.log('default lang=' + this.shareService.getLANG());
-    if(this.shareService.getLANG() == null)
-		this.lang = 'en';
-	else	
-		this.lang = this.shareService.getLANG();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, public events: Events) {
     this.translate.setDefaultLang('en');
-    this.translate.use('en');
     this.showCard = false;
     this.icons = ['planet', 'star', 'heart', 'flower', 'podium', 'sunny','paper'];
 	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
@@ -62,18 +55,37 @@ export class ListPage {
       });
     }
       this.today = Date.now();
+  }
+  ionViewDidLoad()
+  {
+	this.events.subscribe('dbfetch:lang', (res) => {
+		console.log('lang =' + res);
+		if(res) {
+			this.lang = res;
+		} else {
+			this.lang = 'en';
+		}
+		this.translate.use(this.lang);
+	});		
 	//this.fetching = 'fetching todays panchangam...';
-	this.geolocation.getCurrentPosition().then((resp) => {
+	//this.geolocation.getCurrentPosition().then((resp) => {
 	     // console.log(this.today.getDate());
 //var d197 = new Date('1/1/1970');
 //var t197 = d197.getTime();		
-	    this.horoService.getTimezone(resp.coords.latitude.toString(), resp.coords.longitude.toString(), (resp.timestamp/1000).toString())
-		.subscribe(res2 => {
+	  //  this.horoService.getTimezone(resp.coords.latitude.toString(), resp.coords.longitude.toString(), (resp.timestamp/1000).toString())
+		//.subscribe(res2 => {
 		// this.fetching = '';
+	this.events.subscribe('curpos', (status) => {
+					//page.title = 'Available Credits(' + res['credits'] + ')';
+					//console.log('Credits updated in App');
 		 var cd = new Date();
 		  var jd = this.horoService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
-		  this.sunrise = this.horoService.calcSunriseSet(1, jd, resp.coords.latitude, resp.coords.longitude, parseInt(res2['rawOffset'])/3600, 0);
-		  this.sunset = this.horoService.calcSunriseSet(0, jd, resp.coords.latitude, resp.coords.longitude, parseInt(res2['rawOffset'])/3600, 0);
+		  console.log('Local Timezone(ListPage): ' + this.shareService.getLocalTZ());
+		  console.log('Get RawOfset=' + this.shareService.getLTZO());
+		  console.log('CLAT=' + this.shareService.getCLAT());
+		  console.log('CLNG=' + this.shareService.getCLNG());
+		  this.sunrise = this.horoService.calcSunriseSet(1, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.shareService.getLTZO(), 0);//parseInt(res2['rawOffset'])/3600, 0);
+		  this.sunset = this.horoService.calcSunriseSet(0, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.shareService.getLTZO(), 0);//parseInt(res2['rawOffset'])/3600, 0);
 		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
 		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
 		var duration = moment.duration(endTime.diff(startTime));
@@ -115,11 +127,12 @@ export class ListPage {
 		this.abhjit = abhs.format('HH:mm') + ' To ' + abhe.format('HH:mm');
 		this.showCard = true;
 		//let lagdt: any = Date.now();
-		console.log('lat=' + resp.coords.latitude.toString());
-		console.log('lng=' + resp.coords.longitude.toString());
+		console.log('lat=' + this.shareService.getCLAT());
+		console.log('lng=' + this.shareService.getCLNG());
 		//console.log(lagdt);
-		console.log(res2['timeZoneId']);
-		this.horoService.getCusps(this.getDms(resp.coords.latitude), this.getDms(resp.coords.longitude), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), res2['timeZoneId'])
+		//console.log(res2['timeZoneId']);
+		
+		this.horoService.getCusps(this.getDms(this.shareService.getCLAT()), this.getDms(this.shareService.getCLNG()), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), this.shareService.getLocalTZ())
 		   .subscribe(res3 => {
 		   this.nak = this.translate_func(res3['birthStar']);
 		   this.tithi = this.translate_func(res3['tithi']);
@@ -192,19 +205,17 @@ export class ListPage {
 			//this.info = err;
 		  }) ;
 		
-		}, (err) => {
+		//}, (err) => {
 		    //console.log(err);
 			
 			//this.info = err;
-		});
+		//});
+	});	  
  // resp.coords.latitude
  // resp.coords.longitude
-	}).catch((error) => {
-		console.log('Error getting location', error);
-	});
-  }
-  ionViewDidLoad()
-  {
+	//}).catch((error) => {
+	//	console.log('Error getting location', error);
+	//});
   }
   	calcStar(mins: number)
 	{
@@ -326,6 +337,10 @@ alert("The local time is " + nd.toLocaleString());
 		  });
 	  }
     }	
+  }
+  viewPanchang()
+  {
+	this.navCtrl.push(PanchangPage);
   }
   switchLanguage() {
     this.translate.use(this.lang);

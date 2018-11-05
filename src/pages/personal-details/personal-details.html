@@ -19,7 +19,7 @@
 <ion-content>
 <ion-card  *ngIf="showASU">
 <img src="https://66.media.tumblr.com/e0822e2ae927b41ef9199c67b0d8ece1/tumblr_pgt7oisucw1xp0noco1_540.png"/>
-<div class="adv"> Astrologers can make your own App for just Rs. 999. <span class="more" (click)="more()">Know more..</span></div>
+<div class="adv"> Astrologers can make your own App for just Rs. 999. <span class="more" tappable (click)="more()">Know more..</span></div>
 </ion-card>
          <ion-list padding>
 	    <form [formGroup]="personalDetailsForm">
@@ -34,14 +34,14 @@
 		
 	   <div padding *ngIf="showCR">
 	        <p ion-text class="adtxt1">You have used up your <ion-badge color="secondary" (click)="morecred()">credits</ion-badge> Add more credits and enjoy uninterrupted service.</p>
-			<button ion-button full (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
-			<button ion-button full (click)="buy()">Buy One for just Rs. 10</button><br/>
-			<p ion-text class="adtxt2">If you are an Astrologer can <ion-badge (click)="more()">subscribe</ion-badge> & get unlimited horoscope readings, you can also customize this App as per your choice. <span class="more" (click)="more()">Know more..</span></p>
+			<button ion-button full tappable (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
+			<button ion-button full tappable (click)="buy()">Buy One for just Rs. 10</button><br/>
+			<p ion-text class="adtxt2">If you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited horoscope readings, you can also customize this App as per your choice. <span class="more" tappable (click)="more()">Know more..</span></p>
 			
 		</div>
 	   <div padding *ngIf="showSU">
 	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
-			<button ion-button full (click)="save()">Submit</button>
+			<button ion-button full tappable (click)="save()">Submit</button>
 		</div>
 		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
 		</form>

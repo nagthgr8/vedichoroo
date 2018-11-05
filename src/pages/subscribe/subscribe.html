@@ -45,12 +45,20 @@
 	   <div padding>
 				<button ion-button full (click)="buy()"  *ngIf="showSU">Subscribe now for just Rs. 999/yr</button><br/>
 				</div>
+		<p class="desc">
+		   You can also make a direct payment to below account & write to our <ion-badge (click)="help()">Help Desk</ion-badge>. The request will be processed within 24 hours.
+		</p><br/>
+		<div text-center>
+        <p class="adtxt1"><strong>Hamsini Smart Solutions</strong></p><br/>
+        <p class="adtxt1"><strong>ICICI A/c No. 180505001023</strong></p><br/>
+        <p class="adtxt1"><strong>IFSC Code: ICIC0001805</strong></p><br/>
+		</div>
 		</div>
 	   <div padding *ngIf="showCR">
 	        <p ion-text class="adtxt1"><strong>Thanks for being our valuable Subscriber. If you have any questions please contact <ion-badge (click)="help()">Help Desk</ion-badge></strong></p>
 		</div>
 		<div padding *ngIf="showWC">
-		<p ion-text class="adtxt1"><strong>Dear Customer,</strong><br/><br/><span class="desc">Congratulations!! Your subscrption is now upgraded to Premium. One of our representatives will be in touch with you within 24hrs to get started with building your amaizing App. Meanwhile please be prepared with your profile & other relevent meta data such as banner, logo, title, theme, font, etc you may want to customize in your App. There will be maximum upto 15 business days we will be getting your App ready, anytime during this window you can cancel your Subscription & get full refund back. For queries/complaints, please contact <ion-badge  color="secondary" (click)="help()">Help Desk</ion-badge>. <br/><br/>Thank You,</span><br/><strong>MYPUBZ Team</strong></p>
+		<p ion-text class="adtxt1"><strong>Dear Customer,</strong><br/><br/><span class="desc">Congratulations!! Your subscrption is now upgraded to Premium. One of our representatives will be in touch with you within 24hrs to get started with building your amaizing App. Meanwhile please be prepared with your profile & other relevent meta data such as banner, logo, title, theme, font, etc you may want to customize in your App. There will be maximum upto 15 business days we will be getting your App ready, anytime during this window you can cancel your Subscription & get full refund back. For queries/complaints, please contact <ion-badge  color="secondary" tappable (click)="help()">Help Desk</ion-badge>. <br/><br/>Thank You,</span><br/><strong>MYPUBZ Team</strong></p>
 		</div>
 		<div padding *ngIf="showCI">
 		<ion-list>
@@ -69,7 +77,7 @@
 		<ion-input type="tel" formControlName="eml"  type="text" ></ion-input>
 		</ion-item>
 	        <p ion-text class="info" color="primary" [innerHTML]='sinf'></p>
-			<button ion-button full (click)="saveSub()" [disabled]="!personalDetailsForm.valid">Submit</button>
+			<button ion-button full tappable (click)="saveSub()" [disabled]="!personalDetailsForm.valid">Submit</button>
 		
 		</form>
 		</ion-list>

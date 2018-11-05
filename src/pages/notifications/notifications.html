@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-list>
+<ion-item>
+  <ion-label>Rahu Kaalam</ion-label>
+  <ion-toggle [(ngModel)]="rahu" [checked]="rahu" (ionChange)="notifyRahu()" ></ion-toggle>
+</ion-item>
+<div *ngIf="showRAH">
+<ion-item>
+<ion-label>Notify me 1 hour before</ion-label>
+ <ion-toggle [(ngModel)]="rahut1" [checked]="rahut1" (ionChange)="notifyRahut1()"></ion-toggle>
+</ion-item>
+<ion-item>
+<ion-label>Notify me 30mins before</ion-label>
+ <ion-toggle [(ngModel)]="rahut2" [checked]="rahut2" (ionChange)="notifyRahut2()"></ion-toggle>
+</ion-item>
+<ion-item>
+<ion-label>Notify me at 6 AM everyday</ion-label>
+ <ion-toggle [(ngModel)]="rahut3" [checked]="rahut3" (ionChange)="notifyRahut3()"></ion-toggle>
+</ion-item>
+<ion-item>
+ <ion-label>Play Rahu Kaalam shanti mantra</ion-label>
+ <ion-toggle [(ngModel)]="rahus" [checked]="rahus" (ionChange)="notifyRahus()"></ion-toggle>
+</ion-item>
+</div>
+<ion-item>
+<ion-label>Notify me on Sunrise</ion-label>
+<ion-toggle [(ngModel)]="sunrise" [checked]="sunrise" (ionChange)="notifySunrise()"></ion-toggle>
+</ion-item>
+<ion-item>
+<ion-label>Notify me on Sunset</ion-label>
+<ion-toggle [(ngModel)]="sunset" [checked]="sunset" (ionChange)="notifySunset()"></ion-toggle>
+</ion-item>
+</ion-list>
+</ion-content>

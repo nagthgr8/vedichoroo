@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content class="card-background-page">
- 
+  
   <ion-list>
-    <ion-item>
+      <ion-item>
       <ion-label>Language</ion-label>
       <ion-select [(ngModel)]="lang" (ionChange)="switchLanguage()">
         <ion-option value="en">English</ion-option>
@@ -20,7 +20,7 @@
       </ion-select>
     </ion-item>
   </ion-list>
-<ion-card>
+<ion-card tappable (click)="viewPanchang()">
 <img src="https://78.media.tumblr.com/b0ff9ca885bcd41ce5d07a4f2b185f96/tumblr_pdqvl9bYmF1xp0noco1_1280.png"/>
 <div class="card-title"> <h1>{{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </h1></div>
 <div class="card-subtitle"><br/><span>{{ 'Sunrise' | translate }} : {{sunrise}}   {{ 'Sunset' | translate }} : {{sunset}}</span><br/><br/>
@@ -32,7 +32,7 @@
 	</div>
 </ion-card>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+    <button ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
       <ion-icon name="{{item.icon}}" item-left></ion-icon>
       {{item.title | translate}}
       <div class="item-note">

@@ -11,7 +11,7 @@
 
   <ion-content>
     <ion-list>
-      <button ion-item icon-start *ngFor="let p of pages" (click)="openPage(p)">
+      <button ion-item icon-start *ngFor="let p of pages" tappable (click)="openPage(p)">
 	  <ion-icon name={{p.icon}}></ion-icon>
         {{p.title}}
       </button>

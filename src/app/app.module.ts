@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
+import { PowerManagement } from '@ionic-native/power-management';
+import { Media, MediaObject } from '@ionic-native/media';
 import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2';
 import { MyApp } from './app.component';
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
@@ -27,7 +29,8 @@ import { CareerhoroPage } from '../pages/careerhoro/careerhoro';
 import { MoneyhoroPage } from '../pages/moneyhoro/moneyhoro';
 import { DivchartsPage } from '../pages/divcharts/divcharts';
 import { ChartAnalysisPage } from '../pages/chart-analysis/chart-analysis';
-
+import { PanchangPage } from '../pages/panchang/panchang';
+import { NotificationsPage } from '../pages/notifications/notifications';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HoroscopeService } from './horoscope.service';
@@ -39,6 +42,7 @@ import {GetJsonService } from './getjson.service';
 import { AppRate } from '@ionic-native/app-rate';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { Geolocation } from '@ionic-native/geolocation';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -67,7 +71,9 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	MoneyhoroPage,
 	PrivacyPage,
 	HelpDeskPage,
-	MypubzRespPage
+	MypubzRespPage,
+	PanchangPage,
+	NotificationsPage
   ],
   imports: [
     BrowserModule,
@@ -105,11 +111,15 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	ChooseLanPage,
 	PrivacyPage,
 	HelpDeskPage,
-	MypubzRespPage
+	MypubzRespPage,
+	PanchangPage,
+	NotificationsPage
   ],
   providers: [
+    PowerManagement,
 	Device,
 	InAppPurchase2,
+	Media,
     StatusBar,
     SplashScreen,
 	HoroscopeService,
@@ -119,6 +129,7 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
     AppRate,
 	BackgroundMode,
 	Geolocation,
+	BackgroundGeolocation,
 	LocalNotifications,
 	LanguageService
   ],

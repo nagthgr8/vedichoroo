@@ -21,16 +21,16 @@
 	</div>
 <div>
 	<h2>Credits</h2>
-	<p class="desc">In our free App you can fetch horoscope data for upto 5 unique date of births, for any additional date of birth you need to add some credits your account. The credits are non-transferable and cannot expire. If you are not an astrologer but want to access horoscopes for more profiles simply add some credits to your account. And whreas the best thing if you are an astrologer is to go for <ion-badge (click)="more()">Subscription</ion-badge> as there will be many exciting features you can avail from our App upon subscription apart from unlimited credits.</p>
-			<button ion-button full (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
+	<p class="desc">In our free App you can fetch horoscope data for upto 5 unique date of births, for any additional date of birth you need to add some credits your account. The credits are non-transferable and cannot expire. If you are not an astrologer but want to access horoscopes for more profiles simply add some credits to your account. And whreas the best thing if you are an astrologer is to go for <ion-badge tappable (click)="more()">Subscription</ion-badge> as there will be many exciting features you can avail from our App upon subscription apart from unlimited credits.</p>
+			<button ion-button full tappable (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
 			
-			<button ion-button full (click)="buy10()">Buy 10 Credits for just Rs. 70</button><br/>
+			<button ion-button full tappable (click)="buy10()">Buy 10 Credits for just Rs. 70</button><br/>
 
-			<button ion-button full (click)="buy25()">Buy 25 Credits for just Rs. 200</button><br/>
+			<button ion-button full tappable (click)="buy25()">Buy 25 Credits for just Rs. 200</button><br/>
 
-			<button ion-button full (click)="buy50()">Buy 50 Credits for just Rs. 350</button><br/>
+			<button ion-button full tappable (click)="buy50()">Buy 50 Credits for just Rs. 350</button><br/>
 		
-			<button ion-button full (click)="buy()">Buy One for just Rs. 10</button><br/>
+			<button ion-button full tappable (click)="buy()">Buy One for just Rs. 10</button><br/>
 			<p ion-text class="info" color="primary" [innerHTML]='info'></p>
 	
 </div>
