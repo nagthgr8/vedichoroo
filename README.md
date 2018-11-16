@@ -3,7 +3,13 @@
 
 A HYBRID Mobile Application for Astrologers & ofcourse any users who wants to know their birthchart analysis. 
 
-This Application is deveoped using ionic-angular framework users swissEph API for Planetary Positions. 
+This Application is build in 
+=> ionic-angular framework (3.9.2)
+=> cordova (8.1.2)
+=> Android SDK Tools (26.1.1)
+=> NodeJS (v11.1.1)
+
+This Mobile App consumes .NET wrapper service which internally uses swissEphimeris API for fetching Planetary Positions. 
 
 Feel free to download our live Android App from here https://play.google.com/store/apps/details?id=com.mypubz.eportal&hl=en
 
@@ -21,4 +27,6 @@ Below features are avalilable in this Application
 8. Personalized Calendar with B.V. Raman Tithi Calculations
 9. Daily Horoscope based on Moon Sign
 
+for iOS still under Test Flight, could not make it live due to a blocker issue https://github.com/apache/cordova-ios/issues/407
+in cordova which has come up with new Xcode relase, till this issue resolved we don't want to make this App live in iOS
 
