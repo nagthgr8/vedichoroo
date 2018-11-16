@@ -30,5 +30,5 @@ Below features are avalilable in this Application
 9. Daily Horoscope based on Moon Sign
 
 for iOS still under Test Flight, could not make it live due to a blocker issue https://github.com/apache/cordova-ios/issues/407
-in cordova which has come up with new Xcode relase, till this issue resolved we don't want to make this App live in iOS
+in cordova which has come up with new Xcode release in iOS, till this issue resolved we don't want to make this App live in iOS
 
