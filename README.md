@@ -3,11 +3,13 @@
 
 A HYBRID Mobile Application for Astrologers & ofcourse any users who wants to know their birthchart analysis. 
 
-This Application is build in 
-=> ionic-angular framework (3.9.2)
-=> cordova (8.1.2)
-=> Android SDK Tools (26.1.1)
-=> NodeJS (v11.1.1)
+This Application is developed in below environment,
+
+  NodeJS (v11.1.1),
+  ionic-angular framework (3.9.2),
+  cordova (8.1.2),
+  Android SDK Tools (26.1.1),
+  
 
 This Mobile App consumes .NET wrapper service which internally uses swissEphimeris API for fetching Planetary Positions. 
 
