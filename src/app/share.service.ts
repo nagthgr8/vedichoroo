@@ -2,19 +2,13 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 import { VimDasha } from './vim-das';
-
 @Injectable()
 export class ShareService {
-     
     place: string;
 	dob: string;
 	timezone: string;
-	localTZ: string;
-	ltzo: any;
 	lat: string;
 	lng: string;
-	curlat: any;
-	curlng: any;
 	tz: string;
     plpos: any;
     yogas: any;
@@ -30,8 +24,7 @@ export class ShareService {
 	rahut3: boolean;
 	sunrise: boolean;
 	sunset: boolean;
-	tstamp: number = 0;
-    constructor(private _storage: Storage, public events: Events) {
+    constructor(private _storage: Storage, public events: Events) { 
         this._storage.ready().then(() => {
 		    console.log('storage is ready');
 			this._storage.get('place').then(res => {
@@ -45,15 +38,15 @@ export class ShareService {
 			this._storage.get('timezone').then(res => {
 			    console.log('timezone', res);
 				this.timezone = res;
-			});;
+			});
 			this._storage.get('lat').then(res => {
 			    console.log('lat', res);
 				this.lat = res;
 			});
-			this._storage.get('lng').then(res => {
-			    console.log('lng', res);
-				this.lng = res;
-			});
+				this._storage.get('lng').then(res2 => {
+					console.log('lng', res2);
+					this.lng = res2;
+				});
 			this._storage.get('moonSign').then(res => {
 			    console.log('moonSign', res);
 				this.moonSign = res;
@@ -65,42 +58,42 @@ export class ShareService {
 			this._storage.get('lang').then(res => {
 			    console.log('lang', res);
 				if(res) this.lang = res; else this.lang = 'en';
-				this.events.publish('dbfetch:lang', res);
+				//this.events.publish('dbfetch:lang', res);
 			});
 			this._storage.get('rahu').then(res => {
 			    console.log('rahu', res);
 				(res) ? this.rahu = res : this.rahu = false;
-				this.events.publish('dbfetch:rahu', res);
+				//this.events.publish('dbfetch:rahu', res);
 			});
 			this._storage.get('rahus').then(res => {
 			    console.log('rahus', res);
 				(res) ? this.rahus = res : this.rahus = false;
-				this.events.publish('dbfetch:rahus', res);
+				//this.events.publish('dbfetch:rahus', res);
 			});
 			this._storage.get('rahut1').then(res => {
 			    console.log('rahut1', res);
 				(res) ? this.rahut1 = res : this.rahut1 = false;
-				this.events.publish('dbfetch:rahut1', res);
+				//this.events.publish('dbfetch:rahut1', res);
 			});
 			this._storage.get('rahut2').then(res => {
 			    console.log('rahut2', res);
 				(res) ? this.rahut2 = res : this.rahut2 = false;
-				this.events.publish('dbfetch:rahut2', res);
+				//this.events.publish('dbfetch:rahut2', res);
 			});
 			this._storage.get('rahut3').then(res => {
 			    console.log('rahut3', res);
 				(res) ? this.rahut3 = res : this.rahut3 = false;
-				this.events.publish('dbfetch:rahut3', res);
+				//this.events.publish('dbfetch:rahut3', res);
 			});
 			this._storage.get('sunrise').then(res => {
 			    console.log('sunrise', res);
 				(res) ? this.sunrise = res : this.sunrise = false;
-				this.events.publish('dbfetch:sunrise', res);
+				//this.events.publish('dbfetch:sunrise', res);
 			});
 			this._storage.get('sunset').then(res => {
 			    console.log('sunset', res);
 				(res) ? this.sunset = res : this.sunset = false;
-				this.events.publish('dbfetch:sunset', res);
+				//this.events.publish('dbfetch:sunset', res);
 			});
 		});			
     }
@@ -118,29 +111,17 @@ export class ShareService {
 		this._storage.set('place', place);
 		this._storage.set('dob', dob);
     }
-    setLAT(lat) {
+	setLAT(lat) {
 	  this.lat = lat;
-  	  this._storage.set('lat', lat);
-	}
-	setCLAT(lat) {
-		this.curlat = lat;
+		this._storage.set('lat', lat);
 	}
 	setLNG(lng) {
 	  this.lng = lng;
 		this._storage.set('lng', lng);
 	}
-	setCLNG(lng) {
-	  this.curlng = lng;
-	}
 	setTimezone(timezone) {
 	  this.timezone = timezone;
 	  this._storage.set('timezone', timezone);
-	}
-	setLocalTZ(timezone) {
-	  this.localTZ = timezone;
-	}
-	setLTZO(ltzo) {
-	  this.ltzo = ltzo;
 	}
 	setPLPOS(plpos) {
 	 this.plpos = plpos;
@@ -153,10 +134,8 @@ export class ShareService {
 	}
 	setLANG(lang) {
 	 this.lang = lang;
-	  this._storage.ready().then(() => {
-	    console.log('setLANG()', lang);
-		this._storage.set('lang', lang);
-      });		
+    console.log('setLANG()', lang);
+	this._storage.set('lang', lang);
 	}
 	setRAHU(rahu) {
 		this.rahu = rahu;
@@ -194,9 +173,6 @@ export class ShareService {
 	  };
 	  this.oVim[per] = vimDas;
 	}
-	setTSTMP(tstamp) {
-		this.tstamp = tstamp;
-	}
     getMoonSign() {
 		return this.moonSign;
 	}
@@ -224,26 +200,14 @@ export class ShareService {
     getLAT() {
         return this.lat;
     }  
-	getCLAT() {
-		return this.curlat;
-	}
     getLNG() {
         return this.lng;
     }
-	getCLNG() {
-		return this.curlng;
-	}
 	getVIM() {
 		return this.oVim;
 	}
 	getLANG() {
 		return this.lang;
-	}
-	getLocalTZ() {
-		return this.localTZ;
-	}
-	getLTZO() {
-		return this.ltzo;
 	}
 	getRAHU() {
 		return this.rahu;
@@ -266,7 +230,5 @@ export class ShareService {
 	getRAHUT3() {
 		return this.rahut3;
 	}
-	getTSTMP() {
-		return this.tstamp;
-	}
-}
+}	
+

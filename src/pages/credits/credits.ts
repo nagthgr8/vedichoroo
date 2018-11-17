@@ -97,13 +97,13 @@ export class CreditsPage {
 	  switch(this.product.gpid)
 	  {
 		case 'com.mypubz.eportal.dob50':
-			creds = 5;
+			creds = 50;
 			break;
 		case 'com.mypubz.eportal.dob25':
-			creds = 5;
+			creds = 25;
 			break;
 		case 'com.mypubz.eportal.dob10':
-			creds = 5;
+			creds = 10;
 			break;
 		case 'com.mypubz.eportal.dob5':
 			creds = 5;

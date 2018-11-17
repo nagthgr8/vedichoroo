@@ -182,12 +182,11 @@ export class HoroscopePage implements OnInit, AfterViewInit {
   }
   loadHoro()
   {
-  console.log('loadHoro');
+	console.log('loadHoro');
 		var plPos = this.shareService.getPLPOS();
 		for (var i = 0; i < 16; i++) {
 			var sign = signs[i];
 			if (plPos.hasOwnProperty(sign)) {
-			    
 				var pls = plPos[sign].split('\|');
 				console.log(pls);
 				//var ePls = '';

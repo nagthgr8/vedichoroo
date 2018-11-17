@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams} from 'ionic-angular';
+import { File } from '@ionic-native/file';
 import { ShareService } from '../../app/share.service'
 import { HoroscopeService } from '../../app/horoscope.service';
 import { TranslateService } from '@ngx-translate/core';
 import * as sublords from '../horoscope/sublords.json';
 import * as lunapics from './lunapics.json';
-import * as moment from 'moment';
 
 /**
  * Generated class for the PanchangPage page.
@@ -40,7 +40,7 @@ export class PanchangPage {
   lunapic: string = '';
   info: string = '';
   showPAN: boolean = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, private file: File) {
   this.info = 'Please wait...';
   this.showPAN = false;
   }
@@ -49,65 +49,17 @@ export class PanchangPage {
     console.log('ionViewDidLoad PanchangPage');
 	this.today = Date.now();
 	this.info = 'Fetching todays panchang....';
-	//this.geolocation.getCurrentPosition().then((resp) => {
-	     // console.log(this.today.getDate());
-//var d197 = new Date('1/1/1970');
-//var t197 = d197.getTime();		
-        this.info = 'Fetcing timezone...';
-	    //this.horoService.getTimezone(resp.coords.latitude.toString(), resp.coords.longitude.toString(), (resp.timestamp/1000).toString())
-		//.subscribe(res2 => {
-		 // this.info = 'Calculating....';
-		// this.fetching = '';
-	//this.events.subscribe('curpos', (status) => {
-		 var cd = new Date();
-		  var jd = this.horoService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
-		  console.log('Local Timezone(PanchangPage): ' + this.shareService.getLocalTZ());
-		  this.sunrise = this.horoService.calcSunriseSet(1, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.shareService.getLTZO(), 0 );//parseInt(res2['rawOffset'])/3600, 0);
-		  this.sunset = this.horoService.calcSunriseSet(0, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.shareService.getLTZO(), 0);//parseInt(res2['rawOffset'])/3600, 0);
-		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
-		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
-		var duration = moment.duration(endTime.diff(startTime));
-		var hours = duration.asHours();
-		var minutes = duration.asMinutes()%60;
-		//var tmins = moment(endTime).add(startTime.minutes(), 'm');
-		var smins = startTime.hour()*60 + startTime.minute();
-		var emins = endTime.hour()*60 + endTime.minute();
-		var tmins = (smins + emins)/2;
-		var tothrs = Math.floor(tmins/60);
-		var totmins = (tmins % 60);
-		var midTime = moment(tothrs.toString() + ':' + totmins.toString() + ':00 pm', "HH:mm:ss a");
-		//var lnt = Math.floor(tothrs/2);
-		//var totmins = hours*60 + minutes;
-		var totalsec = hours*60*60 + minutes*60;
-		var abhsecs = Math.floor(totalsec/2);
-		var abh = Math.floor((hours/30)*60);
-		var abhs = moment(midTime).subtract(abh, 'm');
-		var abhe = moment(midTime).add(abh, 'm');
-		var ethsec = Math.floor(totalsec/8);
-		var ethmin = Math.floor(ethsec/60);
-		var eth = moment.utc(ethsec*1000).format('HH:mm:ss');
-		var weekdays = new Array(7);
-		weekdays[0] = "SUN|8|5";
-		weekdays[1] = "MON|2|4";
-		weekdays[2] = "TUE|7|3";
-		weekdays[3] = "WED|5|2";
-		weekdays[4] = "THU|6|1";
-		weekdays[5] = "FRI|4|7";
-		weekdays[6] = "SAT|3|6";	
-        var rwv = parseInt(weekdays[cd.getDay()].split('|')[1]);
-        var ywv = parseInt(weekdays[cd.getDay()].split('|')[2]);
-        var srhu = moment(startTime).add((rwv-1)*ethmin, 'm');
-        var erhu = moment(srhu).add(ethmin, 'm');
-        var sym = moment(startTime).add((ywv-1)*ethmin, 'm');
-        var eym = moment(sym).add(ethmin, 'm');
-        this.rahukal = srhu.format('HH:mm')	+ ' To ' + erhu.format('HH:mm');
-        this.yama = sym.format('HH:mm')	+ ' To ' + eym.format('HH:mm');
-		this.abhjit = abhs.format('HH:mm') + ' To ' + abhe.format('HH:mm');
-		//let lagdt: any = Date.now();
-		//console.log(lagdt);
-		//console.log(res2['timeZoneId']);
-		this.info = 'Completing...';
-		this.horoService.getCusps(this.getDms(this.shareService.getCLAT()), this.getDms(this.shareService.getCLNG()), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), this.shareService.getLocalTZ())
+    console.log(this.file.dataDirectory);	
+	this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
+		console.log('vedicperfs', res);
+	    var jsonv = JSON.parse(res);
+        this.sunrise = jsonv['srise'];
+		this.sunset = jsonv['sset'];
+        this.rahukal = jsonv['rahukal_s'] + ' To ' + jsonv['rahukal_e'];
+        this.yama = jsonv['yamgand_s'] + ' To ' + jsonv['yamgand_e'];
+        this.abhjit = jsonv['abhijit_s'] + ' To ' + jsonv['abhijit_e'];
+  		var cd = new Date();
+		this.horoService.getCusps(this.getDms(jsonv['clat']), this.getDms(jsonv['clat']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'])
 		   .subscribe(res3 => {
 		   this.showPAN = true;
 		   this.info = '';
@@ -136,7 +88,7 @@ export class PanchangPage {
 		   this.lagml = sssl.split('|')[0];
 		   this.lagal = sssl.split('|')[1];
 		   this.lagsl = sssl.split('|')[2];
-		   var intv = setInterval(() =>  {
+		var intv = setInterval(() =>  {
 		    this.ticks++;
 			//console.log('ticks=' + this.ticks.toString());
 			this.lag_s += 15;
@@ -170,31 +122,11 @@ export class PanchangPage {
 		   this.lagal = sl.split('|')[1];
 		   this.lagsl = sl.split('|')[2];
 			
-			//let key: string = this.lag_d.toString() + '-' + this.lag_m.toString() + '-' + this.lag_s.toString();
-			//this.lagna = this.lag_d.toString() + 'º' + this.lag_m.toString() + "'" + this.lag_s.toString() + '"';
-			//this.lagml = lagnas[key].split('-')[0];
-			//this.lagal = lagnas[key].split('-')[1];
-			//this.lagsl = lagnas[key].split('-')[2];
-					//if(this.lag_d == 360) {
-						//this.lag_d = 0;
-						//this.lag_m = 0;
-						//this.lag_s = 0;
-					//}
-			
-		   },1000);
-		  }, (err) => {
+		},1000);
+	  }, (err) => {
 			//this.info = err;
-		  }) ;
-		//}, (err) => {
-		    //console.log(err);
-			//this.info = err;
-		//});
-	//});	  
- // resp.coords.latitude
- // resp.coords.longitude
-	//}).catch((error) => {
-	//	console.log('Error getting location', error);
-	//});
+	  });
+	});
 	
   }
   

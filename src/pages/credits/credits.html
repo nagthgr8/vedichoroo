@@ -19,9 +19,9 @@
 	<div text-center>
 	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
 	</div>
-<div>
 	<h2>Credits</h2>
 	<p class="desc">In our free App you can fetch horoscope data for upto 5 unique date of births, for any additional date of birth you need to add some credits your account. The credits are non-transferable and cannot expire. If you are not an astrologer but want to access horoscopes for more profiles simply add some credits to your account. And whreas the best thing if you are an astrologer is to go for <ion-badge tappable (click)="more()">Subscription</ion-badge> as there will be many exciting features you can avail from our App upon subscription apart from unlimited credits.</p>
+<div *ngIf="showCR">
 			<button ion-button full tappable (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
 			
 			<button ion-button full tappable (click)="buy10()">Buy 10 Credits for just Rs. 70</button><br/>

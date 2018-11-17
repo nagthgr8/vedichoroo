@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
-import { PowerManagement } from '@ionic-native/power-management';
-import { Media, MediaObject } from '@ionic-native/media';
 import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2';
 import { MyApp } from './app.component';
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
@@ -40,12 +38,10 @@ import { ShareService } from './share.service';
 import { LanguageService } from '../providers/language.service';
 import {GetJsonService } from './getjson.service';
 import { AppRate } from '@ionic-native/app-rate';
-import { BackgroundMode } from '@ionic-native/background-mode';
-import { Geolocation } from '@ionic-native/geolocation';
-import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { File } from '@ionic-native/file';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -79,7 +75,10 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
     BrowserModule,
 	HttpClientModule,
     IonicModule.forRoot(MyApp),
-	IonicStorageModule.forRoot(),
+	IonicStorageModule.forRoot({
+      name: '__vedichoroo',
+      driverOrder: ['sqlite','indexeddb','websql']
+    }),
 	TranslateModule.forRoot({
 	loader: {
 			 provide: TranslateLoader,
@@ -116,10 +115,9 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	NotificationsPage
   ],
   providers: [
-    PowerManagement,
 	Device,
+	File,
 	InAppPurchase2,
-	Media,
     StatusBar,
     SplashScreen,
 	HoroscopeService,
@@ -127,10 +125,6 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 	GetJsonService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppRate,
-	BackgroundMode,
-	Geolocation,
-	BackgroundGeolocation,
-	LocalNotifications,
 	LanguageService
   ],
   schemas: [
