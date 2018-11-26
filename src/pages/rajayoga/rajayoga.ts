@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { AppRate } from '@ionic-native/app-rate';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ShareService } from '../../app/share.service'
+import { BirthInfo } from '../../app/birth-info';
+import { Yoga } from '../../app/yoga';
 import * as signs from '../horoscope/signs.json';
 import * as o_signs from '../horoscope/o_signs.json'
 import * as rashis from '../horoscope/rashis.json';
@@ -25,10 +27,22 @@ import * as o_rashis from '../horoscope/o_rashis.json';
 export class RajayogaPage implements OnInit, AfterViewInit {
   @ViewChild('birthChart') birthChart;
   @ViewChild('navChart') navChart;
+  dob: string = '';
+  lagna: string = '';
+  lagna_lord: string = '';
+  moon_sign: string = '';
+  sun_sign: string = '';
+  tithi: string = '';
+  birth_star: string = '';
+  star_lord: string = '';
+  moon_phase: string = '';
   device_width :number = 0;
   device_height :number = 0;
   objectKeys = Object.keys;
-  yogas: any;
+  oYog: Yoga[] = [];
+  aYog: Yoga[] = [];
+  nYog: Yoga[] = [];
+  oBif :BirthInfo;
   navPls: string[] = [];
   constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2) {
   platform.ready().then(() => {
@@ -36,8 +50,79 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
-		this.yogas = this.shareService.getYOGAS();
-		console.log(Object.keys(this.yogas));
+		//this.yogas = this.shareService.getYOGAS();
+		//console.log(Object.keys(this.yogas));
+		let yogs = this.shareService.getYOGAS();
+		let jf: string = '';
+		this.horoService.getBirthInfo(this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone())
+		   .subscribe(res => {
+		   this.dob = res['dob'];
+		   this.lagna = this.translate_func(res['lagna']);
+		   this.lagna_lord = this.translate_func(res['lagna_lord']);
+		   this.moon_sign = this.translate_func(res['moon_sign']);
+		   this.sun_sign = this.translate_func(res['sun_sign']);
+		   this.tithi = this.translate_func(res['tithi']);
+		   this.birth_star = this.translate_func(res['birth_star']);
+		   this.star_lord = this.translate_func(res['star_lord']);
+		   this.moon_phase = this.translate_func(res['moon_phase']);
+		  }, (err) => {
+			//this.info = err;
+		  }) ;		
+		switch(this.shareService.getLANG())
+		{
+			case 'en':
+				jf = 'assets/data/en-dct-yogs.json';
+				break;
+			case 'hi':
+				jf = 'assets/data/hi-dct-yogs.json';
+				break;
+			case 'te':
+				jf = 'assets/data/te-dct-yogs.json';
+				break;
+			case 'ta':
+				jf = 'assets/data/ta-dct-yogs.json';
+				break;
+			default:
+				jf = 'assets/data/en-dct-yogs.json';
+				break;
+		}
+		this.horoService.getJson(jf)
+			.subscribe(ydct => {
+			    let yogas = this.shareService.getYOGAS();
+				for(let key of Object.keys(yogas)) {
+				    let yg : Yoga = {
+					  name: (ydct.hasOwnProperty(key) == true) ? ydct[key] : key,
+					  desc: yogas[key]
+					};
+					this.oYog[key] = yg;
+				}
+				//yogas analyzed
+				for(let key of Object.keys(ydct)) {
+				    let yg : Yoga = {
+					  name: key,
+					  desc: ''
+					};
+					this.aYog[key] = yg;
+				}
+				console.log('yogas in horo', this.oYog);
+				console.log('yogas analyzed', this.aYog);
+			}, (err) => {
+				//console.log(err);
+		    });
+		this.horoService.getJson('assets/data/dct-nyogs.json')
+			.subscribe(yogs => {
+				//yogas to be analyzed
+				for(let key of Object.keys(yogs)) {
+				    let yg : Yoga = {
+					  name: key,
+					  desc: yogs[key]
+					};
+					this.nYog[key] = yg;
+				}
+				console.log('yogas tba', this.nYog);
+			}, (err) => {
+			   console.log(err);
+			});
 	  
     });
 	
@@ -531,4 +616,452 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 
 		return svg;
 	};
+	translate_func(lord: string)
+	{
+	  if(this.shareService.getLANG() == 'en') return lord;
+	  let trn: string = lord;
+		switch(lord.toLowerCase())
+		{
+			case 'sun':
+			case 'su':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'సూర్యుడు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'रवि ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சூரியன்';
+				}
+				break;
+			case 'moon':
+			case 'mo':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'చంద్రుడు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'चांद ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சந்திரன்';
+				}
+				break;
+			case 'jupiter':
+			case 'ju':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'బృహస్పతి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'बृहस्पति';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'குரு';
+				}
+				break;
+			case 'mercury':
+			case 'me':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'బుధుడు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'बुध गृह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'புதன்';
+				}
+				break;
+			case 'mars':
+			case 'ma':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కుజుడు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मंगल ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'செவ்வாய்';
+				}
+				break;
+			case 'venus':
+			case 've':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'శుక్రుడు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'शुक्र ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சுக்கிரன்';
+				}
+				break;
+			case 'saturn':
+			case 'sa':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'శనిగ్రహము';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'शनि ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சனி';
+				}
+				break;
+			case 'rahu':
+			case 'ra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'రాహు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'राहु ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ராகு';
+				}
+				break;
+			case 'ketu':
+			case 'ke':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కేతు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'केतु ग्रह';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கேது';
+				}
+				break;
+			case 'aries':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మేషరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मेष राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'மேஷம்';
+				}
+				break;
+			case 'taurus':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'వృషభరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'वृषभ राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ரிஷபம்';
+				}
+				break;
+			case 'gemini':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మిధునరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'மிதுனம்';
+				}
+				break;
+			case 'cancer':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కర్కాటకరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'कर्क राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கடகம்';
+				}
+				break;
+			case 'leo':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'సిమ్హరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'सिंह राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சிம்மம்';
+				}
+				break;
+			case 'virgo':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కన్యరాశి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'कन्या राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கன்னி';
+				}
+				break;
+			case 'libra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'తులారాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'तुला राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'துலாம்';
+				}
+				break;
+			case 'scorpio':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'వృశ్చికరాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'वृश्चिक राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'விருச்சிகம்';
+				}
+				break;
+			case 'saggitarius':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ధనుస్సురాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'धनु राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'தனுசு';
+				}
+				break;
+			case 'capricorn':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మకరరాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'மகரம்';
+				}
+				break;
+			case 'aquarius':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కుంభరాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'कुंभ राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கும்பம்';
+				}
+				break;
+			case 'pisces':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మీనరాసి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मीन राशि';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'மீனம்';
+				}
+				break;
+			case 'ashwini':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'అశ్వినీ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'अश्विनी';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'அஸ்வினி';
+				}
+				break;
+			case 'bharani':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'భరణి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'भरणी';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'பரணி';
+				}
+				break;
+			case 'krittika':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'కృత్తికా';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'कृत्तिका';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கிருத்திகை';
+				}
+				break;
+			case 'rohini':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'రోహిణి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'रोहिणी';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ரோகிணி';
+				}
+				break;
+			case 'mrigashira':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మ్రిగశిర';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मृगशिरा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'மிருகசிரீடம்';
+				}
+				break;
+			case 'ardra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ఆర్ద్ర';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'आर्द्र';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'திருவாதிரை';
+				}
+				break;
+			case 'punarvasu':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'పునర్వసు';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'पुनर्वसु';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'புனர்பூசம்';
+				}
+				break;
+			case 'pushya':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'పుష్య';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'पुष्य';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'பூசம்';
+				}
+				break;
+			case 'ashlesha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ఆశ్లేష';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'अश्लेषा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ஆயில்யம்';
+				}
+				break;
+			case 'magha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మఘ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मघा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'மகம்';
+				}
+				break;
+			case 'purvaphalguni':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'పూర్వఫల్గుణి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'पूर्वाफाल्गुनी';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'பூரம்';
+				}
+				break;
+			case 'uttaraaphalguni':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ఉత్తరాఫల్గుణి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'उत्तराफाल्गुनी';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'உத்திரம்';
+				}
+				break;
+			case 'hastha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'హస్త';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'हस्ता';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'அஸ்தம்';
+				}
+				break;
+			case 'chitra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'చిత్ర';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'चित्र';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சித்திரை';
+				}
+				break;
+			case 'swati':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'స్వాతి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'स्वाति';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ஸ்வாதி';
+				}
+				break;
+			case 'vishakha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'విశాఖ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'विशाखा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'விசாகம்';
+				}
+				break;
+			case 'anuradha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'అనురాధ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'अनुराधा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'அனுஷம்';
+				}
+				break;
+			case 'jyestha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'జ్యేష్ఠా';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'जयस्था';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'கேட்டை';
+				}
+				break;
+			case 'mula':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'మూల';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'मूल';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'மூலம்';
+				}
+				break;
+			case 'purvaashada':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'పూర్వాషాఢ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'पूर्वाषाढ़ा';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'பூராடம்';
+				}
+				break;
+			case 'uttaraashada':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ఉత్తరాషాఢ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'उत्तराषाढ़ा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'உத்திராடம்';
+				}
+				break;
+			case 'shravana':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'శ్రావణ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'श्रवण';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'திருவோணம்';
+				}
+				break;
+			case 'danishta':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ధనిష్ఠ';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'धनिष्ठा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'அவிட்டம்';
+				}
+				break;
+			case 'shatabhisha':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'శతభిషా';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'शतभिषा';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'சதயம்';
+				}
+				break;
+			case 'purvabhadra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'పూర్వాభాద్ర';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'पूर्वभाद्र';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'பூரட்டாதி';
+				}
+				break;
+			case 'uttarabhadra':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'ఉత్తరాభాద్ర';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'உத்திரட்டாதி';
+				}
+				break;
+			case 'revati':
+				if(this.shareService.getLANG() == 'te') {
+					trn = 'రేవతి';
+				} else if(this.shareService.getLANG() == 'hi') { 
+					trn = 'रेवती';
+				} else if(this.shareService.getLANG() == 'ta') { 
+					trn = 'ரேவதி';
+				}
+				break;
+			default:
+				trn = lord;
+				break;
+		}
+		return trn;
+	}
+	
 }

@@ -7,29 +7,28 @@
   </ion-toolbar>
 
 </ion-header>
+<ion-content padding>
 <ion-list>
-  <ion-item-sliding>
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="img/slimer.png">
-      </ion-avatar>
-      <h2>Slimer</h2>
-    </ion-item>
-    <ion-item-options side="left">
-      <button ion-button color="primary">
-        <ion-icon name="text"></ion-icon>
-        Text
-      </button>
-      <button ion-button color="secondary">
-        <ion-icon name="call"></ion-icon>
-        Call
-      </button>
-    </ion-item-options>
-    <ion-item-options side="right">
-      <button ion-button color="primary">
-        <ion-icon name="mail"></ion-icon>
-        Email
-      </button>
-    </ion-item-options>
-  </ion-item-sliding>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+       <ion-item-sliding *ngFor="let key of objectKeys(oAst)">
+      <ion-item (click)="viewprof($event, oAst[key])">
+        <ion-avatar item-start>
+          <img [src]="oAst[key].avatar"/>
+        </ion-avatar>
+        <h2>{{oAst[key].name}}</h2>
+        <p>{{oAst[key].tagline}}</p>
+		<p>&#8377; 50 per minute  <ion-badge (click)="viewprof($event, oAst[key])">view profile</ion-badge></p>
+      </ion-item>
+      <ion-item-options>
+        <a [href]="oAst[key].walnk"><button ion-button color="primary" icon-start>
+          <ion-icon name="text"></ion-icon>
+          Text
+        </button></a>
+        <button ion-button color="secondary" (click)="callreq($event, oAst[key])" icon-start>
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
 </ion-list>
+</ion-content>

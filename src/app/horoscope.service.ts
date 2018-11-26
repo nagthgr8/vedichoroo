@@ -30,6 +30,7 @@ export class HoroscopeService {
   private apiUrl28 = 'https://live.makemypublication.com/Publication/FollowTicket';
   private apiUrl29 = 'https://live.makemypublication.com/Publication/GetNotif';
   private apiUrl30 = 'https://live.makemypublication.com/Publication/AddSubscriber';
+  private apiUrl31 = 'https://live.makemypublication.com/Publication/Birthinfo';
   private monthList = [
 	{name: "January",   numdays: 31, abbr: "Jan"},
 	{name: "February",  numdays: 28, abbr: "Feb"},
@@ -46,8 +47,8 @@ export class HoroscopeService {
 ];
 
   constructor(private http: HttpClient) {}
-  getCountries(): Observable<{}> {
-   return this.http.get(this.apiUrl).pipe(
+  getJson(url: string): Observable<{}> {
+	return this.http.get(url).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -405,6 +406,30 @@ getDashaTransits(vim: any): Observable<{}> {
     catchError(this.handleError)
    ); 
 }
+getBirthInfo(dmslat: string, dmslng: string, dob: string, tz: string): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
+
+   var oDat = {
+   dob: '',
+   tob: '',
+   latlng: '',
+   timezone: ''
+   };
+   oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
+   oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
+   oDat.latlng = latlng;
+   oDat.timezone = tz;
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl31, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
 calcSunDeclination(t)
 {
   var e = this.calcObliquityCorrection(t);

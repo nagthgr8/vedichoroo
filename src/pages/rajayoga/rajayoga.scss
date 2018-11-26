@@ -15,8 +15,12 @@ ion-grid {
   margin:0px;
 }
  ion-col div {
+    border: 1px solid #e6e9ee;
+    padding: 5px;
     text-align: center;
+	display: border-box;
   }
+
   
   ion-row.title {
 	font-weight:bold;
@@ -25,6 +29,13 @@ ion-grid {
   ion-row.subtitle {
 	font-weight:bold;
 	font-size:15px;
+  }
+ ion-row.title2 {
+    text-align:center;
+	font-weight:bold;
+	background-color: #3399FF;
+	padding: 5px;
+	color: #FBFCFC;
   }
 ion-row.maintitle {
 	font-weight:bold;

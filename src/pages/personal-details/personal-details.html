@@ -19,7 +19,7 @@
 <ion-content>
 <ion-card  *ngIf="showASU">
 <img src="https://66.media.tumblr.com/e0822e2ae927b41ef9199c67b0d8ece1/tumblr_pgt7oisucw1xp0noco1_540.png"/>
-<div class="adv"> Astrologers can make your own App for just Rs. 999. <span class="more" tappable (click)="more()">Know more..</span></div>
+<div class="adv"> Astrologers can subscribe for just Rs. 999 & enjoy many benefits. <span class="more" tappable (click)="more()">Know more..</span></div>
 </ion-card>
          <ion-list padding>
 	    <form [formGroup]="personalDetailsForm">
@@ -43,7 +43,11 @@
 	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
 			<button ion-button full tappable (click)="save()">Submit</button>
 		</div>
-		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
+	   <div padding *ngIf="showYO">
+	        <p ion-text class="adtxt2">Know about various <ion-badge color="secondary" tappable (click)="yoginf()">Yogas</ion-badge> present in your Horoscope. Report available in all 4 supported languages.</p>
+			<button ion-button full tappable (click)="yog()">Buy Now For Just &#8377;126</button>
+		</div>
+		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>, 
 		</form>
    </ion-list>
 

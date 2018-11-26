@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="10100000" id="com.mypubz.eportal" ios-CFBundleVersion="101.0.0" version="101.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10600002" id="com.mypubz.eportal" ios-CFBundleVersion="106.0.2" version="106.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>vedichoroo</name>
     <description>126Astrology provides birthchart, vedic hororscope analysis, love compatibility report and daily predictions</description>
     <author email="naga.ram.ch@gmail.com" href="http://www.mypubz.com/">MYPUBZ Team</author>
@@ -94,5 +94,7 @@
     <plugin name="cc.fovea.cordova.purchase" spec="~7.2.4">
         <variable name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgb0EH47VnbW5TtUazxoSRAK38wPeJHimit9KjCso/VWdzz+3yqOdF+cPqGY4ZiyXtjRqJ9DlojIV1Oo7zvlVA1gyFIbW5zGqG8HuXFWFRLhfVMppTny4HxuGGVNt8CMKVKRpGysZ8pQAafoKuV0k/du1KOkFXBqqTzWigBlWR1UPcZKB4ixAjwSNqr9POx5iwLtPw9Tf+ufLlDtGFEvKbCs5ZSIurOjzHrj1g3i2wQyxyu38+QQNRU0FkIF//UPb1EbLUd1NklnuVyYhnhhd59Cs3zjzbX4nNWPLInB+vbuaDZNlHUAN5J9mv3C2ORVWARe8bdfYp681E8mEgDjdKwIDAQAB" />
     </plugin>
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <plugin name="cordova-plugin-x-toast" spec="2.7.2" />
     <engine name="android" spec="^7.1.0" />
 </widget>

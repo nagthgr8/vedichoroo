@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
+import { CallNumber } from '@ionic-native/call-number';
+import { Toast } from '@ionic-native/toast';
 import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2';
 import { MyApp } from './app.component';
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
@@ -16,6 +18,7 @@ import { MypubzRespPage } from '../pages/mypubz-resp/mypubz-resp';
 import { LovehoroPage } from '../pages/lovehoro/lovehoro';
 import { StarConstPage } from '../pages/star-const/star-const';
 import { RajayogaPage } from '../pages/rajayoga/rajayoga';
+import { YogaInfoPage } from '../pages/yoga-info/yoga-info';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 import { DailyForecastPage } from '../pages/dailyforecast/dailyforecast';
@@ -23,12 +26,14 @@ import { ArticlePage } from '../pages/article/article';
 import { StoriesPage } from '../pages/stories/stories';
 import { ChooseLanPage } from '../pages/choose-lan/choose-lan';
 import { PrivacyPage } from '../pages/privacy/privacy';
+import { SankethPage } from '../pages/sanketh/sanketh';
 import { CareerhoroPage } from '../pages/careerhoro/careerhoro';
 import { MoneyhoroPage } from '../pages/moneyhoro/moneyhoro';
 import { DivchartsPage } from '../pages/divcharts/divcharts';
 import { ChartAnalysisPage } from '../pages/chart-analysis/chart-analysis';
 import { PanchangPage } from '../pages/panchang/panchang';
 import { NotificationsPage } from '../pages/notifications/notifications';
+import { AstrologersPage } from '../pages/astrologers/astrologers';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HoroscopeService } from './horoscope.service';
@@ -53,6 +58,7 @@ import { File } from '@ionic-native/file';
 	DailyForecastPage,
 	LovehoroPage,
 	RajayogaPage,
+	YogaInfoPage,
 	StarConstPage,
 	StoriesPage,
 	ArticlePage,
@@ -69,7 +75,9 @@ import { File } from '@ionic-native/file';
 	HelpDeskPage,
 	MypubzRespPage,
 	PanchangPage,
-	NotificationsPage
+	NotificationsPage,
+	AstrologersPage,
+	SankethPage
   ],
   imports: [
     BrowserModule,
@@ -98,6 +106,7 @@ import { File } from '@ionic-native/file';
 	DailyForecastPage,
 	LovehoroPage,
 	RajayogaPage,
+	YogaInfoPage,
 	StarConstPage,
 	StoriesPage,
 	ArticlePage,
@@ -112,7 +121,9 @@ import { File } from '@ionic-native/file';
 	HelpDeskPage,
 	MypubzRespPage,
 	PanchangPage,
-	NotificationsPage
+	NotificationsPage,
+	AstrologersPage,
+	SankethPage
   ],
   providers: [
 	Device,
@@ -125,7 +136,9 @@ import { File } from '@ionic-native/file';
 	GetJsonService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppRate,
-	LanguageService
+	LanguageService,
+	CallNumber,
+	Toast
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

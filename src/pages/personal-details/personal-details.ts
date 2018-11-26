@@ -5,6 +5,7 @@ import {HoroscopePage} from '../horoscope/horoscope';
 import {KpAstroPage} from '../kp-astro/kp-astro'; 
 import {DailyForecastPage} from '../dailyforecast/dailyforecast';
 import {RajayogaPage} from '../rajayoga/rajayoga';
+import {YogaInfoPage} from '../yoga-info/yoga-info';
 import {DivchartsPage} from '../divcharts/divcharts';
 import {SubscribePage} from '../subscribe/subscribe';
 import {CreditsPage} from '../credits/credits';
@@ -47,11 +48,14 @@ export class PersonalDetailsPage {
    showSU: boolean;
    showCR: boolean;
    showASU: boolean;
+   showYO: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public shareService: ShareService, public formBuilder: FormBuilder, public horoService: HoroscopeService, public platform: Platform, public device: Device, private store: InAppPurchase2) {
   this.info2 = 'Please wait...';
+	this.source = navParams.get('item').title;
 					this.showSU = false;
 					this.showCR = false;
 					this.showASU = false;
+					this.showYO = false;
   this.platform.ready().then(() => {
 //     this.splashscreen.hide();
 	  this.horoService.getPlan(this.device.uuid)
@@ -63,10 +67,12 @@ export class PersonalDetailsPage {
 					this.showSU = true;
 					this.showCR = false;
 					this.showASU = false;
-				} else if(Number(res['credits']) == 0) {
+				} else if(this.source != 'Yogas In Your Horoscope' && Number(res['credits']) == 0) {
 					this.showSU = false;
 					this.showCR = true;
 					this.showASU = false;
+				} else if(this.source == 'Yogas In Your Horoscope' && res['name'] != 'com.mypubz.eportal.yogas') {
+				    this.showYO = true;
 				} else {
 					this.showSU = true;
 					this.showCR = false;
@@ -89,7 +95,6 @@ export class PersonalDetailsPage {
 		dob: this.shareService.getDOB(),
 		//tz: this.shareService.getTimezone(),
 	});
-	this.source = navParams.get('item').title;
 	this.nav = this.navCtrl;
   }
   
@@ -152,11 +157,19 @@ export class PersonalDetailsPage {
       product.finish();
 	  this.showCR = false;
 	  this.showSU = true;
-	  this.horoService.addCredits(this.device.uuid, (this.product.gpid == 'com.mypubz.eportal.dob5') ? 5 : 2)
+	  if(this.showYO) {
+	    this.showYO = false;
+		this.horoService.setPlan(this.device.uuid, 'com.mypubz.eportal.yogas')  
 		   .subscribe(res => {
 			}, (err) => {
 			});	  
-		  
+		
+	  } else {
+	    this.horoService.addCredits(this.device.uuid, (this.product.gpid == 'com.mypubz.eportal.dob5') ? 5 : 2)
+		   .subscribe(res => {
+			}, (err) => {
+			});	  
+	  } 
     });
 
     this.store.when(this.product.gpid).registered( (product: IAPProduct) => {
@@ -206,6 +219,11 @@ export class PersonalDetailsPage {
   buy5()
   {
     this.product.gpid = 'com.mypubz.eportal.dob5';
+	this.init_pur_and_complete();
+  }
+  yog()
+  {
+    this.product.gpid = 'com.mypubz.eportal.yogas';
 	this.init_pur_and_complete();
   }
   save() {
@@ -312,5 +330,9 @@ export class PersonalDetailsPage {
 	morecred()
 	{
 		this.nav.push(CreditsPage);
+	}
+	yoginf()
+	{
+		this.nav.push(YogaInfoPage);
 	}
 }

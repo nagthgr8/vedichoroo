@@ -5,6 +5,7 @@ import { ShareService } from '../../app/share.service'
 import { PersonalDetailsPage } from '../personal-details/personal-details';
 import { StarConstPage } from '../star-const/star-const';
 import { LovehoroPage } from '../lovehoro/lovehoro';
+import { AstrologersPage } from '../astrologers/astrologers';
 import { StoriesPage } from '../stories/stories';
 import {DailyForecastPage} from '../dailyforecast/dailyforecast';
 import { PanchangPage } from '../panchang/panchang';
@@ -43,11 +44,11 @@ export class ListPage {
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, public events: Events, private file: File) {
     this.translate.setDefaultLang('en');
     this.showCard = false;
-    this.icons = ['planet', 'star', 'heart', 'flower', 'podium', 'sunny','paper'];
-	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Daily Horoscope', 'Vedic Stories']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Based On Your Moon Sign', 'Vedic Astrology Stories']
+    this.icons = ['planet', 'star', 'heart', 'flower', 'podium','body','sunny','paper', 'mic'];
+	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Yogas In Your Horoscope', 'Daily Horoscope', 'Vedic Stories', 'Talk to Astrologer']
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yoga...', 'Based On Your Moon Sign', 'Vedic Astrology Stories', 'Ask a question or Talk instantly with our expert astrologers']
     this.items = [];
-    for(let i = 1; i < 8; i++) {
+    for(let i = 1; i < 10; i++) {
       this.items.push({
         title: this.title[i-1],
         note: this.note[i-1],
@@ -255,8 +256,7 @@ alert("The local time is " + nd.toLocaleString());
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });
-	} 
-	else if(item.title == 'Love Horoscope') {
+	}else if(item.title == 'Love Horoscope') {
 	 this.navCtrl.push(LovehoroPage, {
       item: item
     });
@@ -274,7 +274,11 @@ alert("The local time is " + nd.toLocaleString());
 		  item: item
 		  });
 	  }
-    }	
+    } else if(item.title == 'Talk to Astrologer') {
+		this.navCtrl.push(AstrologersPage, {
+			item: item
+		});
+	}
   }
   viewPanchang()
   {
