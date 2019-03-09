@@ -1,8 +1,29 @@
 page-chart-analysis {
+ion-grid {
+  margin:0px;
+}
 .note {
    background-color: #ffffb2;
 	font-weight:bold;
 	padding: 5px;
     text-align:left;
+  }
+  ion-row.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: #3399FF;
+	padding: 5px;
+	color: #FBFCFC;
+    text-transform: uppercase;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+  ion-col div {
+    border: 1px solid #e6e9ee;
+    padding: 5px;
+    text-align: center;
+	display: border-box;
   }
 }

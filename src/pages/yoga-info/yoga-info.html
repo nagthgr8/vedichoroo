@@ -6,11 +6,11 @@
     <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
 <ion-grid no-padding>
      <ion-row class="title"><ion-col col-4>NAME</ion-col><ion-col col-8>DESC</ion-col></ion-row>
  <div *ngFor="let key of objectKeys(oYog)">
- <ion-row class="subtitle"><ion-col col-4><div color="primary" >{{ key }}</div></ion-col><ion-col col-12><div color="level2"  >{{ oYog[key].desc }}</div></ion-col></ion-row>
+ <ion-row class="subtitle"><ion-col col-4><div color="primary" >{{ key }}</div></ion-col><ion-col col-8><div color="level2"  >{{ oYog[key].desc }}</div></ion-col></ion-row>
  </div>
 </ion-grid>
 </ion-content>

@@ -15,10 +15,10 @@ import { HoroscopeService } from '../../app/horoscope.service';
   templateUrl: 'help-desk.html',
 })
 export class HelpDeskPage {
-  cat: any;
-  sub: any;
-  msg: any;
-  info: string;
+  cat: string = '';
+  sub: string = '';
+  msg: string = '';
+  info: string = '';
   showSU: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public device: Device, public horoService: HoroscopeService) {
 	this.showSU = true;
@@ -26,18 +26,21 @@ export class HelpDeskPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HelpDeskPage');
+	this.cat = '';
+	this.sub = '';
+	this.msg = ''
   }
   save()
   {
-    if(this.cat == '') {
+    if(this.cat.trim().length == 0) {
 		this.info = 'Please select the category';
 		return;
 	} 
-	if(this.sub == '') {
+	if(this.sub.trim().length == 0) {
 		this.info = 'Please enter subject line';
 		return;
 	}
-	if(this.msg == '') {
+	if(this.msg.trim().length == 0) {
 		this.info = 'Please enter the message';
 		return;
 	} else {

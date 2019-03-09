@@ -36,7 +36,7 @@
 
             <ion-card-content>
                 <img [src]="article.image" class="img-card" />
-                <p class="details">{{article.content}}</p>
+                <div [innerHTML]="article.content"></div>
             </ion-card-content>
         </ion-card>
     </ion-list>

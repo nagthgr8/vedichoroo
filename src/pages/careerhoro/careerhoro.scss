@@ -1,3 +1,61 @@
 page-careerhoro {
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+ion-grid {
+  margin:0px;
+}
+  
+  ion-row.title {
+	font-weight:bold;
+	padding: 2px;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+ ion-row.title2 {
+    text-align:center;
+	font-weight:bold;
+	background-color: #3399FF;
+	padding: 5px;
+	color: #FBFCFC;
+  }
+ion-row.maintitle {
+	font-weight:bold;
+	font-size:15px;
+	background-color: #f4a460;
+	color: #FEFAF7;
+  }  
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
+  }
+ .zoom {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
 
 }

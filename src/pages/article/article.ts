@@ -14,12 +14,15 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ArticlePage {
   art: any;
+  showIMG: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
    this.art= navParams.get('item');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ArticlePage');
+	this.showIMG = (this.art.image == '') ?  false : true;
+	
   }
 
 }

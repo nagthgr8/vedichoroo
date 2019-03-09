@@ -1,5 +1,8 @@
 export interface BirthInfo {
   dob: string;
+  lat: string;
+  lng: string;
+  timezone: string;
   lagna: string;
   lagna_lord: string;
   moon_sign: string;
@@ -8,4 +11,5 @@ export interface BirthInfo {
   birth_star: string;
   star_lord: string;
   moon_phase: string;
+  ref: string;
 }

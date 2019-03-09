@@ -16,5 +16,13 @@
 <ion-content padding>
 <div><h1>{{title}}</h1></div>
 <div #divChart></div>
+<ion-grid no-padding *ngIf="showLS">
+     <ion-row class="title"><ion-col col-2>Planet</ion-col><ion-col col-2>Sign</ion-col><ion-col col-2>House</ion-col><ion-col col-3>Diety</ion-col><ion-col col-3>Nature</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oPlanet)">
+     <ion-row class="subtitle"><ion-col col-2>{{key}}</ion-col><ion-col col-2>{{oPlanet[key].sign}}</ion-col><ion-col col-2>{{oPlanet[key].hno}}</ion-col><ion-col col-3>{{oPlanet[key].deity}}</ion-col><ion-col col-3>{{oPlanet[key].nat}}</ion-col></ion-row>
+    <ion-row class="subtitle"><ion-col col-12><div color="level2">{{oPlanet[key].desc}}</div></ion-col></ion-row>
+ </div>
+ <ion-row class="desc">As per Sacred texts, the deity in shastiamsa chart can give more insight on each house, for instance to know about your past karma look at the planet(s) that are in 5th house from ascendant in Shastiamsa chart if there are no planents consier 5th house lord & then refer to the diety & its nature, if it is good then you had done good karma in past if not bad karma. BEFORE ANY CONCLUSION MAKE SURE THIS CHART IS SHASTAMSA RECTIFIED AS LAGNA CHANGES EVERY 2 MINUTES ALL CALCULATIONS GO WRONG IF NOT RECTIFIED, DUE TO SUCH LIMITATION NOT MANY ASTROLOGERS USE THIS CHART FOR PREDICTIONS<ion-col col-12></ion-col></ion-row>
+</ion-grid>
 <div [innerHTML]='akashWani'></div>
 </ion-content>

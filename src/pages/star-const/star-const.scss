@@ -1,4 +1,22 @@
 page-star-const {
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+.brownText {
+color: #cc0000;
+}
+.boldText {
+font-weight: bold;
+}
 ion-grid {
   margin:0px;
 }
@@ -85,11 +103,20 @@ p.info {
   }
  }
  .card-note {
+  padding: 5px;
   background-color: #ffffb2;
-  text-align: center;
   font-size: 15px;
   font-weight: bold;
   color: #222334;
  }
- 
+  .more {
+	color: blue;
+	padding: 5px;
+	font-weight: bold;
+  }
+  p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+
 }

@@ -1,7 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav, Events  } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
+import { File } from '@ionic-native/file';
+import { ChangeStatusPage } from '../pages/change-status/change-status';
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
+import { PrashnaJyotishPage } from '../pages/prashna-jyotish/prashna-jyotish';
 import { ListPage } from '../pages/list/list';
 import { LovehoroPage } from '../pages/lovehoro/lovehoro';
 import { DailyForecastPage } from '../pages/dailyforecast/dailyforecast';
@@ -11,6 +14,7 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
 import { PrivacyPage } from '../pages/privacy/privacy';
 import { HelpDeskPage } from '../pages/help-desk/help-desk';
 import { MypubzRespPage } from '../pages/mypubz-resp/mypubz-resp';
+import { PublishBlogPage } from '../pages/publish-blog/publish-blog';
 import { ShareService } from './share.service'
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +24,8 @@ import { Ticket } from './ticket';
 import {CreditsPage} from '../pages/credits/credits';
 import {PanchangPage} from '../pages/panchang/panchang';
 import {NotificationsPage} from '../pages/notifications/notifications';
+import { Plan } from './plan';
+
 import * as moment from 'moment';
 
 @Component({
@@ -28,10 +34,10 @@ import * as moment from 'moment';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  file: any;
   backmode: boolean = false;
   rootPage = ListPage;
   pages: Array<{title: string, component: any, icon: string}>;
+  
   constructor(
     public platform: Platform,
     public menu: MenuController,
@@ -40,15 +46,19 @@ export class MyApp {
 	public shareService: ShareService,
 	public horoService: HoroscopeService,
 	public device: Device,
-	public events: Events
+	public events: Events,
+	private file: File
   ) {
     this.backmode = false;
     this.initializeApp();
 
     // set our app's pages
     this.pages = [
+      { title: 'Status', component: ChangeStatusPage, icon: 'contact' },
+      { title: 'Publish', component: PublishBlogPage, icon: 'videocam' },
       { title: 'Birth Chart', component: PersonalDetailsPage, icon: 'planet' },
       { title: 'Panchangam', component: PanchangPage, icon: 'time'},
+      { title: 'Prashna Jyotish', component: PrashnaJyotishPage, icon: 'bulb'},
       { title: 'Star Constellation', component: StarConstPage, icon: 'star'},
       { title: 'Love Horoscope', component: LovehoroPage, icon: 'heart' },
       { title: 'KP Astrology', component: PersonalDetailsPage, icon: 'flower' },
@@ -89,14 +99,33 @@ export class MyApp {
 	});	  
 	  this.horoService.getPlan(this.device.uuid)
 		   .subscribe(res => {
-		        console.log('Updated the plan details from App component');
+		        console.log('Fetched the plan details from App component');
+				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
+				this.shareService.setPLAN(pln);
 				if(res['name'] == 'com.mypubz.eportal.astrologer')
-					this.pages[9].title = 'Available Credits(UNL)';
+					this.pages[12].title = 'Available Credits(UNL)';
 				else
-					this.pages[9].title = 'Available Credits(' + res['credits'] + ')';
+					this.pages[12].title = 'Available Credits(' + res['credits'] + ')';
 			}, (err) => {
 			});	  
-	 this.events.publish('available:credits', this.pages[8]);
+		this.shareService.plan
+		   .subscribe((pln) => {
+		     console.log('app-Plan updated', pln);
+			 if(pln.name == 'com.mypubz.eportal.astrologer') {
+				this.pages[12].title = 'Available Credits(UNL)';
+		     } else if(pln.name != '') {
+				this.pages[12].title = 'Available Credits(' + pln.credits.toString() + ')';
+			 } 
+			}, (err) => {
+			});	 
+			
+	this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
+		console.log('vedicperfs', res);
+	    var jsonv = JSON.parse(res);
+		this.shareService.setCCODE(jsonv['ccode']);
+	}, (err) => {
+			//this.info = JSON.stringify(err);
+	  });	
    });
  }
   openPage(page) {
@@ -117,5 +146,4 @@ export class MyApp {
 		this.nav.setRoot(page.component, {item: page});
 	}
   }
-
 }

@@ -1,6 +1,7 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { ShareService } from '../../app/share.service'
+import { PlanetDeity } from '../../app/planet-deity';
 import * as signs from '../horoscope/signs.json';
 import * as o_signs from '../horoscope/o_signs.json'
 import * as rashis from '../horoscope/rashis.json';
@@ -14,7 +15,8 @@ import * as aspects from '../horoscope/aspects.json';
 import * as house_traits from '../horoscope/house_traits.json';
 import * as dcharts from './dcharts.json';
 import * as dcharts_ta from './dcharts_ta.json';
-
+import * as istadevta from './istadevta.json';
+import * as deities from './deities.json';
 /**
  * Generated class for the ChartAnalysisPage page.
  *
@@ -39,8 +41,13 @@ export class ChartAnalysisPage {
   device_height :number = 0;
   akashWani :string = '';
   chart_id: string = '';
+  atmk: string = '';
+  oPlanet :PlanetDeity[] = [];
+  showLS: boolean = false;
+  objectKeys = Object.keys;
   constructor(public navCtrl: NavController, public navParams: NavParams, public renderer: Renderer2, el: ElementRef, public platform: Platform, public shareService: ShareService) {
-    this.chart_id = navParams.get('ID');
+    this.chart_id = navParams.get('item').ID;
+	this.atmk = navParams.get('item').atmk;
   	platform.ready().then((readySource) => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
@@ -145,11 +152,76 @@ export class ChartAnalysisPage {
 		this.akashWani = dcharts[this.chart_id];
 	if(this.chart_id == 'D2') {
 		this.analyzHora(oP);
+	} else if(this.chart_id == 'D9') {
+		this.analyzeNav(oP);
+	} else if(this.chart_id == 'D60') {
+	  this.showLS = true;
 	}
+	
+  }
+  analyzeNav(plPos)
+  {
+    let ar: string = '';
+	console.log('finding atm rashi in nav chart', this.atmk);
+    for (var i = 0; i < 16; i++) {
+		var sign = signs[i];
+		if (plPos.hasOwnProperty(sign)) {
+			var pls = plPos[sign].split('\|');
+			console.log(pls);
+			for (var k = 0; k < pls.length; k++) {
+				if(pls[k].split(' ')[1] == this.atmk) { ar = sign; break; }
+			}
+		}
+	}
+	console.log('rashi is', ar);
+	var arr = ['ar','ta','ge','cn','le','vi','li','sc','sa','cp','aq','pi'];
+	let pos: number = 0;
+	let basc: boolean = false;
+	let istp: string = '';
+	let kks: string = '';
+	console.log('locating 12 house planets from rashi');
+	for(var k = 0; k < 12; k++) {
+	  if(arr[k] == ar) { console.log('ak sign match', arr[k]); basc = true};
+	  if(basc) pos++;
+	  if(pos == 12) { 
+		  //istd = arr[k]; 
+		  if (plPos.hasOwnProperty(arr[k])) {
+			var pls = plPos[arr[k]].split('\|');
+			console.log(pls);
+			for (var j = 0; j < pls.length; j++) {
+			   var pl = pls[j].split(' ')[1];
+				if (pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') istp += pl + ',';
+			}
+		}
+		console.log('12th sign', arr[k]);
+		kks = arr[k];
+		break; 
+	  }
+	  if(k == 11) k = -1;
+	}
+	console.log('12 house planets are', istp);
+	let esp: string = (istp == '') ? ' No planets occupied.' : istp + ' occupied';
+	let hes: string = (istp == '') ? ' Hence your Istadivam is the deity belong to house lord ' + rashi_lords[kks] : ' Hence your Istadivam is the diety belong to planet(s) ' + istp;
+	this.akashWani += '<br><br>Your Atmakaraka is ' + ruler_name[this.atmk.toLowerCase()] + '<br>';
+	this.akashWani += 'In your NAVAMSA chart, Atmakaraka has occupied ' + rashis[ar].split('|')[1] + ' which is your Karakamsha<br>';
+	this.akashWani += 'Your Istadivam to be looked at the 12th sign from Karakamsha which is ' + rashis[kks].split('|')[1] + '<br>';
+	this.akashWani += 'In ' + rashis[kks].split('|')[1] +  ' ' + esp + '<br>';
+	this.akashWani += hes;
+	var kpl = istp.split(',');
+	let istdevs: string = '';
+	
+	if(istp == '') {
+	   istdevs = istadevta[rashi_lords[kks].substring(0,2).toLowerCase()];
+	} else  {
+	  for(var p = 0; p < kpl.length; p++) {
+		istdevs += istadevta[kpl[p].toLowerCase()] + ',';
+		}
+	}
+	this.akashWani += '<br>Your Istadivam is: ' + istdevs;
   }
   analyzHora(plPos)
   {
-	this.akashWani += '<br/><br/><span class="note"><strong>PLEASE NOTE: Below analysis is taken from one of references, the below point system need not be accurate, please consider expert analysis </strong></span><br/><br/>';
+	this.akashWani += '<br><br><span class="note"><strong>PLEASE NOTE: Below analysis is taken from one of references, the below point system need not be accurate, please consider expert analysis </strong></span><br><br>';
 
     var signs = ['cn','le'];
 	let cn_p: number = 0, le_p: number = 0;
@@ -1182,7 +1254,22 @@ export class ChartAnalysisPage {
 						if(po >= n && po <= divs[dp]) spos = dp+1;
 						n = divs[dp];
 					}
+					if(ndivs == 60) {
+						let planetDeity: PlanetDeity = {
+							sno: spos,
+							hno: -1,
+							deity: deities[spos].split('|')[0],
+							sign: '',
+							nat: deities[spos].split('|')[2],
+							desc: deities[spos].split('|')[1]
+						};
+						this.oPlanet[pls[k].split(' ')[1]] = planetDeity;					
+					}
 					while(spos > 12 ) spos -= 12;
+					if(ndivs == 60) { 
+						this.oPlanet[pls[k].split(' ')[1]].hno = spos;
+						this.oPlanet[pls[k].split(' ')[1]].sign = sgns[spos-1];
+					}
 					console.log('spos=' + spos.toString());
 					let sord: number;
 					let spnt: number = ndivs, x: number = 1;

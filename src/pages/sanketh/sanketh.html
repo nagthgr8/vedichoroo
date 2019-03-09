@@ -16,7 +16,19 @@
 <div class="card-title"></div>
 <div class="card-subtitle"></div>
 </ion-card>
-<div>
+<div *ngIf="showBLG">
+    <ion-list text-wrap>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+        <ion-item (click)="detail(article)" *ngFor="let article of articles">
+            <ion-thumbnail item-right>
+                <img [src]="article.image" />
+            </ion-thumbnail>
+            <span class="category">{{article.pubDate}}</span>
+            <h2 class="title"><b>{{article.title}}</b></h2>
+        </ion-item>
+    </ion-list>
+</div>
+<div *ngIf="showPRF">
 <h4>Brief Introduction</h4>
 Sanketh sharma is a well qualified Astrologer and Vaastu Consultant who gives accurate future readings through a medium of Horoscope. He is a Professional Certified Consultant who also uses his intuition to offer guidance to all of his clients, encouraging them to move in a positive direction all the times and face the challenges that may lie ahead of them.
 
@@ -47,4 +59,14 @@ I belong to shaiva Brahmin family and have deep interest in astrology from child
 <h4>ABILITIES</h4>
 Forecast of Complete Horoscope, my guidance and remedies in all important areas of life like Career, Business, Money, Love, Education, Property, Personal Matters, Transfer, Enemy, Marriage, Match making, Partnership, Health, Life Reading, Karmakanda, Muhurta, Vaastu Tips , Analysis of Vaastu Dosha in Horoscope, Accurate Remedial Measure,
 </div>
+<div *ngIf="showASU">
+	<a [href]="walnk"><button ion-button full tappable color="primary">
+          <ion-icon name="text"></ion-icon>
+          Chat Now
+        </button></a>
+        <button ion-button full tappable color="secondary" (click)="callreq($event)">
+          <ion-icon name="call"></ion-icon>
+          Call Now
+        </button>
+		</div>
 </ion-content>

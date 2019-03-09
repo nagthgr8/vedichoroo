@@ -4,6 +4,11 @@ import { ShareService } from '../../app/share.service';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { PredictionsPage } from '../predictions/predictions';
 import { SubscribePage } from '../subscribe/subscribe';
+import { BtrInfoPage } from '../btr-info/btr-info';
+import { PersonalDetailsPage } from '../personal-details/personal-details';
+import { AstrologersPage } from '../astrologers/astrologers';
+import { ChartSettingsPage } from '../chart-settings/chart-settings';
+import { HouseInfoPage } from '../house-info/house-info';
 import * as signs from '../horoscope/signs.json';
 import * as signs_pos from '../horoscope/signs_pos.json';
 import * as o_signs from '../horoscope/o_signs.json';
@@ -28,15 +33,15 @@ import * as rahu_das from '../horoscope/rahu_das.json';
 import * as jupiter_das from '../horoscope/jupiter_das.json';
 import * as saturn_das from '../horoscope/saturn_das.json';
 import * as mercury_das from '../horoscope/mercury_das.json';
-import * as venus from '../horoscope/venus.json';
 import * as sun from '../horoscope/sun.json';
-import * as ketu from '../horoscope/ketu.json';
 import * as moon from '../horoscope/moon.json';
-import * as mars from '../horoscope/mars.json';
-import * as rahu from '../horoscope/rahu.json';
 import * as jupiter from '../horoscope/jupiter.json';
-import * as saturn from '../horoscope/saturn.json';
+import * as venus from '../horoscope/venus.json';
 import * as mercury from '../horoscope/mercury.json';
+import * as mars from '../horoscope/mars.json';
+import * as ketu from '../horoscope/ketu.json';
+import * as rahu from '../horoscope/rahu.json';
+import * as saturn from '../horoscope/saturn.json';
 import * as house_groups from '../horoscope/house_groups.json';
 import * as aspects from '../horoscope/aspects.json';
 import * as mon_weeks from '../horoscope/mon_weeks.json';
@@ -62,6 +67,7 @@ export class KpAstroPage {
     @ViewChild('cal2') cal2;
     @ViewChild('cal3') cal3;
     @ViewChild('cal4') cal4;
+	binf: any;
 	pnam1 :string = ''; pnam2 :string = ''; pnam3 :string = ''; pnam4 :string = ''; pnam5 :string = ''; pnam6 :string = ''; pnam7 :string = ''; pnam8 :string = ''; pnam9 :string = '';
 	ppos1 :string = ''; ppos2 :string = ''; ppos3 :string = ''; ppos4 :string = ''; ppos5 :string = ''; ppos6 :string = ''; ppos7 :string = ''; ppos8 :string = ''; ppos9 :string = '';
 	pras1 :string = '';pras2 :string = '';pras3 :string = '';pras4 :string = '';pras5 :string = '';pras6 :string = '';pras7 :string = '';pras8 :string = '';pras9 :string = '';
@@ -105,9 +111,21 @@ export class KpAstroPage {
   yer: string = '';
   mcnt: number = 0;
   showLS: boolean = false;
+  showASU: boolean = false;
   tvisits: any[] = [];
+  mdas1sgnf: string = '';adas1sgnf: string = '';pdas1sgnf: string = '';
+  mdas1life: string = '';adas1life: string = '';pdas1life: string = '';
+  svim: string = '';
+  lstnr: Function;
+  nrefs: number = 0;
+  ayanINF: string = '';
     constructor(public navCtrl: NavController, public shareService: ShareService, public navParams: NavParams, public platform: Platform, public renderer: Renderer2, public horoService: HoroscopeService ) {
+    this.binf = navParams.get('binf');
+	console.log('binf', this.binf);
     platform.ready().then((readySource) => {
+		if(this.shareService.getYogAd()) {
+		 this.showASU = true;
+		}
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
@@ -119,11 +137,24 @@ export class KpAstroPage {
 		this.showLS = true;
 		this.mcnt = 0;
 		this.loadHoro();
-		this.horoService.recfyBT(this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone())
+		this.mdas1sgnf = this.oPlanet[this.mdas1.toLowerCase()].sig;
+		if(this.oPlanet[this.mdas1.toLowerCase()].lif_e != '') this.mdas1life = 'Which causes ' + this.oPlanet[this.mdas1.toLowerCase()].lif_e + ' during its dasha';
+		this.adas1sgnf = this.oPlanet[this.adas1.toLowerCase()].sig;
+		if(this.oPlanet[this.adas1.toLowerCase()].lif_e != '') this.adas1life = 'Which causes ' + this.oPlanet[this.adas1.toLowerCase()].lif_e + ' during its dasha';
+		this.pdas1sgnf = this.oPlanet[this.pdas1.toLowerCase()].sig;
+		if(this.oPlanet[this.pdas1.toLowerCase()].lif_e != '') this.pdas1life = 'Which causes ' + this.oPlanet[this.pdas1.toLowerCase()].lif_e + ' during its dasha';
+		var dt = new Date();
+		var n = dt.getTimezoneOffset();
+		n = n/60;
+		let ofset: number = Number(n.toFixed(1));
+		let ayanid: number = 4;
+		var res = this.shareService.getAYNM();
+		if(res) ayanid = Number(res);
+		this.horoService.recfyBT(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, ofset, ayanid)
 		   .subscribe(res => {
 		   if(res['recfyDOB'] != '') {
 			 this.showBN = true;
-			 this.recfyBT = '<span><strong>' + res['rem'] + '</strong></span><br/>';
+			 this.recfyBT = '<span><strong>' + res['rem'] + '</strong></span><span class="more">Know more..</span><br/>';
 		   }
 		  }, (err) => {
 			//this.info = err;
@@ -134,12 +165,94 @@ export class KpAstroPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad KpAstroPage');
   }
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter KpAstroPage');
+		var ayn = this.shareService.getKAYNM();
+		let say: string = 'KP NEW';
+		if(ayn) {
+		    switch(Number(ayn))
+			{
+			   case 1:
+					say = 'BV RAMAN';
+					break;
+				case 2:
+					say = 'KP OLD';
+					break;
+				case 3:
+					say = 'KP NEW';
+					break;
+				case 4:
+					say = 'NC LAHIRI';
+					break;
+				case 5:
+					say = 'KHULLAR';
+					break;
+				case 6:
+					say = 'FAGAN BRADLEY';
+					break;
+				default:
+					say = 'KP NEW';
+					break;
+			}
+		}
+		this.ayanINF = '<span><strong>AYANAMSA:</strong></span><span class="more" tappable (click)="chgayan()">'+say+'</span>';
+    if(this.nrefs > 0) {
+		for (let child of this.birthChart.nativeElement.children) {
+			this.renderer.removeChild(this.birthChart.nativeElement, child);
+		}
+		for (let child of this.cal1.nativeElement.children) {
+			this.renderer.removeChild(this.cal1.nativeElement, child);
+		}
+		this.mprd1 = '';
+		for (let child of this.cal2.nativeElement.children) {
+			this.renderer.removeChild(this.cal2.nativeElement, child);
+		}
+		this.mprd2 = '';
+		for (let child of this.cal3.nativeElement.children) {
+			this.renderer.removeChild(this.cal3.nativeElement, child);
+		}
+		this.mprd3 = '';
+		for (let child of this.cal4.nativeElement.children) {
+			this.renderer.removeChild(this.cal4.nativeElement, child);
+		}
+		this.mprd4 = '';
+		this.loadHoro();
+		this.mdas1sgnf = this.oPlanet[this.mdas1.toLowerCase()].sig;
+		if(this.oPlanet[this.mdas1.toLowerCase()].lif_e != '') this.mdas1life = 'Which causes ' + this.oPlanet[this.mdas1.toLowerCase()].lif_e + ' during its dasha';
+		this.adas1sgnf = this.oPlanet[this.adas1.toLowerCase()].sig;
+		if(this.oPlanet[this.adas1.toLowerCase()].lif_e != '') this.adas1life = 'Which causes ' + this.oPlanet[this.adas1.toLowerCase()].lif_e + ' during its dasha';
+		this.pdas1sgnf = this.oPlanet[this.pdas1.toLowerCase()].sig;
+		if(this.oPlanet[this.pdas1.toLowerCase()].lif_e != '') this.pdas1life = 'Which causes ' + this.oPlanet[this.pdas1.toLowerCase()].lif_e + ' during its dasha';
+		var dt = new Date();
+		var n = dt.getTimezoneOffset();
+		n = n/60;
+		let ofset: number = Number(n.toFixed(1));
+		let ayanid: number = 4;
+		var res = this.shareService.getAYNM();
+		if(res) ayanid = Number(res);
+		this.horoService.recfyBT(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, ofset, ayanid)
+		   .subscribe(res => {
+		   if(res['recfyDOB'] != '') {
+			 this.showBN = true;
+			 this.recfyBT = '<span><strong>' + res['rem'] + '</strong></span><span class="more">Know more..</span><br/>';
+		   }
+		  }, (err) => {
+			//this.info = err;
+		  }) ;		
+	}
+	this.nrefs++;
+  }
+  
   ngAfterViewInit() {
 	
   }
+  ngOnDestroy() {
+    this.lstnr();
+  }	  
   	calcStar(mins: number)
 	{
-		//console.log(mins);
+	  
+		console.log('calcStar', mins);
 		for(var i = 0; i < Object.keys(sublords).length; i++)
 		{
 			var nak = sublords[i];
@@ -153,12 +266,15 @@ export class KpAstroPage {
 			if(mins >= s_mins && mins <= e_mins) {
 			    //console.log(s_mins);
 				//console.log(e_mins);
+				console.log(nak.sign + '|' + nak.star + '|' + nak.sub);
 				return nak.sign + '|' + nak.star + '|' + nak.sub;
 			}
 		}
+		console.log('-1');
 		return '-1';
 	}
 	grid(numberPerSide, size, pixelsPerSide, plps) {
+		var dob = this.binf.dob.split('T')[0].split('-')[1] + '/' + this.binf.dob.split('T')[0].split('-')[2] + '/' + this.binf.dob.split('T')[0].split('-')[0];
 	    var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.renderer.setAttribute(svg, "width", pixelsPerSide);
@@ -376,7 +492,8 @@ export class KpAstroPage {
 						this.renderer.setAttribute(text, "id", "t" + number);
 						g.appendChild(text);
 						text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-						this.renderer.appendChild(text, document.createTextNode(this.shareService.getDOB().split('T')[0].split('-')[2] + '/' + this.shareService.getDOB().split('T')[0].split('-')[1] + '/' + this.shareService.getDOB().split('T')[0].split('-')[0]));
+						//this.renderer.appendChild(text, document.createTextNode(this.binf.dob));
+						this.renderer.appendChild(text, document.createTextNode(dob));
 						this.renderer.setAttribute(text, "fill", "#000000");
 						this.renderer.setAttribute(text, "font-size", s4.toString());
 						this.renderer.setAttribute(text, "font-weight", "bold");
@@ -551,6 +668,8 @@ console.log(svg);
 					} else if (pls[k].split(' ')[1] == 'Mo') {
 						this.moon_sign = sign;
 						this.moon_deg = Number(pls[k].split(' ')[0]);
+					} else if (pls[k].split(' ')[1] == 'TRUE_NODE') {
+						plPos[sign] = plPos[sign].replace('TRUE_NODE', 'TR');		
 					}
 				}
 			}
@@ -571,7 +690,7 @@ console.log(svg);
 					  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60 + parseInt(pls[k].split(' ')[0].split('.')[1], 10);
 					else
 					  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60;
-					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 						pcnt++;
 						//console.log('finding star at ' + (mins - ay_m).toString());
 						var star = this.calcStar(mins);
@@ -694,7 +813,7 @@ console.log(svg);
 		  //console.log(mins);
 		  var star = this.calcStar(mins);
 		  //console.log(star);
-		  this['hnam'+pcnt.toString()] = (v_iter).toString();
+		  this['hnam'+pcnt.toString()] = v_iter.toString();
 		  this['hpos'+pcnt.toString()] = dmslat.split("°")[0] + '\xB0' + dmslat.split("°")[1].split("'")[0] + '\u2032';
 		  this['hras'+pcnt.toString()] = this.translate(star.split('|')[0]);
 		  this['hnak'+pcnt.toString()] = this.translate(star.split('|')[1]);
@@ -926,13 +1045,23 @@ console.log(svg);
 			//if(fou == false)
 				//this['L4hs' + (i+1).toString()] = hou_owner; 
 	    }
-		this.renderer.appendChild(this.birthChart.nativeElement, this.grid(4, this.device_width/4, this.device_width, plPos));
+		let svgHoro: any = this.grid(4, this.device_width/4, this.device_width, plPos)
+		this.renderer.appendChild(this.birthChart.nativeElement, svgHoro);
+	    this.lstnr = this.renderer.listen(svgHoro, 'click', (event) => {
+			// Do something with 'event'
+			console.log('clicked ', event.path);
+			console.log('clicked ', event.path[2]);
+			this.binf.ref = '2';
+			this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
+		});
+		
 		var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
 		console.log(bstar);
 		this.shareService.setBirthStar(bstar.split('|')[0]);
 		//balance dasha calculation
-		var m_dy = 30.436875;
-		var d_yr = 365.2425;
+        var dob_c = new Date(this.binf.dob);
+		var m_dy = this.days_in_month(dob_c.getMonth()+1, dob_c.getFullYear());//30.436875;//29.530588;
+		var d_yr = this.days_of_a_year(dob_c.getFullYear());//354.367056;//365.2425;
 		//let vim_c: number = (parseInt(dasha_conv[this.moon_sign], 10) + this.moon_deg) / 120;
 		//var vim_s = vim_c.toString();
 		//var vim_b = '0.' + vim_s.split('.')[1];
@@ -995,12 +1124,11 @@ console.log(svg);
 		
 		console.log(rem_days);
 	    //build vimsottara dasha table
-        var dob_c = new Date(this.shareService.getDOB());
 		console.log(dob_c.toString());
         dob_c.setDate(dob_c.getDate() + rem_days);
 		console.log(dob_c.toString());
-		console.log('Antar' + bstar.split('|')[2] + this.shareService.getDOB() + rem_days.toString());
-		this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.shareService.getDOB()), rem_days);
+		console.log('Antar' + bstar.split('|')[2] + this.binf.dob + rem_days.toString());
+		this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.binf.dob), rem_days);
 		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
 		var v_start = 0;
 		var v_iter = 0;
@@ -1011,6 +1139,7 @@ console.log(svg);
 			var m = (dob_c.getMonth()+1).toString();
 			var dd = dob_c.getDate().toString();
 			var y = dob_c.getFullYear().toString();
+			d_yr = this.days_of_a_year(startdt.getFullYear());
 			dob_c.setDate(dob_c.getDate() + Number(dashas[arr[vi].substring(0,2).toLowerCase()])*d_yr);
 		console.log('Antar' + arr[vi]);
 		console.log(startdt.toString());
@@ -1024,8 +1153,10 @@ console.log(svg);
 	   }
 	   
 	   //PREDICTIONS
+	   this.mprd1 = "<span style='font-weight:bold;text-align:center;'> Fetching KP Transit Predictions for your current dasha, this may take a while...</span>";
 	  this.horoService.getDashTrans(this.mdas1, this.adas1, this.pdas1, this.pend1)
        .subscribe(res => {
+	    this.mprd1 = '';
 	   this.publishReport(res);
       }, (err) => {
       }) ;	   
@@ -1247,6 +1378,8 @@ console.log(svg);
 		else if(lord == "jupiter") das = jupiter;
 		else if(lord == "saturn") das = saturn;
 		else if(lord == "mercury") das = mercury;
+		else if(lord == "rahu") das = rahu;
+		else if(lord == "ketu") das = ketu;
 		//else if(lord == "rahu" || lord == "ketu") {   //in case rahu/ketu need to consider the lord conjoined or aspecting or sign lord or constellation lord
 			//das = ketu;
 		//}
@@ -1398,6 +1531,7 @@ console.log(svg);
 			svg.appendChild(gm);
 			let oW: PlWeekDay[] = [];
 			oW = this.getWeekDays(naks, wks[k]);
+			console.log('ssl of week', oW);
 			let dx: number = 0;
 			for(let key of Object.keys(oW)) {
 			    dx++;
@@ -1513,6 +1647,7 @@ console.log(svg);
   }
   	getWeekDays(strs, wday)
 	{
+	  console.log('getWeekDays');
 	  let oWDays: PlWeekDay[] = [];
 	  let dmon: number = 0;
 		for(let key of Object.keys(strs)) {
@@ -1534,7 +1669,7 @@ console.log(svg);
 
    pubTransRep(trns, mon)
    {
-   console.log('pubTransRep');
+   console.log('pubTransRep', trns);
     // var mnths = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER']
 		var ptrns = [];
      let desc: string = '';
@@ -1650,7 +1785,7 @@ console.log(svg);
 
 				if(this.shareService.getLANG() == 'te') {
 					if(!bvsted) {
-						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="color:#greenText">' + this.translate(key.split('-')[1]) + '</span> నక్షత్రము  లో  గోచరించ  నుంది  <span class="blueText"> ' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో  గోచరించ  నుంది ఈ నక్షత్రానికి ప్రభువు  <span class="brownText">' +  this.translate(star_lord) + '</span>' + ' ప్రస్తుత  <span class="boldText"'> +  das_l + '</span> ప్రభువు </span>';
+						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="greenText">' + this.translate(key.split('-')[1]) + '</span> నక్షత్రము  లో  గోచరించ  నుంది  <span class="blueText"> ' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో  గోచరించ  నుంది ఈ నక్షత్రానికి ప్రభువు  <span class="brownText">' +  this.translate(star_lord) + '</span>' + ' ప్రస్తుత  <span class="boldText"'> +  das_l + '</span> ప్రభువు </span>';
 						// పుట్టిన చార్టు లో ఈ గ్రహం' + this.translate(const_lord)  + ' ప్రభువు యొక్క నక్షత్రం లో ఉంది</span>';
 					} else {
 						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో కి ప్రవేశిస్తుంది';
@@ -1909,8 +2044,9 @@ console.log(svg);
 	}
 	buildPratyantarDasha(mainlord :string, sublord :string, order :number, suborder :number, startdt :Date)
 	{
-	  var m_dy = 30.436875;
-	  var d_yr = 365.2425;
+	 console.log(mainlord+sublord, startdt);
+	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
+	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
 	  var e_dys = 0;
 		var arr = ["su","mo","ma","ra", "ju", "sa", "me", "ke", "ve"];
 		var v_start = 0;
@@ -1926,6 +2062,7 @@ console.log(svg);
 			var dd = s_dt.getDate().toString();
 			var y = s_dt.getFullYear().toString();
 			var p_yrs = Number(dashas[mainlord])*Number(dashas[sublord])*Number(dashas[arr[vi]])/(120*120);
+			d_yr = this.days_of_a_year(s_d.getFullYear());
 			s_dt.setDate(s_dt.getDate() + p_yrs*d_yr);
 			//console.log(s_d.toString());
 			//console.log(s_dt.toString());
@@ -1948,8 +2085,9 @@ console.log(svg);
 	}
 	buildAntarDasha(lord :string, order :number, startdt :Date, remdays :number)
 	{
-	  var m_dy = 30.436875;
-	  var d_yr = 365.2425;
+	  
+	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
+	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
 	  var e_dys = 0;
 		let das :any = '';
 		if(lord == "venus") das = venus_das;
@@ -1971,6 +2109,8 @@ console.log(svg);
 		var a_per = 0;
 		var r_dys = 0;
 		for(let key of Object.keys(das)) {
+		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
+		  d_yr = this.days_of_a_year(s_dt.getFullYear());
 		  //var e_dt = s_dt;
 			//console.log(key);
 		  var ads = das[key];
@@ -2003,6 +2143,8 @@ console.log(svg);
 		//e_dys = tot_dys - remdays;
 		//var ffd = 0;
 		for(let key of Object.keys(das)) {
+		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
+		  d_yr = this.days_of_a_year(s_dt.getFullYear());
 		   a_per++;
 			var start_das = new Date(s_dt.getTime());
 			var m = (s_dt.getMonth()+1).toString();
@@ -2514,11 +2656,36 @@ console.log(svg);
 		}
 		return trn;
 	}
-	
-	getdashatransit()
+	days_of_a_year(year) {
+		return this.isLeapYear(year) ? 366 : 365;
+	}
+	isLeapYear(year) {
+     return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+	}
+	days_in_month(month, year) {
+		return new Date(year, month, 0).getDate();
+	}		
+	more()
 	{
- 
-    }		  
+	let item: any = {};
+	item.title = 'Talk to Astrologer';
+	this.navCtrl.push(AstrologersPage, {
+      item: item
+	  });
+	}	
+	btrmore()
+	{
+		this.navCtrl.push(BtrInfoPage);
+	}
+    hsignf(h)
+    {
+	   this.navCtrl.push(HouseInfoPage, {h:h});
+    }
+    chgayan()
+    {
+	  this.binf.ref = '2';
+		this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
+    }	
 }
 	
 

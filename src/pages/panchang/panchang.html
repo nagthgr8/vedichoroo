@@ -21,8 +21,17 @@
 	<p ion-text class="center" color="primary" [innerHTML]='info'></p>
 	</div>
 	<div *ngIf="showPAN">
-	<h2>{{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </h2>
+	<h2>{{ 'Today' | translate }} is {{ today | date:'mediumDate'}}</h2>
 <ion-list>
+  <ion-item class="item item-icon-left item-icon-right">
+  <ion-badge color="secondary" tappable (click)="showCal($event)" item-left>{{cal}}</ion-badge>
+  <div tappable (click)="chgayan()" item-right>
+  <p padding [innerHTML]='ayanINF'></p>
+ </div>
+  </ion-item>
+  <ion-item [hidden]="hideCALD">
+	   <div #hinduCal></div>
+  </ion-item>
   <ion-item class="item item-icon-left item-icon-right">
       <img src="https://66.media.tumblr.com/ec76b7d7e0529af6e3a437edb6c6c255/tumblr_phiurjqePq1xp0noco1_75sq.png" item-left/>
     <div class="heading" text-center>
@@ -83,5 +92,6 @@
 </div>	
   </ion-item>
   </ion-list>
-</div>
+  </div>
+  
   </ion-content>

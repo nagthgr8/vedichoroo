@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, Events } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import {SubscribePage} from '../subscribe/subscribe';
 import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2';
 import { Device } from '@ionic-native/device';
 import { Plan } from '../../app/plan';
 import { HoroscopeService } from '../../app/horoscope.service';
+import { ShareService } from '../../app/share.service';
 
 /**
  * Generated class for the CreditsPage page.
@@ -14,7 +15,7 @@ import { HoroscopeService } from '../../app/horoscope.service';
  */
 
 @Component({
-  selector: 'page-credits',
+  selector: 'credits',
   templateUrl: 'credits.html',
 })
 export class CreditsPage {
@@ -23,18 +24,17 @@ export class CreditsPage {
     apid: '1234',
     gpid: 'com.mypubz.eportal.dob'
   };
-   plan: Plan;
+   plan: Plan = { uuid: '', name: '', credits: 0, dobs: ''};
    info: string;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public events: Events) {
+   paym: string = 'rpay';
+   showCR: boolean = true;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService) {
   platform.ready().then(() => {
-	  this.horoService.getPlan(this.device.uuid)
-		   .subscribe(res => {
-				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
+	  this.shareService.plan
+		   .subscribe((pln) => {
 				this.plan = pln;
-				
 			}, (err) => {
-				this.info = err;
+				//this.info = err;
 			});	  
    });
   }
@@ -117,11 +117,9 @@ export class CreditsPage {
 	  }
 	  this.horoService.addCredits(this.device.uuid, creds)
 		   .subscribe(res => {
+		    this.plan.credits += creds;
+		    this.shareService.setPLAN(this.plan);
 			console.log('credits updated to server');
-			  this.events.subscribe('available:credits', (page) => {
-					page.title = 'Available Credits(' + res['credits'] + ')';
-					console.log('Credits updated in App');
-				});
 			}, (err) => {
 			});	  
 		  
@@ -170,26 +168,103 @@ export class CreditsPage {
  buy()
   {
     this.product.gpid = 'com.mypubz.eportal.dob';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') this.razpay(10);
+	else this.init_pur_and_complete();
   }
  buy5()
   {
     this.product.gpid = 'com.mypubz.eportal.dob5';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') this.razpay(40);
+	else this.init_pur_and_complete();
   }
  buy10()
   {
     this.product.gpid = 'com.mypubz.eportal.dob10';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') this.razpay(70);
+	else this.init_pur_and_complete();
   }
  buy25()
   {
     this.product.gpid = 'com.mypubz.eportal.dob25';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') this.razpay(200);
+	else this.init_pur_and_complete();
   }
  buy50()
   {
     this.product.gpid = 'com.mypubz.eportal.dob50';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') this.razpay(350);
+	else this.init_pur_and_complete();
   }
+ paymSel(paym)
+  {
+     this.paym = paym;
+  }
+  razpay(amt) {
+    let paise: number = amt*100;
+	let ccy: string = 'INR';
+	let ccode = this.shareService.getCCODE();
+	if(ccode && ccode != '' && ccode != 'IN') {
+	  paise = amt*1.4;
+	  ccy = 'USD';
+	}
+    var options = {
+      description: '126 Astrology - Credits',
+      image: 'https://i.imgur.com/YBQF1iV.png',
+      currency: ccy,//'INR',
+      key: 'rzp_live_B8Zi7S5GIm9G94',
+      amount: paise,
+      name: '126 Astrology',
+      prefill: {
+        email: '',
+        contact: '',
+        name: ''
+      },
+      theme: {
+        color: '#488aff'
+      },
+      modal: {
+        ondismiss: function() {
+          alert('dismissed')
+        }
+      }
+    };
+
+    var successCallback = (payment_id) => {
+	  let creds: number = 5;
+	  switch(this.product.gpid)
+	  {
+		case 'com.mypubz.eportal.dob50':
+			creds = 50;
+			break;
+		case 'com.mypubz.eportal.dob25':
+			creds = 25;
+			break;
+		case 'com.mypubz.eportal.dob10':
+			creds = 10;
+			break;
+		case 'com.mypubz.eportal.dob5':
+			creds = 5;
+			break;
+		case 'com.mypubz.eportal.dob':
+			creds = 2;
+			break;
+		default:
+			creds = 2;
+			break;
+	  }
+	  this.horoService.addCredits(this.device.uuid, creds)
+		   .subscribe(res => {
+		    this.plan.credits += creds;
+		    this.shareService.setPLAN(this.plan);
+			console.log('credits updated to server');
+			}, (err) => {
+			});	  
+    };
+
+    var cancelCallback = (error) => {
+      alert(error.description + ' (Error ' + error.code + ')');
+    };
+
+    RazorpayCheckout.open(options, successCallback, cancelCallback);
+  }  
 }

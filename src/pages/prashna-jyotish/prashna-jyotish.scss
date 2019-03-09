@@ -1,0 +1,53 @@
+page-prashna-jyotish {
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+p.adtxt2 {
+	font-weight: bold;
+	font-size: 15px;
+	color:blue;
+  }
+  p.note {
+    font-family:Tahoma;
+	font-weight: bold;
+	font-size: 15px;
+	color:blue;
+  }
+ p.note2 {
+    font-family:Tahoma;
+	font-weight: bold;
+	font-size: 15px;
+	color:red;
+  }  
+div.note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+  }
+  .ans {
+   font-family:Tahoma;
+   font-weight:bold;
+   text-align:center;
+   color: blue;
+  }
+.que {
+   font-family:Tahoma;
+   font-weight:bold;
+   text-align:center;
+  }  
+  .wraptocenter {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.wraptocenter * {
+  vertical-align: middle;
+}
+}

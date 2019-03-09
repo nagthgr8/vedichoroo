@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams} from 'ionic-angular';
+import { Component, NgModule, Renderer2, AfterViewInit, ViewChild, ElementRef, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NavController, NavParams, Platform} from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import { ShareService } from '../../app/share.service'
 import { HoroscopeService } from '../../app/horoscope.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ChartSettingsPage } from '../chart-settings/chart-settings';
 import * as sublords from '../horoscope/sublords.json';
 import * as lunapics from './lunapics.json';
+import * as moment from 'moment';
+import * as moon_phases from '../horoscope/moon_phases.json';
+import * as mon_weeks from '../horoscope/mon_weeks.json';
+import { WeekDay } from '../../app/week-day';
+import { LunarDay } from '../../app/lunar-day';
 
 /**
  * Generated class for the PanchangPage page.
@@ -13,12 +19,16 @@ import * as lunapics from './lunapics.json';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+@NgModule({
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+})
 
 @Component({
   selector: 'page-panchang',
   templateUrl: 'panchang.html',
 })
 export class PanchangPage {
+   @ViewChild('hinduCal') hinduCal;
   today: any = '';
   sunrise: string = '';
   sunset: string = '';
@@ -37,12 +47,34 @@ export class PanchangPage {
   lagsl: string = '';
   nak: string = '';
   tithi: string = '';
+  clat: any;
+  clng: any;
+  localtz: string = '';
   lunapic: string = '';
   info: string = '';
   showPAN: boolean = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, private file: File) {
+  device_width :number = 0;
+  device_height :number = 0;
+  str :string;
+  //objectKeys = Object.keys;
+  //oTransits: StarStrength[] = [];
+  mon: string = '';
+  yer: string = '';
+  cal: string = 'Show Calendar';
+  hideCALD: boolean = false;
+  fetchCAL: boolean = true;
+  svgCal: any;
+  nrefs: number = 0;
+  ayanINF: string = '';
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, private file: File, public renderer: Renderer2) {
   this.info = 'Please wait...';
   this.showPAN = false;
+     platform.ready().then(() => {
+		console.log('Width: ' + platform.width());
+		this.device_width = platform.width();
+		console.log('Height: ' + platform.height());
+		this.device_height = platform.height();
+      });
   }
 
   ionViewDidLoad() {
@@ -58,15 +90,40 @@ export class PanchangPage {
         this.rahukal = jsonv['rahukal_s'] + ' To ' + jsonv['rahukal_e'];
         this.yama = jsonv['yamgand_s'] + ' To ' + jsonv['yamgand_e'];
         this.abhjit = jsonv['abhijit_s'] + ' To ' + jsonv['abhijit_e'];
+		this.clat = jsonv['clat'];
+		this.clng = jsonv['clng'];
+		this.localtz = jsonv['localtz'];
   		var cd = new Date();
-		this.horoService.getCusps(this.getDms(jsonv['clat']), this.getDms(jsonv['clat']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'])
+		var ct = cd.getHours().toString() + ':' + cd.getMinutes().toString();
+		console.log('current time: ', ct);
+		var startTime=moment(ct +':00', "HH:mm:ss");
+		console.log('sunrise=', startTime);
+		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
+		console.log('sunset=',endTime);
+		var duration = moment.duration(endTime.diff(startTime));
+		var hours = duration.asHours();
+		console.log('total hrs=', hours);
+		var minutes = duration.asMinutes()%60;	
+        var totmins = hours*60 + minutes;		
+		console.log('totak mins=', minutes);
+		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
+		this.info = 'Please wait..';
+		this.horoService.getProMoonPhase(this.getDms(jsonv['clat']), this.getDms(jsonv['clng']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'], ayanid)
 		   .subscribe(res3 => {
 		   this.showPAN = true;
 		   this.info = '';
 		   this.nak = this.translate_func(res3['birthStar']);
-		   this.tithi = this.translate_func(res3['tithi']);
+		   var tithiRem = res3['tithiRem'];
+		   console.log('tithiRem=', tithiRem);
+		   var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
+		   console.log('tithiRem in mins=', rem);
+		   var tite = moment(startTime).add(rem, 'm');
+		   this.tithi = this.translate_func(res3['tithi']) + ' till ' + tite.format('HH:mm');
 		   console.log(res3['tithi'].toLowerCase());// + (res3['moonPhase'] == 'waxing') ? '-s' : '-k');
-		   let ky: string = (res3['moonPhase'] == 'waxing') ? res3['tithi'].toLowerCase() + '-s' : res3['tithi'].toLowerCase() + '-k';
+		   let ky: string = res3['tithi'].toLowerCase();
+		   if(ky != 'purnima' && ky != 'amavasya') {
+			ky = (res3['moonPhase'] == 'waxing') ? res3['tithi'].toLowerCase() + '-s' : res3['tithi'].toLowerCase() + '-k';
+		   } 
 		   console.log(ky);
 		   this.lunapic = lunapics[ky];
 		   var ascPos = res3['ascPos'];
@@ -126,10 +183,79 @@ export class PanchangPage {
 	  }, (err) => {
 			//this.info = err;
 	  });
-	});
+	}, (err) => {
+			this.info = JSON.stringify(err);
+	  });
 	
   }
-  
+   ionViewDidEnter() {
+    console.log('ionViewDidEnter PanchangPage');
+		var ayn = this.shareService.getRAYNM();
+		let say: string = 'BV RAMAN';
+		if(ayn) {
+		    switch(Number(ayn))
+			{
+			   case 1:
+					say = 'BV RAMAN';
+					break;
+				case 2:
+					say = 'KP OLD';
+					break;
+				case 3:
+					say = 'KP NEW';
+					break;
+				case 4:
+					say = 'NC LAHIRI';
+					break;
+				case 5:
+					say = 'KHULLAR';
+					break;
+				case 6:
+					say = 'FAGAN BRADLEY';
+					break;
+				default:
+					say = 'KP NEW';
+					break;
+			}
+		}
+		this.ayanINF = '<span><strong>AYANAMSA:</strong></span><span class="more" tappable (click)="chgayan()">'+say+'</span>';
+    if(this.nrefs > 0) {
+		this.info = 'Updating....';
+  		var cd = new Date();
+		var ct = cd.getHours().toString() + ':' + cd.getMinutes().toString();
+		var startTime=moment(ct +':00', "HH:mm:ss");
+		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
+		console.log('sunset=',endTime);
+		var duration = moment.duration(endTime.diff(startTime));
+		var hours = duration.asHours();
+		console.log('total hrs=', hours);
+		var minutes = duration.asMinutes()%60;	
+        var totmins = hours*60 + minutes;		
+		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
+		this.horoService.getProMoonPhase(this.getDms(this.clat), this.getDms(this.clng), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), this.localtz, ayanid)
+		   .subscribe(res3 => {
+		   this.showPAN = true;
+		   this.info = '';
+		   this.nak = this.translate_func(res3['birthStar']);
+		   var tithiRem = res3['tithiRem'];
+		   console.log('tithiRem=', tithiRem);
+		   var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
+		   console.log('tithiRem in mins=', rem);
+		   var tite = moment(startTime).add(rem, 'm');
+		   this.tithi = this.translate_func(res3['tithi']) + ' till ' + tite.format('HH:mm');
+		   console.log(res3['tithi'].toLowerCase());// + (res3['moonPhase'] == 'waxing') ? '-s' : '-k');
+		   let ky: string = res3['tithi'].toLowerCase();
+		   if(ky != 'purnima' && ky != 'amavasya') {
+			ky = (res3['moonPhase'] == 'waxing') ? res3['tithi'].toLowerCase() + '-s' : res3['tithi'].toLowerCase() + '-k';
+		   } 
+		   console.log(ky);
+		   this.lunapic = lunapics[ky];
+		}, (err) => {
+			this.info = JSON.stringify(err);
+		});
+	}
+	this.nrefs++;
+   }
   
   	calcStar(mins: number)
 	{
@@ -664,5 +790,318 @@ alert("The local time is " + nd.toLocaleString());
 		}
 		return trn;
 	}
+	
+	showCal(evt) {
+     evt.stopPropagation();
+	    if(this.cal == 'Show Calendar') {
+		 this.cal = 'Please wait..';
+		 this.hideCALD = false;
+		 if(this.fetchCAL == true) {
+			var cd = new Date();
+			let ayanid = 1;
+			if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
+			this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), this.localtz, ayanid)
+		   .subscribe(res => {
+			this.horoService.getProStarConst(res['birthStar'], res['birthSign'], res['birthSignDeg'], this.localtz, ayanid)
+			.subscribe(res => {
+				this.info = '';
+				this.publishReport(res);
+				this.cal = 'Hide Calendar';
+				this.fetchCAL = false;
+				}, (err) => {
+				this.info = JSON.stringify(err);
+			}) ;
+		  }, (err) => {
+			this.info = err;
+		  });
+	   } else {
+		 this.cal = 'Hide Calendar';
+	   }	   
+	  } else {
+	    this.hideCALD = true;
+		this.cal = 'Show Calendar';
+	  }
+	}
+	
+  publishReport(stars: any)
+  {
+	//this.showCal1 = true;
+	this.mon = stars[0].date.split(',')[0].split(' ')[1];
+	this.yer = stars[0].date.split(',')[1].split(' ')[0];
+	this.svgCal = this.grid(6, this.device_width/6, this.device_width, stars);
+	this.renderer.appendChild(this.hinduCal.nativeElement, this.svgCal);
+	//this.mon = '';
+	//this.yer = '';
+	let c: boolean = false;
+	for(var i = 0; i < stars.length; i++)
+	{
+		if(this.mon != stars[i].date.split(',')[0].split(' ')[1]) {
+		   this.mon = stars[i].date.split(',')[0].split(' ')[1];
+		   this.yer = stars[i].date.split(',')[1].split(' ')[0];
+		   c = true;
+		   break;
+		}
+	}
+	//if(c) {
+	    //this.showCal2 = true;
+		//this.renderer.appendChild(this.hinduCal2.nativeElement, this.grid(6, this.device_width/6, this.device_width, stars));
+	//}
+  }
+  
+	grid(numberPerSide, size, pixelsPerSide, naks) {
+	    var wks = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", pixelsPerSide);
+		this.renderer.setAttribute(svg, "height", pixelsPerSide+25);
+		this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, 25 + (numberPerSide+1) * size].join(" "));
+		var gm = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var bt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		this.renderer.setAttribute(bt, "width", pixelsPerSide.toString());
+		this.renderer.setAttribute(bt, "height", "25");
+		this.renderer.setAttribute(bt, "border", "1");
+		this.renderer.setAttribute(bt, "stroke", "#000000");
+		this.renderer.setAttribute(bt, "fill", "#f9d35c");
+		this.renderer.setAttribute(bt, "id", "b999");
+		this.renderer.appendChild(gm, bt);
+		let my: string = (this.shareService.getLANG() == 'en') ? mon_weeks[this.mon.toLowerCase()].split('|')[0] + ' '  + this.yer: (this.shareService.getLANG() == 'te') ? mon_weeks[this.mon.toLowerCase()].split('|')[1] + ' '  + this.yer : mon_weeks[this.mon.toLowerCase()].split('|')[2] + ' ' + this.yer;
+		var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(text, document.createTextNode(my));
+		this.renderer.setAttribute(text, "font-size", "15px");
+		this.renderer.setAttribute(text, "font-weight", "bold");
+		this.renderer.setAttribute(text, "x", "50%");
+		this.renderer.setAttribute(text, "y", "12");
+		this.renderer.setAttribute(text, "alignment-baseline", "middle");
+		this.renderer.setAttribute(text, "text-anchor", "middle");
+		this.renderer.setAttribute(text, "id", "t999");
+		this.renderer.appendChild(gm, text);
+		let bh: number = 25
+        let cal: any = null;
+		let pday: number = 0;
+		let lDay: LunarDay = {
+			tithi: '',
+			star: '',
+			lunarStrength: '',
+			moonPhase: '',
+			calX: '',
+			calY: ''
+		};
+		var cd = new Date();
+		for(var k = 0; k < 7; k++) {
+			bt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+			this.renderer.setAttribute(bt, "width", size.toString());
+			this.renderer.setAttribute(bt, "height", size.toString());
+			this.renderer.setAttribute(bt, "y", bh.toString());
+			this.renderer.setAttribute(bt, "border", "1");
+			this.renderer.setAttribute(bt, "stroke", "#000000");
+			this.renderer.setAttribute(bt, "fill", "#f9d35c");
+			this.renderer.setAttribute(bt, "id", "b999");
+			this.renderer.appendChild(gm, bt);
+			text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(text, document.createTextNode((this.shareService.getLANG() == 'en') ? wks[k] : (this.shareService.getLANG() == 'te') ? mon_weeks[wks[k]].split('|')[1] : mon_weeks[wks[k]].split('|')[2]));
+			this.renderer.setAttribute(text, "font-size", "15px");
+			this.renderer.setAttribute(text, "font-weight", "bold");
+			this.renderer.setAttribute(text, "alignment-baseline", "middle");
+			this.renderer.setAttribute(text, "text-anchor", "middle");
+			this.renderer.setAttribute(text, "x", (size/2).toString());
+			this.renderer.setAttribute(text, "y", (size/2 + bh).toString());
+			this.renderer.setAttribute(text, "id", "t999");
+			bh += size;
+			this.renderer.appendChild(gm, text);
+			svg.appendChild(gm);
+			let oW: WeekDay[] = [];
+			oW = this.getWeekDays(naks, wks[k]);
+			let dx: number = 0;
+			for(let key of Object.keys(oW)) {
+			    dx++;
+				if(dx == 1 && wks[k] == 'SUN' && oW[key].dmon > 1)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'MON' && oW[key].dmon > 2)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'TUE' && oW[key].dmon > 3)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'WED' && oW[key].dmon > 4)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'THU' && oW[key].dmon > 5)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'FRI' && oW[key].dmon > 6)
+				{
+				    dx++;
+				}
+				else if(dx == 1 && wks[k] == 'SAT' && oW[key].dmon > 7)
+				{
+				    dx++;
+				}
+				var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+			    var box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+				this.renderer.setAttribute(box, "width", size.toString());
+				this.renderer.setAttribute(box, "height", size.toString());
+				this.renderer.setAttribute(box, "border", "1");
+				this.renderer.setAttribute(box, "stroke", "#000000");
+				this.renderer.setAttribute(box, "fill", "#ffffff");
+				this.renderer.setAttribute(box, "id", "b" + k.toString() + dx.toString());
+				this.renderer.setAttribute(box, "x", (size*dx).toString());
+				this.renderer.setAttribute(box, "y", (size*k + 25).toString());
+				this.renderer.appendChild(g, box);
+//			   cal = this.getCal(naks, wks[k], i);
+//			   if(cal) {
+//					var dmon = cal.date.split(',')[0].split(' ')[2];
+					var text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+					this.renderer.appendChild(text1, document.createTextNode(key.split(',')[0].split(' ')[2]));
+					this.renderer.setAttribute(text1, "font-size", "15px");
+					this.renderer.setAttribute(text1, "font-weight", "bold");
+					this.renderer.setAttribute(text1, "alignment-baseline", "middle");
+					this.renderer.setAttribute(text1, "text-anchor", "middle");
+					this.renderer.setAttribute(text1, "x", (size*dx + size/2).toString());
+					this.renderer.setAttribute(text1, "y", (size*k + 25 + size/2).toString());
+					this.renderer.setAttribute(text1, "id", "t1" + k.toString() + dx.toString());
+					//var br = document.createElement("br");
+					//this.renderer.appendChild(text1, document.createElement("br"));
+					var text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+					this.renderer.appendChild(text2, document.createTextNode(this.translate_func(oW[key].star)));
+					this.renderer.setAttribute(text2, "font-size", "10px");
+					this.renderer.setAttribute(text2, "font-weight", "bold");
+					this.renderer.setAttribute(text2, "x", (size*dx + size/2).toString());
+					this.renderer.setAttribute(text2, "y", (size*k + 25 + size/2 + 10).toString());
+					this.renderer.setAttribute(text2, "alignment-baseline", "middle");
+					this.renderer.setAttribute(text2, "text-anchor", "middle");
+					this.renderer.setAttribute(text2, "id", "t2" + k.toString() + dx.toString());
+					var text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+					this.renderer.appendChild(text3, document.createTextNode(this.translate_func(oW[key].tithi)));
+					this.renderer.setAttribute(text3, "font-size", "10px");
+					this.renderer.setAttribute(text3, "font-weight", "bold");
+					this.renderer.setAttribute(text3, "x", (size*dx + size/2).toString());
+					this.renderer.setAttribute(text3, "y", (size*k + 25 + size/2 + 20).toString());
+					this.renderer.setAttribute(text3, "alignment-baseline", "middle");
+					this.renderer.setAttribute(text3, "text-anchor", "middle");
+					this.renderer.setAttribute(text3, "id", "t3" + k.toString() + dx.toString());
+					g.appendChild(text1);
+					g.appendChild(text2);			   
+					g.appendChild(text3);			   
+					if(oW[key].tithi == 'Purnima' || oW[key].tithi == 'Amavasya' || oW[key].tithi == 'Sapthami') {
+						var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+						this.renderer.setAttribute(image, "x", (size*dx).toString());
+						this.renderer.setAttribute(image, "y", (size*k + 25).toString());
+						this.renderer.setAttribute(image, "height", "16");
+						this.renderer.setAttribute(image, "width", "16");
+						this.renderer.setAttribute(image, "id", "i" + k.toString() + dx.toString());
+						if(oW[key].tithi == 'Sapthami') {
+							if(oW[key].moonPhase == 'waxing') {
+								image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", moon_phases[oW[key].tithi].split(',')[0]);
+							} else {
+								image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", moon_phases[oW[key].tithi].split(',')[1]);
+							}	
+                        } else {
+								image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", moon_phases[oW[key].tithi]);
+                        }						
+						g.appendChild(image);
+					} else {
+					}
+					console.log('key', key.split(',')[0].split(' ')[2].trim());
+					console.log(cd.getDate().toString().trim());
+					let tcal: string = key.split(',')[0].split(' ')[2].trim();
+					let tday: string = cd.getDate().toString().trim();
+				    if(tcal == tday) {
+					    console.log(key.split(',')[0].split(' ')[2].trim());
+						 lDay.tithi = oW[key].tithi;
+						 lDay.star = oW[key].star;
+						 lDay.lunarStrength = (oW[key].lunarStrength.indexOf('Chandrastama') > -1) ? 'Chandrastama' : 'Bad';
+						 lDay.moonPhase = oW[key].moonPhase;
+						 lDay.calX = (size*dx).toString();
+						 lDay.calY = (size*k + 25).toString();
+						 this.tithi = oW[key].tithi;
+						 this.nak = oW[key].star;
+					}
+
+				//}
+				svg.appendChild(g);
+			}
+		}
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		    var bx = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+			this.renderer.setAttribute(bx, "width", size.toString());
+			this.renderer.setAttribute(bx, "height", size.toString());
+			this.renderer.setAttribute(bx, "stroke", "#FF5733");
+			this.renderer.setAttribute(bx, "stroke-width", "2");
+			this.renderer.setAttribute(bx, "fill-opacity", "0.0");
+			this.renderer.setAttribute(bx, "id", "bx1");
+			this.renderer.setAttribute(bx, "x", lDay.calX);
+			this.renderer.setAttribute(bx, "y", lDay.calY);
+			this.renderer.appendChild(g, bx);
+			svg.appendChild(g);
+
+		console.log(svg);
+		return svg;
+	};
+	
+	getWeekDays(strs, wday)
+	{
+	  let oWDays: WeekDay[] = [];
+	  let dmon: number = 0;
+		for(let key of Object.keys(strs)) {
+		  if(this.mon && strs[key].date.split(',')[0].split(' ')[1] != this.mon) continue;
+		  dmon++;
+		    if(strs[key].date.indexOf(wday) > -1) {
+				let weekDay: WeekDay = {
+				 dmon: dmon,
+				 tithi: strs[key].tithi,
+				 star: strs[key].star,
+				 starStrength: strs[key].starStrength,
+				 lunarStrength: strs[key].lunarStrength,
+				 moonPhase: strs[key].moonPhase
+			  };
+			  oWDays[strs[key].date] = weekDay;
+			}
+		}
+	  return oWDays;
+	}
+  getCal(strs, wday, i)
+  {
+    //console.log(wday);
+	//console.log(i);
+	//console.log(this.mon);
+    let cal: any;
+    let n: number = 0;
+  	for(let key of Object.keys(strs)) {
+	   //console.log(strs[key].date);
+	   //console.log(strs[key].date.split(',')[0].split(' ')[1]);
+	   if(this.mon && strs[key].date.split(',')[0].split(' ')[1] != this.mon) continue;
+	   //console.log(strs[key].date);
+	   if(strs[key].date.indexOf(wday) > -1) {
+		 n++;
+		 cal = strs[key];
+	   }
+	   if(n == i) return cal;
+	}
+  }
+  chgayan()
+  {
+     var binf = {
+					  dob: '',
+					  lat: '',
+					  lng: '',
+					  timezone: '',
+					  lagna: '',
+					  lagna_lord: '',
+					  moon_sign: '',
+					  sun_sign: '',
+					  tithi: '',
+					  birth_star: '',
+					  star_lord: '',
+					  moon_phase: '',
+					  ref: '3',
+					};
+     this.navCtrl.push(ChartSettingsPage, {binf: binf });
+  }
+  
 
 }

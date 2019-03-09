@@ -10,17 +10,15 @@
 <ion-content padding>
 <ion-list>
 	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
-       <ion-item-sliding *ngFor="let key of objectKeys(oAst)">
-      <ion-item (click)="viewprof($event, oAst[key])">
-        <ion-avatar item-start>
-          <img [src]="oAst[key].avatar"/>
-        </ion-avatar>
+      <ion-item class="item item-icon-left" (click)="viewprof($event, oAst[key])" *ngFor="let key of objectKeys(oAst)">
+	    <img class="avatar" [src]="oAst[key].avatar" item-left/>
         <h2>{{oAst[key].name}}</h2>
         <p>{{oAst[key].tagline}}</p>
-		<p>&#8377; 50 per minute  <ion-badge (click)="viewprof($event, oAst[key])">view profile</ion-badge></p>
-      </ion-item>
-      <ion-item-options>
-        <a [href]="oAst[key].walnk"><button ion-button color="primary" icon-start>
+		<p><span [innerHTML]='oAst[key].cfee'></span>  <ion-badge (click)="viewprof($event, oAst[key])">view profile</ion-badge>  <ion-badge (click)="viewblog($event, oAst[key])">Blog</ion-badge></p>
+		<p [innerHTML]='oAst[key].smsg'></p>
+      
+      <div *ngIf="oAst[key].status">
+        <a [href]="oAst[key].walnk"><button ion-button color="primary" (click)="chatreq($event, oAst[key])" icon-start>
           <ion-icon name="text"></ion-icon>
           Text
         </button></a>
@@ -28,7 +26,7 @@
           <ion-icon name="call"></ion-icon>
           Call
         </button>
-      </ion-item-options>
-    </ion-item-sliding>
+      </div>
+	  </ion-item>
 </ion-list>
 </ion-content>

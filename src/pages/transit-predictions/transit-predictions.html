@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-row><ion-col col-6><div #birthChart ></div></ion-col><ion-col col-6><div #tranChart ></div></ion-col></ion-row>
+	<div *ngIf="showNOTE"><p class='note'>Please note below predictions are based on your Moon sign that may not be accurate, for accuracy the astrolger has to analyze specific to the house matters under consideration with respect to the lagna/ascendant lord. For detailed predictions <span class="more" tappable (click)="more()">Talk to Astrologer </span></p><br/><h4>Below is your one month prediction based on the planetary transit.</h4></div>
+    <div text-center><p ion-text class="info" color="primary" [innerHTML]='info'></p></div>
+<ion-grid no-padding>
+ <div *ngFor="let key of objectKeys(oPlanet)">
+     <ion-row class="maintitle"><ion-col col-12><div color="primary" >{{key}}</div></ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12><div class="desc" color="level2"  >{{oPlanet[key].inds}}</div></ion-col></ion-row>
+ </div>
+</ion-grid>
+</ion-content>

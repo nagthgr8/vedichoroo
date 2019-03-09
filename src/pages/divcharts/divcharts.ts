@@ -31,7 +31,7 @@ export class DivchartsPage {
   chart: any;
   asc_sign: string = '';
   lstnr_D1: Function; lstnr_D2: Function; lstnr_D3: Function; lstnr_D4: Function; lstnr_D7: Function; lstnr_D9: Function; lstnr_D10: Function; lstnr_D12: Function; lstnr_D16: Function; lstnr_D20: Function; lstnr_D24: Function; lstnr_D27: Function; lstnr_D30: Function; lstnr_D40: Function; lstnr_D45: Function; lstnr_D60: Function;
-  
+  atmk: string = '';
   constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2) {
   platform.ready().then(() => {
 		console.log('Width: ' + platform.width());
@@ -70,6 +70,25 @@ export class DivchartsPage {
 	 this.updateNodePos();
 	 this.chart = "1";
 	 //this.calcDivChart(Number(this.chart));
+	 var plPos = this.shareService.getPLPOS();
+	 let ak: number = 0;
+ 	for (var i = 0; i < 16; i++) {
+		var sign = signs[i];
+		if (plPos.hasOwnProperty(sign)) {
+			var pls = plPos[sign].split('\|');
+			console.log(pls);
+			for (var k = 0; k < pls.length; k++) {
+			  var pl = pls[k].split(' ')[1];
+			  if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'TRUE_NODE') {
+				if(Number(pls[k].split(' ')[0]) > ak) {
+					this.atmk = pls[k].split(' ')[1];
+					ak = Number(pls[k].split(' ')[0]);
+				}
+			  }
+			}
+		}
+	}
+	 
 	 this.loadHoro(this.shareService.getPLPOS(), this.divChart.nativeElement, 'RASHI', 'D1');
 	 let oP: string[] = [];
 	 oP = this.calcHoraChart()
@@ -190,8 +209,9 @@ export class DivchartsPage {
 	var sgns = ["ar","ta","ge","cn","le","vi","li","sc","sa","cp","aq","pi"];
 	var divs = [];
 	let n: number = 1;
-	while((secp = sec*n++) <= 30) {
+	while((secp = sec*n) <= 30) {
 		  divs.push(secp);
+		  n++;
 	}
 	console.log('part complete..');
 	console.log(divs);
@@ -212,18 +232,19 @@ export class DivchartsPage {
 					n = 0;
 					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
 					{
-						if(po >= n && po <= divs[dp]) spos = dp+1;
+						if(po >= n && po <= divs[dp]) { spos = dp+1; break; }
 						n = divs[dp];
 					}
 					while(spos > 12 ) spos -= 12;
 					console.log('spos=' + spos.toString());
 					let sord: number;
-					let spnt: number = ndivs, x: number = 1;
+					let spnt: number = 0, x: number = 1;
 					console.log('spnt=',ndivs+1);
 					switch(sign)
 					{
 					  case 'ar':
 						sord = 1;
+						spnt = 1;
 						break;
 					  case 'ta':
 					    spnt = ndivs+1;
@@ -231,7 +252,7 @@ export class DivchartsPage {
 						sord = spnt;
 						break;
 					  case 'ge':
-					    spnt = 2*ndivs + 1;
+					    spnt = 2*ndivs+1;
 					    while(spnt > 12 ) spnt -= 12;
 						sord = spnt;
 						break;
@@ -285,7 +306,7 @@ export class DivchartsPage {
 					}
 					console.log('sord=' + sord.toString());
 				//}
-				let navp :number = sord + (spos-1);
+				let navp :number = sord + spos;//(spos-1);
 				navp = (navp > 12) ? navp - 12: navp;
 				console.log(navp);
 				switch(navp)
@@ -542,7 +563,10 @@ export class DivchartsPage {
 			// Do something with 'event'
 			console.log('clicked ', event.path);
 			console.log('clicked ', event.path[2]);
-			this.navCtrl.push(ChartAnalysisPage, {ID: event.path[2].id});
+			let item: any = {};
+			item.ID = event.path[2].id;
+			item.atmk = this.atmk;
+			this.navCtrl.push(ChartAnalysisPage, {item: item});
 		});
 		return svg;
 	};

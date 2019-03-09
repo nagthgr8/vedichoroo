@@ -9,6 +9,7 @@ import { AstrologersPage } from '../astrologers/astrologers';
 import { StoriesPage } from '../stories/stories';
 import {DailyForecastPage} from '../dailyforecast/dailyforecast';
 import { PanchangPage } from '../panchang/panchang';
+import { PrashnaJyotishPage } from '../prashna-jyotish/prashna-jyotish';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { TranslateService } from '@ngx-translate/core';
 //import * as lagnas from '../horoscope/lagna.json';
@@ -44,15 +45,15 @@ export class ListPage {
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, public events: Events, private file: File) {
     this.translate.setDefaultLang('en');
     this.showCard = false;
-    this.icons = ['planet', 'star', 'heart', 'flower', 'podium','body','sunny','paper', 'mic'];
-	this.title = ['Birth Chart','Star Constellation', 'Love Horoscope', 'KP Astrology', 'Divisional Charts', 'Yogas In Your Horoscope', 'Daily Horoscope', 'Vedic Stories', 'Talk to Astrologer']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Star Constellation As Per B V Raman', 'Love Compatibility Report', 'KP Astrology, Life Event Predictions', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yoga...', 'Based On Your Moon Sign', 'Vedic Astrology Stories', 'Ask a question or Talk instantly with our expert astrologers']
+    this.icons = ['planet','flower','eye', 'bulb','body','jet','star','podium','heart','sunny','paper','mic'];
+	this.title = ['Birth Chart','KP Astrology','Predictions','Prashna Jyotish','Yogas In Your Horoscope','Career Horoscope','Star Constellation', 'Divisional Charts', 'Love Horoscope','Daily Horoscope', 'Vedic Stories', 'Talk to Astrologer']
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','KP Astrology, Life Event Predictions','30 Day Transit Predictions based on your birth sign','Horary, Ask any question & know the answer.','Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yoga...','Career Predictions as per Dasamsa Chart','Star Constellation As Per B V Raman', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Love Compatibility Report','Based On Your Moon Sign', 'Vedic Astrology Stories', 'Ask a question or Talk instantly with our expert astrologers']
     this.items = [];
-    for(let i = 1; i < 10; i++) {
+    for(let i = 1; i < 13; i++) {
       this.items.push({
         title: this.title[i-1],
         note: this.note[i-1],
-        icon: this.icons[i-1] 
+        icon: this.icons[i-1]
       });
     }
     this.today = Date.now();
@@ -82,7 +83,8 @@ export class ListPage {
         this.abhjit = jsonv['abhijit_s'] + ' To ' + jsonv['abhijit_e'];
 		this.showCard = true;
   		var cd = new Date();
-		this.horoService.getCusps(this.getDms(jsonv['clat']), this.getDms(jsonv['clat']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'])
+		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
+		this.horoService.getProMoonPhase(this.getDms(jsonv['clat']), this.getDms(jsonv['clat']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'], ayanid)
 		   .subscribe(res3 => {
 		   this.nak = this.translate_func(res3['birthStar']);
 		   this.tithi = this.translate_func(res3['tithi']);
@@ -158,7 +160,7 @@ export class ListPage {
   }
   calcStar(mins: number)
   {
-		//console.log(mins);
+		console.log('calcStar', mins);
 		for(var i = 0; i < Object.keys(sublords).length; i++)
 		{
 			var nak = sublords[i];
@@ -175,6 +177,7 @@ export class ListPage {
 				return nak.sign + '|' + nak.star + '|' + nak.sub;
 			}
 		}
+		console.log('calcStar', -1);
 		return '-1';
   }
   
@@ -244,7 +247,7 @@ alert("The local time is " + nd.toLocaleString());
 }
   itemTapped(event, item) {
    console.log(item.title);
-   if(item.title == 'Birth Chart' || item.title == 'KP Astrology' || item.title == 'Divisional Charts') {
+   if(item.title == 'Birth Chart' || item.title == 'KP Astrology' || item.title == 'Divisional Charts' || item.title == 'Predictions') {
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });
@@ -252,11 +255,19 @@ alert("The local time is " + nd.toLocaleString());
 	 this.navCtrl.push(StarConstPage, {
       item: item
     });
-	}else if(item.title == 'Yogas In Your Horoscope') {
+	} else if(item.title == 'Prashna Jyotish') {
+	 this.navCtrl.push(PrashnaJyotishPage, {
+      item: item
+    });
+	} else if(item.title == 'Yogas In Your Horoscope') {
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });
-	}else if(item.title == 'Love Horoscope') {
+	} else if(item.title == 'Career Horoscope') {
+	 this.navCtrl.push(PersonalDetailsPage, {
+      item: item
+	  });
+	} else if(item.title == 'Love Horoscope') {
 	 this.navCtrl.push(LovehoroPage, {
       item: item
     });

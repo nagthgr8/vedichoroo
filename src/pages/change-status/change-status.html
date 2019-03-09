@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<p ion-text class="info" color="primary" [innerHTML]='info'></p>, 
+<ion-list *ngIf="showASU">
+<ion-item class="item item-icon-left">
+<img [src]="avatar" item-left/>
+<div class="heading">
+  <div class="sunrise">
+    <ion-input [(ngModel)]="avatar" type="text" (ionChange)="chgavatar()"></ion-input>
+  </div>
+</div>	
+</ion-item>
+<ion-item>
+			<ion-label>Status</ion-label>
+			<ion-toggle [(ngModel)]="status" [checked]="status" (ionChange)="chgstatus()"></ion-toggle>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Tagline</ion-label>
+			<ion-input [(ngModel)]="tagline" type="text" (ionChange)="chgtagline()"></ion-input>
+		</ion-item>		
+</ion-list>
+</ion-content>

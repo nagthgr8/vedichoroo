@@ -1,9 +1,11 @@
-import { Component, NgModule, Renderer2, AfterViewInit, ViewChild, ElementRef, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { Component, NgModule, Renderer2, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import { File } from '@ionic-native/file';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { AppRate } from '@ionic-native/app-rate';
 import { ShareService } from '../../app/share.service';
+import { ChartSettingsPage } from '../chart-settings/chart-settings';
 import * as moon_phases from '../horoscope/moon_phases.json';
 import * as mon_weeks from '../horoscope/mon_weeks.json';
 import { WeekDay } from '../../app/week-day';
@@ -20,6 +22,7 @@ import { LunarDay } from '../../app/lunar-day';
 @Component({
   selector: 'page-star-const',
   templateUrl: 'star-const.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class StarConstPage {
   @ViewChild('hinduCal1') hinduCal1;
@@ -29,6 +32,7 @@ export class StarConstPage {
   lu1 :string = '';lu2 :string = '';lu3 :string = '';lu4 :string = '';lu5 :string = '';lu6 :string = '';lu7 :string = '';lu8 :string = '';lu9 :string = '';lu10 :string = '';lu11 :string = '';lu12 :string = '';lu13 :string = '';lu14 :string = '';lu15 :string = '';lu16 :string = '';lu17 :string = '';lu18 :string = '';lu19 :string = '';lu20 :string = '';lu21 :string = '';lu22 :string = '';lu23 :string = '';lu24 :string = '';lu25 :string = '';lu26 :string = '';lu27 :string = '';lu28 :string = '';lu29 :string = '';lu30 :string = '';
    str1 :string = '';str2 :string = '';str3 :string = '';str4 :string = '';str5 :string = '';str6 :string = '';str7 :string = '';str8 :string = '';str9 :string = '';str10 :string = '';str11 :string = '';str12 :string = '';str13 :string = '';str14 :string = '';str15 :string = '';str16 :string = '';str17 :string = '';str18 :string = '';str19 :string = '';str20 :string = '';str21 :string = '';str22 :string = '';str23 :string = '';str24 :string = '';str25 :string = '';str26 :string = '';str27 :string = '';str28 :string = '';str29 :string = '';str30 :string = '';
     info: string = '';
+	info2: string = '';
   birthStar: string;
   birthSign: string;
   birthSignDeg: string;
@@ -46,9 +50,12 @@ export class StarConstPage {
   //oTransits: StarStrength[] = [];
   mon: string = '';
   yer: string = '';
- 
-
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, formBuilder: FormBuilder, public renderer: Renderer2, public horoService: HoroscopeService, private appRate: AppRate, public shareService: ShareService) {
+  ayanINF: string = ''; 
+  clat: any;
+  clng: any;
+  localtz: string = '';
+  nrefs: number = 0;
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, formBuilder: FormBuilder, public renderer: Renderer2, public horoService: HoroscopeService, private appRate: AppRate, public shareService: ShareService, private file: File) {
    platform.ready().then(() => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
@@ -92,10 +99,79 @@ export class StarConstPage {
 	this.showLgnds = false;
 	//this.showCal1 = false;
 	//this.showCal2 = false;
+    console.log(this.file.dataDirectory);	
+	this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
+	    var jsonv = JSON.parse(res);
+		this.clat = jsonv['clat'];
+		this.clng = jsonv['clng'];
+		this.localtz = jsonv['localtz'];
+	}, (err) => {
+			this.info = JSON.stringify(err);
+	  });
   }
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad StarConstPage');
+  }
+  ionViewDidEnter() {
+		var ayn = this.shareService.getRAYNM();
+		let say: string = 'BV RAMAN';
+		if(ayn) {
+		    switch(Number(ayn))
+			{
+			   case 1:
+					say = 'BV RAMAN';
+					break;
+				case 2:
+					say = 'KP OLD';
+					break;
+				case 3:
+					say = 'KP NEW';
+					break;
+				case 4:
+					say = 'NC LAHIRI';
+					break;
+				case 5:
+					say = 'KHULLAR';
+					break;
+				case 6:
+					say = 'FAGAN BRADLEY';
+					break;
+				default:
+					say = 'KP NEW';
+					break;
+			}
+		}
+		this.ayanINF = '<span><strong>AYANAMSA:</strong></span><span class="more" tappable (click)="chgayan()">'+say+'</span>';
+    if(this.nrefs > 0) {
+		for (let child of this.hinduCal1.nativeElement.children) {
+			this.renderer.removeChild(this.hinduCal1.nativeElement, child);
+		}
+		for (let child of this.hinduCal2.nativeElement.children) {
+			this.renderer.removeChild(this.hinduCal2.nativeElement, child);
+		}
+		let ayanid = 1;
+		if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
+		this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.personalDetailsForm.controls['dob'].value, this.localtz, ayanid)
+		   .subscribe(res => {
+		   this.birthStar = res['birthStar'];
+		   this.birthSign = res['birthSign'];
+		   this.birthSignDeg = res['birthSignDeg'];
+		   if(this.shareService.getLANG().toLowerCase() == 'en') {
+			this.str = '<span>Your BirthStar is <span class="greenText">' + this.birthStar + '</span> Your Moon Sign is <span class="redText">' + this.birthSign + '</span><br></span>';
+			} else if(this.shareService.getLANG().toLowerCase() == 'te') {
+			this.str = '<span> మీ జన్మ నక్షత్రమ్ <span class="greenText"> ' + this.translate(this.birthStar) + '</span> మీ జన్మ రశి  <span class="redText">' + this.translate(this.birthSign) + '</span><br></span>';
+			} else if(this.shareService.getLANG().toLowerCase() == 'hi') {
+			this.str = '<span> आप के जन्म नक्षत्र  <span class="greenText"> ' + this.translate(this.birthStar) + '</span> आप के जन्म राशि  <span class="redText">' + this.translate(this.birthSign) + '</span><br></span>';
+			}
+			 this.getStarConstReport();
+			 this.showList = false;
+			 this.showLgnds = true;
+		  }, (err) => {
+			this.info = err;
+		  }) ;
+	  }
+	this.nrefs++;
   }
   save() {
   this.info = 'please wait...';
@@ -103,18 +179,20 @@ export class StarConstPage {
 	    this.info = 'Please enter Man Date of Birth';
 		return;
 		}
- 	this.horoService.getBirthStar(this.personalDetailsForm.controls['dob'].value)
+	let ayanid = 1;
+	if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
+ 	this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.personalDetailsForm.controls['dob'].value, this.localtz, ayanid)
        .subscribe(res => {
 	   this.birthStar = res['birthStar'];
 	   this.birthSign = res['birthSign'];
 	   this.birthSignDeg = res['birthSignDeg'];
 	   this.showBS = true;
 	   if(this.shareService.getLANG().toLowerCase() == 'en') {
-	    this.str = 'Your BirthStar is ' + this.birthStar + ' Your Moon Sign is ' + this.birthSign + '. Below calendar projects the Star Strength & Lunar Strength for the next 30 days analyzed based on your BirthStar.';
+	    this.str = '<span>Your BirthStar is <span class="greenText">' + this.birthStar + '</span> Your Moon Sign is <span class="redText">' + this.birthSign + '</span>.<br></span>';
 		} else if(this.shareService.getLANG().toLowerCase() == 'te') {
-	    this.str = ' మీ జన్మ నక్షత్రమ్  ' + this.translate(this.birthStar) + ' మీ జన్మ రశి  ' + this.translate(this.birthSign) + '. మీ జన్మ నక్షత్రమ్ ఆధారంగా తదుపరి 30 రోజుల్లో మీ తారా బలం మరియు చంద్ర బలం క్రింద క్యాలెండర్లో కలదు.';
+	    this.str = '<span> మీ జన్మ నక్షత్రమ్ <span class="greenText"> ' + this.translate(this.birthStar) + '</span> మీ జన్మ రశి  <span class="redText">' + this.translate(this.birthSign) + '</span><br></span>';
 		} else if(this.shareService.getLANG().toLowerCase() == 'hi') {
-	    this.str = ' आप के जन्म नक्षत्र   ' + this.translate(this.birthStar) + ' आप के जन्म राशि  ' + this.translate(this.birthSign) + '. इसके अनुसार अगले 30 दिनों में आप के तारा बहल और चन्द्र भाल नीचे कैलेंडर में है.';
+	    this.str = '<span> आप के जन्म नक्षत्र  <span class="greenText"> ' + this.translate(this.birthStar) + '</span> आप के जन्म राशि  <span class="redText">' + this.translate(this.birthSign) + '</span><br></span>';
 		}
 		 this.getStarConstReport();
 		 this.showList = false;
@@ -126,10 +204,12 @@ export class StarConstPage {
   
   getStarConstReport()
   {
-  this.info = 'Generating Your 1 Month Personalized Calendar. Please wait...';
+  this.info = '';
+  this.info2 = 'Generating Your 1 Month Personalized Calendar. Please wait...';
   this.horoService.getStarConst(this.birthStar, this.birthSign, this.birthSignDeg)
        .subscribe(res => {
 	   this.info = '';
+	   this.info2 = '';
 	   this.publishReport(res);
       }, (err) => {
         this.info = JSON.stringify(err);
@@ -1063,5 +1143,81 @@ export class StarConstPage {
 		}
 		return trn;
 	}
+    chgayan()
+    {
+     var binf = {
+					  dob: '',
+					  lat: '',
+					  lng: '',
+					  timezone: '',
+					  lagna: '',
+					  lagna_lord: '',
+					  moon_sign: '',
+					  sun_sign: '',
+					  tithi: '',
+					  birth_star: '',
+					  star_lord: '',
+					  moon_phase: '',
+					  ref: '3',
+					};
+     this.navCtrl.push(ChartSettingsPage, {binf: binf });
+    }
+	getDms(val:any) {
+
+        // Required variables
+        var valDeg, valMin, valSec, result;
+
+        // Here you'll convert the value received in the parameter to an absolute value.
+        // Conversion of negative to positive.
+        // In this step it does not matter if it's North, South, East or West,
+        // such verification was performed earlier.
+        val = Math.abs(val); // -40.601203 = 40.601203
+
+        // ---- Degrees ----
+        // Stores the integer of DD for the Degrees value in DMS
+        valDeg = Math.floor(val); // 40.601203 = 40
+
+        // Add the degrees value to the result by adding the degrees symbol "º".
+        result = valDeg + "º"; // 40º
+
+        // ---- Minutes ----
+        // Removing the integer of the initial value you get the decimal portion.
+        // Multiply the decimal portion by 60.
+        // Math.floor returns an integer discarding the decimal portion.
+        // ((40.601203 - 40 = 0.601203) * 60 = 36.07218) = 36
+        valMin = Math.floor((val - valDeg) * 60); // 36.07218 = 36
+
+        // Add minutes to the result, adding the symbol minutes "'".
+        result += valMin + "'"; // 40º36'
+
+        // ---- Seconds ----
+        // To get the value in seconds is required:
+        // 1º - removing the degree value to the initial value: 40 - 40.601203 = 0.601203;
+        // 2º - convert the value minutes (36') in decimal ( valMin/60 = 0.6) so
+        // you can subtract the previous value: 0.601203 - 0.6 = 0.001203;
+        // 3º - now that you have the seconds value in decimal,
+        // you need to convert it into seconds of degree.
+        // To do so multiply this value (0.001203) by 3600, which is
+        // the number of seconds in a degree.
+        // You get 0.001203 * 3600 = 4.3308
+        // As you are using the function Math.round(),
+        // which rounds a value to the next unit,
+        // you can control the number of decimal places
+        // by multiplying by 1000 before Math.round
+        // and subsequent division by 1000 after Math.round function.
+        // You get 4.3308 * 1000 = 4330.8 -> Math.round = 4331 -> 4331 / 1000 = 4.331
+        // In this case the final value will have three decimal places.
+        // If you only want two decimal places
+        // just replace the value 1000 by 100.
+        valSec = Math.round((val - valDeg - valMin / 60) * 3600 * 1000) / 1000; // 40.601203 = 4.331 
+
+        // Add the seconds value to the result,
+        // adding the seconds symbol " " ".
+        result += valSec + '"'; // 40º36'4.331"
+
+        // Returns the resulting string.
+        return result;
+	}
+	
 
 }

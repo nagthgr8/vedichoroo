@@ -1,10 +1,20 @@
-import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { Component, AfterViewInit, ViewChild, Renderer2, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ShareService } from '../../app/share.service'
 import { HoroscopeService } from '../../app/horoscope.service';
 import {DailyForecastPage} from '../dailyforecast/dailyforecast'; 
+import { PersonalDetailsPage } from '../personal-details/personal-details';
+import { AstrologersPage } from '../astrologers/astrologers';
+import { ChartSettingsPage } from '../chart-settings/chart-settings';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { PlanetStar } from '../../app/planet-star';
+import { Dasha } from '../../app/dasha';
+import { BirthInfo } from '../../app/birth-info';
 import * as signs from './signs.json';
-import * as o_signs from './o_signs.json'
+import * as o_signs from './o_signs.json';
 import * as rashis from './rashis.json';
 import * as o_rashis from './o_rashis.json';
 import * as rashi_lords from './rashi_lords.json';
@@ -26,6 +36,9 @@ import * as rahu_das from './rahu_das.json';
 import * as jupiter_das from './jupiter_das.json';
 import * as saturn_das from './saturn_das.json';
 import * as mercury_das from './mercury_das.json';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+ 
 
 /**
  * Generated class for the HoroscopePage page.
@@ -43,6 +56,16 @@ import * as mercury_das from './mercury_das.json';
 })
 export class HoroscopePage implements OnInit, AfterViewInit {
 	@ViewChild('birthChart') birthChart;
+	//@ViewChild('cnvHoro') cnvHoro: ElementRef;
+	//public ctxHoro: CanvasRenderingContext2D;
+	binf: any;
+	svgHoro: any;
+	//svims: string = '';
+	//splpos: string = '';
+	oPlanet :PlanetStar[] = [];
+	oDas: Dasha[] = [];
+	//oAD: Dasha[] = [];
+	//oPD: Dasha[] = [];
 	moon_sign :string = '';
 	moon_deg :number = 0;
 	asc_sign :string = '';
@@ -51,111 +74,37 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	device_width :number = 0;
 	device_height :number = 0;
 	akashWani :string = '';
+	showASU: boolean = false;
+	showADV: boolean = false;
+	showVIM: boolean = false;
+	aynm: string = '4'; curaynm: string = '4';
+	ayanINF: string = ''
+	info: string = '';
+	chartanls: string = '';
+	lstnr: Function;
 	horo :string = '';
-	fdas :string = '';fdasp :string = '';
-	f1das :string = '';f1dasp :string = '';f11das :string = '';f11dasp :string = '';
-	f2das :string = '';f2dasp :string = '';f22das :string = '';f22dasp :string = '';
-	f3das :string = '';f3dasp :string = '';f33das :string = '';f33dasp :string = '';
-	f4das :string = '';f4dasp :string = '';f44das :string = '';f44dasp :string = '';
-	f5das :string = '';f5dasp :string = '';f55das :string = '';f55dasp :string = '';
-	f6das :string = '';f6dasp :string = '';f66das :string = '';f66dasp :string = '';
-	f7das :string = '';f7dasp :string = '';f77das :string = '';f77dasp :string = '';
-	f8das :string = '';f8dasp :string = '';f88das :string = '';f88dasp :string = '';
-	f9das :string = '';f9dasp :string = '';f99das :string = '';f99dasp :string = '';
-	sdas :string = '';sdasp :string = '';
-	s1das :string = '';s1dasp :string = '';s11das :string = '';s11dasp :string = '';
-	s2das :string = '';s2dasp :string = '';s22das :string = '';s22dasp :string = '';
-	s3das :string = '';s3dasp :string = '';s33das :string = '';s33dasp :string = '';
-	s4das :string = '';s4dasp :string = '';s44das :string = '';s44dasp :string = '';
-	s5das :string = '';s5dasp :string = '';s55das :string = '';s55dasp :string = '';
-	s6das :string = '';s6dasp :string = '';s66das :string = '';s66dasp :string = '';
-	s7das :string = '';s7dasp :string = '';s77das :string = '';s77dasp :string = '';
-	s8das :string = '';s8dasp :string = '';s88das :string = '';s88dasp :string = '';
-	s9das :string = '';s9dasp :string = '';s99das :string = '';s99dasp :string = '';
-	tdas :string = ''; tdasp :string = '';
-	t1das :string = ''; t1dasp :string = '';t11das :string = ''; t11dasp :string = '';
-	t2das :string = ''; t2dasp :string = '';t22das :string = ''; t22dasp :string = '';
-	t3das :string = ''; t3dasp :string = '';t33das :string = ''; t33dasp :string = '';
-	t4das :string = ''; t4dasp :string = '';t44das :string = ''; t44dasp :string = '';
-	t5das :string = ''; t5dasp :string = '';t55das :string = ''; t55dasp :string = '';
-	t6das :string = ''; t6dasp :string = '';t66das :string = ''; t66dasp :string = '';
-	t7das :string = ''; t7dasp :string = '';t77das :string = ''; t77dasp :string = '';
-	t8das :string = ''; t8dasp :string = '';t88das :string = ''; t88dasp :string = '';
-	t9das :string = ''; t9dasp :string = '';t99das :string = ''; t99dasp :string = '';
-	fodas :string = ''; fodasp :string = '';
-	fo1das :string = ''; fo1dasp :string = '';fo11das :string = ''; fo11dasp :string = '';
-	fo2das :string = ''; fo2dasp :string = '';fo22das :string = ''; fo22dasp :string = '';
-	fo3das :string = ''; fo3dasp :string = '';fo33das :string = ''; fo33dasp :string = '';
-	fo4das :string = ''; fo4dasp :string = '';fo44das :string = ''; fo44dasp :string = '';
-	fo5das :string = ''; fo5dasp :string = '';fo55das :string = ''; fo55dasp :string = '';
-	fo6das :string = ''; fo6dasp :string = '';fo66das :string = ''; fo66dasp :string = '';
-	fo7das :string = ''; fo7dasp :string = '';fo77das :string = ''; fo77dasp :string = '';
-	fo8das :string = ''; fo8dasp :string = '';fo88das :string = ''; fo88dasp :string = '';
-	fo9das :string = ''; fo9dasp :string = '';fo99das :string = ''; fo99dasp :string = '';
-	fidas :string = ''; fidasp :string = '';
-	fi1das :string = ''; fi1dasp :string = '';fi11das :string = ''; fi11dasp :string = '';
-	fi2das :string = ''; fi2dasp :string = '';fi22das :string = ''; fi22dasp :string = '';
-	fi3das :string = ''; fi3dasp :string = '';fi33das :string = ''; fi33dasp :string = '';
-	fi4das :string = ''; fi4dasp :string = '';fi44das :string = ''; fi44dasp :string = '';
-	fi5das :string = ''; fi5dasp :string = '';fi55das :string = ''; fi55dasp :string = '';
-	fi6das :string = ''; fi6dasp :string = '';fi66das :string = ''; fi66dasp :string = '';
-	fi7das :string = ''; fi7dasp :string = '';fi77das :string = ''; fi77dasp :string = '';
-	fi8das :string = ''; fi8dasp :string = '';fi88das :string = ''; fi88dasp :string = '';
-	fi9das :string = ''; fi9dasp :string = '';fi99das :string = ''; fi99dasp :string = '';
-	sxdas :string = ''; sxdasp :string = '';
-	sx1das :string = ''; sx1dasp :string = '';sx11das :string = ''; sx11dasp :string = '';
-	sx2das :string = ''; sx2dasp :string = '';sx22das :string = ''; sx22dasp :string = '';
-	sx3das :string = ''; sx3dasp :string = '';sx33das :string = ''; sx33dasp :string = '';
-	sx4das :string = ''; sx4dasp :string = '';sx44das :string = ''; sx44dasp :string = '';
-	sx5das :string = ''; sx5dasp :string = '';sx55das :string = ''; sx55dasp :string = '';
-	sx6das :string = ''; sx6dasp :string = '';sx66das :string = ''; sx66dasp :string = '';
-	sx7das :string = ''; sx7dasp :string = '';sx77das :string = ''; sx77dasp :string = '';
-	sx8das :string = ''; sx8dasp :string = '';sx88das :string = ''; sx88dasp :string = '';
-	sx9das :string = ''; sx9dasp :string = '';sx99das :string = ''; sx99dasp :string = '';
-	svdas :string = ''; svdasp :string = '';
-	sv1das :string = ''; sv1dasp :string = '';sv11das :string = ''; sv11dasp :string = '';
-	sv2das :string = ''; sv2dasp :string = '';sv22das :string = ''; sv22dasp :string = '';
-	sv3das :string = ''; sv3dasp :string = '';sv33das :string = ''; sv33dasp :string = '';
-	sv4das :string = ''; sv4dasp :string = '';sv44das :string = ''; sv44dasp :string = '';
-	sv5das :string = ''; sv5dasp :string = '';sv55das :string = ''; sv55dasp :string = '';
-	sv6das :string = ''; sv6dasp :string = '';sv66das :string = ''; sv66dasp :string = '';
-	sv7das :string = ''; sv7dasp :string = '';sv77das :string = ''; sv77dasp :string = '';
-	sv8das :string = ''; sv8dasp :string = '';sv88das :string = ''; sv88dasp :string = '';
-	sv9das :string = ''; sv9dasp :string = '';sv99das :string = ''; sv99dasp :string = '';
-	edas :string = ''; edasp :string = '';
-	e1das :string = ''; e1dasp :string = '';e11das :string = ''; e11dasp :string = '';
-	e2das :string = ''; e2dasp :string = '';e22das :string = ''; e22dasp :string = '';
-	e3das :string = ''; e3dasp :string = '';e33das :string = ''; e33dasp :string = '';
-	e4das :string = ''; e4dasp :string = '';e44das :string = ''; e44dasp :string = '';
-	e5das :string = ''; e5dasp :string = '';e55das :string = ''; e55dasp :string = '';
-	e6das :string = ''; e6dasp :string = '';e66das :string = ''; e66dasp :string = '';
-	e7das :string = ''; e7dasp :string = '';e77das :string = ''; e77dasp :string = '';
-	e8das :string = ''; e8dasp :string = '';e88das :string = ''; e88dasp :string = '';
-	e9das :string = ''; e9dasp :string = '';e99das :string = ''; e99dasp :string = '';
-	ndas :string = ''; ndasp :string = '';
-	n1das :string = ''; n1dasp :string = '';n11das :string = ''; n11dasp :string = '';
-	n2das :string = ''; n2dasp :string = '';n22das :string = ''; n22dasp :string = '';
-	n3das :string = ''; n3dasp :string = '';n33das :string = ''; n33dasp :string = '';
-	n4das :string = ''; n4dasp :string = '';n44das :string = ''; n44dasp :string = '';
-	n5das :string = ''; n5dasp :string = '';n55das :string = ''; n55dasp :string = '';
-	n6das :string = ''; n6dasp :string = '';n66das :string = ''; n66dasp :string = '';
-	n7das :string = ''; n7dasp :string = '';n77das :string = ''; n77dasp :string = '';
-	n8das :string = ''; n8dasp :string = '';n88das :string = ''; n88dasp :string = '';
-	n9das :string = ''; n9dasp :string = '';n99das :string = ''; n99dasp :string = '';
+	name: string = '';
+	pdfObj = null;
 	cur_m_das :string = ''; cur_a_das :string = '';
+    objectKeys = Object.keys;
 	pnam1 :string = ''; pnam2 :string = ''; pnam3 :string = ''; pnam4 :string = ''; pnam5 :string = ''; pnam6 :string = ''; pnam7 :string = ''; pnam8 :string = ''; pnam9 :string = '';
 	ppos1 :string = ''; ppos2 :string = ''; ppos3 :string = ''; ppos4 :string = ''; ppos5 :string = ''; ppos6 :string = ''; ppos7 :string = ''; ppos8 :string = ''; ppos9 :string = '';
 	pras1 :string = '';pras2 :string = '';pras3 :string = '';pras4 :string = '';pras5 :string = '';pras6 :string = '';pras7 :string = '';pras8 :string = '';pras9 :string = '';
 	pnak1 :string = '';pnak2 :string = '';pnak3 :string = '';pnak4 :string = '';pnak5 :string = '';pnak6 :string = '';pnak7 :string = '';pnak8 :string = '';pnak9 :string = '';
 	nakl1 :string = '';nakl2 :string = '';nakl3 :string = '';nakl4 :string = '';nakl5 :string = '';nakl6 :string = '';nakl7 :string = '';nakl8 :string = '';nakl9 :string = '';
-  constructor(public navCtrl: NavController, public shareService: ShareService, public renderer: Renderer2, el: ElementRef, public platform: Platform, public horoService: HoroscopeService
-)
+	nrefs: number = 0;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public shareService: ShareService, public renderer: Renderer2, public platform: Platform, public horoService: HoroscopeService, private file: File, private fileOpener: FileOpener)
   {
+   this.binf = navParams.get('binf');
 	platform.ready().then((readySource) => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
+		if(this.shareService.getYogAd()) {
+		 this.showASU = true;
+		}
+		this.chartanls =  '<span>TAP on birthchart for more advanced settings</span>';
 	});
   }
   ngAfterViewInit() {
@@ -165,6 +114,8 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	this.trikona_lords  = '';
 	this.kendra_lords  = '';
 	this.akashWani = '';
+
+	//this.ctxHoro = (<HTMLCanvasElement>this.cnvHoro.nativeElement).getContext('2d');
 	this.loadHoro();
    // this.initPushNotification();
   }
@@ -180,13 +131,58 @@ export class HoroscopePage implements OnInit, AfterViewInit {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HoroscopePage');
   }
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter HoroscopePage');
+	var ayn = this.shareService.getAYNM();
+	let say: string = 'NC LAHIRI';
+	if(ayn) {
+		switch(Number(ayn))
+			{
+			   case 1:
+					say = 'BV RAMAN';
+					break;
+				case 2:
+					say = 'KP OLD';
+					break;
+				case 3:
+					say = 'KP NEW';
+					break;
+				case 4:
+					say = 'NC LAHIRI';
+					break;
+				case 5:
+					say = 'KHULLAR';
+					break;
+				case 6:
+					say = 'FAGAN BRADLEY';
+					break;
+				default:
+					say = 'KP NEW';
+					break;
+			}
+	}
+	this.ayanINF = '<span><strong>AYANAMSA:</strong></span><span class="more" tappable (click)="chgayan()">'+say+'</span>';
+    if(this.nrefs > 0) {
+		for (let child of this.birthChart.nativeElement.children) {
+			this.renderer.removeChild(this.birthChart.nativeElement, child);
+		}
+		this.showVIM = false;
+		this.loadHoro();
+	}
+	this.nrefs++;
+  }
+  ngOnDestroy() {
+    this.lstnr();
+  }	  
   loadHoro()
   {
 	console.log('loadHoro');
 		var plPos = this.shareService.getPLPOS();
 		for (var i = 0; i < 16; i++) {
 			var sign = signs[i];
+			console.log('sign=', sign);
 			if (plPos.hasOwnProperty(sign)) {
+			    console.log('split-1');
 				var pls = plPos[sign].split('\|');
 				console.log(pls);
 				//var ePls = '';
@@ -198,7 +194,10 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 					//} else {
 					//    ePls = ePls + pls[k];
 					//}
+								    console.log('split-2');
 					if (pls[k].split(' ')[1] == 'MEAN_NODE') {
+					   			    console.log('split-3');
+
 						var rpos = o_rashis[sign].split('\|')[0];
 						var kpos = parseInt(rpos, 10) + 6;
 						if (kpos > 12) kpos = (kpos - 12);
@@ -206,8 +205,12 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						//if (mn > 15) mn -= 15;
 						if (plPos.hasOwnProperty(o_signs[kpos - 1])) {
 							var eP = plPos[o_signs[kpos - 1]];
+										    console.log('split-4');
+
 							plPos[o_signs[kpos - 1]] = eP + '|' + pls[k].split(' ')[0] + ' ' + 'Ke';
 						} else {
+									    console.log('split-5');
+
 							plPos[o_signs[kpos - 1]] = pls[k].split(' ')[0] + ' ' + 'Ke';
 						}
 						// plPos[sign] = ePls;
@@ -218,7 +221,11 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						console.log('ASCENDENT is ' + this.asc_sign);
 					} else if (pls[k].split(' ')[1] == 'Mo') {
 						this.moon_sign = sign;
+									    console.log('split-1', pls[k]);
+
 						this.moon_deg = Number(pls[k].split(' ')[0]);
+					} else if (pls[k].split(' ')[1] == 'TRUE_NODE') {
+						plPos[sign] = plPos[sign].replace('TRUE_NODE', 'TR');		
 					}
 				}
 			}
@@ -226,7 +233,23 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		
 		//target.innerHTML = '';
 	//	target.appendChild(grid(4, 25, 100%, plPos));
-        this.renderer.appendChild(this.birthChart.nativeElement, this.grid(4, this.device_width/4, this.device_width, plPos));
+	    if(this.shareService.getCHTYP() == 'sind')
+			this.svgHoro = this.grid(4, this.device_width/4, this.device_width, plPos);
+		else if(this.shareService.getCHTYP() == 'nind')
+			this.svgHoro = this.drawNIchart(plPos);
+		else
+			this.svgHoro = this.grid(4, this.device_width/4, this.device_width, plPos);
+		
+	    this.lstnr = this.renderer.listen(this.svgHoro, 'click', (event) => {
+			// Do something with 'event'
+			console.log('clicked ', event.path);
+			console.log('clicked ', event.path[2]);
+			this.binf.ref = '1';
+			this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
+		});
+		console.log('svg', this.svgHoro);
+		console.log('birthChart', this.birthChart);
+        this.renderer.appendChild(this.birthChart.nativeElement, this.svgHoro);
 		var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
 		console.log(bstar);
 		this.shareService.setBirthStar(bstar.split('|')[0]);
@@ -275,8 +298,12 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			}
 		}
 		h_code += '</span>';
-		var m_dy = 30.436875;
-		var d_yr = 365.2425;
+		//var dob = this.shareService.getDOB().split('T')[0].split('-')[1] + '/' + this.shareService.getDOB().split('T')[0].split('-')[2] + '/' + //this.shareService.getDOB().split('T')[0].split('-')[0];
+		var dob = this.binf.dob.split('T')[0].split('-')[1] + '/' + this.binf.dob.split('T')[0].split('-')[2] + '/' + this.binf.dob.split('T')[0].split('-')[0];
+		var odob = this.parseDate(dob);
+		var elp_days = this.daydiff(odob, new Date());
+		var m_dy = this.days_in_month(odob.getMonth()+1, odob.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
+		var d_yr = this.days_of_a_year(odob.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
 		//let vim_c: number = (parseInt(dasha_conv[this.moon_sign], 10) + this.moon_deg) / 120;
 		//var vim_s = vim_c.toString();
 		//var vim_b = '0.' + vim_s.split('.')[1];
@@ -337,8 +364,6 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	       rem_days = rem1*d_yr;
 		}
 
-		var dob = this.shareService.getDOB().split('T')[0].split('-')[1] + '/' + this.shareService.getDOB().split('T')[0].split('-')[2] + '/' + this.shareService.getDOB().split('T')[0].split('-')[0];
-		var elp_days = this.daydiff(this.parseDate(dob), new Date());
 		//var cur_das = rem_days;
 		//var n_cosl = cosl;
 		//var curr_rul = Number(dashas[arr[vi]])//const_ruler[n_cosl.toString()];
@@ -350,12 +375,29 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		//}
 		//h_code += '<br\><div id="dvim"></div>';
 		
-        var dob_c = new Date(this.shareService.getDOB());
+        //var dob_c = new Date(this.shareService.getDOB());
+		var dob_c = new Date(this.binf.dob);
 		//var s_das_dys = this.getDashaDays(bstar.split('|')[2].toLowerCase());
         dob_c.setDate(dob_c.getDate() + rem_days);
-		this.fdas = this.translate(bstar.split('|')[2].toUpperCase());
-		this.fdasp = dob.split('/')[1] + '/' + dob.split('/')[0] + '/' + dob.split('/')[2] + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-		this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.shareService.getDOB()), rem_days);
+		//this.fdas = this.translate(bstar.split('|')[2].toUpperCase());
+		//this.fdasp = dob.split('/')[1] + '/' + dob.split('/')[0] + '/' + dob.split('/')[2] + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
+		//this.svims = '{text: ' + this.fdas + ' ' + this.fdasp + ', style: header}';
+		let pbeg = dob.split('/')[1] + '/' + dob.split('/')[0] + '/' + dob.split('/')[2];
+		let pend = dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear(); 
+		var sty = 'mdas';
+		var cur_date = new Date();
+		if(cur_date >= odob && cur_date <= dob_c) sty = 'mdasc';
+		let das2 : Dasha = {
+			lord: this.translate(bstar.split('|')[2].toUpperCase()),
+			per: pbeg + ' To ' + pend,
+			type: 'MDAS',
+			style: sty,
+			subs: true,
+			show: true,
+			icon: 'add'
+		};
+		this.oDas.push(das2);
+		let akys: string = this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.binf.dob), rem_days);
 		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
 		var v_start = 0;
 		var v_iter = 0;
@@ -368,46 +410,24 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			var y = dob_c.getFullYear().toString();
 			//dob_c.setFullYear(dob_c.getFullYear() + Number(dashas[arr[vi]]));
 			//var c_das_dys = this.getDashaDays(dashas[arr[vi]]);
+		    d_yr = this.days_of_a_year(startdt.getFullYear());
 			dob_c.setDate(dob_c.getDate() + Number(dashas[arr[vi].substring(0,2).toLowerCase()])*d_yr);
 			//h_code += '<h4>' + this.translate(arr[vi]) + ' dasha - ' + dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + //'/' + dob_c.getFullYear() + '</h4>';
-			switch(v_iter)
-			{
-			   case 1:
-			      this.sdas = this.translate(arr[vi].toUpperCase());
-				  this.sdasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 2:
-			      this.tdas = this.translate(arr[vi].toUpperCase());
-				  this.tdasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 3:
-			      this.fodas = this.translate(arr[vi].toUpperCase());
-				  this.fodasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 4:
-			      this.fidas = this.translate(arr[vi].toUpperCase());
-				  this.fidasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 5:
-			      this.sxdas = this.translate(arr[vi].toUpperCase());
-				  this.sxdasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 6:
-			      this.svdas = this.translate(arr[vi].toUpperCase());
-				  this.svdasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 7:
-			      this.edas = this.translate(arr[vi].toUpperCase());
-				  this.edasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   case 8:
-			      this.ndas = this.translate(arr[vi].toUpperCase());
-				  this.ndasp = dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-				  break;
-			   default:
-			      break;
-			}
-		    this.buildAntarDasha(arr[vi], v_iter+1, startdt, 0);
+			sty = 'mdas';
+			if(cur_date >= startdt && cur_date <= dob_c) sty = 'mdasc';
+			let pbeg = startdt.getDate().toString() + '/' + (startdt.getMonth()+1).toString() + '/' + startdt.getFullYear();
+			let pend = dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear()
+			let das : Dasha = {
+			    lord: this.translate(arr[vi].toUpperCase()),
+				per: pbeg + ' To ' + pend,
+				type: 'MDAS',
+				style: sty,
+				subs: true,
+				show: true,
+				icon: 'add'
+			};
+			this.oDas.push(das);
+		    akys = this.buildAntarDasha(arr[vi], v_iter+1, startdt, 0);
 		 }	
 		 if(arr[vi] == bstar.split('|')[2]) {
 			 v_start = 1;
@@ -415,6 +435,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		if(vi == 8) vi = -1;
 		if(v_iter == 8) break;
 	   }
+	   this.showVIM = true;
 	   console.log(this.cur_m_das);
 		if(this.shareService.getLANG().toLowerCase() == 'en') {
 			h_code += "<h3>You are now in " + ruler_name[this.cur_m_das.substring(0,2).toLowerCase()] + " Maha dasha and " + ruler_name[this.cur_a_das] + " Antar dasha.</h3> <br/>";
@@ -439,7 +460,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 					pls = plPos[this.asc_sign].split('\|');
 					for (k = 0; k < pls.length; k++) {
 						var pl = pls[k].split(' ')[1];
-						if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+						if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 							if (this.kendra_lords.indexOf(ruler_name[pls[k].split(' ')[1].toLowerCase()]) > -1) {
 								ausp_lords += ruler_name[pls[k].split(' ')[1].toLowerCase()] + ' ';
 								klord_in_tri += '1|' + ruler_name[pls[k].split(' ')[1].toLowerCase()] + '&';
@@ -470,7 +491,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 							pls = plPos[o_signs[j]].split('\|');
 							for (k = 0; k < pls.length; k++) {
 								pl = pls[k].split(' ')[1];
-								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 									if (this.kendra_lords.indexOf(ruler_name[pls[k].split(' ')[1].toLowerCase()]) > -1) {
 										ausp_lords += ruler_name[pls[k].split(' ')[1].toLowerCase()] + ' ';
 										klord_in_tri += (as).toString() + '|' + ruler_name[pls[k].split(' ')[1].toLowerCase()] + '&';
@@ -497,7 +518,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 							pls = plPos[o_signs[j]].split('\|');
 							for (l = 0; l < pls.length; l++) {
 								pl = pls[l].split(' ')[1];
-								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 									if (this.kendra_lords.indexOf(ruler_name[pls[l].split(' ')[1].toLowerCase()]) > -1) {
 										ausp_lords += ruler_name[pls[l].split(' ')[1].toLowerCase()] + ' ';
 										klord_in_ken += (as).toString() + '|' + ruler_name[pls[l].split(' ')[1].toLowerCase()] + '|' + rashi_lords[o_signs[j]] + '&';
@@ -524,7 +545,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 							pls = plPos[o_signs[j]].split('\|');
 							for (l = 0; l < pls.length; l++) {								
 							    pl = pls[l].split(' ')[1];
-								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+								if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 								  vp_rulers += ruler_name[pls[l].split(' ')[1].toLowerCase()] + '-' + (as).toString() + '|';
 								  vp_owners += rashi_lords[o_signs[j]] + '-' + (as).toString() + '|';
 								}
@@ -542,7 +563,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						pls = plPos[o_signs[k]].split('\|');
 						for (l = 0; l < pls.length; l++) {
 							pl = pls[l].split(' ')[1];
-							if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+							if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 								if (this.kendra_lords.indexOf(ruler_name[pls[l].split(' ')[1].toLowerCase()]) > -1) {
 									ausp_lords += ruler_name[pls[l].split(' ')[1].toLowerCase()] + ' ';
 									klord_in_tri += (hno).toString() + '|' + ruler_name[pls[l].split(' ')[1].toLowerCase()] + '&';
@@ -567,7 +588,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						pls = plPos[o_signs[k]].split('\|');
 						for (var l = 0; l < pls.length; l++) {
 							pl = pls[l].split(' ')[1];
-							if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+							if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 								if (this.kendra_lords.indexOf(ruler_name[pls[l].split(' ')[1].toLowerCase()]) > -1) {
 									ausp_lords += ruler_name[pls[l].split(' ')[1].toLowerCase()] + ' ';
 									klord_in_ken += (hno).toString() + '|' + ruler_name[pls[l].split(' ')[1].toLowerCase()] + '|' + rashi_lords[o_signs[k]] + '&';
@@ -732,6 +753,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.horo = h_code;
 		h_code = '';
 		let pcnt :number = 0;
+		//this.splpos = "[";
 		for(let key of Object.keys(signs)) {
 			if(signs[key] == 'na') continue;
 		    sign = signs[key];
@@ -770,7 +792,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 				pls = plPos[sign].split('\|');
 				for (k = 0; k < pls.length; k++) {
 					pl = pls[k].split(' ')[1];
-					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TRUE_NODE') {  //consider only true planets
+					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 						h_code += this.translate(ruler_name[pl.toLowerCase()]) + ' ';
 						rps += this.translate(ruler_name[pl.toLowerCase()]) + ','
 						pcnt++
@@ -783,6 +805,15 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						var star = this.calcStar(sign, Number(pls[k].split(' ')[0]));
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[0]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+						//this.splpos += "['" + this.translate(ruler_name[pl.toLowerCase()].toUpperCase()) + "','" + pls[k].split(' ')[0].split('.')[0] + "\xB0','" + this.translate(rashis[sign].split('\|')[1]) + "','" + this.translate(star.split('|')[0]) + "','" +  this.translate(star.split('|')[2]) + "'],"
+							let planetStar: PlanetStar = {
+							 pos: this['ppos' +pcnt.toString()],
+							 sign: this['pras' + pcnt.toString()],
+							 star: this['pnak'+pcnt.toString()],
+							 star_l: this['pnakl'+pcnt.toString()]
+							};
+							this.oPlanet[this['pnam' + pcnt.toString()]] = planetStar;
+						
 					} else if (pl == 'Ra') { //consder Rahu
 						h_code += this.translate('Rahu') + ' ';
 						rps += this.translate('Rahu') + ',';
@@ -796,6 +827,13 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						var star = this.calcStar(sign, Number(pls[k].split(' ')[0]));
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[0]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+							let planetStar: PlanetStar = {
+							 pos: this['ppos' +pcnt.toString()],
+							 sign: this['pras' + pcnt.toString()],
+							 star: this['pnak'+pcnt.toString()],
+							 star_l: this['pnakl'+pcnt.toString()]
+							};
+							this.oPlanet[this['pnam' + pcnt.toString()]] = planetStar;
 					} else if (pl == 'Ke') {
 						h_code += this.translate('Ketu') + ' ';
 						rps += this.translate('Ketu') + ',';
@@ -809,8 +847,16 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						var star = this.calcStar(sign, Number(pls[k].split(' ')[0]));
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[0]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+							let planetStar: PlanetStar = {
+							 pos: this['ppos' +pcnt.toString()],
+							 sign: this['pras' + pcnt.toString()],
+							 star: this['pnak'+pcnt.toString()],
+							 star_l: this['pnakl'+pcnt.toString()]
+							};
+							this.oPlanet[this['pnam' + pcnt.toString()]] = planetStar;
 					}
 				}
+				
 				if(this.shareService.getLANG() == 'en') {
 					h_code += ' ruling this house at time of your birth</span><br/>';
 				} else if(this.shareService.getLANG() == 'te') {
@@ -886,6 +932,12 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 				}
 			}
 		}
+		//console.log('splpos=', this.splpos);
+		//this.splpos = this.splpos.substring(0, this.splpos.length-1);
+		//console.log('splpos after trim=', this.splpos);
+		//this.splpos += "]";
+		//console.log('splpos final=', this.splpos);
+		
 		this.akashWani = h_code;
 	}
 	translate(lord: string)
@@ -1337,75 +1389,58 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	}
 	buildPratyantarDasha(mainlord :string, sublord :string, order :number, suborder :number, startdt :Date)
 	{
-	  var m_dy = 30.436875;
-	  var d_yr = 365.2425;
+	  let pkys: string = '';
+		var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
+		var d_yr = this.days_of_a_year(startdt.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
 	  var e_dys = 0;
 		var arr = ["su","mo","ma","ra", "ju", "sa", "me", "ke", "ve"];
 		var v_start = 0;
 		var v_iter = 0;
 		var a_per = 0;
 		var s_dt = new Date(startdt.getTime());
+		var cur_date = new Date();
 	   for (var vi=0, len=arr.length; vi<len; vi++) {
 	     if(arr[vi] == sublord || v_start == 1) { 
 	        v_iter++;
+			var b_dt = new Date(s_dt);
+			d_yr = this.days_of_a_year(b_dt.getFullYear());
 			var m = (s_dt.getMonth()+1).toString();
 			var dd = s_dt.getDate().toString();
 			var y = s_dt.getFullYear().toString();
 			var p_yrs = Number(dashas[mainlord])*Number(dashas[sublord])*Number(dashas[arr[vi]])/(120*120);
 			s_dt.setDate(s_dt.getDate() + p_yrs*d_yr);
 			this.shareService.addVIM(dd + '-' + m + '-' + y + '|' + s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString(), mainlord, sublord, arr[vi]);
-		    switch(order)
-			{
-			  case 1:
-				this['f' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['f' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 2:
-				this['s' + suborder.toString() + suborder.toString()  + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['s' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 3:
-			    this['t' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['t' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 4:
-				this['fo' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['fo' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 5:
-				this['fi' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['fi' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 6:
-				this['sx' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['sx' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 7:
-				this['sv' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['sv' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 8:
-				this['e' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['e' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 9:
-				this['n' + suborder.toString() + suborder.toString() + 'das'] += '<br/><span>' + mainlord + '-' + sublord + '-' + arr[vi] + '</span>';
-				this['n' + suborder.toString() + suborder.toString() + 'dasp'] += '<br/><span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  default:
-				break;
+			//this.svims += ',[ ' + mainlord + '-' + sublord + '-' + arr[vi] + ',' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + ']';
+			let pbeg = dd + '/' + m + '/' + y;
+			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
+			var sty = 'pdas';
+			if(cur_date >= b_dt && cur_date <= s_dt) sty = 'pdasc';
+            let prad : Dasha = {
+			  lord: this.translate(mainlord) + '-' + this.translate(sublord) + '-' + this.translate(arr[vi]),
+              per: pbeg + ' To ' + pend,
+			  type: 'PDAS',
+			  style: sty,
+			  subs: false,
+			  show: false,
+			  icon: ''
 			}
+			pkys += mainlord + '-' + sublord + '-' + arr[vi] + '|';
+			this.oDas.push(prad);
 			v_start = 1;
 		 }	
 		if(vi == 8) vi = -1;
 		if(v_iter == 9) break;
 	   }
+	   return pkys;
 	}
 	buildAntarDasha(lord :string, order :number, startdt :Date, remdays :number)
 	{
-	  var m_dy = 30.436875;
-	  var d_yr = 365.2425;
+	  let akys: string = '';
+		var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
+		var d_yr = this.days_of_a_year(startdt.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
 	  var e_dys = 0;
+	  var a_per = 0;
+	  var cur_date = new Date();
 		let das :any = '';
 		if(lord == "venus") das = venus_das;
 		else if(lord == "ketu") das = ketu_das;
@@ -1423,9 +1458,10 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	    var tot_dys = Number(dashas[lord.substring(0,2).toLowerCase()])*d_yr;
 		e_dys = tot_dys - remdays;
 		var ffd = 0;
-		var a_per = 0;
 		var r_dys = 0;
 		for(let key of Object.keys(das)) {
+		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
+		  d_yr = this.days_of_a_year(s_dt.getFullYear());
 		  //var e_dt = s_dt;
 			console.log(key);
 		  var ads = das[key];
@@ -1440,63 +1476,38 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			var dd = s_dt.getDate().toString();
 			var y = s_dt.getFullYear().toString();
 		    s_dt.setDate(s_dt.getDate() + a_dys);
-			var cur_date = new Date();
+			let sty = 'adas';
 			if(cur_date >= start_das && cur_date <= s_dt) {
 			  this.cur_m_das = lord;
 			  this.cur_a_das = key;
+			  sty = 'adasc';
 			}
 		    a_per++;
-		    switch(order)
-			{
-			  case 1:
-				this['f' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['f' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 2:
-				this['s' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['s' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 3:
-			    this['t' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['t' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 4:
-				this['fo' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['fo' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 5:
-				this['fi' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['fi' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 6:
-				this['sx' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['sx' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 7:
-				this['sv' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['sv' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 8:
-				this['e' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['e' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 9:
-				this['n' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['n' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  default:
-				break;
-			}
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
+			akys += lord + '-' + ruler_name[key].toLowerCase() + '|';
+			//this.svims += '[{text: ' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + 'style: "tableHeader"}, {text: ' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + 'style: "tableHeader"}]';
+			let pbeg = dd + '/' + m + '/' + y;
+			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
+			let adas: Dasha = {
+			    lord: this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()),
+				per: pbeg + ' To ' + pend,
+				type: 'ADAS',
+				style: sty,
+				subs: true,
+				show: false,
+				icon: 'add'
+			};
+			this.oDas.push(adas);
+			let pkys: string = this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
 		  }
 		}
 	  } else {
-		var a_per = 0;
 	    var s_dt = new Date(startdt.getTime());
 	    //var tot_dys = Number(dashas[lord.substring(0,2)])*d_yr;
 		//e_dys = tot_dys - remdays;
 		//var ffd = 0;
 		for(let key of Object.keys(das)) {
+			m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
+		    d_yr = this.days_of_a_year(s_dt.getFullYear());
 		   a_per++;
 			var start_das = new Date(s_dt.getTime());
 			var m = (s_dt.getMonth()+1).toString();
@@ -1507,56 +1518,40 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		  console.log(ads);
 		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
 		    s_dt.setDate(s_dt.getDate() + a_dys);
-			var cur_date = new Date();
+			let sty = 'adas';
 			if(cur_date >= start_das && cur_date <= s_dt) {
 			  this.cur_m_das = lord;
 			  this.cur_a_das = key;
+			  sty = 'adasc';
 			}
-		    switch(order)
-			{
-			  case 1:
-				this['f' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['f' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 2:
-				this['s' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['s' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 3:
-			    this['t' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['t' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 4:
-				this['fo' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['fo' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 5:
-				this['fi' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['fi' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 6:
-				this['sx' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['sx' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 7:
-				this['sv' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['sv' + a_per.toString() + 'dasp'] += '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 8:
-				this['e' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['e' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  case 9:
-				this['n' + a_per.toString() + 'das'] = '<span>' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + '</span>';
-				this['n' + a_per.toString() + 'dasp'] = '<span>' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + '</span>';
-			    break;
-			  default:
-				break;
-			}
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
+			//this.svims += '[{text: ' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + 'style: "tableHeader"}, {text: ' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + 'style: "tableHeader"}]';
+			akys += lord + '-' + ruler_name[key].toLowerCase() + '|';
+			let pbeg = dd + '/' + m + '/' + y;
+			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
+			let adas: Dasha = {
+			    lord: this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()),
+				per: pbeg + ' To ' + pend,
+				type: 'ADAS',
+				style: sty,
+				subs: true,
+				show: false,
+				icon: 'add'
+			};
+			this.oDas.push(adas);
+			let pkys: string = this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
 		}
 	  }
+	  return akys;
 	}
+	days_of_a_year(year) {
+		return this.isLeapYear(year) ? 366 : 365;
+	}
+	isLeapYear(year) {
+     return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+	}
+	days_in_month(month, year) {
+		return new Date(year, month, 0).getDate();
+	}	
  	check_aspects(sign, rpos) {
 		var plPos = this.shareService.getPLPOS();
 		var chk_asp = '';
@@ -1685,15 +1680,16 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(svg, "height", pixelsPerSide);
 		this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
         var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+		var s1 = 24;
+		var xp = size - 24;
         var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
 		this.renderer.setAttribute(pattern, "id", "sign-0");
 		this.renderer.setAttribute(pattern,"patternUnits", "userSpaceOnUse");
-		this.renderer.setAttribute(pattern, "height", size);
-		this.renderer.setAttribute(pattern, "width", size);
+		this.renderer.setAttribute(pattern, "height", size.toString());
+		this.renderer.setAttribute(pattern, "width", size.toString());
         var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
-		var s1 = size/2;
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
 		image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href",
@@ -1707,7 +1703,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
         image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1721,7 +1717,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
         image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1735,7 +1731,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
         image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1749,23 +1745,21 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
         image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
 		image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href",
 							 "http://live.makemypublication.com/Images/Aries.png");
-
 		this.renderer.appendChild(pattern, image);
 		this.renderer.appendChild(defs, pattern);
-
 		pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
 		this.renderer.setAttribute(pattern, "id", "sign-7");
 		this.renderer.setAttribute(pattern, "patternUnits", "userSpaceOnUse");
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1779,7 +1773,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1793,7 +1787,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1807,7 +1801,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1821,7 +1815,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1836,7 +1830,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1851,7 +1845,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(pattern, "height", size.toString());
 		this.renderer.setAttribute(pattern, "width", size.toString());
 		image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		this.renderer.setAttribute(image, "x", "0");
+		this.renderer.setAttribute(image, "x", xp.toString());
 		this.renderer.setAttribute(image, "y", "0");
 		this.renderer.setAttribute(image, "height", s1.toString());
 		this.renderer.setAttribute(image, "width", s1.toString());
@@ -1866,6 +1860,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		var s3 = size;
 		var s4 = 15;
 		var s5 = size * 2 / 2;
+
 		for (var i = 0; i < numberPerSide; i++) {
 			for (var j = 0; j < numberPerSide; j++) {
 				if ((i * numberPerSide + j) == 5 || (i * numberPerSide + j) == 6 || (i * numberPerSide + j) == 9 || (i * numberPerSide + j) == 10) {
@@ -1894,7 +1889,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						this.renderer.setAttribute(text, "id", "t" + number);
 						g.appendChild(text);
 						text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-						this.renderer.appendChild(text, document.createTextNode(this.shareService.getDOB().split('T')[0].split('-')[2] + '/' + this.shareService.getDOB().split('T')[0].split('-')[1] + '/' + this.shareService.getDOB().split('T')[0].split('-')[0]));
+						this.renderer.appendChild(text, document.createTextNode(this.binf.dob));
 						this.renderer.setAttribute(text, "fill", "#ffffff");
 						this.renderer.setAttribute(text, "font-size", s4.toString());
 						this.renderer.setAttribute(text, "font-weight", "bold");
@@ -2110,5 +2105,734 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			//}
 		}
 	}
+ more()
+	{
+	let item: any = {};
+	item.title = 'Talk to Astrologer';
+	this.navCtrl.push(AstrologersPage, {
+      item: item
+	  });
+	}	
+ getTableDat(odat){
+  var headers = {
+        top:{
+            col_1:{ text: 'Name', style: 'tableHeader', alignment: 'center' },
+            col_2:{ text: 'Position', style: 'tableHeader', alignment: 'center' }, 
+            col_3:{ text: 'Rasi', style: 'tableHeader', alignment: 'center' },
+            col_4:{ text: 'Star', style: 'tableHeader', alignment: 'center' },
+            col_5:{ text: 'Star Lord', style: 'tableHeader', alignment: 'center'}
+        }
+    }
+	var rows = odat;
+
+    var body = [];
+    for (var key in headers){
+        if (headers.hasOwnProperty(key)){
+            var header = headers[key];
+            var row = new Array();
+            row.push( header.col_1 );
+            row.push( header.col_2 );
+            row.push( header.col_3 );
+            row.push( header.col_4 );
+            row.push( header.col_5 );
+            body.push(row);
+        }
+    }
+    for (var key in rows) 
+    {
+        if (rows.hasOwnProperty(key))
+        {
+            var data = rows[key];
+            var row = new Array();
+            row.push( { text: key.toString(), alignment: 'center' } );
+            row.push( { text: rows[key].pos, alignment: 'center' } );
+            row.push( { text: rows[key].sign, alignment: 'center' });
+            row.push( { text: rows[key].star, alignment: 'center' });
+            row.push( { text: rows[key].star_l, alignment: 'center' });
+            body.push(row);
+        }
+    }
+    return body;	
+ }
+ createPdf() {
+	console.log('created', this.pdfObj);
+  }	
+  
+  
+ downloadPdf(chart) {
+   //GENERATE PDF
+   // usage:
+   console.log('downloadPdf() called');
+		this.horoService.getBirthInfo(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone)
+		   .subscribe(res => {
+		   let birthInfo: string = ' Name : ' + this.name + '\nDate of Birth :' + this.binf.dob + '\nPlace of Birth :' + this.shareService.getPlace() + '\nLagna:' + res['lagna'] + '\nLagna Lord:' + res['lagna_lord'] + '\nMoon Sign:' + res['moon_sign'] + '\nSun Sign : ' + res['sun_sign'] + '\nTithi : ' + res['tithi'] + '\nStar Lord :' + res['star_lord'] + '\nMoon Phase :' + res['moon_phase'];
+			console.log('drawInlineSVG', this.svgHoro);
+				var cont = [];
+				var feds = new Array();
+				feds.push({text: '126 ASTROLOGY', style: 'header' });
+				// Now is done
+				console.log( 'chart-data', chart );
+				feds.push({columns: [
+									{
+									  image: chart,
+									  fit: [253,253]
+									},
+									{
+									 text: birthInfo
+									}
+								], columnGap: 10});
+				feds.push({text: 'Planet Positions', style: 'story' });
+				feds.push({
+						style: 'tableExample',
+						writable: true,
+						table: {
+							widths: [100, '*', 200, '*', '*'],
+							body: this.getTableDat(this.oPlanet)
+						}
+					});
+				feds.push({text: 'Vimsottara Dasha', style: 'story' });
+				cont.push(feds);
+				   var docDefinition = {
+					  content: cont,
+					  styles: {	
+						header: {
+						  fontSize: 18,
+						  bold: true,
+						  alignment: 'center'
+						},
+						subheader: {
+						  fontSize: 14,
+						  bold: true,
+						  margin: [0, 15, 0, 0]
+						},
+						story: {
+						  italic: true,
+						  alignment: 'center',
+						  width: '50%',
+						},
+						tableExample: {
+							margin: [0, 5, 0, 15]
+						},
+						tableHeader: {
+						   bold: true,
+						   fontSize: 13,
+						   color: 'black'
+						}						
+					  }
+					}
+					console.log('Creating pdf...', JSON.stringify(docDefinition));
+					pdfMake.createPdf(docDefinition).getBuffer((buffer) => {
+							console.log('createBlob');
+							var blob = new Blob([buffer], { type: 'application/pdf' });
+							console.log('Writing to pdf..');
+							// Save the PDF to the data Directory of our App
+							this.file.writeFile(this.file.dataDirectory, 'vedichoro.pdf', blob, { replace: true }).then(fileEntry => {
+							  // Open the PDf with the correct OS tools
+							  console.log('Opening the pdf..');
+							  this.fileOpener.open(this.file.dataDirectory + 'vedichoro.pdf', 'application/pdf');
+							})
+			});
+		  }, (err) => {
+			//this.info = err;
+		  }) ;   
+  }	
+  generatePdf() {
+  console.log('generatePdf');
+ // var svg = document.querySelector('#birthChart');
+   this.svgHoro = this.bchart(4, 63, 252, this.shareService.getPLPOS());
+  //create a canvas
+  var canvas = document.createElement("canvas");
+
+  //set size for the canvas
+
+  var ctx = canvas.getContext('2d');
+
+  var data = new XMLSerializer().serializeToString(this.svgHoro);
+
+  var DOMURL = window.URL || (window as any).webkitURL || window;
+
+  var img = new Image();
+  var svgBlob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+  var url = DOMURL.createObjectURL(svgBlob);
+  var page = this;
+  img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+      DOMURL.revokeObjectURL(url);
+
+      var imgURI = canvas
+          .toDataURL('image/png')
+          .replace('image/png', 'image/octet-stream');
+
+      page.downloadPdf(imgURI);
+  };
+
+  img.src = url;  
+  }
+	bchart(numberPerSide, size, pixelsPerSide, plps) {
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", pixelsPerSide);
+		this.renderer.setAttribute(svg, "height", pixelsPerSide);
+		this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		var s1 = size/2;
+		var border = 1;
+		var s2 = size * 2;
+		var s3 = size;
+		var s4 = 15;
+		var s5 = size * 2 / 2;
+		for (var i = 0; i < numberPerSide; i++) {
+			for (var j = 0; j < numberPerSide; j++) {
+				if ((i * numberPerSide + j) == 5 || (i * numberPerSide + j) == 6 || (i * numberPerSide + j) == 9 || (i * numberPerSide + j) == 10) {
+					if ((i * numberPerSide + j) == 5) {
+						var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+						this.renderer.setAttribute(g, "transform", ["translate(", i * size, ",", j * size, ")"].join(""));
+						var number = numberPerSide * i + j;
+						var box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+						this.renderer.setAttribute(box, "width", s2.toString());
+						this.renderer.setAttribute(box, "height", s2.toString());
+						this.renderer.setAttribute(box, "border", border.toString());
+						this.renderer.setAttribute(box, "stroke", "black");
+						this.renderer.setAttribute(box, "fill", "#f4a460");
+						this.renderer.setAttribute(box, "id", "b" + number);
+						this.renderer.appendChild(g, box);
+						var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode("BIRTH CHART"));
+						this.renderer.setAttribute(text, "fill", "#ffffff");
+						this.renderer.setAttribute(text, "font-size", s4.toString());
+						this.renderer.setAttribute(text, "font-weight", "bold");
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
+						this.renderer.setAttribute(text, "x", s3.toString());
+						this.renderer.setAttribute(text, "y", s3.toString());
+						//this.renderer.setAttribute(text, "text-align", "center");
+						this.renderer.setAttribute(text, "id", "t" + number);
+						g.appendChild(text);
+						text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode(this.binf.dob));
+						this.renderer.setAttribute(text, "fill", "#ffffff");
+						this.renderer.setAttribute(text, "font-size", s4.toString());
+						this.renderer.setAttribute(text, "font-weight", "bold");
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
+						this.renderer.setAttribute(text, "x", s3.toString());
+						this.renderer.setAttribute(text, "y", (s3+12).toString());
+						//this.renderer.setAttribute(text, "text-align", "center");
+						this.renderer.setAttribute(text, "id", "st" + number);
+						g.appendChild(text);
+						svg.appendChild(g);
+					}
+					continue;
+				}
+				// var zodiac1 = zodiacs[(i + j) % zodiacs.length];
+				// var zodiac2 = zodiacs[(i + j + 1) % zodiacs.length];
+				g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+				this.renderer.setAttribute(g, "transform", ["translate(", i * size, ",", j * size, ")"].join(""));
+				number = numberPerSide * i + j;
+				box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+				var sign = "url(#sign-" + number.toString() + ")";
+				this.renderer.setAttribute(box, "width", size.toString());
+				this.renderer.setAttribute(box, "height", size.toString());
+				this.renderer.setAttribute(box, "stroke", (signs[number] == this.asc_sign) ? "#FF5733" : "#000000");
+				this.renderer.setAttribute(box, "stroke-width", (signs[number] == this.asc_sign) ? (border+2).toString() : border.toString());
+				this.renderer.setAttribute(box, "fill", sign);
+				this.renderer.setAttribute(box, "id", "b" + number.toString());
+				this.renderer.appendChild(g, box);
+				sign = signs[number];
+				if (plps.hasOwnProperty(sign)) {
+					//var pls = replaceAll(plps[sign], '\|', '');
+					//var pls = plps[sign].replace(/\|/g, ' ');
+					var pls = plps[sign].split('\|');
+					var pcnt = 0;
+					var s6 = 10;
+					var s7 = 5;
+					
+					for (var k = 0; k < pls.length; k++) {
+						if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+						if (pls[k].split(' ')[1] == 'AC') this.asc_sign = sign;
+						else if (pls[k].split(' ')[1] == 'Mo') {
+							this.moon_sign = sign;
+							this.moon_deg = Number(pls[k].split(' ')[0]);
+						}
+						pcnt++;
+						text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode(pls[k]));
+						//text.setAttribute("fill", zodiac2);
+						this.renderer.setAttribute(text, "font-size", s6.toString());
+						this.renderer.setAttribute(text, "font-weight", "bold");
+						if(pls[k].split(' ')[1] == 'AC') this.renderer.addClass(text, "redText");
+						else if(pls[k].split(' ')[1] == 'Mo') this.renderer.addClass(text, "blueText");
+						this.renderer.setAttribute(text, "x", s7.toString());
+						var s8 = 10 * pcnt;
+						this.renderer.setAttribute(text, "y",  s8.toString());
+						this.renderer.setAttribute(text, "id", "t" + number.toString());
+						g.appendChild(text);
+					}
+				}
+				svg.appendChild(g);
+			}
+		}
+
+		return svg;
+	};
 	
+	drawNIchart(plps) {
+	   var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+       var ras = ['ar', 'ta', 'ge', 'cn', 'le', 'vi', 'li', 'sc', 'sa', 'cp', 'aq', 'pi'];
+	   let ah: number = 0;
+	   var s6 = 12;
+	    for(var r = 0; r < 12; r++) {
+  		 if (plps.hasOwnProperty(ras[r])) {
+			var pls = plps[ras[r]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				if (pls[k].split(' ')[1] == 'AC') { 
+				   this.asc_sign = ras[r];
+				   ah = r+1;
+				   break;
+				}
+			}
+	     }
+		}
+        var size = this.device_width;
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", (this.device_width).toString());
+		this.renderer.setAttribute(svg, "height", (this.device_width).toString());
+		//this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
+		var border = 1;
+		//var s2 = size * 2;
+		//var s3 = size;
+		var s4 = 15;
+		var bxz = size/4;
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", "0"); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y1", (bxz).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.appendChild(g, line);
+		console.log('ah',ah);
+		var hcord = this.getHXY(1, this.device_width);
+		var htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(htxt, document.createTextNode(roms[ah-1]));
+		this.renderer.setAttribute(htxt, "font-size", s6.toString());
+		this.renderer.setAttribute(htxt, "font-weight", "bold");
+		this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+		this.renderer.setAttribute(htxt, "text-anchor", "middle");
+		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.appendChild(g, htxt);
+		let np: number = 0;
+  		 if (plps.hasOwnProperty(ras[ah-1])) {
+			var pls = plps[ras[ah-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(1, this.device_width, Number(pls[k].split(' ')[0]));
+				console.log('getXY-cord', cord);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		let ch: number = ah;
+	    let hou: number = 2;
+		while(hou < 13) {
+		   ch++;
+		   if(ch > 12) ch = 1;
+		   console.log('hno=', hou);
+			np = 0;
+		    hcord = this.getHXY(hou, this.device_width);
+		    htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(htxt, document.createTextNode(roms[ch-1]));
+			this.renderer.setAttribute(htxt, "font-size", s6.toString());
+			this.renderer.setAttribute(htxt, "font-weight", "bold");
+			this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+			this.renderer.setAttribute(htxt, "text-anchor", "middle");
+			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.appendChild(g, htxt);
+			console.log("fixing planets to hou");
+  		 if (plps.hasOwnProperty(ras[ch-1])) {
+			var pls = plps[ras[ch-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			    console.log("k=", k);
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+			console.log("ch", ch);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(hou, this.device_width, Number(pls[k].split(' ')[0]));
+				console.log('getXY', cord);
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		hou++;
+	}
+	svg.appendChild(g);
+	return svg;
+ }
+ 
+ getXY(h, w, p) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2));
+	console.log(x,y);
+	return [x, y];
+ }
+ getHXY(h, w) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2) - 12);
+	console.log(x,y);
+	return [x, y];
+ }
+ chgayan()
+ {
+   console.log('binf', this.binf);
+   this.binf.ref = '1';
+   this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
+ }	
+ ontoggle(event, das)
+ {
+   console.log('ontoggle', das);
+   event.stopPropagation();
+   for(var i = 0; i < this.oDas.length; i++) {
+     if(das.type == 'MDAS' && this.oDas[i].type == 'ADAS') {
+		if(this.oDas[i].lord.split('-')[0].toLowerCase() == das.lord.toLowerCase()) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false;
+	 } else if(das.type == 'MDAS' && das.icon != 'add' && this.oDas[i].type == 'PDAS') {
+	     if(this.shareService.getLANG().toLowerCase() == 'en') {
+			 if(this.oDas[i].lord.split('-')[0].toLowerCase() == das.lord.substring(0,2).toLowerCase()) this.oDas[i].show = false; 
+		 } else {
+			 if(this.oDas[i].lord.split('-')[0] == das.lord) this.oDas[i].show = false; 
+		 }
+	 } else if(das.type == 'ADAS' && this.oDas[i].type == 'PDAS') {
+	     if(this.shareService.getLANG().toLowerCase() == 'en') {
+			 if(this.oDas[i].lord.split('-')[0].toLowerCase() + '-' + this.oDas[i].lord.split('-')[1].toLowerCase() == das.lord.split('-')[0].substring(0,2).toLowerCase() + '-' + das.lord.split('-')[1].substring(0,2).toLowerCase()) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
+		 } else {
+			 if(this.oDas[i].lord.split('-')[0]+'-'+ this.oDas[i].lord.split('-')[1] == das.lord.split('-')[0]+'-'+das.lord.split('-')[1]) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
+		 }
+	 }
+   }
+   (das.icon == 'add') ? das.icon = 'remove' : das.icon = 'add';
+ }
 }

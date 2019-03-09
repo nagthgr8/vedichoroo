@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<div *ngIf="showQ">
+<div text-center>
+	<img src="https://66.media.tumblr.com/d2a74b04e9c4c36a72f4d21df3d3d971/tumblr_pjru78otip1xp0noco1_100.png" alt="vedic astrology"/>
+	<h2>{{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </h2>
+	</div>
+
+	<div *ngIf="showMSG"><p class='note'>Please note this method uses Gulbarga Theory. Answer will be in YES or NO, question in context should be relavent to YES/NO, question should be very specific like for instance, Will I get job in this week? or Can I win this race today? Will my girlfriend reply my mail? Can my mom recover from ill-heath in this week? This theory cannot answer detailed questions such as When will I get job? which requires detailed analysis on hora chart the feature we are aiming to release shortly.</p><p class="note2">Please donot ask non-measurable questions like Can I get job? Can I be rich? Can I find my soulmate? Your will power is the best choice while deailing with such goals? We wish this tool is only to be used as good motivator.</p></div>
+<ion-list>
+<ion-item>
+<ion-label floating>Location from where question asked</ion-label>
+    <ion-input [(ngModel)]="loc" type="text" (focusin)="showAddressModal()"></ion-input>
+</ion-item>
+<ion-item>
+<ion-label floating>Question</ion-label>
+    <ion-input [(ngModel)]="que" type="text"></ion-input>
+</ion-item>
+<ion-item>
+<ion-label floating>Enter number between 1 & 249</ion-label>
+    <ion-input [(ngModel)]="num" type="number"></ion-input>
+</ion-item>
+	        <p text-center ion-text class="info" color="primary" [innerHTML]='info'></p>
+		<div padding *ngIf="showCR">
+	   			<p ion-text class="adtxt2">You can ask one question per day. But if you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited usage, you can also customize this App as per your choice. <span class="more" tappable (click)="more()">Know more..</span></p>
+		</div>
+	   <div padding *ngIf="showSU">
+			<button ion-button full tappable (click)="save()">Submit</button>
+		</div>
+</ion-list>
+</div>
+		<div text-center *ngIf="showANS">
+		<img src="https://66.media.tumblr.com/e582f6f460ffdbef56ae7a426463fc71/tumblr_pjs9gebrMr1xp0noco1_250.png" alt="vedic astrology"/>
+		<div text-center class="que" [innerHTML]="wque"></div>
+		<div text-center class="ans" [innerHTML]='ans'></div>
+		<div *ngIf="showDET" class='note' [innerHTML]='det'></div>
+	   </div>
+	   <div padding *ngIf="showBK">
+			<button ion-button full tappable (click)="ask()">BACK</button>
+		</div>
+	   
+</ion-content>

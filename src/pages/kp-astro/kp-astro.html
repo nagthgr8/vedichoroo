@@ -14,9 +14,19 @@
 </ion-header>
 
 
-<ion-content padding>
-<div class='recfy' *ngIf="showBN" [innerHTML]='recfyBT'></div>
+<ion-content no-padding>
+<div tappable (click)="btrmore()">
+<p class='recfy' *ngIf="showBN" [innerHTML]='recfyBT'></p>
+</div>
+<ion-card class="adcard" *ngIf="showASU">
+<img src="https://66.media.tumblr.com/25b5954e66a9d530721a0d1edb9ba82e/tumblr_pjdvgo6gY51xp0noco1_540.png"/>
+<div class="adv"> Chat now with our expert Astrologers. <span class="more" tappable (click)="more()">Know more..</span></div>
+</ion-card>
+
 <div #birthChart></div>
+<div tappable (click)="chgayan()">
+  <p padding [innerHTML]='ayanINF'></p>
+ </div>
 <ion-grid no-padding>
      <ion-row class="title"><ion-col col-2>PLANET</ion-col><ion-col col-2>POS</ion-col><ion-col col-2>SIGN</ion-col><ion-col col-4>STAR</ion-col><ion-col col-2>SUB</ion-col></ion-row>
 	 <ion-row class="subtitle"><ion-col col-2><div color="primary" ion-text [innerHTML]='pnam1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='ppos1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='pras1'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak1'></div></ion-col><ion-col col-2><div color="primary" ion-text [innerHTML]='nakl1'></div></ion-col></ion-row>
@@ -60,19 +70,20 @@
 	<ion-row class="subtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk8'></div></ion-col></ion-row>
 	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn9'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps9 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps9 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3ps9}}</span><span style='color:#f0882f;font-weight:'>{{L4ps9}}</span></div></ion-col></ion-row>
 	<ion-row class="subtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk9'></div></ion-col></ion-row>
+	<ion-row><ion-col col-12><div class='recfy'>Tap on the house number to reveal more details</div></ion-col></ion-row>
     <ion-row class="title"><ion-col col-4>HOUSE</ion-col><ion-col col-8>SIGNIFICATORS</ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn1'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs1 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs1 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs1}}</span><span style='color:#f0882f;font-weight:'>{{L4hs1}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn2'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs2 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs2 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs2}}</span><span style='color:#f0882f;font-weight:'>{{L4hs2}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn3'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs3 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs3 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs3}}</span><span style='color:#f0882f;font-weight:'>{{L4hs3}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn4'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs4 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs4 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs4}}</span><span style='color:#f0882f;font-weight:'>{{L4hs4}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn5'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs5 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs5 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs5}}</span><span style='color:#f0882f;font-weight:'>{{L4hs5}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn6'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs6 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs6 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs6}}</span><span style='color:#f0882f;font-weight:'>{{L4hs6}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn7'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs7 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs7 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs7}}</span><span style='color:#f0882f;font-weight:'>{{L4hs7}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn8'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs8 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs8 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs8}}</span><span style='color:#f0882f;font-weight:'>{{L4hs8}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn9'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs9 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs9 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs9}}</span><span style='color:#f0882f;font-weight:'>{{L4hs9}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn10'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs10 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs10 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs10}}</span><span style='color:#f0882f;font-weight:'>{{L4hs10}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn11'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs11 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs11 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs11}}</span><span style='color:#f0882f;font-weight:'>{{L4hs11}}</span></div></ion-col></ion-row>
-	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn12'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs12 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs12 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs12}}</span><span style='color:#f0882f;font-weight:'>{{L4hs12}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='hn1' tappable (click)="hsignf(1)"></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs1 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs1 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs1}}</span><span style='color:#f0882f;font-weight:'>{{L4hs1}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(2)" [innerHTML]='hn2'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs2 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs2 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs2}}</span><span style='color:#f0882f;font-weight:'>{{L4hs2}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(3)" [innerHTML]='hn3'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs3 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs3 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs3}}</span><span style='color:#f0882f;font-weight:'>{{L4hs3}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(4)"[innerHTML]='hn4'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs4 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs4 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs4}}</span><span style='color:#f0882f;font-weight:'>{{L4hs4}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(5)" [innerHTML]='hn5'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs5 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs5 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs5}}</span><span style='color:#f0882f;font-weight:'>{{L4hs5}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(6)" [innerHTML]='hn6'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs6 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs6 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs6}}</span><span style='color:#f0882f;font-weight:'>{{L4hs6}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(7)" [innerHTML]='hn7'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs7 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs7 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs7}}</span><span style='color:#f0882f;font-weight:'>{{L4hs7}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(8)" [innerHTML]='hn8'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs8 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs8 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs8}}</span><span style='color:#f0882f;font-weight:'>{{L4hs8}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(9)" [innerHTML]='hn9'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs9 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs9 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs9}}</span><span style='color:#f0882f;font-weight:'>{{L4hs9}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(10)" [innerHTML]='hn10'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs10 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs10 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs10}}</span><span style='color:#f0882f;font-weight:'>{{L4hs10}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(11)" [innerHTML]='hn11'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs11 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs11 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs11}}</span><span style='color:#f0882f;font-weight:'>{{L4hs11}}</span></div></ion-col></ion-row>
+	<ion-row class="subtitle"><ion-col col-4><div color="primary" ion-text tappable (click)="hsignf(12)" [innerHTML]='hn12'></div></ion-col><ion-col col-8><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs12 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs12 }}</span><span style='color:#001EFF;font-weight:bold;'>{{L3hs12}}</span><span style='color:#f0882f;font-weight:'>{{L4hs12}}</span></div></ion-col></ion-row>
 </ion-grid>
   <ion-card>
    <ion-card-content><span><strong>LEVEL I Signinificators are highlighted in <span style="color:#f44141;font-size:bold">RED</span><br/>LEVEL II Signinificators are highlighted in <span style="color:#3db161;font-size:bold">GREEN</span><br/>LEVEL III Signinificators are highlighted in <span style="color:#001EFF;font-size:bold">BLUE</span><br/>LEVEL IV Signinificators are highlighted in <span style="color:#f0882f;font-size:bold">ORANGE</span><br/>For each Planet and House there are 4 levels of Significators where LEVEL I Significators are more predominant than LEVEL II, LEVEL II Significators are more predominant than LEVEL III and where as LEVEL III Significators are more predominant than LEVEL IV. </strong></span>
@@ -80,13 +91,16 @@
   </ion-card>
 <ion-grid no-padding *ngIf="showLS">
  <div *ngFor="let key of objectKeys(oPlanet)">
-     <ion-row class="title"><ion-col col-12>{{key}}</ion-col></ion-row>
-    <ion-row class="desc"><ion-col col-12><div class="desc">{{oPlanet[key].inds}}</div></ion-col></ion-row>
+     <ion-row class="maintitle"><ion-col col-12><div color="primary">{{key}}</div></ion-col></ion-row>
+    <ion-row class="title2"><ion-col col-12><div class="desc" color="level2">{{oPlanet[key].inds}}</div></ion-col></ion-row>
  </div>
 </ion-grid>
   <ion-card class="note">
   <ion-card-header>Current Dasha & Transit Report</ion-card-header>
   <ion-card-content><span>You are currently running {{mdas1}} Maha Dasha, {{adas1}} Antar Dasha and {{pdas1}} Pratyantar Dasha. This period ends on {{pend1}} <br/></span>
+  <span style="color:blue">Maha Dasha Lord <strong>{{mdas1}} </strong> is the signinficator of {{mdas1sgnf}} houses. {{mdas1life}}</span><br>
+  <span style="color:green">Antar Dasha Lord <strong>{{adas1}} </strong> is the signinficator of {{adas1sgnf}} houses. {{adas1life}}</span><br>
+  <span style="color:red">Pratyantar Dasha Lord <strong>{{pdas1}} </strong> is the signinficator of {{pdas1sgnf}} houses. {{pdas1life}}</span><br>
   <span>In KP Astrology the star depositor/significators of the planet produces the results more predominantly than lordship and ownership of the planet during its dasha, antar dasha or pratyantar dasha, below transit report is analyzed according to star depositors of dasha lords, transiting planet & the sub lord.</span>
   </ion-card-content>
   </ion-card>
@@ -106,7 +120,7 @@
 	<div class='note' [innerHTML]='mprd4'></div>
 
  <ion-card *ngIf="showNote">
-   <ion-card-content><span><strong>No transits identified during current Pratyantar Dasha balance period. You can avail our premium service and get one year transit report </strong></span>
+   <ion-card-content><span>No Transits identified</span>
 	</ion-card-content>
   </ion-card>
    <div *ngIf="showSubscr">

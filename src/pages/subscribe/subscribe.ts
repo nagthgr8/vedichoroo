@@ -5,6 +5,7 @@ import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2';
 import { Device } from '@ionic-native/device';
 import { Plan } from '../../app/plan';
 import { HoroscopeService } from '../../app/horoscope.service';
+import { ShareService } from '../../app/share.service';
 import { HelpDeskPage } from '../help-desk/help-desk';
 import { ListPage } from '../list/list';
 /**
@@ -32,11 +33,12 @@ export class SubscribePage {
    showCI: boolean = false;
    info: string;
    sinf: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public formBuilder: FormBuilder) {
+   paym: string = 'rpay';
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService, public formBuilder: FormBuilder) {
 	 if(navParams.get('ci') == true)
       this.showCI = true;
-	 else 
-  	  this.horoService.getPlan(this.device.uuid)
+	// else 
+  	  this.shareService.plan
 		   .subscribe(res => {
 				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
 				this.plan = pln;
@@ -112,6 +114,8 @@ export class SubscribePage {
 	  this.showSU = false;
 	  this.showWC = true;
 	  this.showCI = true;
+	  this.plan.name = this.product.gpid;
+	  this.shareService.setPLAN(this.plan);
 	  this.horoService.setPlan(this.device.uuid, this.product.gpid)
 		   .subscribe(res => {
 			}, (err) => {
@@ -166,7 +170,12 @@ export class SubscribePage {
  buy()
   {
     this.product.gpid = 'com.mypubz.eportal.astrologer';
-	this.init_pur_and_complete();
+	if(this.paym == 'rpay') {
+		this.showCR = false;
+		this.showSU = false;
+		this.showCI = true;
+	}
+	else this.init_pur_and_complete();
   }
   help()
   {
@@ -185,15 +194,79 @@ export class SubscribePage {
 	//if(this.personalDetailsForm.controls['eml'].value.length == 0) {
 	   // this.info = 'Please enter your name';
 		//return;
-		//}  
+		//} 
+    if(this.paym == 'rpay' && this.plan.name != 'com.mypubz.eportal.astrologer') this.razpay();	
+	else {
 		this.sinf = 'Please wait...';
 		this.horoService.addSubscriber(this.device.uuid, this.personalDetailsForm.controls['nam'].value, this.personalDetailsForm.controls['mob'].value, this.personalDetailsForm.controls['eml'].value)
 		   .subscribe(res => {
-			this.sinf = 'Thank you for providing details. We will be in touch with you shortly';
-			if(!this.showWC) this.navCtrl.setRoot(ListPage);
+			//this.sinf = 'Thank you for providing details. We will be in touch with you shortly';
+			this.showWC = true;
+            this.showCI = false;
 		}, (err) => {
 			this.sinf = JSON.stringify(err);
 		}) ;
+	 }
 		
+  }
+  paymSel(paym)
+  {
+     this.paym = paym;
+  }
+  razpay() {
+    let amt: number = 999;
+    let paise: number = amt*100;
+	let ccy: string = 'INR';
+	let ccode = this.shareService.getCCODE();
+	//console.log('ccode', ccode);
+	if(ccode && ccode != '' && ccode != 'IN') {
+	  paise = amt*1.4;
+	  ccy = 'USD';
+	}
+	console.log('amt', paise);
+    var options = {
+      description: '126 Astrology Subscription',
+      image: 'https://i.imgur.com/YBQF1iV.png',
+      currency: ccy,//'INR',
+      key: 'rzp_live_B8Zi7S5GIm9G94',
+      amount: paise,//'99900',
+      name: '126 Astrology',
+      prefill: {
+        email: this.personalDetailsForm.controls['eml'].value,
+        contact: this.personalDetailsForm.controls['mob'].value,
+        name: this.personalDetailsForm.controls['nam'].value
+      },
+      theme: {
+        color: '#488aff'
+      },
+      modal: {
+        ondismiss: function() {
+          alert('dismissed')
+        }
+      }
+    };
+
+    var successCallback = (payment_id) => {
+	  this.plan.name = this.product.gpid;
+	  this.shareService.setPLAN(this.plan);
+		this.horoService.setPlan(this.device.uuid, this.product.gpid)
+		   .subscribe(res => {
+			this.sinf = 'Please wait...';
+			this.horoService.addSubscriber(this.device.uuid, this.personalDetailsForm.controls['nam'].value, this.personalDetailsForm.controls['mob'].value, this.personalDetailsForm.controls['eml'].value)
+			   .subscribe(res => {
+				this.sinf = 'Thank you for providing details. We will be in touch with you shortly';
+				if(!this.showWC) this.navCtrl.setRoot(ListPage);
+			}, (err) => {
+				this.sinf = JSON.stringify(err);
+			}) ;
+			}, (err) => {
+		});	  
+    };
+
+    var cancelCallback = (error) => {
+      alert(error.description + ' (Error ' + error.code + ')');
+    };
+
+    RazorpayCheckout.open(options, successCallback, cancelCallback);
   }
 }

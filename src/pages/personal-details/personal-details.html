@@ -14,41 +14,63 @@
   </ion-toolbar>
 
 </ion-header>
-
-
 <ion-content>
-<ion-card  *ngIf="showASU">
+<ion-card *ngIf="showASU">
 <img src="https://66.media.tumblr.com/e0822e2ae927b41ef9199c67b0d8ece1/tumblr_pgt7oisucw1xp0noco1_540.png"/>
 <div class="adv"> Astrologers can subscribe for just Rs. 999 & enjoy many benefits. <span class="more" tappable (click)="more()">Know more..</span></div>
 </ion-card>
          <ion-list padding>
-	    <form [formGroup]="personalDetailsForm">
 		<ion-item>
 			<ion-label floating>Date of Birth</ion-label>
-			<ion-datetime displayFormat="DD/MM/YYYY HH:mm" formControlName="dob" ></ion-datetime>
+			<ion-datetime  max="2099-10-31" displayFormat="D MMM, YYYY" pickerFormat="D MMM, YYYY" [(ngModel)]="dob"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Time of Birth</ion-label>
+			<ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="tob"></ion-datetime>
 		</ion-item>
 		<ion-item>	
 			<ion-label floating>Place of Birth</ion-label>
-			<ion-input id="place" (focusin)="showAddressModal()" formControlName="place" type="text"></ion-input>
+			<ion-input (focusin)="showAddressModal()" [(ngModel)]="place" type="text"></ion-input>
 		</ion-item>
 		
+	   <div padding *ngIf="showSU">
+		   <div *ngIf="showYO">
+				<p ion-text class="adtxt2">Our App will check all these <ion-badge color="secondary" tappable (click)="yoginf()">Yogas</ion-badge> in your Horoscope. Report can be available in all 4 supported languages.</p>
+			</div>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<button ion-button full tappable (click)="save()">Submit</button>
+		</div>
+		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
+   </ion-list>
 	   <div padding *ngIf="showCR">
 	        <p ion-text class="adtxt1">You have used up your <ion-badge color="secondary" (click)="morecred()">credits</ion-badge> Add more credits and enjoy uninterrupted service.</p>
+			  <ion-list radio-group [(ngModel)]="paym">
+				<ion-list-header>
+				  <ion-label>Payment Method</ion-label>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" checked (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+			  </ion-list>
+			
 			<button ion-button full tappable (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
 			<button ion-button full tappable (click)="buy()">Buy One for just Rs. 10</button><br/>
 			<p ion-text class="adtxt2">If you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited horoscope readings, you can also customize this App as per your choice. <span class="more" tappable (click)="more()">Know more..</span></p>
 			
 		</div>
-	   <div padding *ngIf="showSU">
-	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
-			<button ion-button full tappable (click)="save()">Submit</button>
-		</div>
-	   <div padding *ngIf="showYO">
-	        <p ion-text class="adtxt2">Know about various <ion-badge color="secondary" tappable (click)="yoginf()">Yogas</ion-badge> present in your Horoscope. Report available in all 4 supported languages.</p>
-			<button ion-button full tappable (click)="yog()">Buy Now For Just &#8377;126</button>
-		</div>
-		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>, 
-		</form>
-   </ion-list>
+   <div padding *ngIf="showH">
+   <h2>History</h2>
+     <ion-list>
+    <button ion-item *ngFor="let birth of oBirth" tappable (click)="selDOB($event, birth)">
+      <ion-icon name="contact" item-left></ion-icon>
+      {{birth.dob}}
+    </button>
+  </ion-list>
+   </div>
 
 </ion-content>

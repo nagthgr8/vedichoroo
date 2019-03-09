@@ -10,6 +10,10 @@ color: #001EFF;
 ion-grid {
   margin:0px;
 }
+ion-card {
+    position: relative;
+    text-align: center;
+  }
  ion-col div {
     border: 1px solid #e6e9ee;
     padding: 5px;
@@ -20,9 +24,9 @@ ion-grid {
   ion-row.title {
     text-align:center;
 	font-weight:bold;
-	background-color: #3399FF;
+	background-color: #f4a460;
 	padding: 5px;
-	color: #FBFCFC;
+	color: #FEFAF7;
   }
   ion-row.subtitle {
 	font-weight:bold;
@@ -36,9 +40,51 @@ ion-row.note div {
     text-align:left;
 	font-size:15px;
   }  
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	font-size: 15px;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
+	padding: 5px;
+	font-weight: bold;
+  }
+  .note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:center;
+  }
  .zoom {
     position: fixed;
     width: 100%;
     height: 100%;
 }
+ .mdas {
+   color: #424ef4;
+ }
+ .mdasc {
+   color: #424ef4;
+   font-weight: bold;
+ }
+ .adas {
+   color:#b70e4d;
+ }
+ .adasc {
+   font-weight: bold;
+   color: #b70e4d;
+ }
+ .pdas {
+  color: #B833FF;
+ }
+ .pdasc {
+   font-weight: bold;
+   color: #B833FF;
+ }
 }

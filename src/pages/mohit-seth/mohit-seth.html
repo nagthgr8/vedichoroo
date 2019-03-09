@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-card>
+<img src="https://i.imgur.com/teh93KK.png"/>
+<div class="card-title"></div>
+<div class="card-subtitle"></div>
+</ion-card>
+<div *ngIf="showBLG">
+    <ion-list text-wrap>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+        <ion-item (click)="detail(article)" *ngFor="let article of articles">
+            <ion-thumbnail item-right>
+                <img [src]="article.image" />
+            </ion-thumbnail>
+            <span class="category">{{article.pubDate}}</span>
+            <h2 class="title"><b>{{article.title}}</b></h2>
+        </ion-item>
+    </ion-list>
+</div>
+<div *ngIf="showPRF">
+<h4>Brief Introduction</h4>
+Being a Medicine graduate and MBA, Mohit expertised in Astrological predictions, using scientific dimensions in KP, NADI and VEDIC astrology.He is highly intuitive with spiritual blessing of his guru. His simple remedies from Vedic scriptures  have given respite to people in various fields in their problems. 
+<h4>Objective</h4> To provide scientific approach to predictive techniques, with uplifting the spiritual aura of native. 
+Being a member of group of renowned astrologers in Delhi, working hard for last 3 years to create confidence in common people towards solutions provided in our vaids and granths towards any karmic transactions causing grief and sorrow in this life.
+<h4>ACHIEVEMENTS</h4>
+predicted pin pointedly to business leaders, to streamline there revenues and profits.
+Potential Vedic remedies to overcome life hurdles
+</div>
+<div *ngIf="showASU">
+	<a [href]="walnk"><button ion-button full tappable color="primary">
+          <ion-icon name="text"></ion-icon>
+          Chat Now
+        </button></a>
+        <button ion-button full tappable color="secondary" (click)="callreq($event)">
+          <ion-icon name="call"></ion-icon>
+          Call Now
+        </button>
+		</div>
+</ion-content>

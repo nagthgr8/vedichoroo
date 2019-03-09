@@ -28,43 +28,43 @@ export class NotificationsPage {
 	if(res) {
 		this.rahu = res;
 	} else {
-		this.rahu = false;
+		this.rahu = true;
 	}
     res = this.shareService.getRAHUS();
 	if(res) {
 		this.rahus = res;
 	} else {
-		this.rahus = false;
+		this.rahus = true;
 	}
     res = this.shareService.getRAHUT1();
 	if(res) {
 		this.rahut1 = res;
 	} else {
-		this.rahut1 = false;
+		this.rahut1 = true;
 	}
     res = this.shareService.getRAHUT2();
 	if(res) {
 		this.rahut2 = res;
 	} else {
-		this.rahut2 = false;
+		this.rahut2 = true;
 	}
     res = this.shareService.getRAHUT3();
 	if(res) {
 		this.rahut3 = res;
 	} else {
-		this.rahut3 = false;
+		this.rahut3 = true;
 	}
     res = this.shareService.getSUNR();
 	if(res) {
 		this.sunrise = res;
 	} else {
-		this.sunrise = false;
+		this.sunrise = true;
 	}
     res = this.shareService.getSUNS();
 	if(res) {
 		this.sunset = res;
 	} else {
-		this.sunset = false;
+		this.sunset = true;
 	}
 	this.showRAH = this.rahu;
     //this.rahu = this.shareService.getRAHU();

@@ -5,5 +5,8 @@ export interface Astrologer {
   uid: string;
   mob: string;
   walnk: string;
+  smsg: string;
+  status: boolean;
+  cfee: string;
 }
 

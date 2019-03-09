@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+   <ion-list>
+		<ion-item>	
+			<ion-label>Title</ion-label>
+			<ion-input maxlength="500" [(ngModel)]="sub" type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Story</ion-label>
+		<ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea>
+		</ion-item>
+		<ion-item>
+		 <img src="{{pathForImage(imglocal)}}" style="width: 100%" [hidden]="imglocal === null">
+		</ion-item>
+		<ion-item class="item item-icon-right">	
+			<ion-label>Image</ion-label>
+			<ion-icon name="camera" (click)="takePic()" item-right></ion-icon>
+			<ion-icon name="attach" (click)="uploadPic()" item-right></ion-icon>
+		</ion-item>		
+		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<div>
+			<button ion-button full (click)="save()">Publish</button></div>
+		</div>
+  </ion-list>
+</ion-content>
+

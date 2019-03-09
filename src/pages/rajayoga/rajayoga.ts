@@ -1,5 +1,6 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { AstrologersPage } from '../astrologers/astrologers';
 import { AppRate } from '@ionic-native/app-rate';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ShareService } from '../../app/share.service'
@@ -1063,5 +1064,13 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 		}
 		return trn;
 	}
+	more()
+	{
+	let item: any = {};
+	item.title = 'Talk to Astrologer';
+	this.navCtrl.push(AstrologersPage, {
+      item: item
+	  });
+	}	
 	
 }

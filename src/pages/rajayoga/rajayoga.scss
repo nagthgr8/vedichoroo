@@ -43,6 +43,22 @@ ion-row.maintitle {
 	background-color: #f4a460;
 	color: #FEFAF7;
   }  
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
+  }
  .zoom {
     position: fixed;
     width: 100%;

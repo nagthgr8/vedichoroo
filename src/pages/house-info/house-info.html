@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-grid no-padding>
+     <ion-row class="title"><ion-col col-12>{{ hou }} HOUSE SIGNIFICATION</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oHou)">
+ <ion-row class="subtitle"><ion-col col-12><div color="level2">{{ oHou[key].details }}</div></ion-col></ion-row>
+ </div>
+     <ion-row class="title"><ion-col col-12>{{ hou }} HOUSE GROUPING</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oGrp)">
+ <ion-row class="subtitle"><ion-col col-4><div color="primary">{{ key }}</div></ion-col><ion-col col-8><div color="secondary">{{ oGrp[key].details }}</div></ion-col></ion-row>
+ </div>
+ <div *ngIf="showSU">
+ <ion-row class="title">ADD YOUR SUGGESTION<ion-col col-12></ion-col></ion-row>
+ <ion-row class="subtitle"><ion-col col-12><div color="level2"><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
+ 		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			</div>
+			<button ion-button full (click)="save()">Submit</button>
+ </div>
+</ion-grid>
+</ion-content>

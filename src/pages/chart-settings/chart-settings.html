@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<div class='note'>You can tap on labels to get more information</div>
+<div class="advset">
+            <div *ngIf="showCHT">
+              <ion-list no-padding radio-group [(ngModel)]="chtyp">
+			  <ion-list-header>
+			  <h2>Chart Type</h2>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>South Indian</ion-label>
+				  <ion-radio name="group2" value="sind" checked (ionSelect)="chartSel('sind')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>North Indian</ion-label>
+				  <ion-radio name="group2" value="nind" (ionSelect)="chartSel('nind')"></ion-radio>
+				</ion-item>
+			  </ion-list>
+			  </div>
+			  <ion-list no-padding radio-group [(ngModel)]="aynm">
+				<ion-list-header tappable (click)="showInf('ayanamsa')">
+				  <h2>{{'Ayanmasa' | translate }}</h2>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('lahiri')">NC Lahiri</ion-label>
+				  <ion-radio name="group1" value="4" checked (ionSelect)="ayanSel('4')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('bvraman')">BV Raman </ion-label>
+				  <ion-radio name="group1" value="1" (ionSelect)="ayanSel('1')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('kpold')">KP Old</ion-label>
+				  <ion-radio name="group1" value="2" (ionSelect)="ayanSel('2')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('kpnew')">KP New</ion-label>
+				  <ion-radio name="group1" value="3" (ionSelect)="ayanSel('3')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('khullar')">Khullar</ion-label>
+				  <ion-radio name="group1" value="5" (ionSelect)="ayanSel('5')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('faganbradley')">Fagan Bradley</ion-label>
+				  <ion-radio name="group1" value="6" (ionSelect)="ayanSel('6')"></ion-radio>
+				</ion-item>
+			  </ion-list>
+			  <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			  <button ion-button full tappable (click)="save($event)">OK</button>
+		</div>
+
+</ion-content>
