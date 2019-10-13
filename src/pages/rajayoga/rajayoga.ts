@@ -1,5 +1,6 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import { AstrologersPage } from '../astrologers/astrologers';
 import { AppRate } from '@ionic-native/app-rate';
 import { HoroscopeService } from '../../app/horoscope.service';
@@ -28,6 +29,7 @@ import * as o_rashis from '../horoscope/o_rashis.json';
 export class RajayogaPage implements OnInit, AfterViewInit {
   @ViewChild('birthChart') birthChart;
   @ViewChild('navChart') navChart;
+  svgHoro: any;
   dob: string = '';
   lagna: string = '';
   lagna_lord: string = '';
@@ -45,7 +47,10 @@ export class RajayogaPage implements OnInit, AfterViewInit {
   nYog: Yoga[] = [];
   oBif :BirthInfo;
   navPls: string[] = [];
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2) {
+  binf: any;
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2, public admob: AdMobFree) {
+    this.binf = navParams.get('binf');
+	console.log('binf', this.binf);
   platform.ready().then(() => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
@@ -55,7 +60,7 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 		//console.log(Object.keys(this.yogas));
 		let yogs = this.shareService.getYOGAS();
 		let jf: string = '';
-		this.horoService.getBirthInfo(this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone())
+		this.horoService.getBirthInfo(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone)
 		   .subscribe(res => {
 		   this.dob = res['dob'];
 		   this.lagna = this.translate_func(res['lagna']);
@@ -139,89 +144,78 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RajayogaPage');
+	this.shareService.plan.subscribe((pln) => {
+		if(pln.name != 'com.mypubz.eportal.astrologer')
+			this.launchInterstitial();
+	 }, (err) => {
+	});
   }
+  launchInterstitial() {
+
+        let interstitialConfig: AdMobFreeInterstitialConfig = {
+		    isTesting: false,
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/6353921799'
+        }; 
+
+        this.admob.interstitial.config(interstitialConfig);
+
+        this.admob.interstitial.prepare().then(() => {
+            // success
+        });
+
+    }
  
   calcNavamsa()
   {
 	var plPos = this.shareService.getPLPOS();
-	var sgns = ["ar","ta","ge","cn","le","vi","li","sc","sa","cp","aq","pi"];
+	let navPls: string[] = [];
+    //console.log('calcDivChart' + ndivs.toString());
+	let sec: number = 30/9, secp: number = 0;
+	console.log('no. of divs=' + sec.toString());
+	var plPos = this.shareService.getPLPOS();
+	var sgns = ["ar|M|Ma|1|O", "ta|F|Ve|2|E", "ge|D|Me|3|O", "cn|M|Mo|4|E", "le|F|Su|5|O", "vi|D|Me|6|E", "li|M|Ve|7|O", "sc|F|Ma|8|E", "sa|D|Ju|9|O", "cp|M|Sa|10|E", "aq|F|Sa|11|O", "pi|D|Ju|12|E" ];
+	var divs = [];
+	let n: number = 1;
+	while((secp = sec*n) <= 30) {
+		  divs.push(secp);
+		  n++;
+	}
+	console.log('part complete..');
+	console.log(divs);
+	let spos: number = 0;
 	for (var i = 0; i < 12; i++) {
 		var sign = sgns[i];
-		if (plPos.hasOwnProperty(sign)) {
-			var pls = plPos[sign].split('\|');
+                    if(sign.split('|')[4] == "O")
+                        spos = Number(sign.split('|')[3]);
+                    else 
+                        spos = Number(sign.split('|')[3])+8;
+		if (plPos.hasOwnProperty(sign.split('|')[0])) {
+			var pls = plPos[sign.split('|')[0]].split('\|');
 			for (var k = 0; k < pls.length; k++) {
+			   let ppos: number = spos;
+			   console.log('pl=' + pls[k]);
 				var pl = pls[k].split(' ')[1];
-				//if (pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'TRUE_NODE') {  //consider only true planets
 					let po: number = Number(pls[k].split(' ')[0]);
 					console.log(sign);
+					console.log(pl);
 					console.log(po);
-					let spos: number;
-					if(po < 3.21){
-						spos = 1;
-					}else if(po > 3.20 && po < 6.41 ){
-						spos = 2;
-					}else if(po > 6.40 && po < 10.01 ){
-						spos = 3;
-					}else if(po > 10 && po < 13.21 ){
-						spos = 4;
-					}else if(po > 13.20 && po < 16.41 ){
-						spos = 5;
-					}else if(po > 16.40 && po < 20.01 ){
-						spos = 6;
-					}else if(po > 20.01 && po < 23.21 ){
-						spos = 7;
-					}else if(po > 23.20 && po < 26.41 ){
-						spos = 8;
-					}else if(po > 26.40 && po < 30 ){
-						spos = 9;
-					}
-					console.log(spos);
-					let sord: number;
-					switch(sign)
+					n = 0;
+					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
 					{
-					  case 'ar':
-						sord = 1;
-						break;
-					  case 'ta':
-						sord = 10;
-						break;
-					  case 'ge':
-						sord = 7;
-						break;
-					  case 'cn':
-						sord = 4;
-						break;
-					  case 'le':
-						sord = 1;
-						break;
-					  case 'vi':
-						sord = 10;
-						break;
-					  case 'li':
-						sord = 7;
-						break;
-					  case 'sc':
-						sord = 4;
-						break;
-					  case 'sa':
-						sord = 1;
-						break;
-					  case 'cp':
-						sord = 7;
-						break;
-					  case 'aq':
-						sord = 4;
-						break;
-					  case 'pi':
-						sord = 1;
-						break;
-					  default:
-						break;
+						if(po >= n && po <= divs[dp]) {break;}
+						n = divs[dp];
+						ppos++;
 					}
-					console.log(sord);
+					let rpos: number = ppos;
+					while(rpos > 12 ) rpos -= 12;
+					console.log('spos=' + spos.toString());
+					let sord: number;
+					//let spnt: number = ndivs, x: number = 1;
+					//console.log('spnt=',ndivs+1);
 				//}
-				let navp :number = sord + (spos-1);
-				navp = (navp > 12) ? navp - 12: navp;
+				let navp :number = rpos;
+				//navp = (navp > 12) ? navp - 12: navp;
 				console.log(navp);
 				switch(navp)
 				{
@@ -301,7 +295,7 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 				  default:
 				    break;
 				}
-				console.log(this.navPls);
+				console.log(navPls);
 			}
 		}
 	}
@@ -344,7 +338,16 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 				}
 			}
 		}
-   this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title));
+		if(this.shareService.getCHTYP() == 'sind')
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title);
+		else if(this.shareService.getCHTYP() == 'nind')
+			this.svgHoro = this.drawNIchart(plPos, title);
+		else
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title);
+
+   this.renderer.appendChild(ele, this.svgHoro);
+
+   //this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title));
   }
   grid(numberPerSide, size, pixelsPerSide, plps, title) {
   		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -1072,5 +1075,447 @@ export class RajayogaPage implements OnInit, AfterViewInit {
       item: item
 	  });
 	}	
+	drawNIchart(plps, title) {
+	   var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+       var ras = ['ar', 'ta', 'ge', 'cn', 'le', 'vi', 'li', 'sc', 'sa', 'cp', 'aq', 'pi'];
+	   let ah: number = 0;
+	   var s6 = 10;
+	    for(var r = 0; r < 12; r++) {
+  		 if (plps.hasOwnProperty(ras[r])) {
+			var pls = plps[ras[r]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				if (pls[k].split(' ')[1] == 'AC') { 
+				   //this.asc_sign = ras[r];
+				   ah = r+1;
+				   break;
+				}
+			}
+	     }
+		}
+        var size = this.device_width/2;
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", (size).toString());
+		this.renderer.setAttribute(svg, "height", (size).toString());
+		//this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
+		//var border = 1;
+		//var s2 = size * 2;
+		//var s3 = size;
+		//var s4 = 15;
+		var bxz = size/4;
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", "0"); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y1", (bxz).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.appendChild(g, line);
+		console.log('ah',ah);
+		var hcord = this.getHXY(1, this.device_width/2);
+		var htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(htxt, document.createTextNode(roms[ah-1]));
+		this.renderer.setAttribute(htxt, "font-size", s6.toString());
+		this.renderer.setAttribute(htxt, "font-weight", "bold");
+		this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+		this.renderer.setAttribute(htxt, "text-anchor", "middle");
+		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.appendChild(g, htxt);
+		let np: number = 0;
+  		 if (plps.hasOwnProperty(ras[ah-1])) {
+			var pls = plps[ras[ah-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(1, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY-cord', cord);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		let ch: number = ah;
+	    let hou: number = 2;
+		while(hou < 13) {
+		   ch++;
+		   if(ch > 12) ch = 1;
+		   console.log('hno=', hou);
+			np = 0;
+		    hcord = this.getHXY(hou, this.device_width/2);
+		    htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(htxt, document.createTextNode(roms[ch-1]));
+			this.renderer.setAttribute(htxt, "font-size", s6.toString());
+			this.renderer.setAttribute(htxt, "font-weight", "bold");
+			this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+			this.renderer.setAttribute(htxt, "text-anchor", "middle");
+			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.appendChild(g, htxt);
+			console.log("fixing planets to hou");
+  		 if (plps.hasOwnProperty(ras[ch-1])) {
+			var pls = plps[ras[ch-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			    console.log("k=", k);
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+			console.log("ch", ch);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(hou, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY', cord);
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		hou++;
+	}
+								var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode(title.toUpperCase()));
+						this.renderer.setAttribute(text, "fill", "#0f0f0f");
+						this.renderer.setAttribute(text, "font-size", "7");
+						this.renderer.setAttribute(text, "font-weight", 'bold');
+						this.renderer.setAttribute(text, "x", (bxz*2).toString());
+						this.renderer.setAttribute(text, "y", (bxz*2).toString());
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
+						this.renderer.setAttribute(text, "id", "title");
+						g.appendChild(text);
+
+	svg.appendChild(g);
+	return svg;
+ }
+ 
+ getXY(h, w, p) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2));
+	console.log(x,y);
+	return [x, y];
+ }
+ getHXY(h, w) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2) - 12);
+	console.log(x,y);
+	return [x, y];
+ }
 	
 }

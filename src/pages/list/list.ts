@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, NavController, NavParams, Events } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import { File } from '@ionic-native/file';
 import { ShareService } from '../../app/share.service'
 import { PersonalDetailsPage } from '../personal-details/personal-details';
@@ -10,8 +11,13 @@ import { StoriesPage } from '../stories/stories';
 import {DailyForecastPage} from '../dailyforecast/dailyforecast';
 import { PanchangPage } from '../panchang/panchang';
 import { PrashnaJyotishPage } from '../prashna-jyotish/prashna-jyotish';
+import { SubscribePage } from '../subscribe/subscribe';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Device } from '@ionic-native/device';
+import { Offer } from '../../app/offer';
+import { Plan } from '../../app/plan';
+
 //import * as lagnas from '../horoscope/lagna.json';
 import * as sublords from '../horoscope/sublords.json';
 @Component({
@@ -42,14 +48,17 @@ export class ListPage {
   lagsl: string = '';
   nak: string = '';
   tithi: string = '';
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, public events: Events, private file: File) {
+  showASU: boolean = false;
+  ofrm: string = '';
+  ofr: any;
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, public events: Events, private file: File, public device: Device, public admob: AdMobFree) {
     this.translate.setDefaultLang('en');
     this.showCard = false;
-    this.icons = ['planet','flower','eye', 'bulb','body','jet','star','podium','heart','sunny','paper','mic'];
-	this.title = ['Birth Chart','KP Astrology','Predictions','Prashna Jyotish','Yogas In Your Horoscope','Career Horoscope','Star Constellation', 'Divisional Charts', 'Love Horoscope','Daily Horoscope', 'Vedic Stories', 'Talk to Astrologer']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','KP Astrology, Life Event Predictions','30 Day Transit Predictions based on your birth sign','Horary, Ask any question & know the answer.','Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yoga...','Career Predictions as per Dasamsa Chart','Star Constellation As Per B V Raman', 'D-1/D-16 charts, Navamsa, Dasamsa, etc..','Love Compatibility Report','Based On Your Moon Sign', 'Vedic Astrology Stories', 'Ask a question or Talk instantly with our expert astrologers']
+    this.icons = ['planet','flower','eye', 'bulb','body','jet','cash','star','podium','heart','sunny','paper','mic'];
+	this.title = ['Birth Chart','KP Astrology','Predictions','Prashna Jyotish','Yogas In Your Horoscope','Career Horoscope','Money Horoscope','Star Constellation', 'Divisional Charts', 'Love Horoscope','Daily Horoscope', 'Vedic Stories', 'Talk to Astrologer']
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','KP Astrology, Life Event Predictions','30 Day Transit Predictions based on your birth sign','Horary, Ask any question & know the answer.','Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yoga...','Career Predictions as per Dasamsa Chart','How much money will you gain?','Know Your Favourable Days', 'Analysis On Each Life Aspect','Love/Marriage Compatibility Report','Based On Your Moon Sign', 'Vedic Astrology Stories', 'Ask a question or Talk instantly with our expert astrologers']
     this.items = [];
-    for(let i = 1; i < 13; i++) {
+    for(let i = 1; i < 14; i++) {
       this.items.push({
         title: this.title[i-1],
         note: this.note[i-1],
@@ -62,15 +71,28 @@ export class ListPage {
   {
    console.log('ioniViewDidLoad()');
    this.platform.ready().then(() => {
+    this.shareService.plan.subscribe((pln) => {
+		if(pln.name != 'com.mypubz.eportal.astrologer')
+		 this.launchInterstitial();
+	 }, (err) => {
+	});	
     console.log('listpage', 'platform ready!');	
+	this.shareService.langc
+	 .subscribe((lang) => {
+		 console.log('list page: received language setting', lang);
+		 this.lang = lang;
+		 this.translate.use(this.lang);
+		 
+	  }, (err) => {
+	  });
 	//this.events.subscribe('dbfetch:lang', (res) => {
 		console.log('lang =' + this.shareService.getLANG());
 		//if(res) {
-			this.lang = this.shareService.getLANG();
+			//this.lang = this.shareService.getLANG();
 		//} else {
 			//this.lang = 'en';
 		////}
-		this.translate.use(this.lang);
+		//this.translate.use(this.lang);
 	//});		
     console.log(this.file.dataDirectory);
 	this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
@@ -83,8 +105,26 @@ export class ListPage {
         this.abhjit = jsonv['abhijit_s'] + ' To ' + jsonv['abhijit_e'];
 		this.showCard = true;
   		var cd = new Date();
+		if(jsonv['ccode'] == 'IN') {
+			this.horoService.getOffer(this.device.uuid)
+				.subscribe(res2 => {
+				   let ofr: Offer = { uuid: res2['uuid'], oid: res2['oid'], title: res2['title'], desc: res2['desc'], price: res2['price'], avail: 
+				   res2['avail'], impr: 0 };
+				   this.ofr = ofr;
+				   if(ofr.avail == true) {
+				     this.ofrm = '<span>' + res2['desc'] + '</span><span class="more">Avail Now..</span>';
+					 this.showASU = true;
+				   }
+				}, (err) => {
+			});
+		}
 		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
-		this.horoService.getProMoonPhase(this.getDms(jsonv['clat']), this.getDms(jsonv['clat']), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'], ayanid)
+		let clat: string = this.getDms(jsonv['clat']);
+		let clng: string = this.getDms(jsonv['clng']);
+		this.shareService.setCLAT(clat);
+		this.shareService.setCLNG(clng);
+		this.shareService.setCTimezone(jsonv['localtz']);
+		this.horoService.getProMoonPhase(clat, clng, cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), jsonv['localtz'], ayanid)
 		   .subscribe(res3 => {
 		   this.nak = this.translate_func(res3['birthStar']);
 		   this.tithi = this.translate_func(res3['tithi']);
@@ -156,11 +196,26 @@ export class ListPage {
 		  }, (err) => {
 		});
 	  });	  
-	});	  
+	});	 
   }
+  launchInterstitial() {
+
+        let interstitialConfig: AdMobFreeInterstitialConfig = {
+		    isTesting: false,
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/4747705399'
+        }; 
+
+        this.admob.interstitial.config(interstitialConfig);
+
+        this.admob.interstitial.prepare().then(() => {
+            // success
+        });
+
+    }
   calcStar(mins: number)
   {
-		console.log('calcStar', mins);
+		//console.log('calcStar', mins);
 		for(var i = 0; i < Object.keys(sublords).length; i++)
 		{
 			var nak = sublords[i];
@@ -263,7 +318,7 @@ alert("The local time is " + nd.toLocaleString());
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });
-	} else if(item.title == 'Career Horoscope') {
+	} else if(item.title == 'Career Horoscope' || item.title == 'Money Horoscope') {
 	 this.navCtrl.push(PersonalDetailsPage, {
       item: item
 	  });
@@ -299,6 +354,9 @@ alert("The local time is " + nd.toLocaleString());
     this.translate.use(this.lang);
 	console.log(this.lang);
 	this.shareService.setLANG(this.lang);
+  }
+  offer() {
+    this.navCtrl.push(SubscribePage, {ofr: this.ofr})
   }
 	translate_func(lord: string)
 	{

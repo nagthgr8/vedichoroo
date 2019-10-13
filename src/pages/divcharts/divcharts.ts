@@ -28,11 +28,14 @@ export class DivchartsPage {
   device_width :number = 0;
   device_height :number = 0;
   chartanls: string = '';
+  svgHoro: any;
   chart: any;
   asc_sign: string = '';
   lstnr_D1: Function; lstnr_D2: Function; lstnr_D3: Function; lstnr_D4: Function; lstnr_D7: Function; lstnr_D9: Function; lstnr_D10: Function; lstnr_D12: Function; lstnr_D16: Function; lstnr_D20: Function; lstnr_D24: Function; lstnr_D27: Function; lstnr_D30: Function; lstnr_D40: Function; lstnr_D45: Function; lstnr_D60: Function;
   atmk: string = '';
+  binf: any;
   constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2) {
+  this.binf = navParams.get('binf');
   platform.ready().then(() => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
@@ -199,52 +202,76 @@ export class DivchartsPage {
 	}
 	return navPls;
   }
-  calcDivChart(ndivs)
+    calcDivChart(ndivs)
+  {
+     if(ndivs == 4) return this.calcD4();
+     else if(ndivs == 9) return this.calcNavamsa();
+	 else if(ndivs == 10) return this.calcDasamsa();
+	 else return this.calcChart(ndivs);
+  }
+  calcChart(ndivs) 
   {
 	let navPls: string[] = [];
-    console.log('calcDivChart' + ndivs.toString());
-	let sec: number = 30/ndivs, secp: number = 0;
-	console.log('no. of divs=' + sec.toString());
 	var plPos = this.shareService.getPLPOS();
-	var sgns = ["ar","ta","ge","cn","le","vi","li","sc","sa","cp","aq","pi"];
+	var sgns = ["ar|M|Ma|1|O", "ta|F|Ve|2|E", "ge|D|Me|3|O", "cn|M|Mo|4|E", "le|F|Su|5|O", "vi|D|Me|6|E", "li|M|Ve|7|O", "sc|F|Ma|8|E", "sa|D|Ju|9|O", "cp|M|Sa|10|E", "aq|F|Sa|11|O", "pi|D|Ju|12|E" ];
 	var divs = [];
 	let n: number = 1;
+	let sec: number = 30/ndivs, secp: number = 0;
+	console.log('no. of divs=' + sec.toString());
 	while((secp = sec*n) <= 30) {
 		  divs.push(secp);
 		  n++;
 	}
 	console.log('part complete..');
 	console.log(divs);
-	for (var i = 0; i < 12; i++) {
+	 let spos: number = 0;
+	  for (var i = 0; i < 12; i++) {
 		var sign = sgns[i];
-		if (plPos.hasOwnProperty(sign)) {
-			var pls = plPos[sign].split('\|');
+		if (plPos.hasOwnProperty(sign.split('|')[0])) {
+			var pls = plPos[sign.split('|')[0]].split('\|');
 			for (var k = 0; k < pls.length; k++) {
 			   console.log('pl=' + pls[k]);
 				var pl = pls[k].split(' ')[1];
-				//if (pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'TRUE_NODE') {  //consider only true planets
-				if(pl == 'AC') 	this.asc_sign = sign;
+				if(pl == 'AC') 	this.asc_sign = sign.split('|')[0];
 					let po: number = Number(pls[k].split(' ')[0]);
-					console.log(sign);
+					console.log(sign.split('|')[0]);
 					console.log(pl);
 					console.log(po);
 					let spos: number;
 					n = 0;
 					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
 					{
-						if(po >= n && po <= divs[dp]) { spos = dp+1; break; }
+						if(po >= n && po <= divs[dp]) spos = dp+1;
 						n = divs[dp];
 					}
+					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  
+						if(ndivs == 60) {
+							//let planetDeity: PlanetDeity = {
+								//sno: spos,
+								//hno: -1,
+								//deity: deities[spos].split('|')[0],
+								//sign: '',
+								//nat: deities[spos].split('|')[2],
+								//desc: deities[spos].split('|')[1]
+							//};
+							//this.oPlanet[pls[k].split(' ')[1]] = planetDeity;					
+						}
+					}
 					while(spos > 12 ) spos -= 12;
+					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  
+						if(ndivs == 60) { 
+							//this.oPlanet[pls[k].split(' ')[1]].hno = spos;
+							//this.oPlanet[pls[k].split(' ')[1]].sign = sgns[spos-1].split('|')[0];
+						}
+					}
 					console.log('spos=' + spos.toString());
 					let sord: number;
-					let spnt: number = 0, x: number = 1;
+					let spnt: number = ndivs, x: number = 1;
 					console.log('spnt=',ndivs+1);
-					switch(sign)
+					switch(sign.split('|')[0])
 					{
 					  case 'ar':
 						sord = 1;
-						spnt = 1;
 						break;
 					  case 'ta':
 					    spnt = ndivs+1;
@@ -252,7 +279,7 @@ export class DivchartsPage {
 						sord = spnt;
 						break;
 					  case 'ge':
-					    spnt = 2*ndivs+1;
+					    spnt = 2*ndivs + 1;
 					    while(spnt > 12 ) spnt -= 12;
 						sord = spnt;
 						break;
@@ -305,9 +332,271 @@ export class DivchartsPage {
 						break;
 					}
 					console.log('sord=' + sord.toString());
-				//}
-				let navp :number = sord + spos;//(spos-1);
+				let navp :number = sord + (spos-1);
 				navp = (navp > 12) ? navp - 12: navp;
+				console.log(navp);
+				switch(navp)
+				{
+				  case 1:
+				    if(!navPls.hasOwnProperty('ar'))
+						navPls['ar'] = pls[k];
+					else
+						navPls['ar'] += '|' + pls[k];
+				    break;
+				  case 2:
+				    if(!navPls.hasOwnProperty('ta'))
+						navPls['ta'] = pls[k];
+					else
+						navPls['ta'] += '|' + pls[k];
+				    break;
+				  case 3:
+				    if(!navPls.hasOwnProperty('ge'))
+						navPls['ge'] = pls[k];
+					else
+						navPls['ge'] += '|' + pls[k];
+					
+				    break;
+				  case 4:
+				    if(!navPls.hasOwnProperty('cn'))
+						navPls['cn']=pls[k];
+					else
+						navPls['cn'] += '|' + pls[k];
+				    break;
+				  case 5:
+				    if(!navPls.hasOwnProperty('le'))
+						navPls['le'] = pls[k];
+					else
+						navPls['le'] += '|' + pls[k];
+				    break;
+				  case 6:
+				    if(!navPls.hasOwnProperty('vi'))
+						navPls['vi']=pls[k];
+					else
+						navPls['vi'] += '|' + pls[k];
+				    break;
+				  case 7:
+				    if(!navPls.hasOwnProperty('li'))
+						navPls['li']=pls[k];
+					else
+						navPls['li'] += '|' + pls[k];
+				    break;
+				  case 8:
+				    if(!navPls.hasOwnProperty('sc'))
+						navPls['sc']=pls[k];
+					else
+						navPls['sc'] += '|' + pls[k];
+				    break;
+				  case 9:
+				    if(!navPls.hasOwnProperty('sa'))
+						navPls['sa']=pls[k];
+					else
+						navPls['sa'] += '|' + pls[k];
+				    break;
+				  case 10:
+				    if(!navPls.hasOwnProperty('cp'))
+						navPls['cp']=pls[k];
+					else
+						navPls['cp'] += '|' + pls[k];
+				    break;
+				  case 11:
+				    if(!navPls.hasOwnProperty('aq'))
+						navPls['aq'] = pls[k];
+					else
+						navPls['aq'] += '|' + pls[k];
+				    break;
+				  case 12:
+				    if(!navPls.hasOwnProperty('pi'))
+						navPls['pi']=pls[k];
+					else
+						navPls['pi'] += '|' + pls[k];
+				    break;
+				  default:
+				    break;
+				}
+			}
+		}
+	}
+	console.log(navPls);
+	return navPls;
+  }
+  calcNavamsa() {
+	let navPls: string[] = [];
+	var plPos = this.shareService.getPLPOS();
+	var sgns = ["ar|M|Ma|1|O", "ta|F|Ve|2|E", "ge|D|Me|3|O", "cn|M|Mo|4|E", "le|F|Su|5|O", "vi|D|Me|6|E", "li|M|Ve|7|O", "sc|F|Ma|8|E", "sa|D|Ju|9|O", "cp|M|Sa|10|E", "aq|F|Sa|11|O", "pi|D|Ju|12|E" ];
+	var divs = [];
+	let n: number = 1;
+	let sec: number = 30/9, secp: number = 0;
+	console.log('no. of divs=' + sec.toString());
+	while((secp = sec*n) <= 30) {
+		  divs.push(secp);
+		  n++;
+	}
+	console.log('part complete..');
+	console.log(divs);
+	 let spos: number = 0;
+	 for (var i = 0; i < 12; i++) {
+		var sign = sgns[i];
+        if(sign.split('|')[1] == "M")
+           spos = Number(sign.split('|')[3]);
+        else if(sign.split('|')[1] == "F")
+           spos = Number(sign.split('|')[3])+8;
+        else if(sign.split('|')[1] == "D")
+           spos = Number(sign.split('|')[3])+4;
+		
+		if (plPos.hasOwnProperty(sign.split('|')[0])) {
+			var pls = plPos[sign.split('|')[0]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			   let ppos: number = spos;
+			   console.log('pl=' + pls[k]);
+				var pl = pls[k].split(' ')[1];
+					let po: number = Number(pls[k].split(' ')[0]);
+					console.log(sign);
+					console.log(pl);
+					console.log(po);
+					n = 0;
+					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
+					{
+						if(po >= n && po <= divs[dp]) {break;}
+						n = divs[dp];
+						ppos++;
+					}
+					let rpos: number = ppos;
+					while(rpos > 12 ) rpos -= 12;
+					console.log('spos=' + spos.toString());
+					let sord: number;
+				let navp :number = rpos;
+				//navp = (navp > 12) ? navp - 12: navp;
+				console.log(navp);
+				switch(navp)
+				{
+				  case 1:
+				    if(!navPls.hasOwnProperty('ar'))
+						navPls['ar'] = pls[k];
+					else
+						navPls['ar'] += '|' + pls[k];
+				    break;
+				  case 2:
+				    if(!navPls.hasOwnProperty('ta'))
+						navPls['ta'] = pls[k];
+					else
+						navPls['ta'] += '|' + pls[k];
+				    break;
+				  case 3:
+				    if(!navPls.hasOwnProperty('ge'))
+						navPls['ge'] = pls[k];
+					else
+						navPls['ge'] += '|' + pls[k];
+					
+				    break;
+				  case 4:
+				    if(!navPls.hasOwnProperty('cn'))
+						navPls['cn']=pls[k];
+					else
+						navPls['cn'] += '|' + pls[k];
+				    break;
+				  case 5:
+				    if(!navPls.hasOwnProperty('le'))
+						navPls['le'] = pls[k];
+					else
+						navPls['le'] += '|' + pls[k];
+				    break;
+				  case 6:
+				    if(!navPls.hasOwnProperty('vi'))
+						navPls['vi']=pls[k];
+					else
+						navPls['vi'] += '|' + pls[k];
+				    break;
+				  case 7:
+				    if(!navPls.hasOwnProperty('li'))
+						navPls['li']=pls[k];
+					else
+						navPls['li'] += '|' + pls[k];
+				    break;
+				  case 8:
+				    if(!navPls.hasOwnProperty('sc'))
+						navPls['sc']=pls[k];
+					else
+						navPls['sc'] += '|' + pls[k];
+				    break;
+				  case 9:
+				    if(!navPls.hasOwnProperty('sa'))
+						navPls['sa']=pls[k];
+					else
+						navPls['sa'] += '|' + pls[k];
+				    break;
+				  case 10:
+				    if(!navPls.hasOwnProperty('cp'))
+						navPls['cp']=pls[k];
+					else
+						navPls['cp'] += '|' + pls[k];
+				    break;
+				  case 11:
+				    if(!navPls.hasOwnProperty('aq'))
+						navPls['aq'] = pls[k];
+					else
+						navPls['aq'] += '|' + pls[k];
+				    break;
+				  case 12:
+				    if(!navPls.hasOwnProperty('pi'))
+						navPls['pi']=pls[k];
+					else
+						navPls['pi'] += '|' + pls[k];
+				    break;
+				  default:
+				    break;
+				}
+				console.log(navPls);
+			}
+		}
+      }  
+	  return navPls;
+	}
+	calcDasamsa()
+	{
+	let navPls: string[] = [];
+	let sec: number = 30/10, secp: number = 0;
+	console.log('no. of divs=' + sec.toString());
+	var plPos = this.shareService.getPLPOS();
+	var sgns = ["ar|M|Ma|1|O", "ta|F|Ve|2|E", "ge|D|Me|3|O", "cn|M|Mo|4|E", "le|F|Su|5|O", "vi|D|Me|6|E", "li|M|Ve|7|O", "sc|F|Ma|8|E", "sa|D|Ju|9|O", "cp|M|Sa|10|E", "aq|F|Sa|11|O", "pi|D|Ju|12|E" ];
+	var divs = [];
+	let n: number = 1;
+	while((secp = sec*n) <= 30) {
+		  divs.push(secp);
+		  n++;
+	}
+	console.log('part complete..');
+	console.log(divs);
+	let spos: number = 0;
+	for (var i = 0; i < 12; i++) {
+		var sign = sgns[i];
+                    if(sign.split('|')[4] == "O")
+                        spos = Number(sign.split('|')[3]);
+                    else 
+                        spos = Number(sign.split('|')[3])+8;
+		if (plPos.hasOwnProperty(sign.split('|')[0])) {
+			var pls = plPos[sign.split('|')[0]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			   let ppos: number = spos;
+			   console.log('pl=' + pls[k]);
+				var pl = pls[k].split(' ')[1];
+					let po: number = Number(pls[k].split(' ')[0]);
+					console.log(sign);
+					console.log(pl);
+					console.log(po);
+					n = 0;
+					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
+					{
+						if(po >= n && po <= divs[dp]) {break;}
+						n = divs[dp];
+						ppos++;
+					}
+					let rpos: number = ppos;
+					while(rpos > 12 ) rpos -= 12;
+					console.log('spos=' + spos.toString());
+					let sord: number;
+				//}
+				let navp :number = rpos;
+				//navp = (navp > 12) ? navp - 12: navp;
 				console.log(navp);
 				switch(navp)
 				{
@@ -392,7 +681,135 @@ export class DivchartsPage {
 		}
 	}
 	return navPls;
-  }
+	
+	}
+	calcD4()
+	{
+	console.log('calcD4');
+	let navPls: string[] = [];
+	var plPos = this.shareService.getPLPOS();
+	var sgns = ["ar|M|Ma|1|O", "ta|F|Ve|2|E", "ge|D|Me|3|O", "cn|M|Mo|4|E", "le|F|Su|5|O", "vi|D|Me|6|E", "li|M|Ve|7|O", "sc|F|Ma|8|E", "sa|D|Ju|9|O", "cp|M|Sa|10|E", "aq|F|Sa|11|O", "pi|D|Ju|12|E" ];
+	//var divs = [];
+	//let n: number = 1;
+	//while((secp = sec*n) <= 30) {
+	//	  divs.push(secp);
+	//	  n++;
+	//}
+	//console.log('part complete..');
+	//console.log(divs);
+	 for (var i = 0; i < 12; i++) {
+		var sign = sgns[i];
+                   // if(sign.split('|')[4] == "O")
+                    //else 
+                      //  spos = Number(sign.split('|')[3])+8;
+		if (plPos.hasOwnProperty(sign.split('|')[0])) {
+			var pls = plPos[sign.split('|')[0]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			   let spos: number = Number(sign.split('|')[3]);
+			   console.log('pl=' + pls[k]);
+				var pl = pls[k].split(' ')[1];
+					let po: number = Number(pls[k].split(' ')[0]);
+					console.log(sign);
+					console.log(pl);
+					console.log(po);
+				if(po >= 0 && po < 7.30) {
+					//no change
+				} else if(po >= 7.30 && po < 15) {
+					spos += 3;
+				} else if(po >= 15 && po < 22) {
+					spos += 6;
+				} else if(po >= 22 && po < 30) {
+					spos += 9;
+				}
+				if(spos > 12) spos -= 12;
+				console.log('D4', sign);
+				console.log('D4', spos);
+				console.log('D4', pls[k]);
+				switch(spos)
+				{
+				  case 1:
+				    if(!navPls.hasOwnProperty('ar'))
+						navPls['ar'] = pls[k];
+					else
+						navPls['ar'] += '|' + pls[k];
+				    break;
+				  case 2:
+				    if(!navPls.hasOwnProperty('ta'))
+						navPls['ta'] = pls[k];
+					else
+						navPls['ta'] += '|' + pls[k];
+				    break;
+				  case 3:
+				    if(!navPls.hasOwnProperty('ge'))
+						navPls['ge'] = pls[k];
+					else
+						navPls['ge'] += '|' + pls[k];
+					
+				    break;
+				  case 4:
+				    if(!navPls.hasOwnProperty('cn'))
+						navPls['cn']=pls[k];
+					else
+						navPls['cn'] += '|' + pls[k];
+				    break;
+				  case 5:
+				    if(!navPls.hasOwnProperty('le'))
+						navPls['le'] = pls[k];
+					else
+						navPls['le'] += '|' + pls[k];
+				    break;
+				  case 6:
+				    if(!navPls.hasOwnProperty('vi'))
+						navPls['vi']=pls[k];
+					else
+						navPls['vi'] += '|' + pls[k];
+				    break;
+				  case 7:
+				    if(!navPls.hasOwnProperty('li'))
+						navPls['li']=pls[k];
+					else
+						navPls['li'] += '|' + pls[k];
+				    break;
+				  case 8:
+				    if(!navPls.hasOwnProperty('sc'))
+						navPls['sc']=pls[k];
+					else
+						navPls['sc'] += '|' + pls[k];
+				    break;
+				  case 9:
+				    if(!navPls.hasOwnProperty('sa'))
+						navPls['sa']=pls[k];
+					else
+						navPls['sa'] += '|' + pls[k];
+				    break;
+				  case 10:
+				    if(!navPls.hasOwnProperty('cp'))
+						navPls['cp']=pls[k];
+					else
+						navPls['cp'] += '|' + pls[k];
+				    break;
+				  case 11:
+				    if(!navPls.hasOwnProperty('aq'))
+						navPls['aq'] = pls[k];
+					else
+						navPls['aq'] += '|' + pls[k];
+				    break;
+				  case 12:
+				    if(!navPls.hasOwnProperty('pi'))
+						navPls['pi']=pls[k];
+					else
+						navPls['pi'] += '|' + pls[k];
+				    break;
+				  default:
+				    break;
+				}
+				console.log(navPls);
+			}
+		}
+	 }
+	 return navPls; 
+	}
+
   updateNodePos() {
 	var plPos = this.shareService.getPLPOS();
    		for (var i = 0; i < 16; i++) {
@@ -449,7 +866,16 @@ export class DivchartsPage {
 	//this.renderer.setStyle(dv, 'float', 'left');
 	//this.renderer.addClass(dv, 'divchart');
 	this.updateAsc(plPos);
-	this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title,  id));
+	if(this.shareService.getCHTYP() == 'sind')
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title, id);
+		else if(this.shareService.getCHTYP() == 'nind')
+			this.svgHoro = this.drawNIchart(plPos, title, id);
+		else
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title, id);
+
+   this.renderer.appendChild(ele, this.svgHoro);
+	
+	//this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title,  id));
 	//this.renderer.appendChild(ele, dv);
 	//this['lstnr_' + id] = this.renderer.listen(dv, 'click', this.logElement);
 
@@ -566,6 +992,7 @@ export class DivchartsPage {
 			let item: any = {};
 			item.ID = event.path[2].id;
 			item.atmk = this.atmk;
+			item.binf = this.binf;
 			this.navCtrl.push(ChartAnalysisPage, {item: item});
 		});
 		return svg;
@@ -576,4 +1003,456 @@ export class DivchartsPage {
       // Add Business Logic here
     }
   }
-}
+	drawNIchart(plps, title, id) {
+	   var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+       var ras = ['ar', 'ta', 'ge', 'cn', 'le', 'vi', 'li', 'sc', 'sa', 'cp', 'aq', 'pi'];
+	   let ah: number = 0;
+	   var s6 = 10;
+	    for(var r = 0; r < 12; r++) {
+  		 if (plps.hasOwnProperty(ras[r])) {
+			var pls = plps[ras[r]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				if (pls[k].split(' ')[1] == 'AC') { 
+				   this.asc_sign = ras[r];
+				   ah = r+1;
+				   break;
+				}
+			}
+	     }
+		}
+        var size = this.device_width/2;
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", (size).toString());
+		this.renderer.setAttribute(svg, "height", (size).toString());
+		//this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
+		//var border = 1;
+		//var s2 = size * 2;
+		//var s3 = size;
+		//var s4 = 15;
+		var bxz = size/4;
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", "0"); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y1", (bxz).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.appendChild(g, line);
+		console.log('ah',ah);
+		var hcord = this.getHXY(1, this.device_width/2);
+		var htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(htxt, document.createTextNode(roms[ah-1]));
+		this.renderer.setAttribute(htxt, "font-size", s6.toString());
+		this.renderer.setAttribute(htxt, "font-weight", "bold");
+		this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+		this.renderer.setAttribute(htxt, "text-anchor", "middle");
+		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.appendChild(g, htxt);
+		let np: number = 0;
+  		 if (plps.hasOwnProperty(ras[ah-1])) {
+			var pls = plps[ras[ah-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(1, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY-cord', cord);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		let ch: number = ah;
+	    let hou: number = 2;
+		while(hou < 13) {
+		   ch++;
+		   if(ch > 12) ch = 1;
+		   console.log('hno=', hou);
+			np = 0;
+		    hcord = this.getHXY(hou, this.device_width/2);
+		    htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(htxt, document.createTextNode(roms[ch-1]));
+			this.renderer.setAttribute(htxt, "font-size", s6.toString());
+			this.renderer.setAttribute(htxt, "font-weight", "bold");
+			this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+			this.renderer.setAttribute(htxt, "text-anchor", "middle");
+			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.appendChild(g, htxt);
+			console.log("fixing planets to hou");
+  		 if (plps.hasOwnProperty(ras[ch-1])) {
+			var pls = plps[ras[ch-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			    console.log("k=", k);
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+			console.log("ch", ch);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(hou, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY', cord);
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		hou++;
+	}
+								var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode(title.toUpperCase()));
+						this.renderer.setAttribute(text, "fill", "#0f0f0f");
+						this.renderer.setAttribute(text, "font-size", "8");
+						this.renderer.setAttribute(text, "font-weight", 'bold');
+						this.renderer.setAttribute(text, "x", (bxz*2).toString());
+						this.renderer.setAttribute(text, "y", (bxz*2).toString());
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
+						this.renderer.setAttribute(text, "id", id);
+						g.appendChild(text);
+
+	svg.appendChild(g);
+	 this['lstnr_' + id] = this.renderer.listen(svg, 'click', (event) => {
+			// Do something with 'event'
+			console.log('clicked ', event.path);
+			console.log('clicked ', event.path[2]);
+			let item: any = {};
+			item.ID = event.path[2].id;
+			item.atmk = this.atmk;
+			this.navCtrl.push(ChartAnalysisPage, {item: item});
+		});
+	return svg;
+ }
+ 
+ getXY(h, w, p) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2));
+	console.log(x,y);
+	return [x, y];
+ }
+ getHXY(h, w) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2) - 12);
+	console.log(x,y);
+	return [x, y];
+ }
+
+ }

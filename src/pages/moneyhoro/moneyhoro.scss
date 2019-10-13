@@ -1,3 +1,93 @@
 page-moneyhoro {
 
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+.brownText {
+color: #cc0000;
+}
+.boldText {
+font-weight: bold;
+}
+.voiletText {
+color: B833FF;
+}
+ion-grid {
+  margin:0px;
+}
+ion-card {
+    position: relative;
+    text-align: center;
+  }
+    .adv {
+    position: absolute;
+    top: 3%;
+    width: 100%;
+    font-weight: bold;
+	font-size: 15px;
+	text-align: left;
+	margin-left:25px;
+  }
+
+  .more {
+	color: blue;
+  }
+  ion-row.maintitle {
+	font-weight:bold;
+	font-size:15px;
+	background-color: #f4a460;
+	color: #FEFAF7;
+	text-align: center;
+  }  
+
+   ion-row.title {
+	font-weight:bold;
+	padding: 2px;
+	background-color: #f9cea9;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+  ion-col div.desc {
+	background-color: #e7f5fe;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+    }
+.note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+  }
+  .recfy {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:center;
+  }
+  ion-card-header {
+	font-size: 25px;
+	font-weight: bold;
+  }
+ .mdas {
+   border: 2px solid #424ef4;
+ }
+ .adas {
+   border: 2px solid #b70e4d ;
+ }
+ .pdas {
+  border: 2px solid #B833FF;
+ }
+  
 }

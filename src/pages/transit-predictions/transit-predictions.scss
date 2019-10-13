@@ -17,22 +17,26 @@ color: #cc0000;
 .boldText {
 font-weight: bold;
 }
+.voiletText {
+color: B833FF;
+}
 ion-grid {
   margin:0px;
 }
-ion-card.adcard {
+ion-card {
     position: relative;
     text-align: center;
   }
-  .adv {
-    padding: 5px;
+    .adv {
     position: absolute;
-    top: 2%;
+    top: 3%;
     width: 100%;
     font-weight: bold;
+	font-size: 15px;
 	text-align: left;
 	margin-left:25px;
   }
+
   .more {
 	color: blue;
   }
@@ -41,16 +45,13 @@ ion-card.adcard {
 	font-size:15px;
 	background-color: #f4a460;
 	color: #FEFAF7;
+	text-align: center;
   }  
-ion-col div {
-    border: 1px solid #e6e9ee;
-    padding: 5px;
-    text-align: center;
-	display: border-box;
-  }  
+
    ion-row.title {
 	font-weight:bold;
 	padding: 2px;
+	background-color: #f9cea9;
   }
   ion-row.subtitle {
 	font-weight:bold;
@@ -78,4 +79,14 @@ ion-col div {
 	font-size: 25px;
 	font-weight: bold;
   }
+ .mdas {
+   border: 2px solid #424ef4;
+ }
+ .adas {
+   border: 2px solid #b70e4d ;
+ }
+ .pdas {
+  border: 2px solid #B833FF;
+ }
+  
 }

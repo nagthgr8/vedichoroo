@@ -9,13 +9,14 @@ export class HoroscopeService {
 
   private apiUrl = 'https://live.makemypublication.com/Publication/Birthchart';
   private apiUrl43 = 'https://live.makemypublication.com/Publication/BirthchartEx';
+  private apiUrl54 = 'https://live.makemypublication.com/Publication/BirthchartPro';
   private apiUrl2 = 'https://live.makemypublication.com/Publication/DailyHoroscope';
   private apiUrl3 = 'https://live.makemypublication.com/Publication/SubscribeAstroUser';
   private apiUrl4 = 'https://live.makemypublication.com/Publication/Birthstars';
   private apiUrl5 = 'https://live.makemypublication.com/Publication/Birthstar';
   private apiUrl6 = 'https://live.makemypublication.com/Publication/StarsForMonth';
   private apiUrl7 = 'https://maps.googleapis.com/maps/api/timezone/json';
-  private apiUrl8 = 'http://www.126news.com/Publication/AstroStories';
+  private apiUrl8 = 'http://live.makemypublication.com/Publication/AstroStories';
   private apiUrl9 = 'https://live.makemypublication.com/Publication/Getcusps';
   private apiUrl10 = 'https://live.makemypublication.com/Publication/GetTransits';
   private apiUrl20 = 'https://live.makemypublication.com/Publication/GetDashTrans';
@@ -47,10 +48,18 @@ export class HoroscopeService {
   private apiUrl45 = 'https://live.makemypublication.com/Publication/GetBirthstar';
   private apiUrl46 = 'https://live.makemypublication.com/Publication/StarsForMonthEx';
   private apiUrl47 = 'https://live.makemypublication.com/Publication/GetMoonPhaseEx';
-  private apiUrl48 = 'https://live.makemypublication.com/Publication/GetcuspsEx';
+  private apiUrl48 = 'https://live.makemypublication.com/Publication/GetcuspsEx2';
   private apiUrl49 = 'https://live.makemypublication.com/Publication/TalkToAstro';
   private apiUrl50 = 'https://live.makemypublication.com/Publication/AnalyzeDasamsa';
   private apiUrl51 = 'https://live.makemypublication.com/Publication/AnalyzeDasamsaDasha';
+  private apiUrl52 = 'https://live.makemypublication.com/Publication/GetAllHobbyAsts';
+  private apiUrl53 = 'https://live.makemypublication.com/Publication/GetOffer';
+  private apiUrl55 = 'https://live.makemypublication.com/Publication/CalcVim';
+  private apiUrl56 = 'https://live.makemypublication.com/Publication/GetTransPredsEx';
+  private apiUrl57 = 'https://live.makemypublication.com/Publication/AnalyzeMoney';
+  private apiUrl58 = 'https://live.makemypublication.com/Publication/AnalyzeD4';
+  private apiUrl59 = 'https://live.makemypublication.com/Publication/GetDashTransEx';
+  private apiUrl60 = 'https://live.makemypublication.com/Publication/AnalyzeD9';
   private monthList = [
 	{name: "January",   numdays: 31, abbr: "Jan"},
 	{name: "February",  numdays: 28, abbr: "Feb"},
@@ -148,6 +157,25 @@ export class HoroscopeService {
     catchError(this.handleError)
    );
   }
+  calcVim(dob: string, lord: string, mpos: number, nsp: number, msi: number, nsi: number, lang: string): Observable<{}> {
+
+   var oDat = {
+   dob: dob,
+   lord: lord,
+   mpos: mpos,
+   nsp: nsp,
+   msi: msi,
+   nsi: nsi,
+   lang: lang
+   };
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl55, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
   getCareer(dmslat: string, dmslng: string, dob: string, tz: string, lang: string, ayanid: number): Observable<{}> {
 	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
@@ -171,6 +199,88 @@ export class HoroscopeService {
 	let headers = new HttpHeaders();
 	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
 	return this.http.post(this.apiUrl50, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  getMoney(das: string, dmslat: string, dmslng: string, dob: string, tz: string, lang: string, ayanid: number): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
+
+   var oDat = {
+   das: das,
+   dob: '',
+   tob: '',
+   latlng: '',
+   timezone: '',
+   lang: '',
+   ayanid: ayanid
+   };
+   oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
+   oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
+   oDat.latlng = latlng;
+   oDat.timezone = tz;
+   oDat.lang = lang;
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl57, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  analyzeD4(dmslat: string, dmslng: string, dob: string, tz: string, lang: string, ayanid: number): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
+
+   var oDat = {
+   dob: '',
+   tob: '',
+   latlng: '',
+   timezone: '',
+   lang: '',
+   ayanid: ayanid
+   };
+   oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
+   oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
+   oDat.latlng = latlng;
+   oDat.timezone = tz;
+   oDat.lang = lang;
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl58, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  analyzeD9(dmslat: string, dmslng: string, dob: string, tz: string, lang: string, ayanid: number): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
+
+   var oDat = {
+   dob: '',
+   tob: '',
+   latlng: '',
+   timezone: '',
+   lang: '',
+   ayanid: ayanid
+   };
+   oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
+   oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
+   oDat.latlng = latlng;
+   oDat.timezone = tz;
+   oDat.lang = lang;
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl60, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -241,12 +351,29 @@ export class HoroscopeService {
     catchError(this.handleError)
    );
   }
+  getOffer(uuid: string): Observable<{}> {
+   var oDat = {
+   uuid: uuid
+   };
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl53, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }  
   getAllAstrologers(): Observable<{}> {
 	return this.http.get(this.apiUrl36).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
   }  
+  getAllHobbyAsts(): Observable<{}> {
+	return this.http.get(this.apiUrl52).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }   
   getAstrologer(uuid: string): Observable<{}> {
    var oDat = {
 	uuid: uuid
@@ -359,6 +486,7 @@ export class HoroscopeService {
    );
   } 
 getHoro(dmslat: string, dmslng: string, dob: string, tz: string): Observable<{}> {
+    console.log('getHoro', dmslat);
 	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
@@ -413,7 +541,39 @@ getProHoro(dmslat: string, dmslng: string, dob: string, tz: string, ofset: numbe
    //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders();
 	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
-	return this.http.post(this.apiUrl43, JSON.stringify(oDat), {headers: headers}).pipe(
+	return this.http.post(this.apiUrl54, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+getTransPredsEx(dmslat: string, dmslng: string, dob: string, tz: string, ofset: number, ayanid: number): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
+
+   var oDat = {
+   dob: '',
+   tob: '',
+   latlng: '',
+   timezone: '',
+   tzofset: 0.0,
+   name: '',
+   eml: '',
+   ayanid: -1
+   };
+   oDat.dob = dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0];
+   oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
+   oDat.latlng = latlng;
+   oDat.timezone = tz;
+   oDat.tzofset = ofset;
+   oDat.name = '';
+   oDat.eml = '';
+   oDat.ayanid = ayanid;
+   //let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+	return this.http.post(this.apiUrl56, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -763,6 +923,32 @@ getTransits(mdas: string, adas: string, pdas: string, pend: string): Observable<
 	let headers = new HttpHeaders();
 	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
   return this.http.post(this.apiUrl10, JSON.stringify(oDat), {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }  
+getDashTransEx(mdas: string, adas: string, pdas: string, pend: string, dmslat: string, dmslng: string, tz: string, ayanid: number): Observable<{}> {
+	var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
+	var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
+	var latlng = lat + '|' + lng;
+   var oDat = {
+   mdas: '',
+   adas: '',
+   pdas: '',
+   pend: '',
+   latlng: latlng,
+   timezone: '',
+   ayanid: 0
+   };
+   oDat.mdas = mdas;
+   oDat.adas = adas;
+   oDat.pdas = pdas;
+   oDat.pend = pend;
+   oDat.timezone = tz;
+   oDat.ayanid = ayanid;
+	let headers = new HttpHeaders();
+	headers = headers.set('Content-Type', 'application/json; charset=utf-8');   
+  return this.http.post(this.apiUrl59, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );

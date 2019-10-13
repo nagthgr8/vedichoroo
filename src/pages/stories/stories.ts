@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig, AdMobFreeRewardVideoConfig } from '@ionic-native/admob-free';
 import { AlertController } from 'ionic-angular';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { LoadingController } from 'ionic-angular';
@@ -22,13 +23,29 @@ export class StoriesPage {
   mode: String="list";
   info: string = '';
 
-  constructor(public navCtrl: NavController,  public horoService: HoroscopeService, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController,  public horoService: HoroscopeService, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public admob: AdMobFree) {
     this.getStories(0);
     this.page=0;
   }
+    showBanner() {
+
+        let bannerConfig: AdMobFreeBannerConfig = {
+            isTesting: false, 
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/1068422637'
+        };
+
+        this.admob.banner.config(bannerConfig);
+
+        this.admob.banner.prepare().then(() => {
+            // success
+        }).catch(e => console.log(e));
+
+    }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad StoriesPage');
+	this.showBanner();
   }
   getStories(refresher){
     this.page= 0;

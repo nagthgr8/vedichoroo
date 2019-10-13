@@ -79,7 +79,8 @@ chartSel(cht) {
 		if(this.binf.ref == "1") {
 		   this.horoService.getProHoro(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, ofset, Number(this.aynm))
 			   .subscribe(res => {
-				this.shareService.setPLPOS(res);
+			this.shareService.setPLPOS(res['planetPos']);
+			this.shareService.setRETRO(res['retroPls']);
 				this.shareService.setAYNM(this.aynm);
 				if(this.chtyp != this.shareService.getCHTYP()) {
 					this.shareService.setCHTYP(this.chtyp);

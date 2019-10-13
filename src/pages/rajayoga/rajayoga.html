@@ -21,8 +21,8 @@
  <ion-row><ion-col col-6><div color="primary" >{{'Moon Phase'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{moon_phase}}</div></ion-col-6></ion-row>
  <ion-row><ion-col col-12><h4>{{'Yogas in your horoscope'|translate}}</h4></ion-col></ion-row>
  <div *ngFor="let key of objectKeys(oYog)">
- <ion-row class="maintitle"><ion-col col-12><div color="primary" >{{ oYog[key].name }}</div></ion-col></ion-row>
- <ion-row class="title"><ion-col col-12><div color="level2"  >{{ oYog[key].desc }}</div></ion-col></ion-row>
+ <ion-row class="maintitle"><ion-col col-12>{{ oYog[key].name }}</ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div [innerHTML]='oYog[key].desc'></div></ion-col></ion-row>
  </div>
  
 </ion-grid> 

@@ -15,6 +15,7 @@ import { PrivacyPage } from '../pages/privacy/privacy';
 import { HelpDeskPage } from '../pages/help-desk/help-desk';
 import { MypubzRespPage } from '../pages/mypubz-resp/mypubz-resp';
 import { PublishBlogPage } from '../pages/publish-blog/publish-blog';
+import { AboutAppPage } from '../pages/about-app/about-app';
 import { ShareService } from './share.service'
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -69,7 +70,8 @@ export class MyApp {
       { title: 'Available Credits', component: CreditsPage, icon: 'cash' },
 	  { title: 'Privacy Policy', component: PrivacyPage, icon: 'lock' },
 	  { title: 'Notifications', component: NotificationsPage, icon: 'notifications' },
-	  { title: 'Help Desk', component: HelpDeskPage, icon: 'help-circle'}
+	  { title: 'Help Desk', component: HelpDeskPage, icon: 'help-circle'},
+	  { title: 'About App', component: AboutAppPage, icon: 'logo-android'}
     ];
   }
 
@@ -78,10 +80,10 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
 	  console.log(this.device.uuid);
 	this.horoService.getNotif(this.device.uuid)
 	.subscribe(res => {
+      this.splashScreen.hide();
 	    if(res['status'] == 'R') {
 			let ticket: Ticket = {
 					uuid: res['uuid'],
@@ -96,16 +98,18 @@ export class MyApp {
 			this.nav.setRoot(SubscribePage, {ci: true});
 		}
 	}, (err) => {
+      this.splashScreen.hide();
 	});	  
 	  this.horoService.getPlan(this.device.uuid)
 		   .subscribe(res => {
 		        console.log('Fetched the plan details from App component');
 				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
 				this.shareService.setPLAN(pln);
-				if(res['name'] == 'com.mypubz.eportal.astrologer')
+				if(res['name'] == 'com.mypubz.eportal.astrologer' || res['name'] == 'com.mypubz.eportal.offer499')
 					this.pages[12].title = 'Available Credits(UNL)';
-				else
+				else {
 					this.pages[12].title = 'Available Credits(' + res['credits'] + ')';
+				}
 			}, (err) => {
 			});	  
 		this.shareService.plan

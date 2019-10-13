@@ -14,17 +14,10 @@ color: #f0882f;
 ion-grid {
   margin:0px;
 }
- ion-col div {
-    border: 1px solid #e6e9ee;
-    padding: 5px;
-    text-align: center;
-	display: border-box;
-  }
-
-  
-  ion-row.title {
+   ion-row.title {
 	font-weight:bold;
 	padding: 2px;
+	background-color: #f9cea9;
   }
   ion-row.subtitle {
 	font-weight:bold;
@@ -42,6 +35,7 @@ ion-row.maintitle {
 	font-size:15px;
 	background-color: #f4a460;
 	color: #FEFAF7;
+	text-align: center;
   }  
   ion-card {
     position: relative;

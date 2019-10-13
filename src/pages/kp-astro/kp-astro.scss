@@ -41,15 +41,15 @@ ion-card.adcard {
  ion-col div {
     border: 1px solid #e6e9ee;
     padding: 5px;
-    text-align: center;
 	display: border-box;
   }
- ion-row.maintitle {
+ion-row.maintitle {
 	font-weight:bold;
 	font-size:15px;
 	background-color: #f4a460;
 	color: #FEFAF7;
-  }   
+	text-align: center;
+  }  
   ion-row.title {
     text-align:center;
 	font-weight:bold;
@@ -61,6 +61,7 @@ ion-card.adcard {
    ion-row.title2 {
 	font-weight:bold;
 	padding: 2px;
+	background-color: #f9cea9;
   }
   ion-row.subtitle {
 	font-weight:bold;

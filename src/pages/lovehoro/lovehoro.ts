@@ -1,5 +1,6 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig, AdMobFreeRewardVideoConfig } from '@ionic-native/admob-free';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ShareService } from '../../app/share.service'
@@ -66,7 +67,7 @@ export class LovehoroPage {
   attr: string = '';
   msign: string = '';
   wsign: string = '';
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public horoService: HoroscopeService, public renderer: Renderer2, private appRate: AppRate, public shareService: ShareService) {
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public horoService: HoroscopeService, public renderer: Renderer2, private appRate: AppRate, public shareService: ShareService, public admob: AdMobFree) {
     platform.ready().then(() => {
   this.appRate.preferences = {
         displayAppName: '126 Astrology',
@@ -96,6 +97,7 @@ export class LovehoroPage {
  
       // Opens the rating immediately no matter what preferences you set
       this.appRate.promptForRating(true);
+	  this.showBanner();
     });
 
     this.personalDetailsForm = formBuilder.group({
@@ -105,6 +107,21 @@ export class LovehoroPage {
 	this.showGrid = false;
 	this.showList = true;
   }
+    showBanner() {
+
+        let bannerConfig: AdMobFreeBannerConfig = {
+            isTesting: false, 
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/5393135865'
+        };
+
+        this.admob.banner.config(bannerConfig);
+
+        this.admob.banner.prepare().then(() => {
+            // success
+        }).catch(e => console.log(e));
+
+    }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LovehoroPage');

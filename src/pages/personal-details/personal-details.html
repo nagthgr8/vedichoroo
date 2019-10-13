@@ -1,9 +1,3 @@
-<!--
-  Generated template for the PersonalDetailsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-toolbar>
@@ -20,6 +14,19 @@
 <div class="adv"> Astrologers can subscribe for just Rs. 999 & enjoy many benefits. <span class="more" tappable (click)="more()">Know more..</span></div>
 </ion-card>
          <ion-list padding>
+		 
+		<ion-item>
+			<ion-label floating>Name</ion-label>
+			<ion-input [(ngModel)]="nam"></ion-input>
+		</ion-item>
+    <ion-item>
+      <ion-label floating>Gender</ion-label>
+      <ion-select [(ngModel)]="gen">
+        <ion-option value="M">Male</ion-option>
+        <ion-option value="F">Female</ion-option>
+      </ion-select>
+    </ion-item>
+
 		<ion-item>
 			<ion-label floating>Date of Birth</ion-label>
 			<ion-datetime  max="2099-10-31" displayFormat="D MMM, YYYY" pickerFormat="D MMM, YYYY" [(ngModel)]="dob"></ion-datetime>
@@ -29,10 +36,13 @@
 			<ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="tob"></ion-datetime>
 		</ion-item>
 		<ion-item>	
-			<ion-label floating>Place of Birth</ion-label>
-			<ion-input (focusin)="showAddressModal()" [(ngModel)]="place" type="text"></ion-input>
+			<ion-label floating>Place of Birth(min. 3 chars)</ion-label>
+			<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text"></ion-input>
 		</ion-item>
-		
+		<p ion-text class="info" color="primary" [innerHTML]='place'></p>
+		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+		{{ item }}
+		</ion-item>
 	   <div padding *ngIf="showSU">
 		   <div *ngIf="showYO">
 				<p ion-text class="adtxt2">Our App will check all these <ion-badge color="secondary" tappable (click)="yoginf()">Yogas</ion-badge> in your Horoscope. Report can be available in all 4 supported languages.</p>
@@ -59,17 +69,19 @@
 			  </ion-list>
 			
 			<button ion-button full tappable (click)="buy5()">Buy 5 Credits for just Rs. 40</button><br/>
-			<button ion-button full tappable (click)="buy()">Buy One for just Rs. 10</button><br/>
+			<button ion-button full tappable (click)="buy()">Buy 10 Credits for just Rs. 70</button><br/>
 			<p ion-text class="adtxt2">If you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited horoscope readings, you can also customize this App as per your choice. <span class="more" tappable (click)="more()">Know more..</span></p>
 			
 		</div>
    <div padding *ngIf="showH">
    <h2>History</h2>
      <ion-list>
-    <button ion-item *ngFor="let birth of oBirth" tappable (click)="selDOB($event, birth)">
+    <ion-item *ngFor="let birth of oBirth" tappable (click)="selDOB($event, birth)">
       <ion-icon name="contact" item-left></ion-icon>
-      {{birth.dob}}
-    </button>
+        <h2>{{birth.name}}</h2>
+        <p>{{birth.dob}}</p>
+		<p><ion-badge (click)="selDOB($event, birth)">view horoscope</ion-badge></p>
+    </ion-item>
   </ion-list>
    </div>
 

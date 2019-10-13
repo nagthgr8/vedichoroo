@@ -1,5 +1,6 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import { Device } from '@ionic-native/device';
 import { AstrologersPage } from '../astrologers/astrologers';
 import { AppRate } from '@ionic-native/app-rate';
@@ -11,18 +12,9 @@ import * as signs from '../horoscope/signs.json';
 import * as o_signs from '../horoscope/o_signs.json'
 import * as rashis from '../horoscope/rashis.json';
 import * as o_rashis from '../horoscope/o_rashis.json';
-import * as dashas from '../horoscope/dashas.json';
 import * as nakshatras from '../horoscope/nakshatras.json';
 import * as nakshatra_order from '../horoscope/nakshatra_order.json';
-import * as venus_das from '../horoscope/venus_das.json';
-import * as sun_das from '../horoscope/sun_das.json';
-import * as ketu_das from '../horoscope/ketu_das.json';
-import * as moon_das from '../horoscope/moon_das.json';
-import * as mars_das from '../horoscope/mars_das.json';
-import * as rahu_das from '../horoscope/rahu_das.json';
-import * as jupiter_das from '../horoscope/jupiter_das.json';
-import * as saturn_das from '../horoscope/saturn_das.json';
-import * as mercury_das from '../horoscope/mercury_das.json';
+import * as ruler_name from '../horoscope/ruler_name.json';
 
 /**
  * Generated class for the RajayogaPage page.
@@ -42,6 +34,7 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
   @ViewChild('birthChart') birthChart;
   @ViewChild('navChart') navChart;
   dob: string = '';
+  svgHoro: any;
   lagna: string = '';
   lagna_lord: string = '';
   moon_sign: string = '';
@@ -65,10 +58,11 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
   info: string;
   msg: string = '';
   showSU: boolean = false;
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2, public device: Device) {
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, private appRate: AppRate, public shareService: ShareService, private horoService: HoroscopeService, public renderer: Renderer2, public device: Device, public admob: AdMobFree) {
     this.binf = navParams.get('binf');
 	console.log('binf', this.binf);
   platform.ready().then(() => {
+        this.info = 'Please wait...';
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
@@ -77,8 +71,10 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 		//console.log(Object.keys(this.yogas));
 		let yogs = this.shareService.getYOGAS();
 		let jf: string = '';
-		this.horoService.getBirthInfo(this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone())
+		this.info = 'Getting birth star info...';
+		this.horoService.getBirthInfo(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone)
 		   .subscribe(res => {
+		   this.info = '';
 		   this.dob = res['dob'];
 		   this.lagna = this.translate_func(res['lagna']);
 		   this.lagna_lord = this.translate_func(res['lagna_lord']);
@@ -94,8 +90,10 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 		let ayanid: number = 4;
 		var res = this.shareService.getAYNM();
 		if(res) ayanid = Number(res);
-			this.horoService.getCareer(this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone(), this.shareService.getLANG(), ayanid)
+		this.info = 'Preparing Career report, please wait...';
+			this.horoService.getCareer(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, this.shareService.getLANG(), ayanid)
 				.subscribe(res => {
+				this.info = '';
 	  			    let yogas = res;
 				for(let key of Object.keys(yogas)) {
 				    let yg : Yoga = {
@@ -112,38 +110,76 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
 	this.loadHoro(this.shareService.getPLPOS(), this.birthChart.nativeElement, 'RASHI CHART');
-	this.calcCurrDas();
-	this.navPls = this.calcDivChart(10);
-	this.loadHoro(this.navPls, this.navChart.nativeElement, 'DASAMSA');
+	//this.calcCurrDas();
 		let ayanid: number = 4;
 		var res = this.shareService.getAYNM();
 		if(res) ayanid = Number(res);
-	
-	this.horoService.getCareerDas(this.mdas1.charAt(0).toUpperCase() + this.mdas1[1], this.shareService.getLAT(), this.shareService.getLNG(), this.shareService.getDOB(), this.shareService.getTimezone(), this.shareService.getLANG(), ayanid)
+	var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
+	console.log(bstar);
+	this.shareService.setBirthStar(bstar.split('|')[0]);
+		var ras_num = Number(o_rashis[this.moon_sign].split('\|')[0]);
+		var ras_num2 = Number(o_rashis[bstar.split('|')[3]].split('\|')[0]);
+		this.horoService.calcVim(this.binf.dob, bstar.split('|')[2], Number(this.moon_deg), Number(bstar.split('|')[1]), ras_num, ras_num2
+		,this.shareService.getLANG() )
 				.subscribe(res => {
-	  			    let yogas = res;
-				for(let key of Object.keys(yogas)) {
-				    let yg : Yoga = {
-					  name : key,
-					  desc: yogas[key]
-					};
-					this.oDas[key] = yg;
-				}
-			}, (err) => {
-				this.info = JSON.stringify(err);
-			});
+				    for(let key of Object.keys(res)) {
+					    //var das = JSON.parse(res[key]);
+						if(res[key].style == 'mdasc') this.mdas1 = key;
+						else if(res[key].style == 'adasc') this.adas1 = ruler_name[key.split('-')[1].toLowerCase()];
+						else if(res[key].style == 'pdasc') { 
+							this.pdas1 = ruler_name[key.split('-')[2].toLowerCase()];
+							//this.pend1 = das.per.split('-')[1].replace('/','-');
+						}
+						//oDas.push(das);
+					}
+				this.horoService.getCareerDas(this.mdas1.charAt(0).toUpperCase() + this.mdas1[1], this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, this.shareService.getLANG(), ayanid)
+							.subscribe(res2 => {
+								let yogas = res2;
+							for(let key of Object.keys(yogas)) {
+								let yg : Yoga = {
+								  name : key,
+								  desc: yogas[key]
+								};
+								this.oDas[key] = yg;
+							}
+						}, (err) => {
+							this.info = JSON.stringify(err);
+						});
+					
+				}, (err) => {
+					//this.info = err;
+				});
+
+	this.navPls = this.calcDivChart(10);
+	this.loadHoro(this.navPls, this.navChart.nativeElement, 'DASAMSA');
   }
 
   ngOnInit() {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RajayogaPage');
+    console.log('ionViewDidLoad CareerhoroPage');
 	this.shareService.plan.subscribe((pln) => {
 		this.showSU = (pln.name == 'com.mypubz.eportal.astrologer') ? true : false;
+		if(!this.showSU) this.launchInterstitial();
 	 }, (err) => {
 	});
   }
+  launchInterstitial() {
+
+        let interstitialConfig: AdMobFreeInterstitialConfig = {
+		    isTesting: false,
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/2090107688'
+        }; 
+
+        this.admob.interstitial.config(interstitialConfig);
+
+        this.admob.interstitial.prepare().then(() => {
+            // success
+        });
+
+    }
  
   calcDivChart(ndivs)
   {
@@ -167,7 +203,7 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
                     if(sign.split('|')[4] == "O")
                         spos = Number(sign.split('|')[3]);
                     else 
-                        spos = Number(sign.split('|')[3])+9;
+                        spos = Number(sign.split('|')[3])+8;
 		if (plPos.hasOwnProperty(sign.split('|')[0])) {
 			var pls = plPos[sign.split('|')[0]].split('\|');
 			for (var k = 0; k < pls.length; k++) {
@@ -179,10 +215,11 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 					console.log(pl);
 					console.log(po);
 					n = 0;
-					for(var dp = 0;  dp < Object.keys(divs).length; dp++,ppos++)
+					for(var dp = 0;  dp < Object.keys(divs).length; dp++)
 					{
 						if(po >= n && po <= divs[dp]) {break;}
 						n = divs[dp];
+						ppos++;
 					}
 					let rpos: number = ppos;
 					while(rpos > 12 ) rpos -= 12;
@@ -319,7 +356,16 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 				}
 			}
 		}
-   this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title));
+		if(this.shareService.getCHTYP() == 'sind')
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title);
+		else if(this.shareService.getCHTYP() == 'nind')
+			this.svgHoro = this.drawNIchart(plPos, title);
+		else
+			this.svgHoro = this.grid(4, this.device_width/8, this.device_width/2, plPos, title);
+
+   this.renderer.appendChild(ele, this.svgHoro);
+
+  // this.renderer.appendChild(ele, this.grid(4, this.device_width/8, this.device_width/2, plPos, title));
    
   }
   calcCurrDas()
@@ -327,89 +373,6 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 		var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
 		console.log(bstar);
 		this.shareService.setBirthStar(bstar.split('|')[0]);
-  		//balance dasha calculation
-        var dob_c = new Date(this.binf.dob);
-		var m_dy = this.days_in_month(dob_c.getMonth()+1, dob_c.getFullYear());//30.436875;//29.530588;
-		var d_yr = this.days_of_a_year(dob_c.getFullYear());//354.367056;//365.2425;
-		var rem_days = 0;
-		var ras_num = Number(o_rashis[this.moon_sign].split('\|')[0]);
-		var mon_crs = (ras_num - 1)*30;
-		let moon_ela :number = (this.moon_deg.toString().indexOf('.') > -1) ? mon_crs + Number(this.moon_deg.toString().split('.')[0]) : mon_crs + this.moon_deg;
-		if(this.moon_deg.toString().indexOf('.') > -1) {
-			moon_ela = Number(moon_ela.toString() + '.' + this.moon_deg.toString().split('.')[1]);
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-			if(moon_ela.toString().split('.')[1].length > 2)
-			    moon_ela = Number(moon_ela.toFixed(2));
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-		   var rem1 = Number(moon_ela.toString().split('.')[0])*60 + Number(moon_ela.toString().split('.')[1]);
-		   rem1 = rem1/800;
-		   
-		   //rem1 = Number(das)*rem1;
-		   if(rem1.toString().indexOf('.') > -1) {
-				//if(rem1.toString().split('.')[1].length > 2)
-				    //rem1 = rem1.toFixed(2);
-					rem1 = Number('0.' + rem1.toString().split('.')[1])*800;
-		   }
-		   var das = dashas[bstar.split('|')[2].substring(0,2).toLowerCase()];
-		   var m_bal = 800 - rem1;
-		   var tot_das = Number(das)*d_yr;
-		   var bal_das = (tot_das*m_bal)/800;
-		   var bal_y = bal_das/d_yr;
-		   var rem_s = bal_y.toString();
-		   if(rem_s.indexOf('.') > -1) {
-		     var rem_y = Number(rem_s.split('.')[0]);
-			 if(Number(rem_s.split('.')[1]) > 0) {
-			   var rem_m = parseFloat('0.' + rem_s.split('.')[1])*d_yr;
-			   rem_m = rem_m/m_dy;
-			   if(rem_m.toString().indexOf('.') > -1) {
-			    //if(rem_m.toString().split('.')[1].length > 1)
-				   // rem_m = Number(rem_m.toFixed(1));
-			     var rem_d = Number('0.' + rem_m.toString().split('.')[1])*m_dy;
-				 rem_m = Number(rem_m.toString().split('.')[0]);
-				 rem_days = rem_y*d_yr + rem_m*m_dy + rem_d;
-			   }
-			 }
-		   } else {
-		     rem_days = Number(rem_s)*d_yr;
-		   }
-		} else {
-		  var rem1 = moon_ela*60;
-		  rem1 = rem1/800;
-		   var rem_s = rem1.toString();
-	       rem_days = rem1*d_yr;
-		}
-		
-		console.log(rem_days);
-	    //build vimsottara dasha table
-		console.log(dob_c.toString());
-        dob_c.setDate(dob_c.getDate() + rem_days);
-		console.log(dob_c.toString());
-		console.log('Antar' + bstar.split('|')[2] + this.binf.dob + rem_days.toString());
-		this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.binf.dob), rem_days);
-		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
-		var v_start = 0;
-		var v_iter = 0;
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(v_start) { 
-	        v_iter++;
-			var startdt = new Date(dob_c.getTime());
-			var m = (dob_c.getMonth()+1).toString();
-			var dd = dob_c.getDate().toString();
-			var y = dob_c.getFullYear().toString();
-			d_yr = this.days_of_a_year(startdt.getFullYear());
-			dob_c.setDate(dob_c.getDate() + Number(dashas[arr[vi].substring(0,2).toLowerCase()])*d_yr);
-		console.log('Antar' + arr[vi]);
-		console.log(startdt.toString());
-		    this.buildAntarDasha(arr[vi], v_iter+1, startdt, 0);
-		 }	
-		 if(arr[vi] == bstar.split('|')[2]) {
-			 v_start = 1;
-		 }
-		if(vi == 8) vi = -1;
-		if(v_iter == 8) break;
-	   }
 
   }
   grid(numberPerSide, size, pixelsPerSide, plps, title) {
@@ -1138,128 +1101,6 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
       item: item
 	  });
 	}	
-	buildPratyantarDasha(mainlord :string, sublord :string, order :number, suborder :number, startdt :Date)
-	{
-	 console.log(mainlord+sublord, startdt);
-	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
-	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
-	  var e_dys = 0;
-		var arr = ["su","mo","ma","ra", "ju", "sa", "me", "ke", "ve"];
-		var v_start = 0;
-		var v_iter = 0;
-		var a_per = 0;
-		var s_dt = new Date(startdt.getTime());
-		var cd = new Date()
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(arr[vi] == sublord || v_start == 1) { 
-	        v_iter++;
-			var s_d = new Date(s_dt.getTime()); 
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			var p_yrs = Number(dashas[mainlord])*Number(dashas[sublord])*Number(dashas[arr[vi]])/(120*120);
-			d_yr = this.days_of_a_year(s_d.getFullYear());
-			s_dt.setDate(s_dt.getDate() + p_yrs*d_yr);
-			//console.log(s_d.toString());
-			//console.log(s_dt.toString());
-			if(cd.getTime() >= s_d.getTime() && cd.getTime() <= s_dt.getTime()) {
-			    console.log('current dasha identified');
-				console.log(mainlord);
-				console.log(sublord);
-				console.log(arr[vi]);
-				this['mdas1'] = mainlord;
-				this['adas1'] = sublord;
-				this['pdas1'] = arr[vi];
-				this['pend1'] = s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString();
-			}
-			this.shareService.addVIM(dd + '-' + m + '-' + y + '|' + s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString(), mainlord, sublord, arr[vi]);
-			v_start = 1;
-		 }	
-		if(vi == 8) vi = -1;
-		if(v_iter == 9) break;
-	   }
-	}
-	buildAntarDasha(lord :string, order :number, startdt :Date, remdays :number)
-	{
-	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
-	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
-	  var e_dys = 0;
-		let das :any = '';
-		if(lord == "venus") das = venus_das;
-		else if(lord == "ketu") das = ketu_das;
-		else if(lord == "sun") das = sun_das;
-		else if(lord == "moon") das = moon_das;
-		else if(lord == "mars") das = mars_das;
-		else if(lord == "rahu") das = rahu_das;
-		else if(lord == "jupiter") das = jupiter_das;
-		else if(lord == "saturn") das = saturn_das;
-		else if(lord == "mercury") das = mercury_das;
-		  console.log(lord);
-		  console.log(das);
-	  if(remdays > 0) {
-	    var s_dt = new Date(startdt.getTime());
-	    var tot_dys = Number(dashas[lord.substring(0,2).toLowerCase()])*d_yr;
-		e_dys = tot_dys - remdays;
-		var ffd = 0;
-		var a_per = 0;
-		var r_dys = 0;
-		for(let key of Object.keys(das)) {
-		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		  d_yr = this.days_of_a_year(s_dt.getFullYear());
-		  //var e_dt = s_dt;
-			//console.log(key);
-		  var ads = das[key];
-		  //console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		  ffd += a_dys;
-		  if(ffd >= e_dys) {
-		    if(r_dys >= remdays) break;
-		    r_dys += a_dys;
-		    var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			//var cur_date = new Date();
-			//if(cur_date >= start_das && cur_date <= s_dt) {
-			  //this.cur_m_das = lord;
-			  //this.cur_a_das = key;
-			//}
-		    a_per++;
-			console.log('Pratyantar' + lord.substring(0,2).toLowerCase() + key);
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		  }
-		}
-	  } else {
-		var a_per = 0;
-	    var s_dt = new Date(startdt.getTime());
-		console.log(s_dt.toString());
-	    //var tot_dys = Number(dashas[lord.substring(0,2)])*d_yr;
-		//e_dys = tot_dys - remdays;
-		//var ffd = 0;
-		for(let key of Object.keys(das)) {
-		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		  d_yr = this.days_of_a_year(s_dt.getFullYear());
-		   a_per++;
-			var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			console.log(key);
-		  var ads = das[key];
-		  console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			//var cur_date = new Date();
-			//if(cur_date >= start_das && cur_date <= s_dt) {
-			  //this.cur_m_das = lord;
-			  //this.cur_a_das = key;
-			//}
-			console.log('Pratyantar' + lord.substring(0,2).toLowerCase() + key);
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		}
-	  }
-	}
 	days_of_a_year(year) {
 		return this.isLeapYear(year) ? 366 : 365;
 	}
@@ -1302,14 +1143,14 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 			
 			if(nak.location.start.split(',')[1] == moonsign.toLowerCase() && nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
 				if(moonmins >= nak_s && moonmins <= nak_e) {
-					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 				}
 			} 
 			else if(nak.location.start.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 			else if(nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 		}
 	}
@@ -1334,5 +1175,447 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
 		});	  
 	}
   }
+	drawNIchart(plps, title) {
+	   var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+       var ras = ['ar', 'ta', 'ge', 'cn', 'le', 'vi', 'li', 'sc', 'sa', 'cp', 'aq', 'pi'];
+	   let ah: number = 0;
+	   var s6 = 10;
+	    for(var r = 0; r < 12; r++) {
+  		 if (plps.hasOwnProperty(ras[r])) {
+			var pls = plps[ras[r]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				if (pls[k].split(' ')[1] == 'AC') { 
+				   //this.asc_sign = ras[r];
+				   ah = r+1;
+				   break;
+				}
+			}
+	     }
+		}
+        var size = this.device_width/2;
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", (size).toString());
+		this.renderer.setAttribute(svg, "height", (size).toString());
+		//this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
+		//var border = 1;
+		//var s2 = size * 2;
+		//var s3 = size;
+		//var s4 = 15;
+		var bxz = size/4;
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", "0"); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y1", (bxz).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.appendChild(g, line);
+		console.log('ah',ah);
+		var hcord = this.getHXY(1, this.device_width/2);
+		var htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(htxt, document.createTextNode(roms[ah-1]));
+		this.renderer.setAttribute(htxt, "font-size", s6.toString());
+		this.renderer.setAttribute(htxt, "font-weight", "bold");
+		this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+		this.renderer.setAttribute(htxt, "text-anchor", "middle");
+		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.appendChild(g, htxt);
+		let np: number = 0;
+  		 if (plps.hasOwnProperty(ras[ah-1])) {
+			var pls = plps[ras[ah-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(1, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY-cord', cord);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		let ch: number = ah;
+	    let hou: number = 2;
+		while(hou < 13) {
+		   ch++;
+		   if(ch > 12) ch = 1;
+		   console.log('hno=', hou);
+			np = 0;
+		    hcord = this.getHXY(hou, this.device_width/2);
+		    htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(htxt, document.createTextNode(roms[ch-1]));
+			this.renderer.setAttribute(htxt, "font-size", s6.toString());
+			this.renderer.setAttribute(htxt, "font-weight", "bold");
+			this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+			this.renderer.setAttribute(htxt, "text-anchor", "middle");
+			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.appendChild(g, htxt);
+			console.log("fixing planets to hou");
+  		 if (plps.hasOwnProperty(ras[ch-1])) {
+			var pls = plps[ras[ch-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			    console.log("k=", k);
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+			console.log("ch", ch);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(hou, this.device_width/2, Number(pls[k].split(' ')[0]));
+				console.log('getXY', cord);
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		hou++;
+	}
+								var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+						this.renderer.appendChild(text, document.createTextNode(title.toUpperCase()));
+						this.renderer.setAttribute(text, "fill", "#0f0f0f");
+						this.renderer.setAttribute(text, "font-size", "7");
+						this.renderer.setAttribute(text, "font-weight", 'bold');
+						this.renderer.setAttribute(text, "x", (bxz*2).toString());
+						this.renderer.setAttribute(text, "y", (bxz*2).toString());
+						this.renderer.setAttribute(text, "alignment-baseline", "middle");
+						this.renderer.setAttribute(text, "text-anchor", "middle");
+						this.renderer.setAttribute(text, "id", "title");
+						g.appendChild(text);
+
+	svg.appendChild(g);
+	return svg;
+ }
+ 
+ getXY(h, w, p) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2));
+	console.log(x,y);
+	return [x, y];
+ }
+ getHXY(h, w) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2) - 12);
+	console.log(x,y);
+	return [x, y];
+ }
 
 }

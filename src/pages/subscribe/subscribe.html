@@ -18,31 +18,16 @@
 	<div text-center>
 	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
 	</div>
-<div  *ngIf="showSU">
      <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<div  *ngIf="showSU">
+	 
 	<h2>Why you need Subscription?</h2>
-	<h3>Benefit #1</h3>
-	<h4>Talk to Astrologer</h4>
-	<p class="desc">You can publish your profile with your consultation fee in our App which is accessed by users across the world, users can connect & talk to you either voice or chat from our App, you can either receive payments to your account from the users directly or let users pay through our payment gateway system, right now our App supports 2 types of payment gateway systems 1) RazorPay which is very convinient for local users & also supports international payments through bank cards 2) GooglePay convinient for international users, The payment gateway would be convinient choice for accepting payments from users at different parts of world. Please note when accepting payments through payment gateway appropriate service tax will be deducted as per laws defined by each payment gateway provider & the amount will be credited as defined by the provider, which in case of GooglePay there will be 30% service tax & the consolidated pay out date is 15th every month, whereas RazorPay charges 2% for local and 3% for international customers, RazorPay settles the amount in T + 3 days where T is the date of transaction excluding bank holidays. Please note for accepting payments through our online system you will need to submit your bank account details in a different form that will be sent to you seperately.</p>
-	<h3>Benefit #2</h3>
-	<h4>App Customization</h4>
-	<p class="desc">You can customize your profile page with the themes, logo, fonts of your choice. We can also help you with specialist designers who can design your App look & feel as per your choice, you can also integrate our eCommerce module for instance if you are an astrolger & also would like to offer gem stone services to your clients, you can customize your profile page from where users can step into your gemstone store. Please note there will be extra one time charges apply for such customization, for more details please write to us info@mypubz.com. </p>
-	<h3>Benefit #3</h3>
-	<h4>Horoscope Rule Engine</h4>
-	<p class="desc">Add or Modify rules & let the App automate horoscope analysis the way you want. As some expert astrologers use different rules while arriving at predictions, for instance some of our Vedic Astrologers effectively make use of Navamsa Chart along with Rashi Chart & so as many such combinations an astrologer has to deal with when making a prediction, our App lets you configure such rules very efficiently, these configurations will be confidential, these are accessible ONLY to your previleged users.</p>
-	<h3>Benefit #4</h3>
-	<h4>Ayanmasa configuration</h4>
-	<p class="desc">While most of our Vedic astrologers follow Lahiri Ayanmasa, KP Astrologers follow KP New Ayanmasa & there are some expert astrologers further fine tune Ayanmasa for most accurate predictions. Our subscribers will have a choice to configure Ayanmasa of their own.</p>
-	<h3>Benefit #5</h3>
-	<h4>Open Source</h4>
-	<p class="desc">If you want to take all fetures from our App & develop a new App of your own, this is possible as we are now Open Source, you can now download <a href="https://github.com/nagthgr8/vedichoroo" >126 Astrology source code</a> we will provide all required knowlede transfer to our subscribers.</p>
-	<h3>Benefit #6</h3>
-	<h4>Publish Blogs</h4>
-	<p class="desc">You can write some nice articles on Vedic Astrology, publish blogs that can be viewed by your visitors across the world. We have made publsing very simple, please <a href="http://www.126news.com/Publication/Article/How-To-Publish-Blog-From-126-Astrology" >click here</a> for step by step information on how to publish blog from 126 Astrology App.</p>
-	<h3>Benefit #7</h3>
-	<h4>Fetch Unrestricted Horoscope Data</h4>
-	<p class="desc">In addition to all front-end features, you can also fetch horoscope data of unlimited number of profiles without any restriction.</p>
-	   <div padding *ngIf="showSU">
+	<h4>Unlimited Access</h4>
+	<p class="desc">Get Unlimited Access with just one time Subscription. Also, upon subscrption the App will be completely free from Ads.</p>
+	<h4>Online Consultancy</h4>
+	<p class="desc">Experienced Astrologers can publish their profile in this App & offer consultancy through online to users across the world</p>
+	</div>
+	   <div padding *ngIf="showPAY">
 	           <ion-list>
 			  <ion-list radio-group [(ngModel)]="paym">
 				<ion-list-header>
@@ -52,14 +37,14 @@
 				  <ion-label>Pay using RazorPay</ion-label>
 				  <ion-radio slot="start" name="group1" value="rpay" checked (ionSelect)="paymSel('rpay')"></ion-radio>
 				</ion-item>
-				<ion-item>
+				<ion-item *ngIf="noOFR">
 				  <ion-label>Pay using GooglePay</ion-label>
 				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
 				</ion-item>
 			  </ion-list>
 			</ion-list>
-				<button ion-button full (click)="buy()" >Subscribe now for just Rs. 999/yr</button><br/>
-		</div>
+				<button ion-button full (click)="buy()" >{{subt}}</button><br/>
+		
 		<p class="desc">
 		   If you have problems with our online payment, you can also make a direct payment to below account & write to our <ion-badge (click)="help()">Help Desk</ion-badge>. The request will be processed within 24 hours.
 		</p><br/>

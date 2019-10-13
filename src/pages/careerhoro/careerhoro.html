@@ -15,6 +15,7 @@
 <ion-content no-padding>
 <ion-grid no-padding>
  <ion-row><ion-col col-6><div #birthChart ></div></ion-col><ion-col col-6><div #navChart ></div></ion-col></ion-row>
+ <div text-center><p ion-text class="info" color="primary" [innerHTML]='info'></p></div>
  <ion-row><ion-col col-12><h4>{{'Birth Details'|translate}}</h4></ion-col></ion-row>
  <ion-row><ion-col col-6><div color="primary" >{{'Date of Birth'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{dob}}</div></ion-col-6></ion-row>
  <ion-row><ion-col col-6><div color="primary" >{{'Lagna'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{lagna}}</div></ion-col-6></ion-row>
@@ -25,17 +26,17 @@
  <ion-row><ion-col col-6><div color="primary" >{{'Birth Star'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{birth_star}}</div></ion-col-6></ion-row>
  <ion-row><ion-col col-6><div color="primary" >{{'Star Lord'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{star_lord}}</div></ion-col-6></ion-row>
  <ion-row><ion-col col-6><div color="primary" >{{'Moon Phase'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{moon_phase}}</div></ion-col-6></ion-row>
- <ion-row><ion-col col-12><h4>{{'Career In Current Dasha'|translate}}</h4></ion-col></ion-row>
+ <ion-row class="maintitle"><ion-col col-12>{{'Career In Current Dasha'|translate}}</ion-col></ion-row>
  <div *ngFor="let key of objectKeys(oDas)">
- <ion-row class="title"><ion-col col-12><div color="level2"  >{{ oDas[key].desc }}</div></ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div [innerHTML]='oDas[key].desc'></div></ion-col></ion-row>
  </div>
- <ion-row><ion-col col-12><h4>{{'Detailed Analysis'|translate}}</h4></ion-col></ion-row>
+ <ion-row class="maintitle"><ion-col col-12>{{'Detailed Analysis'|translate}}</ion-col></ion-row>
  <div *ngFor="let key of objectKeys(oYog)">
- <ion-row class="title"><ion-col col-12><div color="level2"  >{{ oYog[key].desc }}</div></ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div [innerHTML]='oYog[key].desc'></div></ion-col></ion-row>
  </div>
   <div *ngIf="showSU">
- <ion-row class="title">SUGGEST AN IMPROVEMENT<ion-col col-12></ion-col></ion-row>
- <ion-row class="subtitle"><ion-col col-12><div color="level2"><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
+ <ion-row class="maintitle">SUGGEST AN IMPROVEMENT<ion-col col-12></ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
  		<div padding text-center>
 	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
 			</div>

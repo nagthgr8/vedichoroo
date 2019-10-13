@@ -8,6 +8,8 @@ import { VimDasha } from './vim-das';
 export class ShareService {
     private dsPlan = new BehaviorSubject({ uuid: '', name: '', credits: 0, dobs: '' });
 	plan = this.dsPlan.asObservable();
+    private dsLang = new BehaviorSubject('');
+	langc = this.dsLang.asObservable();
     place: string;
 	dob: string;
 	timezone: string;
@@ -40,6 +42,7 @@ export class ShareService {
 	kaynm: string;
 	raynm: string;
 	ccode: string;
+	rpls: string;
     constructor(private _storage: Storage, public events: Events) { 
 	    this.yogad = false;
         this._storage.ready().then(() => {
@@ -76,6 +79,7 @@ export class ShareService {
 			    console.log('lang', res);
 				if(res) this.lang = res; else this.lang = 'en';
 				//this.events.publish('dbfetch:lang', res);
+				this.dsLang.next(this.lang);
 			});
 			this._storage.get('rahu').then(res => {
 			    console.log('rahu', res);
@@ -193,6 +197,7 @@ export class ShareService {
 	 this.lang = lang;
     console.log('setLANG()', lang);
 	this._storage.set('lang', lang);
+	this.dsLang.next(lang);
 	}
 	setRAHU(rahu) {
 		this.rahu = rahu;
@@ -259,6 +264,9 @@ export class ShareService {
 	}
 	setCCODE(ccode) {
 	  this.ccode = ccode;
+	}
+	setRETRO(rpls) {
+	  this.rpls = rpls;
 	}
     getMoonSign() {
 		return this.moonSign;
@@ -355,6 +363,9 @@ export class ShareService {
 	}
 	getCCODE() {
 		return this.ccode;
+	}
+	getRETRO() {
+		return this.rpls;
 	}
 }	
 

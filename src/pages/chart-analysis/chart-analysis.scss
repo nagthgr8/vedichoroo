@@ -26,4 +26,12 @@ ion-grid {
     text-align: center;
 	display: border-box;
   }
+  ion-row.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: #f4a460;
+	padding: 5px;
+	color: #FEFAF7;
+    text-transform: uppercase;
+  }
 }

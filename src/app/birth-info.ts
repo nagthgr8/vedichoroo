@@ -11,5 +11,7 @@ export interface BirthInfo {
   birth_star: string;
   star_lord: string;
   moon_phase: string;
+  name: string;
+  gender: string;
   ref: string;
 }

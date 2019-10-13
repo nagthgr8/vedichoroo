@@ -1,9 +1,9 @@
-import { Component, AfterViewInit, ViewChild, Renderer2, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Renderer2, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ShareService } from '../../app/share.service'
 import { HoroscopeService } from '../../app/horoscope.service';
-import {DailyForecastPage} from '../dailyforecast/dailyforecast'; 
-import { PersonalDetailsPage } from '../personal-details/personal-details';
+//import {DailyForecastPage} from '../dailyforecast/dailyforecast'; 
+//import { PersonalDetailsPage } from '../personal-details/personal-details';
 import { AstrologersPage } from '../astrologers/astrologers';
 import { ChartSettingsPage } from '../chart-settings/chart-settings';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -12,34 +12,24 @@ import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { PlanetStar } from '../../app/planet-star';
 import { Dasha } from '../../app/dasha';
-import { BirthInfo } from '../../app/birth-info';
+//import { BirthInfo } from '../../app/birth-info';
+import moment from 'moment';
 import * as signs from './signs.json';
 import * as o_signs from './o_signs.json';
 import * as rashis from './rashis.json';
 import * as o_rashis from './o_rashis.json';
 import * as rashi_lords from './rashi_lords.json';
-import * as dashas from './dashas.json';
-import * as dasha_conv from './dasha_conv.json';
-import * as const_ruler from './const_ruler.json';
+//import * as dasha_per from './dasha_per.json';
+//import * as dasha_conv from './dasha_conv.json';
+//import * as const_ruler from './const_ruler.json';
 import * as ruler_name from './ruler_name.json';
 import * as friend_pl from './friend_pl.json';
 import * as enemy_pl from './enemy_pl.json';
 import * as aspects from './aspects.json';
 import * as house_traits from './house_traits.json';
 import * as nakshatras from './nakshatras.json';
-import * as venus_das from './venus_das.json';
-import * as sun_das from './sun_das.json';
-import * as ketu_das from './ketu_das.json';
-import * as moon_das from './moon_das.json';
-import * as mars_das from './mars_das.json';
-import * as rahu_das from './rahu_das.json';
-import * as jupiter_das from './jupiter_das.json';
-import * as saturn_das from './saturn_das.json';
-import * as mercury_das from './mercury_das.json';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
- 
-
 /**
  * Generated class for the HoroscopePage page.
  *
@@ -93,6 +83,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 	pnak1 :string = '';pnak2 :string = '';pnak3 :string = '';pnak4 :string = '';pnak5 :string = '';pnak6 :string = '';pnak7 :string = '';pnak8 :string = '';pnak9 :string = '';
 	nakl1 :string = '';nakl2 :string = '';nakl3 :string = '';nakl4 :string = '';nakl5 :string = '';nakl6 :string = '';nakl7 :string = '';nakl8 :string = '';nakl9 :string = '';
 	nrefs: number = 0;
+	bstar: string = '';
   constructor(public navCtrl: NavController, public navParams: NavParams, public shareService: ShareService, public renderer: Renderer2, public platform: Platform, public horoService: HoroscopeService, private file: File, private fileOpener: FileOpener)
   {
    this.binf = navParams.get('binf');
@@ -230,7 +221,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 				}
 			}
 		}
-		
+		this.shareService.setPLPOS(plPos);
 		//target.innerHTML = '';
 	//	target.appendChild(grid(4, 25, 100%, plPos));
 	    if(this.shareService.getCHTYP() == 'sind')
@@ -250,22 +241,52 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		console.log('svg', this.svgHoro);
 		console.log('birthChart', this.birthChart);
         this.renderer.appendChild(this.birthChart.nativeElement, this.svgHoro);
-		var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
-		console.log(bstar);
-		this.shareService.setBirthStar(bstar.split('|')[0]);
-		var h_code;
+		this.bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
+		console.log(this.bstar);
+		this.shareService.setBirthStar(this.bstar.split('|')[0]);
+		var ras_num = Number(o_rashis[this.moon_sign].split('\|')[0]);
+		var ras_num2 = Number(o_rashis[this.bstar.split('|')[3]].split('\|')[0]);
+        this.akashWani = '<h3>Please wait..</h3>';
+		this.horoService.calcVim(this.binf.dob, this.bstar.split('|')[2], Number(this.moon_deg), Number(this.bstar.split('|')[1]), ras_num, ras_num2, this.shareService.getLANG() )
+				.subscribe(res => {
+				    this.oDas = [];
+				    for(let key of Object.keys(res)) {
+					  // console.log('das', res[key]);
+					    //var obj = JSON.parse(res[key]);
+						if(res[key].style == 'mdasc') this.cur_m_das = key;
+						else if(res[key].style == 'adasc') this.cur_a_das = ruler_name[key.split('-')[1].toLowerCase()];
+						let das : Dasha = {
+							lord: res[key].lord,
+							per: res[key].per,
+							type: res[key].type,
+							style: res[key].style,
+							subs: res[key].subs,
+							show: res[key].show,
+							icon: res[key].icon
+						};
+						this.oDas.push(das);
+					}
+					this.publishRep();
+				}, (err) => {
+					//this.info = err;
+				});
+	}
+	publishRep()
+	{
+		var plPos = this.shareService.getPLPOS();
+			var h_code;
 		if(this.shareService.getLANG().toLowerCase() == 'en') {
 			h_code = "<h2>Horoscope Analysis</h2>";
-			h_code += "<span>You are born in <strong>" + rashis[this.asc_sign].split('\|')[1] + "</strong> Ascendant. Your Moon sign is <strong>" + rashis[this.moon_sign].split('\|')[1] + "</strong>. Your Birth Star is <strong>" + bstar.split('|')[0] + '</strong></span>';
+			h_code += "<span>You are born in <strong>" + rashis[this.asc_sign].split('\|')[1] + "</strong> Ascendant. Your Moon sign is <strong>" + rashis[this.moon_sign].split('\|')[1] + "</strong>. Your Birth Star is <strong>" + this.bstar.split('|')[0] + '</strong></span>';
 		} else if(this.shareService.getLANG().toLowerCase() == 'te') {
 			h_code = "<h2>జాతక విశ్లేషణ</h2>";
-			h_code += "<span>మీరు <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> లగ్నమ్ లో జన్మించారు.  మీ జన్మ రశి  <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. మీ జన్మ నక్షత్రమ్ <strong> " + this.translate(bstar.split('|')[0]) + '</strong></span>';
+			h_code += "<span>మీరు <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> లగ్నమ్ లో జన్మించారు.  మీ జన్మ రశి  <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. మీ జన్మ నక్షత్రమ్ <strong> " + this.translate(this.bstar.split('|')[0]) + '</strong></span>';
 		} else if(this.shareService.getLANG().toLowerCase() == 'hi') {
 			h_code = "<h2>जन्म-कुण्डली विश्लेषण</h2>";
-			h_code += "<span>आप का जन्म <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> लग्न में हुआ था. आप के जन्म राशि <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. आप के जन्म नक्षत्र <strong> " + this.translate(bstar.split('|')[0]) + '</strong></span>';
+			h_code += "<span>आप का जन्म <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> लग्न में हुआ था. आप के जन्म राशि <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. आप के जन्म नक्षत्र <strong> " + this.translate(this.bstar.split('|')[0]) + '</strong></span>';
 		} else if(this.shareService.getLANG().toLowerCase() == 'ta') {
 			h_code = "<h2>ஜாதக ஆய்வு</h2>";
-			h_code += "<span>நீங்கள் <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> லக்னத்தில் பிறந்திருக்கிறீர்கள்.  உங்களுடைய இராசி <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. நீங்கள் பிறந்த நட்சத்திரம் <strong> " + this.translate(bstar.split('|')[0]) + "</strong>.</span>";
+			h_code += "<span>நீங்கள் <strong> " + this.translate(rashis[this.asc_sign].split('\|')[1]) + "</strong> லக்னத்தில் பிறந்திருக்கிறீர்கள்.  உங்களுடைய இராசி <strong>" + this.translate(rashis[this.moon_sign].split('\|')[1]) + "</strong>. நீங்கள் பிறந்த நட்சத்திரம் <strong> " + this.translate(this.bstar.split('|')[0]) + "</strong>.</span>";
 		}
 		this.shareService.setMoonSign(rashis[this.moon_sign].split('\|')[1]);
 		if(this.shareService.getLANG().toLowerCase() == 'en') {
@@ -299,152 +320,16 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		}
 		h_code += '</span>';
 		//var dob = this.shareService.getDOB().split('T')[0].split('-')[1] + '/' + this.shareService.getDOB().split('T')[0].split('-')[2] + '/' + //this.shareService.getDOB().split('T')[0].split('-')[0];
-		var dob = this.binf.dob.split('T')[0].split('-')[1] + '/' + this.binf.dob.split('T')[0].split('-')[2] + '/' + this.binf.dob.split('T')[0].split('-')[0];
-		var odob = this.parseDate(dob);
-		var elp_days = this.daydiff(odob, new Date());
-		var m_dy = this.days_in_month(odob.getMonth()+1, odob.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
-		var d_yr = this.days_of_a_year(odob.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
-		//let vim_c: number = (parseInt(dasha_conv[this.moon_sign], 10) + this.moon_deg) / 120;
-		//var vim_s = vim_c.toString();
-		//var vim_b = '0.' + vim_s.split('.')[1];
-		//var vim_a = parseFloat(vim_b) * 9;
-		//vim_b = vim_a.toString();
-		//var cosl = Math.floor(vim_a);
-		//var rul = const_ruler[cosl.toString()];
-		//var das = dashas[rul];
-		//var ela = parseFloat('.' + vim_b.split('.')[1]) * parseInt(das, 10);
-		//var rem = parseInt(das, 10) - ela;
-		var rem_days = 0;
-		var ras_num = Number(o_rashis[this.moon_sign].split('\|')[0]);
-		var mon_crs = (ras_num - 1)*30;
-		let moon_ela :number = (this.moon_deg.toString().indexOf('.') > -1) ? mon_crs + Number(this.moon_deg.toString().split('.')[0]) : mon_crs + this.moon_deg;
-		if(this.moon_deg.toString().indexOf('.') > -1) {
-			moon_ela = Number(moon_ela.toString() + '.' + this.moon_deg.toString().split('.')[1]);
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-			if(moon_ela.toString().split('.')[1].length > 2)
-			    moon_ela = Number(moon_ela.toFixed(2));
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-		   var rem1 = Number(moon_ela.toString().split('.')[0])*60 + Number(moon_ela.toString().split('.')[1]);
-		   rem1 = rem1/800;
-		   
-		   //rem1 = Number(das)*rem1;
-		   if(rem1.toString().indexOf('.') > -1) {
-				//if(rem1.toString().split('.')[1].length > 2)
-				    //rem1 = rem1.toFixed(2);
-					rem1 = Number('0.' + rem1.toString().split('.')[1])*800;
-		   }
-		   var das = dashas[bstar.split('|')[2].substring(0,2).toLowerCase()];
-		   var m_bal = 800 - rem1;
-		   var tot_das = Number(das)*d_yr;
-		   var bal_das = (tot_das*m_bal)/800;
-		   var bal_y = bal_das/d_yr;
-		   var rem_s = bal_y.toString();
-		   if(rem_s.indexOf('.') > -1) {
-		     var rem_y = Number(rem_s.split('.')[0]);
-			 if(Number(rem_s.split('.')[1]) > 0) {
-			   var rem_m = parseFloat('0.' + rem_s.split('.')[1])*d_yr;
-			   rem_m = rem_m/m_dy;
-			   if(rem_m.toString().indexOf('.') > -1) {
-			    //if(rem_m.toString().split('.')[1].length > 1)
-				   // rem_m = Number(rem_m.toFixed(1));
-			     var rem_d = Number('0.' + rem_m.toString().split('.')[1])*m_dy;
-				 rem_m = Number(rem_m.toString().split('.')[0]);
-				 rem_days = rem_y*d_yr + rem_m*m_dy + rem_d;
-			   }
-			 }
-		   } else {
-		     rem_days = Number(rem_s)*d_yr;
-		   }
-		} else {
-		  var rem1 = moon_ela*60;
-		  rem1 = rem1/800;
-		   var rem_s = rem1.toString();
-	       rem_days = rem1*d_yr;
-		}
-
-		//var cur_das = rem_days;
-		//var n_cosl = cosl;
-		//var curr_rul = Number(dashas[arr[vi]])//const_ruler[n_cosl.toString()];
-		//while (cur_das <= elp_days) {
-			//n_cosl++;
-			//curr_rul = const_ruler[n_cosl.toString()];
-			//var d = dashas[curr_rul];
-			//cur_das += parseInt(d) * d_yr;
-		//}
-		//h_code += '<br\><div id="dvim"></div>';
-		
-        //var dob_c = new Date(this.shareService.getDOB());
-		var dob_c = new Date(this.binf.dob);
-		//var s_das_dys = this.getDashaDays(bstar.split('|')[2].toLowerCase());
-        dob_c.setDate(dob_c.getDate() + rem_days);
-		//this.fdas = this.translate(bstar.split('|')[2].toUpperCase());
-		//this.fdasp = dob.split('/')[1] + '/' + dob.split('/')[0] + '/' + dob.split('/')[2] + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear();
-		//this.svims = '{text: ' + this.fdas + ' ' + this.fdasp + ', style: header}';
-		let pbeg = dob.split('/')[1] + '/' + dob.split('/')[0] + '/' + dob.split('/')[2];
-		let pend = dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear(); 
-		var sty = 'mdas';
-		var cur_date = new Date();
-		if(cur_date >= odob && cur_date <= dob_c) sty = 'mdasc';
-		let das2 : Dasha = {
-			lord: this.translate(bstar.split('|')[2].toUpperCase()),
-			per: pbeg + ' To ' + pend,
-			type: 'MDAS',
-			style: sty,
-			subs: true,
-			show: true,
-			icon: 'add'
-		};
-		this.oDas.push(das2);
-		let akys: string = this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.binf.dob), rem_days);
-		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
-		var v_start = 0;
-		var v_iter = 0;
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(v_start) { 
-	        v_iter++;
-			var startdt = new Date(dob_c.getTime());
-			var m = (dob_c.getMonth()+1).toString();
-			var dd = dob_c.getDate().toString();
-			var y = dob_c.getFullYear().toString();
-			//dob_c.setFullYear(dob_c.getFullYear() + Number(dashas[arr[vi]]));
-			//var c_das_dys = this.getDashaDays(dashas[arr[vi]]);
-		    d_yr = this.days_of_a_year(startdt.getFullYear());
-			dob_c.setDate(dob_c.getDate() + Number(dashas[arr[vi].substring(0,2).toLowerCase()])*d_yr);
-			//h_code += '<h4>' + this.translate(arr[vi]) + ' dasha - ' + dd + '/' + m + '/' + y + ' To ' + dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + //'/' + dob_c.getFullYear() + '</h4>';
-			sty = 'mdas';
-			if(cur_date >= startdt && cur_date <= dob_c) sty = 'mdasc';
-			let pbeg = startdt.getDate().toString() + '/' + (startdt.getMonth()+1).toString() + '/' + startdt.getFullYear();
-			let pend = dob_c.getDate().toString() + '/' + (dob_c.getMonth()+1).toString() + '/' + dob_c.getFullYear()
-			let das : Dasha = {
-			    lord: this.translate(arr[vi].toUpperCase()),
-				per: pbeg + ' To ' + pend,
-				type: 'MDAS',
-				style: sty,
-				subs: true,
-				show: true,
-				icon: 'add'
-			};
-			this.oDas.push(das);
-		    akys = this.buildAntarDasha(arr[vi], v_iter+1, startdt, 0);
-		 }	
-		 if(arr[vi] == bstar.split('|')[2]) {
-			 v_start = 1;
-		 }
-		if(vi == 8) vi = -1;
-		if(v_iter == 8) break;
-	   }
 	   this.showVIM = true;
 	   console.log(this.cur_m_das);
 		if(this.shareService.getLANG().toLowerCase() == 'en') {
-			h_code += "<h3>You are now in " + ruler_name[this.cur_m_das.substring(0,2).toLowerCase()] + " Maha dasha and " + ruler_name[this.cur_a_das] + " Antar dasha.</h3> <br/>";
+			h_code += "<h3>You are now in " + this.cur_m_das + " Maha dasha and " + this.cur_a_das + " Antar dasha.</h3> <br/>";
 		} else if(this.shareService.getLANG().toLowerCase() == 'te') {
-			h_code += "<h3>ఇప్పుడు మీరు " + this.translate(ruler_name[this.cur_m_das.substring(0,2).toLowerCase()]) + " మహా దశ మరియు " + this.translate(ruler_name[this.cur_a_das]) + " అన్తర్ దశ లో ఉన్నారు.</h3> <br/>";
+			h_code += "<h3>ఇప్పుడు మీరు " + this.translate(this.cur_m_das) + " మహా దశ మరియు " + this.translate(this.cur_a_das) + " అన్తర్ దశ లో ఉన్నారు.</h3> <br/>";
 		} else if(this.shareService.getLANG().toLowerCase() == 'hi') {
-			h_code += "<h3>आप अभी  " + this.translate(ruler_name[this.cur_m_das.substring(0,2).toLowerCase()]) + " महा दशा और " + this.translate(ruler_name[this.cur_a_das]) + " अंतर दशा में है.</h3> <br/>";
+			h_code += "<h3>आप अभी  " + this.translate(this.cur_m_das) + " महा दशा और " + this.translate(this.cur_a_das) + " अंतर दशा में है.</h3> <br/>";
 		} else if(this.shareService.getLANG().toLowerCase() == 'ta') {
-			h_code += "<h3>தற்போது உங்களுக்கு"  + this.translate(ruler_name[this.cur_m_das.substring(0,2).toLowerCase()]) + " தசை  " + this.translate(ruler_name[this.cur_a_das]) + ".</h3> <br/>";
+			h_code += "<h3>தற்போது உங்களுக்கு"  + this.translate(this.cur_m_das) + " தசை  " + this.translate(this.cur_a_das) + ".</h3> <br/>";
 		}
 		var ausp = 0;
 		var ausp_lords = '';
@@ -454,11 +339,11 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		var tlord_in_tri = '';
 		var vp_rulers = '';
 		var vp_owners = '';
-		for (i = 0; i < 12; i++) {
+		for (var i = 0; i < 12; i++) {
 			if (o_signs[i] == this.asc_sign) {
 				if (plPos.hasOwnProperty(this.asc_sign)) {
 					pls = plPos[this.asc_sign].split('\|');
-					for (k = 0; k < pls.length; k++) {
+					for (var k = 0; k < pls.length; k++) {
 						var pl = pls[k].split(' ')[1];
 						if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 							if (this.kendra_lords.indexOf(ruler_name[pls[k].split(' ')[1].toLowerCase()]) > -1) {
@@ -756,7 +641,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		//this.splpos = "[";
 		for(let key of Object.keys(signs)) {
 			if(signs[key] == 'na') continue;
-		    sign = signs[key];
+		    var sign = signs[key];
 		    h_code += '<h2><img src="http://live.makemypublication.com/Images/' + rashis[sign].split('\|')[1] + '.png" alt="rashi signs" /> ' + this.translate(rashis[sign].split('\|')[1]) + '</h2>';
 			if(this.shareService.getLANG() == 'en') {
 				h_code += '<span> <strong>This is your ' + rashis[sign].split('\|')[0] + ' House</strong></span><br/>';
@@ -789,7 +674,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			let rps: string = '';
 			if (plPos.hasOwnProperty(sign)) {
 				h_code += '<br/><span>'
-				pls = plPos[sign].split('\|');
+				var pls = plPos[sign].split('\|');
 				for (k = 0; k < pls.length; k++) {
 					pl = pls[k].split(' ')[1];
 					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
@@ -939,6 +824,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		//console.log('splpos final=', this.splpos);
 		
 		this.akashWani = h_code;
+
 	}
 	translate(lord: string)
 	{
@@ -1387,162 +1273,6 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		}
 		return trn;
 	}
-	buildPratyantarDasha(mainlord :string, sublord :string, order :number, suborder :number, startdt :Date)
-	{
-	  let pkys: string = '';
-		var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
-		var d_yr = this.days_of_a_year(startdt.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
-	  var e_dys = 0;
-		var arr = ["su","mo","ma","ra", "ju", "sa", "me", "ke", "ve"];
-		var v_start = 0;
-		var v_iter = 0;
-		var a_per = 0;
-		var s_dt = new Date(startdt.getTime());
-		var cur_date = new Date();
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(arr[vi] == sublord || v_start == 1) { 
-	        v_iter++;
-			var b_dt = new Date(s_dt);
-			d_yr = this.days_of_a_year(b_dt.getFullYear());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			var p_yrs = Number(dashas[mainlord])*Number(dashas[sublord])*Number(dashas[arr[vi]])/(120*120);
-			s_dt.setDate(s_dt.getDate() + p_yrs*d_yr);
-			this.shareService.addVIM(dd + '-' + m + '-' + y + '|' + s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString(), mainlord, sublord, arr[vi]);
-			//this.svims += ',[ ' + mainlord + '-' + sublord + '-' + arr[vi] + ',' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + ']';
-			let pbeg = dd + '/' + m + '/' + y;
-			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
-			var sty = 'pdas';
-			if(cur_date >= b_dt && cur_date <= s_dt) sty = 'pdasc';
-            let prad : Dasha = {
-			  lord: this.translate(mainlord) + '-' + this.translate(sublord) + '-' + this.translate(arr[vi]),
-              per: pbeg + ' To ' + pend,
-			  type: 'PDAS',
-			  style: sty,
-			  subs: false,
-			  show: false,
-			  icon: ''
-			}
-			pkys += mainlord + '-' + sublord + '-' + arr[vi] + '|';
-			this.oDas.push(prad);
-			v_start = 1;
-		 }	
-		if(vi == 8) vi = -1;
-		if(v_iter == 9) break;
-	   }
-	   return pkys;
-	}
-	buildAntarDasha(lord :string, order :number, startdt :Date, remdays :number)
-	{
-	  let akys: string = '';
-		var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//30.436875;//29.59421013;//29.530588;//30.436875;//29.530588;
-		var d_yr = this.days_of_a_year(startdt.getFullYear());//365.2425;//366;//354.367056;//;////354.367056;//365.2425;
-	  var e_dys = 0;
-	  var a_per = 0;
-	  var cur_date = new Date();
-		let das :any = '';
-		if(lord == "venus") das = venus_das;
-		else if(lord == "ketu") das = ketu_das;
-		else if(lord == "sun") das = sun_das;
-		else if(lord == "moon") das = moon_das;
-		else if(lord == "mars") das = mars_das;
-		else if(lord == "rahu") das = rahu_das;
-		else if(lord == "jupiter") das = jupiter_das;
-		else if(lord == "saturn") das = saturn_das;
-		else if(lord == "mercury") das = mercury_das;
-		  console.log(lord);
-		  console.log(das);
-	  if(remdays > 0) {
-	    var s_dt = new Date(startdt.getTime());
-	    var tot_dys = Number(dashas[lord.substring(0,2).toLowerCase()])*d_yr;
-		e_dys = tot_dys - remdays;
-		var ffd = 0;
-		var r_dys = 0;
-		for(let key of Object.keys(das)) {
-		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		  d_yr = this.days_of_a_year(s_dt.getFullYear());
-		  //var e_dt = s_dt;
-			console.log(key);
-		  var ads = das[key];
-		  console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		  ffd += a_dys;
-		  if(ffd >= e_dys) {
-		    if(r_dys >= remdays) break;
-		    r_dys += a_dys;
-		    var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			let sty = 'adas';
-			if(cur_date >= start_das && cur_date <= s_dt) {
-			  this.cur_m_das = lord;
-			  this.cur_a_das = key;
-			  sty = 'adasc';
-			}
-		    a_per++;
-			akys += lord + '-' + ruler_name[key].toLowerCase() + '|';
-			//this.svims += '[{text: ' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + 'style: "tableHeader"}, {text: ' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + 'style: "tableHeader"}]';
-			let pbeg = dd + '/' + m + '/' + y;
-			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
-			let adas: Dasha = {
-			    lord: this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()),
-				per: pbeg + ' To ' + pend,
-				type: 'ADAS',
-				style: sty,
-				subs: true,
-				show: false,
-				icon: 'add'
-			};
-			this.oDas.push(adas);
-			let pkys: string = this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		  }
-		}
-	  } else {
-	    var s_dt = new Date(startdt.getTime());
-	    //var tot_dys = Number(dashas[lord.substring(0,2)])*d_yr;
-		//e_dys = tot_dys - remdays;
-		//var ffd = 0;
-		for(let key of Object.keys(das)) {
-			m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		    d_yr = this.days_of_a_year(s_dt.getFullYear());
-		   a_per++;
-			var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			console.log(key);
-		  var ads = das[key];
-		  console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			let sty = 'adas';
-			if(cur_date >= start_das && cur_date <= s_dt) {
-			  this.cur_m_das = lord;
-			  this.cur_a_das = key;
-			  sty = 'adasc';
-			}
-			//this.svims += '[{text: ' + this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()) + 'style: "tableHeader"}, {text: ' + dd + '/' + m + '/' + y + ' To ' + s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString() + 'style: "tableHeader"}]';
-			akys += lord + '-' + ruler_name[key].toLowerCase() + '|';
-			let pbeg = dd + '/' + m + '/' + y;
-			let pend = s_dt.getDate().toString() + '/' + (s_dt.getMonth()+1).toString() + '/' + s_dt.getFullYear().toString(); 
-			let adas: Dasha = {
-			    lord: this.translate(lord) + '-' + this.translate(ruler_name[key].toLowerCase()),
-				per: pbeg + ' To ' + pend,
-				type: 'ADAS',
-				style: sty,
-				subs: true,
-				show: false,
-				icon: 'add'
-			};
-			this.oDas.push(adas);
-			let pkys: string = this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		}
-	  }
-	  return akys;
-	}
 	days_of_a_year(year) {
 		return this.isLeapYear(year) ? 366 : 365;
 	}
@@ -1859,7 +1589,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		var s2 = size * 2;
 		var s3 = size;
 		var s4 = 15;
-		var s5 = size * 2 / 2;
+		//var s5 = size * 2 / 2;
 
 		for (var i = 0; i < numberPerSide; i++) {
 			for (var j = 0; j < numberPerSide; j++) {
@@ -1936,7 +1666,9 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 						}
 						pcnt++;
 						text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-						this.renderer.appendChild(text, document.createTextNode(pls[k]));
+						var plt = pls[k];
+						if(this.shareService.getRETRO().indexOf(pls[k].split(' ')[1]) > -1) plt += '[R]';
+						this.renderer.appendChild(text, document.createTextNode(plt));
 						//text.setAttribute("fill", zodiac2);
 						this.renderer.setAttribute(text, "font-size", s6.toString());
 						this.renderer.setAttribute(text, "font-weight", "bold");
@@ -2028,14 +1760,14 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			
 			if(nak.location.start.split(',')[1] == moonsign.toLowerCase() && nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
 				if(moonmins >= nak_s && moonmins <= nak_e) {
-					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 				}
 			} 
 			else if(nak.location.start.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 			else if(nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 			//if(nak.location.start.split(',')[1] == moonsign.toLowerCase() && nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
 			//	if(moondeg >= parseFloat(nak.location.start.split(',')[0]) && moondeg <= parseFloat(nak.location.end.split(',')[0])) {
@@ -2083,14 +1815,14 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 			
 			if(nak.location.start.split(',')[1] == sign.toLowerCase() && nak.location.end.split(',')[1] == sign.toLowerCase()) {
 				if(mins >= nak_s && mins <= nak_e) {
-					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1];
 				}
 			} 
 			else if(nak.location.start.split(',')[1] == sign.toLowerCase()) {
-			  if(mins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(mins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1];
 			}
 			else if(nak.location.end.split(',')[1] == sign.toLowerCase()) {
-			  if(mins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(mins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1];
 			}
 			//if(nak.location.start.split(',')[1] == sign.toLowerCase() && nak.location.end.split(',')[1] == sign.toLowerCase()) {
 			//	if(deg >= parseFloat(nak.location.start.split(',')[0]) && deg <= parseFloat(nak.location.end.split(',')[0])) {
@@ -2142,7 +1874,7 @@ export class HoroscopePage implements OnInit, AfterViewInit {
     {
         if (rows.hasOwnProperty(key))
         {
-            var data = rows[key];
+            //var data = rows[key];
             var row = new Array();
             row.push( { text: key.toString(), alignment: 'center' } );
             row.push( { text: rows[key].pos, alignment: 'center' } );
@@ -2273,14 +2005,14 @@ export class HoroscopePage implements OnInit, AfterViewInit {
 		this.renderer.setAttribute(svg, "width", pixelsPerSide);
 		this.renderer.setAttribute(svg, "height", pixelsPerSide);
 		this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
-        var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-        var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
-		var s1 = size/2;
+       // var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
 		var border = 1;
 		var s2 = size * 2;
 		var s3 = size;
 		var s4 = 15;
-		var s5 = size * 2 / 2;
+		//var s5 = size * 2 / 2;
 		for (var i = 0; i < numberPerSide; i++) {
 			for (var j = 0; j < numberPerSide; j++) {
 				if ((i * numberPerSide + j) == 5 || (i * numberPerSide + j) == 6 || (i * numberPerSide + j) == 9 || (i * numberPerSide + j) == 10) {
@@ -2402,10 +2134,10 @@ export class HoroscopePage implements OnInit, AfterViewInit {
         //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
         //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
 		//var s1 = size/2;
-		var border = 1;
+		//var border = 1;
 		//var s2 = size * 2;
 		//var s3 = size;
-		var s4 = 15;
+		//var s4 = 15;
 		var bxz = size/4;
 		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -2820,17 +2552,17 @@ export class HoroscopePage implements OnInit, AfterViewInit {
      if(das.type == 'MDAS' && this.oDas[i].type == 'ADAS') {
 		if(this.oDas[i].lord.split('-')[0].toLowerCase() == das.lord.toLowerCase()) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false;
 	 } else if(das.type == 'MDAS' && das.icon != 'add' && this.oDas[i].type == 'PDAS') {
-	     if(this.shareService.getLANG().toLowerCase() == 'en') {
-			 if(this.oDas[i].lord.split('-')[0].toLowerCase() == das.lord.substring(0,2).toLowerCase()) this.oDas[i].show = false; 
-		 } else {
+	    // if(this.shareService.getLANG().toLowerCase() == 'en') {
+			// if(this.oDas[i].lord.split('-')[0].toLowerCase() == das.lord.substring(0,2).toLowerCase()) this.oDas[i].show = false; 
+		// } else {
 			 if(this.oDas[i].lord.split('-')[0] == das.lord) this.oDas[i].show = false; 
-		 }
+		 //}
 	 } else if(das.type == 'ADAS' && this.oDas[i].type == 'PDAS') {
-	     if(this.shareService.getLANG().toLowerCase() == 'en') {
-			 if(this.oDas[i].lord.split('-')[0].toLowerCase() + '-' + this.oDas[i].lord.split('-')[1].toLowerCase() == das.lord.split('-')[0].substring(0,2).toLowerCase() + '-' + das.lord.split('-')[1].substring(0,2).toLowerCase()) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
-		 } else {
-			 if(this.oDas[i].lord.split('-')[0]+'-'+ this.oDas[i].lord.split('-')[1] == das.lord.split('-')[0]+'-'+das.lord.split('-')[1]) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
-		 }
+	    // if(this.shareService.getLANG().toLowerCase() == 'en') {
+			 if(this.oDas[i].lord.split('-')[0].toLowerCase() + '-' + this.oDas[i].lord.split('-')[1].toLowerCase() == das.lord.split('-')[0].toLowerCase() + '-' + das.lord.split('-')[1].substring(0,2).toLowerCase()) (das.icon == 'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
+		// } else {
+			// if(this.oDas[i].lord.split('-')[0]+'-'+ this.oDas[i].lord.split('-')[1] == das.lord.split('-')[0]+'-'+das.lord.split('-')[1]) (das.icon == //'add') ? this.oDas[i].show = true : this.oDas[i].show = false; 
+		// }
 	 }
    }
    (das.icon == 'add') ? das.icon = 'remove' : das.icon = 'add';

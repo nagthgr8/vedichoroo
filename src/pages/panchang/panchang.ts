@@ -1,5 +1,6 @@
 import { Component, NgModule, Renderer2, AfterViewInit, ViewChild, ElementRef, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { NavController, NavParams, Platform} from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig, AdMobFreeRewardVideoConfig } from '@ionic-native/admob-free';
 import { File } from '@ionic-native/file';
 import { ShareService } from '../../app/share.service'
 import { HoroscopeService } from '../../app/horoscope.service';
@@ -66,7 +67,7 @@ export class PanchangPage {
   svgCal: any;
   nrefs: number = 0;
   ayanINF: string = '';
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, private file: File, public renderer: Renderer2) {
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, public horoService: HoroscopeService, public shareService: ShareService, public translate: TranslateService, private file: File, public renderer: Renderer2, public admob: AdMobFree) {
   this.info = 'Please wait...';
   this.showPAN = false;
      platform.ready().then(() => {
@@ -74,9 +75,24 @@ export class PanchangPage {
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
+		this.showBanner();
       });
   }
+showBanner() {
 
+        let bannerConfig: AdMobFreeBannerConfig = {
+            isTesting: false, 
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/6344800041'
+        };
+
+        this.admob.banner.config(bannerConfig);
+
+        this.admob.banner.prepare().then(() => {
+            // success
+        }).catch(e => console.log(e));
+
+    }
   ionViewDidLoad() {
     console.log('ionViewDidLoad PanchangPage');
 	this.today = Date.now();

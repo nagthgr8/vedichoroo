@@ -22,17 +22,17 @@
 
 </ion-card>
 <ion-list *ngIf="showList">
-  <form [formGroup]="personalDetailsForm">
+  
   <ion-item>
  <ion-label class = "item item-input item-select item-calm">
           Date of Birth
       </ion-label>
-	  <ion-datetime formControlName="dob" displayFormat="DD/MM/YYYY HH:mm"></ion-datetime>
+	  <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="dob"></ion-datetime>
 	  </ion-item>
-	   <div padding>
+	   <div padding> 
   <button ion-button full (click)="save()">Submit</button>
   </div>
-    </form>
+    
 
   </ion-list>
 	   <p ion-text class="info" color="primary" [innerHTML]='info'></p>

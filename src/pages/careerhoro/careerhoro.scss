@@ -1,23 +1,8 @@
 page-careerhoro {
-.redText {
-color: #FF0000;
-}
-.blueText {
-color: #001EFF;
-}
-.greenText {
-color: #3db161;
-}
-.orangeText {
-color: #f0882f;
-}
-ion-grid {
-  margin:0px;
-}
-  
-  ion-row.title {
+   ion-row.title {
 	font-weight:bold;
 	padding: 2px;
+	background-color: #f9cea9;
   }
   ion-row.subtitle {
 	font-weight:bold;
@@ -35,6 +20,7 @@ ion-row.maintitle {
 	font-size:15px;
 	background-color: #f4a460;
 	color: #FEFAF7;
+	text-align: center;
   }  
   ion-card {
     position: relative;

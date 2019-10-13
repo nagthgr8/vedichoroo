@@ -31,6 +31,10 @@
 	{{ 'Lagna' | translate }} :  <span style="color:#4176f4;font-size:bold">{{lagna}}</span><span style="color:#f44141;font-size:bold">  {{lagml}}</span>-<span style="color:#03469a;font-size:bold">{{lagal}}</span>-<span style="color:#2c8e40;font-size:bold">{{lagsl}}</span>
 	</div>
 </ion-card>
+<ion-card *ngIf="showASU" tappable (click)="offer()">
+<img src="https://66.media.tumblr.com/9ee9c64a6eb1d06438183b8a4180858a/tumblr_pmywo2fPpE1xp0noco1_540.png"/>
+<div class="adv" [innerHTML]="ofrm"> </div>
+</ion-card>
   <ion-list>
     <button ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
       <ion-icon name="{{item.icon}}" item-left></ion-icon>

@@ -1,11 +1,12 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgModule, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
+import { File } from '@ionic-native/file';
 import { ShareService } from '../../app/share.service';
 import { HoroscopeService } from '../../app/horoscope.service';
-import { PredictionsPage } from '../predictions/predictions';
-import { SubscribePage } from '../subscribe/subscribe';
+//import { PredictionsPage } from '../predictions/predictions';
+//import { SubscribePage } from '../subscribe/subscribe';
 import { BtrInfoPage } from '../btr-info/btr-info';
-import { PersonalDetailsPage } from '../personal-details/personal-details';
+//import { PersonalDetailsPage } from '../personal-details/personal-details';
 import { AstrologersPage } from '../astrologers/astrologers';
 import { ChartSettingsPage } from '../chart-settings/chart-settings';
 import { HouseInfoPage } from '../house-info/house-info';
@@ -18,21 +19,11 @@ import * as ruler_name from '../horoscope/ruler_name.json';
 import * as sublords from '../horoscope/sublords.json';
 import { PlanetPos } from '../../app/planet-pos';
 import { HousePos } from '../../app/house-pos';
-import { TransitDays } from '../../app/transit-days';
+//import { TransitDays } from '../../app/transit-days';
 import { PlWeekDay } from '../../app/plweek-day';
-import { LunarDay } from '../../app/lunar-day';
-import * as dashas from '../horoscope/dashas.json';
+//import { LunarDay } from '../../app/lunar-day';
 import * as nakshatras from '../horoscope/nakshatras.json';
 import * as nakshatra_order from '../horoscope/nakshatra_order.json';
-import * as venus_das from '../horoscope/venus_das.json';
-import * as sun_das from '../horoscope/sun_das.json';
-import * as ketu_das from '../horoscope/ketu_das.json';
-import * as moon_das from '../horoscope/moon_das.json';
-import * as mars_das from '../horoscope/mars_das.json';
-import * as rahu_das from '../horoscope/rahu_das.json';
-import * as jupiter_das from '../horoscope/jupiter_das.json';
-import * as saturn_das from '../horoscope/saturn_das.json';
-import * as mercury_das from '../horoscope/mercury_das.json';
 import * as sun from '../horoscope/sun.json';
 import * as moon from '../horoscope/moon.json';
 import * as jupiter from '../horoscope/jupiter.json';
@@ -73,12 +64,14 @@ export class KpAstroPage {
 	pras1 :string = '';pras2 :string = '';pras3 :string = '';pras4 :string = '';pras5 :string = '';pras6 :string = '';pras7 :string = '';pras8 :string = '';pras9 :string = '';
 	pnak1 :string = '';pnak2 :string = '';pnak3 :string = '';pnak4 :string = '';pnak5 :string = '';pnak6 :string = '';pnak7 :string = '';pnak8 :string = '';pnak9 :string = '';
 	nakl1 :string = '';nakl2 :string = '';nakl3 :string = '';nakl4 :string = '';nakl5 :string = '';nakl6 :string = '';nakl7 :string = '';nakl8 :string = '';nakl9 :string = '';
+	sub1 :string = '';sub2 :string = '';sub3 :string = '';sub4 :string = '';sub5 :string = '';sub6 :string = '';sub7 :string = '';sub8 :string = '';sub9 :string = '';
 	pn1: string =''; pn2: string =''; pn3: string =''; pn4: string =''; pn5: string =''; pn6: string =''; pn7: string =''; pn8: string =''; pn9: string ='';
 	hnam1 :string = ''; hnam2 :string = ''; hnam3 :string = ''; hnam4 :string = ''; hnam5 :string = ''; hnam6 :string = ''; hnam7 :string = ''; hnam8 :string = ''; hnam9 :string = '';hnam10 :string = '';hnam11 :string = '';hnam12 :string = '';
 	hpos1 :string = ''; hpos2 :string = ''; hpos3 :string = ''; hpos4 :string = ''; hpos5 :string = ''; hpos6 :string = ''; hpos7 :string = ''; hpos8 :string = ''; hpos9 :string = '';hpos10 :string = '';hpos11 :string = '';hpos12 :string = '';
 	hras1 :string = '';hras2 :string = '';hras3 :string = '';hras4 :string = '';hras5 :string = '';hras6 :string = '';hras7 :string = '';hras8 :string = '';hras9 :string = '';hras10 :string = '';hras11 :string = '';hras12 :string = '';
 	hnak1 :string = '';hnak2 :string = '';hnak3 :string = '';hnak4 :string = '';hnak5 :string = '';hnak6 :string = '';hnak7 :string = '';hnak8 :string = '';hnak9 :string = '';hnak10 :string = '';hnak11 :string = '';hnak12 :string = '';
 	hsub1 :string = '';hsub2 :string = '';hsub3 :string = '';hsub4 :string = '';hsub5 :string = '';hsub6 :string = '';hsub7 :string = '';hsub8 :string = '';hsub9 :string = '';hsub10 :string = '';hsub11 :string = '';hsub12 :string = '';
+	hssub1 :string = '';hssub2 :string = '';hssub3 :string = '';hssub4 :string = '';hssub5 :string = '';hssub6 :string = '';hssub7 :string = '';hssub8 :string = '';hssub9 :string = '';hssub10 :string = '';hssub11 :string = '';hssub12 :string = '';
 	hn1: string =''; hn2: string =''; hn3: string =''; hn4: string =''; hn5: string =''; hn6: string =''; hn7: string =''; hn8: string =''; hn9: string =''; hn10: string =''; hn11: string =''; hn12: string ='';
 	L1ps1: string = '';L1ps2: string = '';L1ps3: string = '';L1ps4: string = '';L1ps5: string = '';L1ps6: string = '';L1ps7: string = '';L1ps8: string = '';L1ps9: string = '';
 	L2ps1: string = '';L2ps2: string = '';L2ps3: string = '';L2ps4: string = '';L2ps5: string = '';L2ps6: string = '';L2ps7: string = '';L2ps8: string = '';L2ps9: string = '';
@@ -95,9 +88,9 @@ export class KpAstroPage {
 	device_width :number = 0;
 	device_height :number = 0;
 	moon_sign :string = '';
-	moon_deg :number = 0;
+	moon_deg :string = '';
 	asc_sign :string = '';
-	asc_deg :number = 0;
+	asc_deg :string = '';
 	mdas1: string = '';adas1: string = '';pdas1: string = '';pend1: string = '';
 	showGrid: boolean;
     str :string;
@@ -119,7 +112,8 @@ export class KpAstroPage {
   lstnr: Function;
   nrefs: number = 0;
   ayanINF: string = '';
-    constructor(public navCtrl: NavController, public shareService: ShareService, public navParams: NavParams, public platform: Platform, public renderer: Renderer2, public horoService: HoroscopeService ) {
+  lifevts: string = '';
+    constructor(public navCtrl: NavController, public shareService: ShareService, public navParams: NavParams, public platform: Platform, public renderer: Renderer2, public horoService: HoroscopeService, private file: File ) {
     this.binf = navParams.get('binf');
 	console.log('binf', this.binf);
     platform.ready().then((readySource) => {
@@ -137,18 +131,12 @@ export class KpAstroPage {
 		this.showLS = true;
 		this.mcnt = 0;
 		this.loadHoro();
-		this.mdas1sgnf = this.oPlanet[this.mdas1.toLowerCase()].sig;
-		if(this.oPlanet[this.mdas1.toLowerCase()].lif_e != '') this.mdas1life = 'Which causes ' + this.oPlanet[this.mdas1.toLowerCase()].lif_e + ' during its dasha';
-		this.adas1sgnf = this.oPlanet[this.adas1.toLowerCase()].sig;
-		if(this.oPlanet[this.adas1.toLowerCase()].lif_e != '') this.adas1life = 'Which causes ' + this.oPlanet[this.adas1.toLowerCase()].lif_e + ' during its dasha';
-		this.pdas1sgnf = this.oPlanet[this.pdas1.toLowerCase()].sig;
-		if(this.oPlanet[this.pdas1.toLowerCase()].lif_e != '') this.pdas1life = 'Which causes ' + this.oPlanet[this.pdas1.toLowerCase()].lif_e + ' during its dasha';
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
 		let ofset: number = Number(n.toFixed(1));
-		let ayanid: number = 4;
-		var res = this.shareService.getAYNM();
+		let ayanid: number = 3;
+		var res = this.shareService.getKAYNM();
 		if(res) ayanid = Number(res);
 		this.horoService.recfyBT(this.binf.lat, this.binf.lng, this.binf.dob, this.binf.timezone, ofset, ayanid)
 		   .subscribe(res => {
@@ -158,7 +146,8 @@ export class KpAstroPage {
 		   }
 		  }, (err) => {
 			//this.info = err;
-		  }) ;		
+		  }) ;
+		  
 	});
   }
 
@@ -217,12 +206,6 @@ export class KpAstroPage {
 		}
 		this.mprd4 = '';
 		this.loadHoro();
-		this.mdas1sgnf = this.oPlanet[this.mdas1.toLowerCase()].sig;
-		if(this.oPlanet[this.mdas1.toLowerCase()].lif_e != '') this.mdas1life = 'Which causes ' + this.oPlanet[this.mdas1.toLowerCase()].lif_e + ' during its dasha';
-		this.adas1sgnf = this.oPlanet[this.adas1.toLowerCase()].sig;
-		if(this.oPlanet[this.adas1.toLowerCase()].lif_e != '') this.adas1life = 'Which causes ' + this.oPlanet[this.adas1.toLowerCase()].lif_e + ' during its dasha';
-		this.pdas1sgnf = this.oPlanet[this.pdas1.toLowerCase()].sig;
-		if(this.oPlanet[this.pdas1.toLowerCase()].lif_e != '') this.pdas1life = 'Which causes ' + this.oPlanet[this.pdas1.toLowerCase()].lif_e + ' during its dasha';
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
@@ -266,16 +249,66 @@ export class KpAstroPage {
 			if(mins >= s_mins && mins <= e_mins) {
 			    //console.log(s_mins);
 				//console.log(e_mins);
-				console.log(nak.sign + '|' + nak.star + '|' + nak.sub);
-				return nak.sign + '|' + nak.star + '|' + nak.sub;
+			   console.log(nak.sign + '|' + nak.star + '|' + nak.sub);
+			   return nak.sign + '|' + nak.star + '|' + nak.sub;
 			}
 		}
 		console.log('-1');
 		return '-1';
 	}
+  	calcStarEx(val: number)
+	{
+	  
+		console.log('calcStar', val);
+		for(var i = 0; i < Object.keys(sublords).length; i++)
+		{
+			var nak = sublords[i];
+			var degs = sublords[i].deg;
+			var s_mins = this.dmsToDec(Number(degs.split('-')[0].split('.')[0]), Number(degs.split('-')[0].split('.')[1]), Number(degs.split('-')[0].split('.')[2]));
+			var e_mins = this.dmsToDec(Number(degs.split('-')[1].split('.')[0]), Number(degs.split('-')[1].split('.')[1]), Number(degs.split('-')[1].split('.')[2]));
+			//var deg_s = parseFloat(degs.split('-')[0].split('.')[0] + '.' + degs.split('-')[0].split('.')[1]);
+			//var deg_e = parseFloat(degs.split('-')[1].split('.')[0] + '.' + degs.split('-')[1].split('.')[1]);
+			//console.log(s_mins);
+			//console.log(e_mins);
+			if(val >= s_mins && val <= e_mins) {
+			    //console.log(s_mins);
+				//console.log(e_mins);
+			   console.log(nak.sign + '|' + nak.star + '|' + nak.sub);
+			   return nak.sign + '|' + nak.star + '|' + nak.sub;
+			}
+		}
+		console.log('-1');
+		return '-1';
+	}
+	getSubSub(val: number, sub: string, isp: boolean, pcnt: number)
+	{
+	   console.log('subsub', sub);
+	   console.log('subsub', val);
+		this.horoService.getJson('assets/data/' + sub + '.json')
+			.subscribe(subsubs => {
+			for(var j = 0; j < Object.keys(subsubs).length; j++)
+			{
+				var sdegs = subsubs[j].deg;
+				var s_smins = this.dmsToDec(Number(sdegs.split('-')[0].split('.')[0]), Number(sdegs.split('-')[0].split('.')[1]), Number(sdegs.split('-')[0].split('.')[2]));
+				var e_smins = this.dmsToDec(Number(sdegs.split('-')[1].split('.')[0]), Number(sdegs.split('-')[1].split('.')[1]), Number(sdegs.split('-')[1].split('.')[2]));
+				console.log('subsub', 'iter');
+				console.log('subsub', s_smins);
+				console.log('subsub', e_smins);
+				console.log('subsub', val);
+				if(val >= s_smins && val <= e_smins) {
+				   if(isp) this['sub'+pcnt.toString()] = this.translate(subsubs[j].sub);
+				   else this['hssub'+pcnt.toString()] = this.translate(subsubs[j].sub);
+				  //subsubs[j].sub;
+				}
+			}
+		}, (err) => {
+		  console.log(err);
+	   });
+	   
+	}
 	grid(numberPerSide, size, pixelsPerSide, plps) {
 		var dob = this.binf.dob.split('T')[0].split('-')[1] + '/' + this.binf.dob.split('T')[0].split('-')[2] + '/' + this.binf.dob.split('T')[0].split('-')[0];
-	    var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+	    //var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.renderer.setAttribute(svg, "width", pixelsPerSide);
 		this.renderer.setAttribute(svg, "height", pixelsPerSide);
@@ -461,9 +494,9 @@ export class KpAstroPage {
 		var s2 = size * 2;
 		var s3 = size;
 		var s4 = 15;
-		var s5 = size * 2 / 2;
-		var hPos = this.shareService.getHPOS();
-		let once: boolean = false;
+		//var s5 = size * 2 / 2;
+		//var hPos = this.shareService.getHPOS();
+		//let once: boolean = false;
 		for (var i = 0; i < numberPerSide; i++) {
 			for (var j = 0; j < numberPerSide; j++) {
 				if ((i * numberPerSide + j) == 5 || (i * numberPerSide + j) == 6 || (i * numberPerSide + j) == 9 || (i * numberPerSide + j) == 10) {
@@ -527,11 +560,11 @@ export class KpAstroPage {
 				this.renderer.appendChild(g, box);
 				console.log(sign);
 				sign = signs[number];
-				let asc_mins: number = 0;
-				if(this.asc_deg.toString().indexOf('.') > -1)
-					asc_mins = parseInt(this.asc_deg.toString().split('.')[0])*60 + parseInt(this.asc_deg.toString().split('.')[1]);
-				else
-				    asc_mins = this.asc_deg*60;
+				//let asc_mins: number = 0;
+				//if(this.asc_deg.toString().indexOf('.') > -1)
+				//	asc_mins = parseInt(this.asc_deg.toString().split('.')[0])*60 + parseInt(this.asc_deg.toString().split('.')[1]);
+				//else
+				//    asc_mins = this.asc_deg*60;
 
 					var arr = ["ar","ta","ge","cn", "le", "vi", "li", "sc", "sa", "cp", "aq", "pi"];
 					var v_iter = 0, v_start = 0;
@@ -554,6 +587,7 @@ export class KpAstroPage {
 							var s7 = 2;
 							let cur_h: number = (v_iter-1 == 0) ? 12: v_iter-1;
 							var hnos = this.get_hno_by_sign(sign);
+							console.log('get_hno_by_sign', sign + hnos);
 							text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 							//console.log('sign=' + sign + ' v_iter= ' + v_iter.toString() + 'roms = ' + hnos);
 							this.renderer.appendChild(text, document.createTextNode(hnos));
@@ -566,8 +600,8 @@ export class KpAstroPage {
 							this.renderer.setAttribute(text, "id", "h" + v_iter.toString());
 							g.appendChild(text);
 							//console.log(roms[v_iter-1]);
-							let h_cusp_e: number = parseInt(hPos[v_iter].split("°")[0], 10)*60 + parseInt(hPos[v_iter].split("°")[1].split("'")[0], 10);
-							let h_cusp_b: number = parseInt(hPos[cur_h].split("°")[0], 10)*60 + parseInt(hPos[cur_h].split("°")[1].split("'")[0], 10);
+							//let h_cusp_e: number = parseInt(hPos[v_iter].split("°")[0], 10)*60 + parseInt(hPos[v_iter].split("°")[1].split("'")[0], 10);
+							//let h_cusp_b: number = parseInt(hPos[cur_h].split("°")[0], 10)*60 + parseInt(hPos[cur_h].split("°")[1].split("'")[0], 10);
 							if (plps.hasOwnProperty(sign)) {  
 						      //console.log('The sign ' + sign + ' has ' + plps[sign].split('\|').length.toString() + ' planet(s), they are');
 							  var pls = plps[sign].split('\|');//this.get_pls_pos_in_hou_ex(h_cusp_b, h_cusp_e, sign);
@@ -624,21 +658,6 @@ console.log(svg);
 
   loadHoro()
   {
-   // console.log(this.shareService.getDOB());
-	//let yr: number = parseInt(this.shareService.getDOB().split('T')[0].split('-')[0], 10);
-	//let ay_m: number = 0;
-	//let a_d: number = 0;
-	//let a_m: number = 0;
-	//let a_s: number = 0;
-	//if(yr >= 1900 && yr < 2053) {
-	//   var aym_s = ayanmasa[yr.toString()];
-	 //  a_d = parseInt(aym_s.split('.')[0], 10);
-	 //  a_m = parseInt(aym_s.split('.')[1], 10);
-	 //  a_s = parseInt(aym_s.split('.')[2], 10);
-	 //  ay_m = a_d*60 + a_m + (a_s/60);
-	//}
-	//console.log(ay_m);
-	
 	let pcnt :number = 0;
 	var plPos = this.shareService.getPLPOS();
 	for(let key of Object.keys(signs)) {
@@ -663,11 +682,13 @@ console.log(svg);
 						plPos[sign] = plPos[sign].replace('MEAN_NODE', 'Ra');
 					} else if (pls[k].split(' ')[1] == 'AC') { 
 						this.asc_sign = sign;
-						this.asc_deg = Number(pls[k].split(' ')[0]);
+						//this.asc_deg = Number(pls[k].split(' ')[0]);
+						this.asc_deg = pls[k].split(' ')[0];
 						console.log('ASCENDENT is ' + this.asc_sign);
 					} else if (pls[k].split(' ')[1] == 'Mo') {
 						this.moon_sign = sign;
-						this.moon_deg = Number(pls[k].split(' ')[0]);
+						//this.moon_deg = Number(pls[k].split(' ')[0]);
+						this.moon_deg = pls[k].split(' ')[0];
 					} else if (pls[k].split(' ')[1] == 'TRUE_NODE') {
 						plPos[sign] = plPos[sign].replace('TRUE_NODE', 'TR');		
 					}
@@ -685,15 +706,21 @@ console.log(svg);
 					var pl = pls[k].split(' ')[1];
 					var pos = pls[k].split(' ')[0].trim();
 					//console.log('pos len=' + pos.split('.').length.toString());
-					let mins: number = 0;
+					//let mins: number = 0;
+					//if(pos.indexOf('.') > -1 && pos.split('.')[1] != '')
+					//  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60 + parseInt(pls[k].split(' ')[0].split('.')[1], 10);
+					//else
+					//  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60 ;
+					let dval: number = 0;
 					if(pos.indexOf('.') > -1 && pos.split('.')[1] != '')
-					  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60 + parseInt(pls[k].split(' ')[0].split('.')[1], 10);
+					  dval = this.dmsToDec(signs_pos[sign]+Number(pos.split('.')[0]), Number(pos.split('.')[1]), Number(pos.split('.')[2]));
 					else
-					  mins = (signs_pos[sign] + parseInt(pls[k].split(' ')[0].split('.')[0], 10))*60;
+					  dval = Number(pos);
 					if (pl != 'Ra' && pl != 'Ke' && pl != 'Ur' && pl != 'Pl' && pl != 'me' && pl != 'os' && pl != 'Ne' && pl != 'AC' && pl != 'TR') {  //consider only true planets
 						pcnt++;
 						//console.log('finding star at ' + (mins - ay_m).toString());
-						var star = this.calcStar(mins);
+						//var star = this.calcStar(mins);
+						var star = this.calcStarEx(dval);
 						//console.log(star);
 						//console.log(pl);
 						this['pnam' + pcnt.toString()] = this.translate(ruler_name[pl.toLowerCase()].toUpperCase());
@@ -712,44 +739,46 @@ console.log(svg);
 							  //min_l = 59;
                            	  //sec_l = 60 - a_s;						
 							//}
-							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032';
+							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032' + pls[k].split(' ')[0].split('.')[2] + '\u2033';
 							//this['ppos' +pcnt.toString()] = deg_l.toString() + '\xB0' + min_l.toString() + '\u2032' + sec_l + '\u2033';
 						}
 						else {
 						    this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0';
 						}
-							let planetPos: PlanetPos = {
-							 pos: mins,
+						let planetPos: PlanetPos = {
+							 pos: dval,
 							 sign: star.split('|')[0],
 							 star: star.split('|')[1],
 							 sub: star.split('|')[2],
 							 sig: '',
 							 lif_e: '',
 							 inds: ''
-							};
-							this.oPlanet[ruler_name[pl.toLowerCase()].toLowerCase()] = planetPos;
+						};
+						this.oPlanet[ruler_name[pl.toLowerCase()].toLowerCase()] = planetPos;
 						//console.log(star.split('|')[1]);
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[1]);
 						//console.log(star.split('|')[2]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+						this.getSubSub(dval, star.split('|')[1] + '-' + star.split('|')[2], true, pcnt);
+						//this['sub'+pcnt.toString()] = this.translate(ssub);
 					} else if (pl == 'Ra') { //consder Rahu
 						//h_code += 'Rahu ';
 						pcnt++;
 						//console.log(pl);
 						//console.log(pls[k].split(' ')[0]);
-						var star = this.calcStar(mins);
+						var star = this.calcStarEx(dval);
 						//console.log(star);
 						this['pnam' + pcnt.toString()] = this.translate('RAHU');
 						//console.log(star.split('|')[0]);
 						this['pras' + pcnt.toString()] = this.translate(star.split('|')[0]);
 						if(pos.indexOf('.') > -1 && pos.split('.')[1] != '') {
-							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032';
+							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032' + pls[k].split(' ')[0].split('.')[2] + '\u2033';
 						}
 						else {
 						    this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0';
 						}
 							let planetPos: PlanetPos = {
-							 pos: mins,
+							 pos: dval,
 							 sign: star.split('|')[0],
 							 star: star.split('|')[1],
 							 sub: star.split('|')[2],
@@ -762,24 +791,26 @@ console.log(svg);
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[1]);
 						//console.log(star.split('|')[2]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+						this.getSubSub(dval, star.split('|')[1] + '-' + star.split('|')[2], true, pcnt);
+						//this['sub'+pcnt.toString()] = this.translate(ssub);
 					} else if (pl == 'Ke') {
 						//h_code += 'Ketu ';
 						pcnt++;
 						//console.log(pl);
 						//console.log(pls[k].split(' ')[0]);
-						var star = this.calcStar(mins);
+						var star = this.calcStarEx(dval);
 						//console.log(star);
 						this['pnam' + pcnt.toString()] = this.translate('KETU');
 						//console.log(star.split('|')[0]);
 						this['pras' + pcnt.toString()] = this.translate(star.split('|')[0]);
 						if(pos.indexOf('.') > -1 && pos.split('.')[1] != '') {
-							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032';
+							this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0' + pls[k].split(' ')[0].split('.')[1] + '\u2032' + pls[k].split(' ')[0].split('.')[2] + '\u2033';
 						}
 						else {
 						    this['ppos' +pcnt.toString()] = pls[k].split(' ')[0].split('.')[0] + '\xB0';
 						}
 						let planetPos: PlanetPos = {
-							 pos: mins,
+							 pos: dval,
 							 sign: star.split('|')[0],
 							 star: star.split('|')[1],
 							 sub: star.split('|')[2],
@@ -792,6 +823,8 @@ console.log(svg);
 						this['pnak'+pcnt.toString()] = this.translate(star.split('|')[1]);
 						//console.log(star.split('|')[2]);
 						this['nakl'+pcnt.toString()] = this.translate(star.split('|')[2]);
+						this.getSubSub(dval, star.split('|')[1] + '-' + star.split('|')[2], true, pcnt);
+						//this['sub'+pcnt.toString()] = this.translate(ssub);
 					}
 				}
 			}
@@ -803,15 +836,16 @@ console.log(svg);
 		for(let key of Object.keys(hPos)) {
 		  let v_iter: number = Number(key);
 		  //let cur_h: number = (v_iter-1 == 0) ? 12: v_iter-1;
-		  let mins: number = 0;
+		  let dval: number = 0;
 		  pcnt++;
 		  var dmslat = hPos[v_iter];
 		  //console.log(dmslat);
 		  //console.log(dmslat.split("°")[0] + '.' + dmslat.split("°")[1].split("'")[0]);
 		  //console.log(parseFloat(dmslat.split("°")[0] + '.' + dmslat.split("°")[1].split("'")[0]));
-		  mins = parseInt(dmslat.split("°")[0], 10)*60 + parseInt(dmslat.split("°")[1].split("'")[0], 10);
+		  //mins = parseInt(dmslat.split("°")[0], 10)*60 + parseInt(dmslat.split("°")[1].split("'")[0], 10);
+		  dval = this.dmsToDec(Number(dmslat.split("°")[0]), Number(dmslat.split("°")[1].split("'")[0]), 0);
 		  //console.log(mins);
-		  var star = this.calcStar(mins);
+		  var star = this.calcStarEx(dval);
 		  //console.log(star);
 		  this['hnam'+pcnt.toString()] = v_iter.toString();
 		  this['hpos'+pcnt.toString()] = dmslat.split("°")[0] + '\xB0' + dmslat.split("°")[1].split("'")[0] + '\u2032';
@@ -819,8 +853,10 @@ console.log(svg);
 		  this['hnak'+pcnt.toString()] = this.translate(star.split('|')[1]);
 		  //console.log(star.split('|')[2]);
 		  this['hsub'+pcnt.toString()] = this.translate(star.split('|')[2]);
+		  this.getSubSub(dval, star.split('|')[1] + '-' + star.split('|')[2], false, pcnt);
+		  //this['hssub'+pcnt.toString()] = this.translate(hssb);
 		  let housePos: HousePos = {
-			 pos: mins,
+			 pos: dval,
 			 sign: star.split('|')[0],
 			 star: star.split('|')[1],
 			 sub: star.split('|')[2],
@@ -837,17 +873,21 @@ console.log(svg);
 		//console.log(this.oHouse);
 		//find planet significators
 		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
-		let pL1: string = ''; 
-		let pL2: string = ''; 
-		let pL3: string = ''; 
+		//let pL1: string = ''; 
+		//let pL2: string = ''; 
+		//let pL3: string = ''; 
 	    for (var vi=0, len=arr.length; vi<len; vi++) {
 		   let psig: number[] = [];
 		   let sigs: number = 0;
 		   var obj = this.oPlanet[arr[vi]];
 		   //console.log(obj);
+		   console.log('L1 significator', obj.star);
 		   var sl_hno = this.get_hno_by_pos(this.oPlanet[obj.star].pos);
+		   console.log('L2 significator', arr[vi]);
 		   var hno = this.get_hno_by_pos(obj.pos);
+		   console.log('L3 significator', arr[vi]);
 		   var sl_own_hnos = this.get_own_houses(obj.star);
+		   console.log('L4 significator', arr[vi]);
 		   var pl_own_hnos = this.get_own_houses(arr[vi]);
 		   //let t_owns: string = '';
 		   this['pn' + (vi+1).toString()] = this.translate(arr[vi]);
@@ -1055,111 +1095,63 @@ console.log(svg);
 			this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
 		});
 		
-		var bstar = this.calcBirthStar(this.moon_sign, this.moon_deg);
+		let mdeg: number = 0;
+		if(this.moon_deg.indexOf('.') > -1)
+			mdeg = Number(this.moon_deg.split('.')[0] + '.' + this.moon_deg.split('.')[1]);
+		else
+			mdeg = Number(this.moon_deg);
+		var bstar = this.calcBirthStar(this.moon_sign, mdeg);
 		console.log(bstar);
 		this.shareService.setBirthStar(bstar.split('|')[0]);
-		//balance dasha calculation
-        var dob_c = new Date(this.binf.dob);
-		var m_dy = this.days_in_month(dob_c.getMonth()+1, dob_c.getFullYear());//30.436875;//29.530588;
-		var d_yr = this.days_of_a_year(dob_c.getFullYear());//354.367056;//365.2425;
-		//let vim_c: number = (parseInt(dasha_conv[this.moon_sign], 10) + this.moon_deg) / 120;
-		//var vim_s = vim_c.toString();
-		//var vim_b = '0.' + vim_s.split('.')[1];
-		//var vim_a = parseFloat(vim_b) * 9;
-		//vim_b = vim_a.toString();
-		//var cosl = Math.floor(vim_a);
-		//var rul = const_ruler[cosl.toString()];
-		//var das = dashas[rul];
-		//var ela = parseFloat('.' + vim_b.split('.')[1]) * parseInt(das, 10);
-		//var rem = parseInt(das, 10) - ela;
-		var rem_days = 0;
 		var ras_num = Number(o_rashis[this.moon_sign].split('\|')[0]);
-		var mon_crs = (ras_num - 1)*30;
-		let moon_ela :number = (this.moon_deg.toString().indexOf('.') > -1) ? mon_crs + Number(this.moon_deg.toString().split('.')[0]) : mon_crs + this.moon_deg;
-		if(this.moon_deg.toString().indexOf('.') > -1) {
-			moon_ela = Number(moon_ela.toString() + '.' + this.moon_deg.toString().split('.')[1]);
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-			if(moon_ela.toString().split('.')[1].length > 2)
-			    moon_ela = Number(moon_ela.toFixed(2));
-		}
-		if(moon_ela.toString().indexOf('.') > -1) {
-		   var rem1 = Number(moon_ela.toString().split('.')[0])*60 + Number(moon_ela.toString().split('.')[1]);
-		   rem1 = rem1/800;
-		   
-		   //rem1 = Number(das)*rem1;
-		   if(rem1.toString().indexOf('.') > -1) {
-				//if(rem1.toString().split('.')[1].length > 2)
-				    //rem1 = rem1.toFixed(2);
-					rem1 = Number('0.' + rem1.toString().split('.')[1])*800;
-		   }
-		   var das = dashas[bstar.split('|')[2].substring(0,2).toLowerCase()];
-		   var m_bal = 800 - rem1;
-		   var tot_das = Number(das)*d_yr;
-		   var bal_das = (tot_das*m_bal)/800;
-		   var bal_y = bal_das/d_yr;
-		   var rem_s = bal_y.toString();
-		   if(rem_s.indexOf('.') > -1) {
-		     var rem_y = Number(rem_s.split('.')[0]);
-			 if(Number(rem_s.split('.')[1]) > 0) {
-			   var rem_m = parseFloat('0.' + rem_s.split('.')[1])*d_yr;
-			   rem_m = rem_m/m_dy;
-			   if(rem_m.toString().indexOf('.') > -1) {
-			    //if(rem_m.toString().split('.')[1].length > 1)
-				   // rem_m = Number(rem_m.toFixed(1));
-			     var rem_d = Number('0.' + rem_m.toString().split('.')[1])*m_dy;
-				 rem_m = Number(rem_m.toString().split('.')[0]);
-				 rem_days = rem_y*d_yr + rem_m*m_dy + rem_d;
-			   }
-			 }
-		   } else {
-		     rem_days = Number(rem_s)*d_yr;
-		   }
-		} else {
-		  var rem1 = moon_ela*60;
-		  rem1 = rem1/800;
-		   var rem_s = rem1.toString();
-	       rem_days = rem1*d_yr;
-		}
+		var ras_num2 = Number(o_rashis[bstar.split('|')[3]].split('\|')[0]);
+		this.horoService.calcVim(this.binf.dob, bstar.split('|')[2], mdeg, Number(bstar.split('|')[1]), ras_num, ras_num2, this.shareService.getLANG() )
+				.subscribe(res => {
+				    for(let key of Object.keys(res)) {
+					    //var das = JSON.parse(res[key]);
+						if(res[key].style == 'mdasc') this.mdas1 = key;
+						else if(res[key].style == 'adasc') this.adas1 = ruler_name[key.split('-')[1].toLowerCase()];
+						else if(res[key].style == 'pdasc') { 
+							this.pdas1 = ruler_name[key.split('-')[2].toLowerCase()];
+							var dts = res[key].per.split('To');
+							this.pend1 = dts[1].trim().split('/')[0] + '-' + dts[1].trim().split('/')[1] + '-' + dts[1].trim().split('/')[2];
+						}
+					}
+					//let sig: string = this.oPlanet[this.mdas1.toLowerCase()].sig + ',' + this.oPlanet[this.oPlanet[this.mdas1.toLowerCase()].star].sig;
+					this.lifevts = this.mdas1 + '//' + this.analyze_life_evts('', this.oPlanet[this.mdas1.toLowerCase()].sig) + '<br/>';
+					//this.lifevts += ' STARLORD: ' + this.oPlanet[this.mdas1.toLowerCase()].star  + '//' + this.analyze_life_evts('', //this.oPlanet[this.oPlanet[this.mdas1.toLowerCase()].star].sig) + '<br/>';
+					if(this.adas1.toLowerCase() != this.mdas1.toLowerCase()) {
+					  this.lifevts += this.adas1 + '//' + this.analyze_life_evts('', this.oPlanet[this.adas1.toLowerCase()].sig) + '<br/>'; 
+					  //this.lifevts += ' STARLORD: ' + this.oPlanet[this.adas1.toLowerCase()].star + '//' + this.analyze_life_evts('', //this.oPlanet[this.oPlanet[this.adas1.toLowerCase()].star].sig) + '<br/>';
+					}
+					if(this.pdas1.toLowerCase() != this.mdas1.toLowerCase() && this.pdas1.toLowerCase() != this.adas1.toLowerCase()) {
+						this.lifevts += this.pdas1 + '//' + this.analyze_life_evts('', this.oPlanet[this.pdas1.toLowerCase()].sig) + '<br/>'; 
+						//this.lifevts += ' STARLORD: ' + this.oPlanet[this.pdas1.toLowerCase()].star + '//' + this.analyze_life_evts('', //this.oPlanet[this.oPlanet[this.pdas1.toLowerCase()].star].sig) + '<br/>';
+					}
+					//this.mdas1sgnf = this.oPlanet[this.mdas1.toLowerCase()].sig;
+					//if(this.oPlanet[this.mdas1.toLowerCase()].lif_e != '') this.mdas1life = 'Which causes ' + this.oPlanet[this.mdas1.toLowerCase()].lif_e + //' during its dasha';
+					//this.adas1sgnf = this.oPlanet[this.adas1.toLowerCase()].sig;
+					//if(this.oPlanet[this.adas1.toLowerCase()].lif_e != '') this.adas1life = 'Which causes ' + this.oPlanet[this.adas1.toLowerCase()].lif_e + //' during its dasha';
+					//this.pdas1sgnf = this.oPlanet[this.pdas1.toLowerCase()].sig;
+					//if(this.oPlanet[this.pdas1.toLowerCase()].lif_e != '') this.pdas1life = 'Which causes ' + this.oPlanet[this.pdas1.toLowerCase()].lif_e + //' during its dasha';
+					let ayanid: number = 3;
+					var kres = this.shareService.getKAYNM();
+					if(kres) ayanid = Number(kres);
+				  this.horoService.getDashTransEx(this.mdas1, this.adas1, this.pdas1, this.pend1, this.shareService.getCLAT(), this.shareService.getCLNG(), this.shareService.getCTimezone(), ayanid)
+				   .subscribe(res2 => {
+					this.mprd1 = '';
+				   this.publishReport(res2);
+				  }, (err) => {
+				    this.mprd1 = JSON.stringify(err);
+				  }) ;	   
+					
+				}, (err) => {
+					this.mprd1 = JSON.stringify(err);
+				});
 		
-		console.log(rem_days);
-	    //build vimsottara dasha table
-		console.log(dob_c.toString());
-        dob_c.setDate(dob_c.getDate() + rem_days);
-		console.log(dob_c.toString());
-		console.log('Antar' + bstar.split('|')[2] + this.binf.dob + rem_days.toString());
-		this.buildAntarDasha(bstar.split('|')[2], 1, new Date(this.binf.dob), rem_days);
-		var arr = ["sun","moon","mars","rahu", "jupiter", "saturn", "mercury", "ketu", "venus"];
-		var v_start = 0;
-		var v_iter = 0;
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(v_start) { 
-	        v_iter++;
-			var startdt = new Date(dob_c.getTime());
-			var m = (dob_c.getMonth()+1).toString();
-			var dd = dob_c.getDate().toString();
-			var y = dob_c.getFullYear().toString();
-			d_yr = this.days_of_a_year(startdt.getFullYear());
-			dob_c.setDate(dob_c.getDate() + Number(dashas[arr[vi].substring(0,2).toLowerCase()])*d_yr);
-		console.log('Antar' + arr[vi]);
-		console.log(startdt.toString());
-		    this.buildAntarDasha(arr[vi], v_iter+1, startdt, 0);
-		 }	
-		 if(arr[vi] == bstar.split('|')[2]) {
-			 v_start = 1;
-		 }
-		if(vi == 8) vi = -1;
-		if(v_iter == 8) break;
-	   }
 	   
 	   //PREDICTIONS
 	   this.mprd1 = "<span style='font-weight:bold;text-align:center;'> Fetching KP Transit Predictions for your current dasha, this may take a while...</span>";
-	  this.horoService.getDashTrans(this.mdas1, this.adas1, this.pdas1, this.pend1)
-       .subscribe(res => {
-	    this.mprd1 = '';
-	   this.publishReport(res);
-      }, (err) => {
-      }) ;	   
 	}
 	get_h_from_h(s_h: number, d_h: number)
 	{
@@ -1193,12 +1185,12 @@ console.log(svg);
 		  }
 		  //console.log(sigs[0]);
 			let sig_c: number = 0;
-			if(lsig.split(',')[0] == sigs[0]) {	//primary house satisfied
+			//if(lsig.split(',')[0] == sigs[0]) {	//primary house satisfied
 			  // console.log('Primary house ' + sigs[0] + ' is satisfied');
-				h_g += sigs[0] + '-';
-				sig_c++;
+				//h_g += sigs[0] + '-';
+				//sig_c++;
 			    let lsigs: string[] = lsig.split(',');
-				for(var i = 1; i < sigs.length; i++) {
+				for(var i = 0; i < sigs.length; i++) {
 					if(sigs[i].indexOf('(') != -1) {
 					  let s_h: number = Number(sigs[i].match(/\(([^)]+)\)/)[1]);
 					  //console.log(s_h);
@@ -1217,8 +1209,10 @@ console.log(svg);
 					}
 					for(var j = i; j < lsigs.length; j++) {
 						if(lsigs[j] == sigs[i]) {	//supporting house satisfied
+						if(h_g.indexOf(sigs[i]) == -1) {
 						  h_g += sigs[i] + '-';
 						  sig_c++;	
+						  }
 						}
 					}
 				}
@@ -1227,7 +1221,7 @@ console.log(svg);
 				console.log('life event satisfied ' + house_groups[key]);
 					lif_e += h_g + '|' + house_groups[key] + ';';
 				}
-			}
+			//}
 		}
 		return lif_e;
 	}
@@ -1416,11 +1410,11 @@ console.log(svg);
   publishReport(stars: any)
   {
 	this.showGrid = true;
-	let cur_sssl: string = '';
-	let cur_trans_l: string = '';
-	let cur_star: string = '';
-	let ntrans: number = 0;
-	let visited: string = '';
+	//let cur_sssl: string = '';
+	//let cur_trans_l: string = '';
+	//let cur_star: string = '';
+	//let ntrans: number = 0;
+	//let visited: string = '';
 	console.log(stars);
 	this.mon = stars[0].date.split(',')[0].split(' ')[1];
 	this.yer = stars[0].date.split(',')[1].split(' ')[0];
@@ -1505,7 +1499,7 @@ console.log(svg);
 		this.renderer.appendChild(gm, text);
 		let bh: number = 25
         //let cal: any = null;
-		let pday: number = 0;
+		//let pday: number = 0;
 		let oTDs :Object[] = [];
 		for(var k = 0; k < 7; k++) {
 			bt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -1588,8 +1582,8 @@ console.log(svg);
 					g.appendChild(text1);
 					//oPl :PlanetPos[] = [];
 					//oPl = get_pl_trans(key);
-					let pcx: number = dx*size + size/2;
-					let pn: number = 0;
+					//let pcx: number = dx*size + size/2;
+					//let pn: number = 0;
 					//let trk: string = '';
 					let pls: string = '';
 					//for(let wk of Object.keys(oW)) {
@@ -1671,7 +1665,7 @@ console.log(svg);
    {
    console.log('pubTransRep', trns);
     // var mnths = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER']
-		var ptrns = [];
+		//var ptrns = [];
      let desc: string = '';
 	 let bvsted: boolean =  false;
 	    desc += '<span><h2>PREDICTIONS FOR ' + mon_weeks[mon.toLowerCase()].split('|')[0] + '</h2></span>';
@@ -1712,10 +1706,10 @@ console.log(svg);
 					//}
 				//}
 				
-				let dts: string = '';
-				let nd: number = 0;
+				//let dts: string = '';
+				//let nd: number = 0;
 				var seq= [];
-				var inds=[];
+				//var inds=[];
 				let d: number = 0;
 				let t_dys: string = '';
 				console.log('Normalizing..');
@@ -1785,36 +1779,39 @@ console.log(svg);
 
 				if(this.shareService.getLANG() == 'te') {
 					if(!bvsted) {
-						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="greenText">' + this.translate(key.split('-')[1]) + '</span> నక్షత్రము  లో  గోచరించ  నుంది  <span class="blueText"> ' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో  గోచరించ  నుంది ఈ నక్షత్రానికి ప్రభువు  <span class="brownText">' +  this.translate(star_lord) + '</span>' + ' ప్రస్తుత  <span class="boldText"'> +  das_l + '</span> ప్రభువు </span>';
-						// పుట్టిన చార్టు లో ఈ గ్రహం' + this.translate(const_lord)  + ' ప్రభువు యొక్క నక్షత్రం లో ఉంది</span>';
+						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="greenText">' + this.translate(key.split('-')[1]) + '</span> నక్షత్రము  లో  గోచరించ  నుంది  <span class="blueText"> ' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో  గోచరించ  నుంది ఈ నక్షత్రానికి ప్రభువు  <span class="brownText">' +  this.translate(star_lord) + '</span>' + ' ప్రస్తుత  <span class="boldText"'> +  das_l + '</span> ప్రభువు  పుట్టిన చార్టు లో ఈ గ్రహం' + this.translate(const_lord)  + ' ప్రభువు యొక్క నక్షత్రం లో ఉంది</span>';
 					} else {
 						desc += '<span>' + t_dys + 'తేదీలలో<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> సబ్ లో కి ప్రవేశిస్తుంది';
 					}
 				} else if(this.shareService.getLANG() == 'hi') {
 					if(!bvsted) {
-						desc += '<span>' + t_dys + 'तिथियों में<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="greenText">' + this.translate(key.split('-')[1]) +'</span>' + ' तारा  में  गोचर  होने वाला है ,  <span class="blueText">' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> सब  में  गोचर  होने वाला है  इस तारा के भगवान  <span class="brownText"> ' +  this.translate(star_lord) + '</span>' + ' वर्तमान में सत्तारूढ़  <span class="boldText">'   + das_l + '</span>भगवान  है </span>';
-						//जिन्होने  आपके कुंडली में  ' + this.translate(const_lord) +'  भगवान के तारे में है</span>';
+						desc += '<span>' + t_dys + 'तिथियों में<span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span class="greenText">' + this.translate(key.split('-')[1]) +'</span>' + ' तारा  में  गोचर  होने वाला है ,  <span class="blueText">' +  this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) + '</span><span class="redText"> ' +  this.translate(key.split('-')[2]) + '</span> सब  में  गोचर  होने वाला है  इस तारा के भगवान  <span class="brownText"> ' +  this.translate(star_lord) + '</span>' + ' वर्तमान में सत्तारूढ़  <span class="boldText">'   + das_l + '</span>भगवान  है  जिन्होने  आपके कुंडली में  ' + this.translate(const_lord) +'  भगवान के तारे में है</span>';
 					} else {
 						desc += '<span>' + t_dys + 'तिथियों में<span style="color:blue"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()]) +  ' </span> <span style="color:#008000">' + this.translate(key.split('-')[1]) +'</span>' + ' ' +  this.translate(key.split('-')[2]) + ' सब  में  में प्रवेश होगा </span>';
 					}
 				} else {
 					if(!bvsted) {
-						desc += '<span> ' + t_dys + '<span class="blueText"> ' + ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()].toUpperCase() +  ' </span> transits into the star <span class="greenText">' + key.split('-')[1].toUpperCase() + '</span> and in the SUB of <span class="redText">' + key.split('-')[2].toUpperCase() + ',</span> star lord <span class="brownText">' +  star_lord.toUpperCase() + '</span> is your current <span class="boldText">' + das_l.toUpperCase() + '</span> lord</span>';
-						// who is in the star of lord ' + const_lord + ' in your birth chart .</span>';
+						desc += '<span> ' + t_dys + '<span class="blueText"> ' + ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()].toUpperCase() +  ' </span> transits into the star <span class="greenText">' + key.split('-')[1].toUpperCase() + '</span> and in the SUB of <span class="redText">' + key.split('-')[2].toUpperCase() + ',</span> star lord <span class="brownText">' +  star_lord.toUpperCase() + '</span> is your current <span class="boldText">' + das_l.toUpperCase() + '</span> lord, is in the constellation of ' + const_lord + ' in your birth chart.</span>';
 					} else {
 						desc += '<span> ' + t_dys + '<span class="blueText"> ' + ruler_name[key.split('-')[0].substring(0,2).toLowerCase().toLowerCase()] +  ' </span> moves to <span class="redText">' + key.split('-')[2].toUpperCase() + ' </span> SUB </span>';
 					}
 				}
-				if(this.oPlanet[star_lord].lif_e != '') {
-					var neg = this.get_sub_neg2(this.oPlanet[key.split('-')[2]].sig, this.oPlanet[star_lord].lif_e);
+				//let post: boolean = get_pos_stat(star_lord);
+				//if(post) {
+				  let life: string = this.oPlanet[star_lord].lif_e;
+				//} else {
+				  //life = this.oPlanet[star_lord].lif_e;
+				//}
+				if(life != '') {
+					var neg = this.get_sub_neg2(this.oPlanet[key.split('-')[2]].sig, life);
 					if(!bvsted) {
 						if(this.shareService.getLANG() == 'te') {
-							desc += '<span>. పుట్టిన చార్టు ఆధారంగా <span class="brownText">'  + this.translate(star_lord) + '</span>  ' + this.oPlanet[star_lord].lif_e + ' ఇస్తుంది.  సుబ్ల్ర్డ్ <span class="redText"> ' + this.translate(key.split('-')[2]) +  '</span>'+ ' ' + neg + '</span>';
+							desc += '<span>. పుట్టిన చార్టు ఆధారంగా <span class="brownText">'  + this.translate(star_lord) + ', ' + life + ' ఇస్తుంది.  సుబ్ల్ర్డ్ <span class="redText"> ' + this.translate(key.split('-')[2]) +  '</span>'+ ' ' + neg + '</span>';
 						} else if(this.shareService.getLANG() == 'hi') {
-							desc += '<span>. आपके कुंडली के अनुसार <span class="brownText"> '  + this.translate(star_lord) + '</span>  ' + this.oPlanet[star_lord].lif_e + ' दे देंगे.  सबलॉर्ड <span class="redText"> ' + this.translate(key.split('-')[2]) +  '</span>'+ ' ' + neg + '</span>';
+							desc += '<span>. आपके कुंडली के अनुसार <span class="brownText"> '  + this.translate(star_lord)  + ', ' + life + ' दे देंगे.  सबलॉर्ड <span class="redText"> ' + this.translate(key.split('-')[2]) +  '</span>'+ ' ' + neg + '</span>';
 						
 						} else {
-							desc += '<span class="brownText">' + star_lord.toUpperCase() + '</span> in your horoscope causes ' + this.oPlanet[star_lord].lif_e;
+							desc += '<span class="brownText">' + star_lord.toUpperCase() + '</span> in your horoscope causes' + life;
 							desc += ' and the sub lord <span class="redText">' + key.split('-')[2].toUpperCase() + '</span>' + neg + '</span>';
 						} 
 					} else {
@@ -1831,12 +1828,12 @@ console.log(svg);
 					var neg2 = this.get_sub_neg3(this.oPlanet[key.split('-')[2]].sig, this.oPlanet[star_lord].sig);
 					if(neg2 != '') {
 						if(this.shareService.getLANG() == 'te') {
-							desc +=  '<span>. ఈ సమయంలో <span class="brownText"> ' + this.translate(star_lord) + ' </span>సిగ్నిఫికేటర్స్ అయిన  ' + neg2 + ' హౌస్ విషయాలు <span class="blueText"> ' + this.translate(key.split('-')[2]) + '</span> సిగ్నిఫికేటర్స్ అయిన  ' + this.oPlanet[key.split('-')[2]].sig + ' హౌస్ విషయాల ద్వారా  నెరవేరగలవు </span>';
+							desc +=  '<span>. ఈ సమయంలో <span class="brownText"> ' + this.translate(star_lord)  + ' సిగ్నిఫికేటర్స్ అయిన  ' + neg2 + ' హౌస్ విషయాలు <span class="blueText"> ' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase()]) + '</span> సిగ్నిఫికేటర్స్ అయిన  ' + this.oPlanet[ruler_name[key.split('-')[0].substring(0,2).toLowerCase()].toLowerCase()].sig + ' హౌస్ విషయాల ద్వారా  నెరవేరగలవు </span>';
 						} else if(this.shareService.getLANG() == 'hi') {
-							desc += '<span>. इस समय के दौरान <span class="brownText"> '  + this.translate(star_lord) + '</span> सिग्रिफिकेटर  ' + neg2 + ' घर के मामले  <span class="blueText">' + this.translate(key.split('-')[2]) + '</span> सिग्रिफिकेटर  ' + this.oPlanet[key.split('-')[2]].sig + ' घर के मामले  के द्वारा  सफल  हो सकता है</span>';
+							desc += '<span>. इस समय के दौरान <span class="brownText"> '  + this.translate(star_lord)  + ' सिग्रिफिकेटर  ' + neg2 + ' घर के मामले  <span class="blueText">' + this.translate(ruler_name[key.split('-')[0].substring(0,2).toLowerCase()]) + '</span> सिग्रिफिकेटर  ' + this.oPlanet[ruler_name[key.split('-')[0].substring(0,2).toLowerCase()].toLowerCase()].sig + ' घर के मामले  के द्वारा  सफल  हो सकता है</span>';
 						
 						} else {
-							desc += '<span>. During this time <span class="brownText">' +  star_lord.toUpperCase() + '</span> significators ' + neg2 + ' house matters can get fulfilled through <span class="blueText">' + key.split('-')[2].toUpperCase() + '</span> significators ' + this.oPlanet[key.split('-')[2]].sig + ' house matters.</span>';
+							desc += '<span>. During this time <span class="brownText">' +  star_lord.toUpperCase() + ' significators ' + neg2 + ' house matters can get fulfilled through <span class="blueText">' + ruler_name[key.split('-')[0].substring(0,2).toLowerCase()].toUpperCase() + '</span> significators ' + this.oPlanet[ruler_name[key.split('-')[0].substring(0,2).toLowerCase()].toLowerCase()].sig + ' house matters.</span>';
 						} 
 					}
 				//}
@@ -1942,31 +1939,39 @@ console.log(svg);
 	}	
 	get_hno_by_pos(mins: any)
 	{
-	  //console.log(mins);
+	  console.log('significator get_hno_by_pos mins', mins);
 	  for(let key of Object.keys(this.oHouse)) {
-	   // console.log('key=' + key);
+	    console.log('significator hno=' + key);
 		let v_iter: number = Number(key);
 		let cur_h: number = (v_iter == 12) ? 1: v_iter + 1;
 		let mins1: number = this.oHouse[v_iter].pos;
 		let mins2: number = this.oHouse[cur_h].pos;
 		
-	    if(mins >= mins1 && mins <= mins2)
-		   return v_iter;
-		else if((mins1 > mins2) && ((this.oHouse[key].pos >= mins1 && this.oHouse[key].pos <= 360*60) || (this.oHouse[key].pos >= 0 && this.oHouse[key].pos <= mins2)))
-			return v_iter;
+		console.log('significator mins1', mins1);
+		console.log('significator mins2', mins2);
+		if(mins2 < mins1) {
+		  if(mins >= mins1 && mins <= 21600) return v_iter;
+		  else if(mins >= 0 && mins < mins2) return cur_h;
+		} else {
+		   if(mins >= mins1 && mins < mins2) return v_iter;
+		}
+	    //if(mins >= mins1 && mins <= mins2)
+		   //return v_iter;
+		//else if((mins1 > mins2) && ((this.oHouse[key].pos >= mins1 && this.oHouse[key].pos <= 360*60) || (this.oHouse[key].pos >= 0 && this.oHouse[key].pos //<= mins2)))
+		//	return v_iter;
 	  }
 	  return (12);
 	}
 	get_hno_by_sign(sign: string)
 	{
       var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-	  let spos_s: number = signs_pos[sign]*60;
-	  let spos_e: number = (signs_pos[sign]+30)*60;
+	  let spos_s: number = this.dmsToDec(signs_pos[sign], 0, 0);
+	  let spos_e: number = this.dmsToDec(signs_pos[sign]+30, 0, 0);
 	  var hno = '';
-	  //console.log('get_hno_by_sign ' + sign + ' spos_s ' + spos_s.toString() + ' spos_e ' + spos_e.toString());
+	  console.log('get_hno_by_sign' + sign + ' spos_s ' + spos_s.toString() + ' spos_e ' + spos_e.toString());
 	  for(let key of Object.keys(this.oHouse)) {
 	    let key_n: number = Number(key);
-	   // console.log('hno=' + key + ' pos=' + this.oHouse[key].pos.toString());
+	   console.log('get_hno_by_sign', 'pos=' + this.oHouse[key].pos.toString());
 		if(this.oHouse[key].pos >= spos_s && this.oHouse[key].pos <= spos_e) hno += roms[key_n-1] + ',';
 	  }
 	 // console.log(hno);
@@ -1980,6 +1985,7 @@ console.log(svg);
 	}	
 	get_own_houses(lord: string)
 	{
+	  console.log('significator get_own_houses for', lord);
 	  let hno: string = '';
 	  for(var i = 0; i < Object.keys(this.oHouse).length; i++) {
 	    if(this.oHouse[i+1].sign == lord) hno += (i+1).toString() + ',';
@@ -2042,129 +2048,6 @@ console.log(svg);
         // Returns the resulting string.
         return result;
 	}
-	buildPratyantarDasha(mainlord :string, sublord :string, order :number, suborder :number, startdt :Date)
-	{
-	 console.log(mainlord+sublord, startdt);
-	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
-	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
-	  var e_dys = 0;
-		var arr = ["su","mo","ma","ra", "ju", "sa", "me", "ke", "ve"];
-		var v_start = 0;
-		var v_iter = 0;
-		var a_per = 0;
-		var s_dt = new Date(startdt.getTime());
-		var cd = new Date()
-	   for (var vi=0, len=arr.length; vi<len; vi++) {
-	     if(arr[vi] == sublord || v_start == 1) { 
-	        v_iter++;
-			var s_d = new Date(s_dt.getTime()); 
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			var p_yrs = Number(dashas[mainlord])*Number(dashas[sublord])*Number(dashas[arr[vi]])/(120*120);
-			d_yr = this.days_of_a_year(s_d.getFullYear());
-			s_dt.setDate(s_dt.getDate() + p_yrs*d_yr);
-			//console.log(s_d.toString());
-			//console.log(s_dt.toString());
-			if(cd.getTime() >= s_d.getTime() && cd.getTime() <= s_dt.getTime()) {
-			    console.log('current dasha identified');
-				console.log(mainlord);
-				console.log(sublord);
-				console.log(arr[vi]);
-				this['mdas1'] = ruler_name[mainlord];
-				this['adas1'] = ruler_name[sublord];
-				this['pdas1'] = ruler_name[arr[vi]];
-				this['pend1'] = s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString();
-			}
-			this.shareService.addVIM(dd + '-' + m + '-' + y + '|' + s_dt.getDate().toString() + '-' + (s_dt.getMonth()+1).toString() + '-' + s_dt.getFullYear().toString(), mainlord, sublord, arr[vi]);
-			v_start = 1;
-		 }	
-		if(vi == 8) vi = -1;
-		if(v_iter == 9) break;
-	   }
-	}
-	buildAntarDasha(lord :string, order :number, startdt :Date, remdays :number)
-	{
-	  
-	  var m_dy = this.days_in_month(startdt.getMonth()+1, startdt.getFullYear());//29.530588;//30.436875;
-	  var d_yr = this.days_of_a_year(startdt.getFullYear());//354.367056;//365.2425;
-	  var e_dys = 0;
-		let das :any = '';
-		if(lord == "venus") das = venus_das;
-		else if(lord == "ketu") das = ketu_das;
-		else if(lord == "sun") das = sun_das;
-		else if(lord == "moon") das = moon_das;
-		else if(lord == "mars") das = mars_das;
-		else if(lord == "rahu") das = rahu_das;
-		else if(lord == "jupiter") das = jupiter_das;
-		else if(lord == "saturn") das = saturn_das;
-		else if(lord == "mercury") das = mercury_das;
-		  console.log(lord);
-		  console.log(das);
-	  if(remdays > 0) {
-	    var s_dt = new Date(startdt.getTime());
-	    var tot_dys = Number(dashas[lord.substring(0,2).toLowerCase()])*d_yr;
-		e_dys = tot_dys - remdays;
-		var ffd = 0;
-		var a_per = 0;
-		var r_dys = 0;
-		for(let key of Object.keys(das)) {
-		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		  d_yr = this.days_of_a_year(s_dt.getFullYear());
-		  //var e_dt = s_dt;
-			//console.log(key);
-		  var ads = das[key];
-		  //console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		  ffd += a_dys;
-		  if(ffd >= e_dys) {
-		    if(r_dys >= remdays) break;
-		    r_dys += a_dys;
-		    var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			//var cur_date = new Date();
-			//if(cur_date >= start_das && cur_date <= s_dt) {
-			  //this.cur_m_das = lord;
-			  //this.cur_a_das = key;
-			//}
-		    a_per++;
-			console.log('Pratyantar' + lord.substring(0,2).toLowerCase() + key);
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		  }
-		}
-	  } else {
-		var a_per = 0;
-	    var s_dt = new Date(startdt.getTime());
-		console.log(s_dt.toString());
-	    //var tot_dys = Number(dashas[lord.substring(0,2)])*d_yr;
-		//e_dys = tot_dys - remdays;
-		//var ffd = 0;
-		for(let key of Object.keys(das)) {
-		  m_dy = this.days_in_month(s_dt.getMonth()+1, s_dt.getFullYear());
-		  d_yr = this.days_of_a_year(s_dt.getFullYear());
-		   a_per++;
-			var start_das = new Date(s_dt.getTime());
-			var m = (s_dt.getMonth()+1).toString();
-			var dd = s_dt.getDate().toString();
-			var y = s_dt.getFullYear().toString();
-			console.log(key);
-		  var ads = das[key];
-		  console.log(ads);
-		  var a_dys = Number(ads.split('|')[0])*d_yr + Number(ads.split('|')[1])*m_dy + Number(ads.split('|')[2]);
-		    s_dt.setDate(s_dt.getDate() + a_dys);
-			//var cur_date = new Date();
-			//if(cur_date >= start_das && cur_date <= s_dt) {
-			  //this.cur_m_das = lord;
-			  //this.cur_a_das = key;
-			//}
-			console.log('Pratyantar' + lord.substring(0,2).toLowerCase() + key);
-			this.buildPratyantarDasha(lord.substring(0,2).toLowerCase(), key, order, a_per, new Date(start_das.getTime()));
-		}
-	  }
-	}
 	calcBirthStar(moonsign: string, moondeg: number)
 	{
 	    //convert deg & mins to mins
@@ -2198,17 +2081,447 @@ console.log(svg);
 			
 			if(nak.location.start.split(',')[1] == moonsign.toLowerCase() && nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
 				if(moonmins >= nak_s && moonmins <= nak_e) {
-					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+					return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 				}
 			} 
 			else if(nak.location.start.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins >= nak_s) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 			else if(nak.location.end.split(',')[1] == moonsign.toLowerCase()) {
-			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler;
+			  if(moonmins <= nak_e) return nak.name + '|' + nak.location.start.split(',')[0] + '|' + nak.ruler + '|' + nak.location.start.split(',')[1] + '|' + nak.location.end.split(',')[1];
 			}
 		}
 	}
+	drawNIchart(plps) {
+	   var roms = ['I', 'II', 'III', 'IV', 'V', 'V1', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+       var ras = ['ar', 'ta', 'ge', 'cn', 'le', 'vi', 'li', 'sc', 'sa', 'cp', 'aq', 'pi'];
+	   let ah: number = 0;
+	   var s6 = 12;
+	    for(var r = 0; r < 12; r++) {
+  		 if (plps.hasOwnProperty(ras[r])) {
+			var pls = plps[ras[r]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				if (pls[k].split(' ')[1] == 'AC') { 
+				   this.asc_sign = ras[r];
+				   ah = r+1;
+				   break;
+				}
+			}
+	     }
+		}
+        var size = this.device_width;
+  		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.renderer.setAttribute(svg, "width", (this.device_width).toString());
+		this.renderer.setAttribute(svg, "height", (this.device_width).toString());
+		//this.renderer.setAttribute(svg, "viewBox", [0, 0, numberPerSide * size, numberPerSide * size].join(" "));
+        //var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        //var pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+		//var s1 = size/2;
+		//var border = 1;
+		//var s2 = size * 2;
+		//var s3 = size;
+		//var s4 = 15;
+		var bxz = size/4;
+		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", "0"); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", "0"); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", "0"); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size).toString()); 
+		this.renderer.setAttribute(line, "x2", (size).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "black");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/4).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y1", (size/2).toString()); 
+		this.renderer.setAttribute(line, "x2", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.appendChild(g, line);
+		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
+		this.renderer.setAttribute(line, "y1", (bxz).toString()); 
+		this.renderer.setAttribute(line, "x2", (size/2).toString()); 
+		this.renderer.setAttribute(line, "y2", "0"); 
+		this.renderer.setAttribute(line, "stroke", "red");
+		this.renderer.setAttribute(line, "stroke-width", "2");
+		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.appendChild(g, line);
+		console.log('ah',ah);
+		var hcord = this.getHXY(1, this.device_width);
+		var htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		this.renderer.appendChild(htxt, document.createTextNode(roms[ah-1]));
+		this.renderer.setAttribute(htxt, "font-size", s6.toString());
+		this.renderer.setAttribute(htxt, "font-weight", "bold");
+		this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+		this.renderer.setAttribute(htxt, "text-anchor", "middle");
+		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.appendChild(g, htxt);
+		let np: number = 0;
+  		 if (plps.hasOwnProperty(ras[ah-1])) {
+			var pls = plps[ras[ah-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(1, this.device_width, Number(pls[k].split(' ')[0]));
+				console.log('getXY-cord', cord);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		let ch: number = ah;
+	    let hou: number = 2;
+		while(hou < 13) {
+		   ch++;
+		   if(ch > 12) ch = 1;
+		   console.log('hno=', hou);
+			np = 0;
+		    hcord = this.getHXY(hou, this.device_width);
+		    htxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			this.renderer.appendChild(htxt, document.createTextNode(roms[ch-1]));
+			this.renderer.setAttribute(htxt, "font-size", s6.toString());
+			this.renderer.setAttribute(htxt, "font-weight", "bold");
+			this.renderer.setAttribute(htxt, "alignment-baseline", "middle");
+			this.renderer.setAttribute(htxt, "text-anchor", "middle");
+			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
+			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
+			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.appendChild(g, htxt);
+			console.log("fixing planets to hou");
+  		 if (plps.hasOwnProperty(ras[ch-1])) {
+			var pls = plps[ras[ch-1]].split('\|');
+			for (var k = 0; k < pls.length; k++) {
+			    console.log("k=", k);
+				if (pls[k].split(' ')[1] == 'me' || pls[k].split(' ')[1] == 'os') continue;
+			console.log("ch", ch);
+				var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				console.log('getXY', pls[k]);
+				var cord = this.getXY(hou, this.device_width, Number(pls[k].split(' ')[0]));
+				console.log('getXY', cord);
+				this.renderer.appendChild(text, document.createTextNode(pls[k]));
+				this.renderer.setAttribute(text, "font-size", s6.toString());
+				this.renderer.setAttribute(text, "font-weight", "bold");
+				this.renderer.setAttribute(text, "alignment-baseline", "middle");
+				this.renderer.setAttribute(text, "text-anchor", "middle");
+				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
+				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
+				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.appendChild(g, text);
+				np += 12;
+			}
+		}
+		hou++;
+	}
+	svg.appendChild(g);
+	return svg;
+ }
+ 
+ getXY(h, w, p) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2));
+	console.log(x,y);
+	return [x, y];
+ }
+ getHXY(h, w) {
+	let side: number = Math.floor(w/4);
+	console.log('h', h);
+	console.log('side', side);
+	let x1: number = 0;
+	let x2: number = 0;
+	let y1: number = 0;
+	let y2: number = 0;
+	switch(h) {
+		case 1:
+			x1 = side;
+			x2 = side*3;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 2:
+			x1 = 0;
+			x2 = side*2;
+			y1 = 0;
+			y2 = side;
+			break;
+		case 3:
+			x1 = 0;
+			x2 = side;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 4:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 5:
+			x1 = 0;
+			x2 = side;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 6:
+			x1 = 0;
+			x2 = side*2;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 7:
+			x1 = side;
+			x2 = side*2;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 8:
+			x1 = side*2;
+			x2 = w;
+			y1 = side*3;
+			y2 = w;
+			break;
+		case 9:
+			x1 = side*3;
+			x2 = w;
+			y1 = side*2;
+			y2 = w;
+			break;
+		case 10:
+			x1 = side*2;
+			x2 = w;
+			y1 = side;
+			y2 = side*3;
+			break;
+		case 11:
+			x1 = side*3;
+			x2 = w;
+			y1 = 0;
+			y2 = side*2;
+			break;
+		case 12:
+			x1 = side*2;
+			x2 = w;
+			y1 = 0;
+			y2 = side;
+			break;
+		default:
+			break;
+	}
+	console.log('x1', x1);
+	console.log('x2', x2);
+	console.log('y1', y1);
+	console.log('y2', y2);
+	let xw: number = x2 - x1;
+	let yh: number = y2 - y1;
+	//let part: number = Math.floor((x2-x1)/30);
+	var x = x1 + (Math.floor(xw/2));
+	var y = y1 + (Math.floor(yh/2) - 12);
+	console.log(x,y);
+	return [x, y];
+  }	
 	translate(lord: string)
 	{
 	  if(this.shareService.getLANG() == 'en') return lord;
@@ -2686,6 +2999,12 @@ console.log(svg);
 	  this.binf.ref = '2';
 		this.navCtrl.push(ChartSettingsPage, {binf: this.binf});
     }	
+	dmsToDec(d, m, s)
+    {
+       let v: number = d + (m /60) + (s /3600);
+       return Number(v.toFixed(2));
+    }
+
 }
 	
 

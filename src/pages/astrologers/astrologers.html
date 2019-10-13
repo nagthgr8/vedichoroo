@@ -1,32 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-button left menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </ion-button>
-    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
-  </ion-toolbar>
-
-</ion-header>
-<ion-content padding>
-<ion-list>
-	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
-      <ion-item class="item item-icon-left" (click)="viewprof($event, oAst[key])" *ngFor="let key of objectKeys(oAst)">
-	    <img class="avatar" [src]="oAst[key].avatar" item-left/>
-        <h2>{{oAst[key].name}}</h2>
-        <p>{{oAst[key].tagline}}</p>
-		<p><span [innerHTML]='oAst[key].cfee'></span>  <ion-badge (click)="viewprof($event, oAst[key])">view profile</ion-badge>  <ion-badge (click)="viewblog($event, oAst[key])">Blog</ion-badge></p>
-		<p [innerHTML]='oAst[key].smsg'></p>
-      
-      <div *ngIf="oAst[key].status">
-        <a [href]="oAst[key].walnk"><button ion-button color="primary" (click)="chatreq($event, oAst[key])" icon-start>
-          <ion-icon name="text"></ion-icon>
-          Text
-        </button></a>
-        <button ion-button color="secondary" (click)="callreq($event, oAst[key])" icon-start>
-          <ion-icon name="call"></ion-icon>
-          Call
-        </button>
-      </div>
-	  </ion-item>
-</ion-list>
-</ion-content>
+<ion-tabs>
+<ion-tab [root]="tab1Root" tabTitle="Professional">
+</ion-tab>
+<ion-tab [root]="tab2Root" tabTitle="Hobby">
+</ion-tab>
+</ion-tabs>

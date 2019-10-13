@@ -1,5 +1,6 @@
 import { Component, NgModule, Renderer2, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import { File } from '@ionic-native/file';
 import { HoroscopeService } from '../../app/horoscope.service';
@@ -36,7 +37,6 @@ export class StarConstPage {
   birthStar: string;
   birthSign: string;
   birthSignDeg: string;
-  personalDetailsForm: FormGroup;
   device_width :number = 0;
   device_height :number = 0;
   showList: boolean;
@@ -55,44 +55,52 @@ export class StarConstPage {
   clng: any;
   localtz: string = '';
   nrefs: number = 0;
-  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, formBuilder: FormBuilder, public renderer: Renderer2, public horoService: HoroscopeService, private appRate: AppRate, public shareService: ShareService, private file: File) {
-   platform.ready().then(() => {
+  dob: any;
+  constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams, formBuilder: FormBuilder, public renderer: Renderer2, public horoService: HoroscopeService, private appRate: AppRate, public shareService: ShareService, private file: File, public admob: AdMobFree) {
+
+  platform.ready().then(() => {
 		console.log('Width: ' + platform.width());
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
-  this.appRate.preferences = {
-        displayAppName: '126 Astrology',
-        usesUntilPrompt: 2,
-		simpleMode: true,
-        promptAgainForEachNewVersion: false,
-        storeAppURL: {
-          ios: '1216856883',
-          android: 'market://details?id=com.mypubz.eportal'
-        },
-        customLocale: {
-          title: 'Do you enjoy %@?',
-          message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
-          cancelButtonLabel: 'No, Thanks',
-          laterButtonLabel: 'Remind Me Later',
-          rateButtonLabel: 'Rate It Now'
-        },
-        callbacks: {
-          onRateDialogShow: function(callback){
-            console.log('rate dialog shown!');
-          },
-          onButtonClicked: function(buttonIndex){
-            console.log('Selected index: -> ' + buttonIndex);
-          }
-        }
-      };
+ // this.appRate.preferences = {
+       // displayAppName: '126 Astrology',
+       // usesUntilPrompt: 2,
+		// simpleMode: true,
+        // promptAgainForEachNewVersion: false,
+        // storeAppURL: {
+        //   ios: '1216856883',
+         // android: 'market://details?id=com.mypubz.eportal'
+        //},
+        //customLocale: {
+          //title: 'Do you enjoy %@?',
+          //message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
+          //cancelButtonLabel: 'No, Thanks',
+          //laterButtonLabel: 'Remind Me Later',
+          //rateButtonLabel: 'Rate It Now'
+        //},
+        //callbacks: {
+          //onRateDialogShow: function(callback){
+            //console.log('rate dialog shown!');
+          //},
+          //onButtonClicked: function(buttonIndex){
+            //console.log('Selected index: -> ' + buttonIndex);
+          //}
+        //}
+      //};
  
       // Opens the rating immediately no matter what preferences you set
-      this.appRate.promptForRating(true);
+      //this.appRate.promptForRating(true);
+		this.shareService.plan.subscribe((pln) => {
+			if(pln.name != 'com.mypubz.eportal.astrologer') {
+				this.launchInterstitial();
+				this.showBanner();
+			}
+		}, (err) => {
+		});
+
     });
-	this.personalDetailsForm = formBuilder.group({
-		dob: this.shareService.getDOB(),
-	});
+	
 	this.showGrid = false;
 	this.showBS = false;
 	this.showList = true;
@@ -109,9 +117,43 @@ export class StarConstPage {
 			this.info = JSON.stringify(err);
 	  });
   }
-  
+  launchInterstitial() {
+
+        let interstitialConfig: AdMobFreeInterstitialConfig = {
+		    isTesting: false,
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/3342144443'
+        }; 
+
+        this.admob.interstitial.config(interstitialConfig);
+
+        this.admob.interstitial.prepare().then(() => {
+            // success
+        });
+
+    }
+      showBanner() {
+
+        let bannerConfig: AdMobFreeBannerConfig = {
+            isTesting: false, 
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/1541520765'
+        };
+
+        this.admob.banner.config(bannerConfig);
+
+        this.admob.banner.prepare().then(() => {
+            // success
+        }).catch(e => console.log(e));
+
+    }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad StarConstPage');
+	if(this.shareService.getDOB()) {
+		this.dob = this.shareService.getDOB();
+	    console.log('getDOB', this.dob);
+	}
   }
   ionViewDidEnter() {
 		var ayn = this.shareService.getRAYNM();
@@ -152,7 +194,7 @@ export class StarConstPage {
 		}
 		let ayanid = 1;
 		if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
-		this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.personalDetailsForm.controls['dob'].value, this.localtz, ayanid)
+		this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.dob, this.localtz, ayanid)
 		   .subscribe(res => {
 		   this.birthStar = res['birthStar'];
 		   this.birthSign = res['birthSign'];
@@ -175,13 +217,13 @@ export class StarConstPage {
   }
   save() {
   this.info = 'please wait...';
-  if(this.personalDetailsForm.controls['dob'].value.length == 0) {
+  if(this.dob.length == 0) {
 	    this.info = 'Please enter Man Date of Birth';
 		return;
 		}
 	let ayanid = 1;
 	if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
- 	this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.personalDetailsForm.controls['dob'].value, this.localtz, ayanid)
+ 	this.horoService.getProBirthStar(this.getDms(this.clat), this.getDms(this.clng), this.dob, this.localtz, ayanid)
        .subscribe(res => {
 	   this.birthStar = res['birthStar'];
 	   this.birthSign = res['birthSign'];
@@ -206,7 +248,9 @@ export class StarConstPage {
   {
   this.info = '';
   this.info2 = 'Generating Your 1 Month Personalized Calendar. Please wait...';
-  this.horoService.getStarConst(this.birthStar, this.birthSign, this.birthSignDeg)
+	let ayanid = 1;
+	if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
+  this.horoService.getProStarConst(this.birthStar, this.birthSign, this.birthSignDeg, this.localtz, ayanid)
        .subscribe(res => {
 	   this.info = '';
 	   this.info2 = '';

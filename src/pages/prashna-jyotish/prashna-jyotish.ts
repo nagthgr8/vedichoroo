@@ -1,5 +1,6 @@
 import { Component, NgModule, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController, ModalController, NavParams, Platform } from 'ionic-angular';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig, AdMobFreeRewardVideoConfig } from '@ionic-native/admob-free';
 import {AutolocatePage} from '../autolocate/autolocate'; 
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ShareService } from '../../app/share.service'
@@ -43,7 +44,7 @@ export class PrashnaJyotishPage {
   showDET: boolean = false;
   showBK: boolean = false;
   plan: string = '';
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public horoService: HoroscopeService, public shareService: ShareService, private file: File, public platform: Platform, public device: Device, private store: InAppPurchase2) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public horoService: HoroscopeService, public shareService: ShareService, private file: File, public platform: Platform, public device: Device, private store: InAppPurchase2, public admob: AdMobFree) {
 	this.platform.ready().then(() => {
 	  console.log('gettting plan..');
 	  this.horoService.getPlan(this.device.uuid)
@@ -68,11 +69,44 @@ export class PrashnaJyotishPage {
 			   this.rgeoCode(Number(jsonv['clat']), Number(jsonv['clng']));
 			});
 		 }
+		 if(this.plan != 'com.mypubz.eportal.astrologer') {
+		    this.launchInterstitial();
+			this.showBanner();
+		 }
      });
 	});
 		
   }
+  launchInterstitial() {
 
+        let interstitialConfig: AdMobFreeInterstitialConfig = {
+		    isTesting: false,
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/6131959316'
+        }; 
+
+        this.admob.interstitial.config(interstitialConfig);
+
+        this.admob.interstitial.prepare().then(() => {
+            // success
+        });
+
+    }
+  showBanner() {
+
+        let bannerConfig: AdMobFreeBannerConfig = {
+            isTesting: false, 
+            autoShow: true,
+            id: 'ca-app-pub-8442845715303800/1745534893'
+        };
+
+        this.admob.banner.config(bannerConfig);
+
+        this.admob.banner.prepare().then(() => {
+            // success
+        }).catch(e => console.log(e));
+
+    }
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrashnaJyotishPage');
 	let tks: number = 0;

@@ -9,6 +9,7 @@ import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
+import { AdMobFree } from '@ionic-native/admob-free';
 import { MyApp } from './app.component';
 import { TransitPredictionsPage } from '../pages/transit-predictions/transit-predictions';
 import { PersonalDetailsPage } from '../pages/personal-details/personal-details';
@@ -41,6 +42,17 @@ import { PrivacyPage } from '../pages/privacy/privacy';
 import { SankethPage } from '../pages/sanketh/sanketh';
 import { MohitSethPage } from '../pages/mohit-seth/mohit-seth';
 import { JaidevPage } from '../pages/jaidev/jaidev';
+import { AhmadMilanPage } from '../pages/ahmad-milan/ahmad-milan';
+import { SatyaPrakashPage } from '../pages/satya-prakash/satya-prakash';
+import { SumeshPage } from '../pages/sumesh/sumesh';
+import { GirishTiwariPage } from '../pages/girish-tiwari/girish-tiwari';
+import { PavanSharmaPage } from '../pages/pavan-sharma/pavan-sharma';
+import { DineshSharmaPage } from '../pages/dinesh-sharma/dinesh-sharma';
+import { RiSharmaPage } from '../pages/ri-sharma/ri-sharma';
+import { BmvsivaPage } from '../pages/bmvsiva/bmvsiva';
+import { KalyanPage } from '../pages/kalyan/kalyan';
+import {ProfAstroPage} from '../pages/prof-astro/prof-astro';
+import {HobbyAstroPage} from '../pages/hobby-astro/hobby-astro';
 import { DivchartsPage } from '../pages/divcharts/divcharts';
 import { ChartAnalysisPage } from '../pages/chart-analysis/chart-analysis';
 import { PanchangPage } from '../pages/panchang/panchang';
@@ -49,6 +61,7 @@ import { AstrologersPage } from '../pages/astrologers/astrologers';
 import { AstrologerPage } from '../pages/astrologer/astrologer';
 import { ChangeStatusPage } from '../pages/change-status/change-status';
 import { PublishBlogPage } from '../pages/publish-blog/publish-blog';
+import { AboutAppPage } from '../pages/about-app/about-app';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HoroscopeService } from './horoscope.service';
@@ -62,6 +75,7 @@ import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { AppVersion } from '@ionic-native/app-version';
 
 @NgModule({
   declarations: [
@@ -101,10 +115,22 @@ import { FileOpener } from '@ionic-native/file-opener';
 	SankethPage,
 	MohitSethPage,
 	JaidevPage,
+	AhmadMilanPage,
+	SatyaPrakashPage,
+	SumeshPage,
+	GirishTiwariPage,
+	PavanSharmaPage,
+	DineshSharmaPage,
+	RiSharmaPage,
+	BmvsivaPage,
+	KalyanPage,
+	ProfAstroPage,
+	HobbyAstroPage,
 	ChangeStatusPage,
 	TransitPredictionsPage,
 	PublishBlogPage,
-	HouseInfoPage
+	HouseInfoPage,
+	AboutAppPage
   ],
   imports: [
     BrowserModule,
@@ -136,6 +162,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 	LovehoroPage,
 	RajayogaPage,
 	CareerhoroPage,
+	MoneyhoroPage,
 	YogaInfoPage,
 	StarConstPage,
 	StoriesPage,
@@ -159,10 +186,22 @@ import { FileOpener } from '@ionic-native/file-opener';
 	SankethPage,
 	MohitSethPage,
 	JaidevPage,
+	AhmadMilanPage,
+	SatyaPrakashPage,
+	SumeshPage,
+	GirishTiwariPage,
+	PavanSharmaPage,
+	DineshSharmaPage,
+	RiSharmaPage,
+	BmvsivaPage,
+	KalyanPage,
+	ProfAstroPage,
+	HobbyAstroPage,
 	ChangeStatusPage,
 	TransitPredictionsPage,
 	PublishBlogPage,
-	HouseInfoPage
+	HouseInfoPage,
+	AboutAppPage
   ],
   providers: [
 	Device,
@@ -173,6 +212,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 	InAppPurchase2,
     StatusBar,
     SplashScreen,
+	AdMobFree,
 	HoroscopeService,
 	ShareService,
 	GetJsonService,
@@ -182,7 +222,8 @@ import { FileOpener } from '@ionic-native/file-opener';
 	CallNumber,
 	FileOpener,
 	SocialSharing,
-	Toast
+	Toast,
+	AppVersion
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

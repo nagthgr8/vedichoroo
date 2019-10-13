@@ -1,22 +1,45 @@
-<!--
-  Generated template for the MoneyhoroPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-toolbar>
+    <ion-button left menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Money Horoscope</ion-title>
-  </ion-navbar>
-
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
 </ion-header>
+<ion-content no-padding>
+<ion-grid no-padding>
+ <ion-row><ion-col col-6><div #birthChart ></div></ion-col><ion-col col-6><div #navChart ></div></ion-col></ion-row>
+  <div text-center><p ion-text class="info" color="primary" [innerHTML]='info'></p></div>
+ <ion-row><ion-col col-12><h4>{{'Birth Details'|translate}}</h4></ion-col></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Date of Birth'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{dob}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Lagna'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{lagna}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Lagna Lord'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{lagna_lord}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Moon Sign'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{moon_sign}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Sun Sign'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{sun_sign}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Tithi'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{tithi}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Birth Star'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{birth_star}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Star Lord'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{star_lord}}</div></ion-col-6></ion-row>
+ <ion-row><ion-col col-6><div color="primary" >{{'Moon Phase'|translate}}</div></ion-col><ion-col-6><div color="secondary" >{{moon_phase}}</div></ion-col-6></ion-row>
+ <ion-row class="maintitle"><ion-col col-12>{{'Detailed Analysis'|translate}}</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oYog)">
+ <ion-row class="title"><ion-col col-12><div [innerHTML] = 'oYog[key].desc'></div></ion-col></ion-row>
+ </div>
+ <ion-row class="maintitle"><ion-col col-12>{{'Hora Chart Analysis'|translate}}</ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div [innerHTML] = 'akashWani'></div></ion-col></ion-row>
+  <div *ngIf="showSU">
+ <ion-row class="maintitle">SUGGEST AN IMPROVEMENT<ion-col col-12></ion-col></ion-row>
+ <ion-row class="title"><ion-col col-12><div><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
+ 		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			</div>
+			<button ion-button full (click)="save()">Submit</button>
+ </div>
 
-
-<ion-content padding>
-    <p [innerHTML]='info'></p>
+</ion-grid> 
+<ion-card>
+<img src="https://66.media.tumblr.com/25b5954e66a9d530721a0d1edb9ba82e/tumblr_pjdvgo6gY51xp0noco1_540.png"/>
+<div class="adv"> Any questions? <span class="more" tappable (click)="more()">Talk to Astrologer </span></div>
+</ion-card>
 
 </ion-content>
+

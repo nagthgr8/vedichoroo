@@ -7,13 +7,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-	<ion-row><ion-col col-6><div #birthChart ></div></ion-col><ion-col col-6><div #tranChart ></div></ion-col></ion-row>
-	<div *ngIf="showNOTE"><p class='note'>Please note below predictions are based on your Moon sign that may not be accurate, for accuracy the astrolger has to analyze specific to the house matters under consideration with respect to the lagna/ascendant lord. For detailed predictions <span class="more" tappable (click)="more()">Talk to Astrologer </span></p><br/><h4>Below is your one month prediction based on the planetary transit.</h4></div>
+	<ion-grid no-padding><ion-row><ion-col col-6><div #birthChart ></div></ion-col><ion-col col-6><div #tranChart ></div></ion-col></ion-row></ion-grid>
+	
     <div text-center><p ion-text class="info" color="primary" [innerHTML]='info'></p></div>
 <ion-grid no-padding>
- <div *ngFor="let key of objectKeys(oPlanet)">
-     <ion-row class="maintitle"><ion-col col-12><div color="primary" >{{key}}</div></ion-col></ion-row>
-    <ion-row class="title"><ion-col col-12><div class="desc" color="level2"  >{{oPlanet[key].inds}}</div></ion-col></ion-row>
+<ion-row><ion-col col-12><ion-card class="adcard" *ngIf="showNOTE"><img src="https://66.media.tumblr.com/9ee9c64a6eb1d06438183b8a4180858a/tumblr_pmywo2fPpE1xp0noco1_540.png"/><div class="adv"> Below 1 month predictions is based on your Moon sign  For detailed prediction<span class="more" tappable (click)="more()">Talk to Astrologer</span></div>
+</ion-card></ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oPred)">
+    <div [class]="oPred[key].style">
+      <ion-row class="maintitle"><ion-col col-12>{{key}}</ion-col></ion-row>
+      <ion-row class="title"><ion-col col-12><div [innerHTML] = 'oPred[key].inds'></div></ion-col></ion-row>
+	</div>
  </div>
 </ion-grid>
 </ion-content>

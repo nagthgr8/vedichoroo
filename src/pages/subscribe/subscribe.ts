@@ -3,11 +3,13 @@ import { IonicPage, NavController, NavParams, Platform  } from 'ionic-angular';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2';
 import { Device } from '@ionic-native/device';
+import { File } from '@ionic-native/file';
 import { Plan } from '../../app/plan';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ShareService } from '../../app/share.service';
 import { HelpDeskPage } from '../help-desk/help-desk';
 import { ListPage } from '../list/list';
+import { Offer } from '../../app/offer';
 /**
  * Generated class for the SubscribePage page.
  *
@@ -31,27 +33,56 @@ export class SubscribePage {
    showCR: boolean = false;
    showWC: boolean = false;
    showCI: boolean = false;
+   showPAY: boolean = true;
    info: string;
    sinf: string;
    paym: string = 'rpay';
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService, public formBuilder: FormBuilder) {
+   ofr: any = null;
+   noOFR: boolean = true;
+   subt: string = 'Subscribe now for just Rs. 999';
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService, public formBuilder: FormBuilder, private file: File) {
 	 if(navParams.get('ci') == true)
       this.showCI = true;
-	// else 
+     if(navParams.get('ofr')) {
+	    this.showPAY = true;
+		this.ofr = navParams.get('ofr');
+		this.subt = this.ofr.title;
+		this.noOFR = false;
+	 } else {
+	   this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
+	    var jsonv = JSON.parse(res);
+	    if(jsonv['ccode'] == 'IN') {
+			this.horoService.getOffer(this.device.uuid)
+				.subscribe(res2 => {
+						   let ofr: Offer = { uuid: res2['uuid'], oid: res2['oid'], title: res2['title'], desc: res2['desc'], price: res2['price'], avail: res2['avail'], impr: 0 };
+						   if(ofr.avail == true) {
+							 this.ofr = ofr;
+							 this.subt = ofr.title;
+							 this.noOFR = false;
+						   }
+				}, (err) => {
+					this.info = err;
+					this.showPAY = true;
+			});
+		}
+	  });
+	 }
   	  this.shareService.plan
 		   .subscribe(res => {
 				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
 				this.plan = pln;
 				if(res['name'] != 'com.mypubz.eportal.astrologer') {
-					this.showSU = true;
-					this.showCR = false;
+						this.showSU = true;
+						this.showCR = false;
+						this.showPAY = true;
 				} else {
 					this.showSU = false;
 					this.showCR = true;
+					this.showPAY = false;
 				}
 			}, (err) => {
 				this.info = err;
-			});	  
+			});	
 	this.personalDetailsForm = this.formBuilder.group({
 		nam: new FormControl('', {validators: Validators.required, updateOn: 'blur'}),
 		mob: new FormControl('', {validators: Validators.required, updateOn: 'blur'}),
@@ -81,7 +112,7 @@ export class SubscribePage {
       this.store.register({
         id: pid,
         alias: pid,
-        type: this.store.PAID_SUBSCRIPTION
+        type: (this.ofr != null) ? this.store.CONSUMABLE : this.store.PAID_SUBSCRIPTION
       });
       this.pur_handl();
 
@@ -169,10 +200,11 @@ export class SubscribePage {
   
  buy()
   {
-    this.product.gpid = 'com.mypubz.eportal.astrologer';
+    this.product.gpid = (this.ofr != null) ? this.ofr.oid: 'com.mypubz.eportal.astrologer';
 	if(this.paym == 'rpay') {
 		this.showCR = false;
 		this.showSU = false;
+		this.showPAY = false;
 		this.showCI = true;
 	}
 	else this.init_pur_and_complete();
@@ -214,7 +246,7 @@ export class SubscribePage {
      this.paym = paym;
   }
   razpay() {
-    let amt: number = 999;
+    let amt: number = (this.ofr != null) ? this.ofr.price: 999;
     let paise: number = amt*100;
 	let ccy: string = 'INR';
 	let ccode = this.shareService.getCCODE();

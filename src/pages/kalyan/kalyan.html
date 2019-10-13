@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-toolbar>
+  <ion-button left menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title><img alt="logo" height="24" src="https://78.media.tumblr.com/f068e2426e16157aba924763fabd6234/tumblr_pbdnjgGRLE1xp0noco1_250.png" /></ion-title>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content padding>
+<ion-card>
+<img src="https://i.imgur.com/7vwArtA.png"/>
+<div class="card-title"></div>
+<div class="card-subtitle"></div>
+</ion-card>
+<div *ngIf="showBLG">
+    <ion-list text-wrap>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+        <ion-item (click)="detail(article)" *ngFor="let article of articles">
+            <ion-thumbnail item-right>
+                <img [src]="article.image" />
+            </ion-thumbnail>
+            <span class="category">{{article.pubDate}}</span>
+            <h2 class="title"><b>{{article.title}}</b></h2>
+        </ion-item>
+    </ion-list>
+</div>
+<div *ngIf="showPRF">
+<h4>Brief Introduction</h4>
+<p>I am an 85 batch M.B.A. and served industry for about three decades and my last assignment was as CEO in JTPL group.l am practicing astrology for the last 35 years.Firstly I learned palmistry and then in the year 1987 I learned vedic ,Lal kitab and medical astrology.I started it as hobby and now taken it as professional astrologer and gives best Astrological guidance for solving compelling problems of life.<br><span>
+I WAS CONFERRED WITH "BHARAT JYOTI AWARD" IN YEAR 2000 IN A FUNCTION ORGANISED IN DELHI,THE AWARD WAS PRESENED BY THEN UNION DEPUTY RAILWAY MINSTER.</span><br><br>Expert in solving any compelling problem <br><span>Please visit my <a href="https://www.facebook.com/jkkalyan"><ion-icon name="logo-facebook"></ion-icon></a><a href="https://twitter.com/kalyandf"><ion-icon name="logo-twitter"></ion-icon></a></span></p> 
+</div>
+<div *ngIf="showASU">
+	<a [href]="walnk"><button ion-button full tappable color="primary">
+          <ion-icon name="text"></ion-icon>
+          Chat Now
+        </button></a>
+        <button ion-button full tappable color="secondary" (click)="callreq($event)">
+          <ion-icon name="call"></ion-icon>
+          Call Now
+        </button>
+		</div>
+</ion-content>
+

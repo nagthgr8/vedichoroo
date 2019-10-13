@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { HoroscopeService } from '../../app/horoscope.service';
 import { ListPage } from '../list/list';
+import { SubscribePage } from '../subscribe/subscribe';
 
 /**
  * Generated class for the MypubzRespPage page.
@@ -41,5 +42,11 @@ export class MypubzRespPage {
    } else {
 		this.navCtrl.setRoot(ListPage);
    }
+  }
+  offer(rs)
+  {
+     let disc: any = {};
+	 disc.rs = rs;
+     this.navCtrl.push(SubscribePage, {disc: disc});
   }
 }
