@@ -15,8 +15,6 @@ This Mobile App consumes .NET wrapper service which internally uses swissEphimer
 
 Feel free to download our live Android App from here https://play.google.com/store/apps/details?id=com.mypubz.eportal&hl=en
 
-or just visit play store in your Android and type 126 Astrology
-
 Below features are avalilable in this Application
 
 1. Daily Panchang 
