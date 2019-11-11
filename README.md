@@ -1,7 +1,7 @@
 # vedichoroo
 126 Astrology Mobile App
 
-A HYBRID Mobile Application for Astrologers & ofcourse any users who wants to know their birthchart analysis. 
+A HYBRID Mobile Application for Astrologers & users who wants to get their birthchart analysis. 
 
 This Application is developed in below environment,
 
