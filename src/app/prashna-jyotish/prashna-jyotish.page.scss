@@ -1,0 +1,79 @@
+body {
+  font-family: roboto;
+}
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+  ion-list {
+        background: none;
+        ion-item {
+            background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            padding: 3px 20px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+			
+			ion-label {
+				font-weight: bold;
+				font-size: 0.9rem;
+			}
+        }
+  }
+
+p.adtxt2 {
+	font-weight: bold;
+	font-size: 1.2rem;
+	color: #d35400;
+  }
+  p.note {
+	font-weight: bold;
+	font-size: 1.2rem;
+	color: #d35400;
+    padding: 3px 20px !important;
+    margin-bottom: 5px;
+  }
+ p.note2 {
+	font-weight: bold;
+	font-size: 1.35rem;
+	color: red;
+  }  
+div.note {
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+    border-radius: 10px;
+    padding: 3px 20px !important;
+    margin-bottom: 5px;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+  }
+  .ans {
+   font-weight:bold;
+   text-align:center;
+   color: blue;
+  }
+.que {
+   color: #d35400;
+   font-weight:bold;
+   text-align:center;
+  }  
+  .wraptocenter {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.wraptocenter * {
+  vertical-align: middle;
+}
+ p.info {
+   text-align: center;
+   font-weight: bold;
+  }

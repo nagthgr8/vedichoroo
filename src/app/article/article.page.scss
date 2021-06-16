@@ -1,0 +1,32 @@
+body {
+  font-family: roboto;
+}
+.title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #d35400;
+}
+	.avatar {
+	  border-radius: 50%;
+	  height: 12rem;
+	  width: 12rem;
+	}
+	.avt {
+	  border-radius: 50%;
+	}
+    ion-list.his {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+    }
+	p.info {
+   text-align: center;
+   font-weight: bold;
+  }

@@ -1,20 +1,87 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button *ngIf="dho.sho" color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-card tappable (click)="viewPanchang()" no-padding>
+<img src="assets/imgs/126panchang2.png"/>
+<div class="card-title"> {{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </div>
+<div class="card-subtitle"><span class='clbl'>{{ 'Sunrise' | translate }} : </span><span>{{sunrise}} </span><span class='clbl'>{{ 'Sunset' | translate }} : </span><span>{{sunset}}</span><br/>
+	<span class='clbl'>{{ 'Rahu Kalam' | translate }}:</span><span>{{rahukal}} </span><br/>
+	<span class='clbl'>{{ 'Yamagandam' | translate }} :</span><span> {{yama}} </span><br/>
+	<span class='clbl'>{{ 'Abhijit' | translate }} :</span><span> {{abhjit}}</span><br/>
+	<span class='clbl'>{{ 'Nakshatra' | translate }} :</span><span> {{nak}} <ion-spinner *ngIf="bthi" item-right></ion-spinner></span><br/>
+	<span class='clbl'>{{ 'Tithi' | translate }}	:</span><span> {{tithi}}</span><br>
+	<span class='clbl'>{{ 'Yoga' | translate }}	: </span><span>{{yog}}</span><br>
+	<span class='clbl'>{{ 'Karan' | translate }}	:</span><span> {{karn}}</span><br>
+	<span class='clbl'>{{ 'Lagna' | translate }} :</span><span> {{lagna}}</span><span>  {{lagml}}</span>-<span>{{lagal}}</span>-<span>{{lagsl}}<ion-spinner *ngIf="blag" item-right></ion-spinner></span><br/>
+	</div>
+</ion-card>
+<ion-card *ngIf="showBN" tappable (click)="advt()">
+<img [src]="adv.img"/>
+<div class="adv" [innerHTML]="adv.msg"> </div>
+</ion-card>
+<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<ion-grid class="hgrid">
+<ion-row class="drow">
+<ion-col>
+<div class="dcont" *ngIf="dho.sho"><div><img  class="dimg" [src]="dho.img"/></div><p class="dtxt"  >{{dho.smsg}}<span class="more" tappable (click)="dhoro()">..Read More</span></p></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r1items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r2items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r3items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r4items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r5items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="6" class="dash-items" tappable (click)="yogs()">
+<div><img  width="56" height="56" src="assets/imgs/yogas.png"/></div><div class="htitle" >{{'Yogas In Your Horoscope' | translate}}</div>
+</ion-col>
+<ion-col size="6" class="dash-items" tappable (click)="btr()">
+<div><img  width="56" height="56" src="assets/imgs/BTR.png"/></div><div class="htitle" >{{'Birth Time Rectification' | translate}}</div>
+</ion-col>
+</ion-row>
+    <ion-row class="hrow">
+        <ion-col tappable (click)="openUrl()">
+            <img src="assets/imgs/gamezop.png" style="width: 100%">
+        </ion-col>
+    </ion-row>
+</ion-grid>
 </ion-content>

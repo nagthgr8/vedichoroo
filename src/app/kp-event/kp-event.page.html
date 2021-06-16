@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-card no-padding>
+<img src="https://i.imgur.com/0aUIaDI.png"/>
+</ion-card>
+<ion-grid no-padding>
+ <ion-row class="maintitle"><ion-col col-12>{{'Transit Details'|translate}}</ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Date'|translate}}</div></ion-col><ion-col><div>{{dt}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Planet'|translate}}</div></ion-col><ion-col><div>{{pl}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sign'|translate}}</div></ion-col><ion-col><div>{{sgn}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star'|translate}}</div></ion-col><ion-col><div>{{str}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star Lord'|translate}}</div></ion-col><ion-col><div>{{strl}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sub Lord'|translate}}</div></ion-col><ion-col><div>{{subl}}</div></ion-col></ion-row>
+</ion-grid>
+</ion-content>

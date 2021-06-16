@@ -1,0 +1,30 @@
+body {
+  font-family: roboto;
+}
+
+.ksubtitle {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+  ion-row.ktitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+  ion-row.ksubtitle {
+    text-align:center;
+	font-weight:bold;
+	font-size: 0.9rem;
+	color: #d35400;
+	ion-col {
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }

@@ -1,0 +1,153 @@
+body {
+  font-family: roboto;
+}
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+.brownText {
+color: #cc0000;
+}
+.boldText {
+font-weight: bold;
+}
+
+  .dash-items {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+}
+
+
+.ksubtitle {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+on-card.adcard {
+    position: relative;
+    text-align: center;
+  }
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: #4248f5;
+	padding: 5px;
+	font-weight: bold;
+  }
+	  .hn {
+	    color: blue !important;
+		text-decoration: underline;
+	  }
+  
+  ion-row.ktitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+  ion-row.ksubtitle {
+    text-align:center;
+	font-weight:bold;
+	font-size: 0.9rem;
+	color: #d35400;
+	ion-col {
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+ion-row.note div {
+	font-weight:bold;
+	background-color: #ffd9a3; 
+	padding: 5px;
+	color: #222334;
+    text-align:left;
+	font-size:15px;
+  }  
+ion-row.kmaintitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }  
+   ion-row.ktitle2 {
+	font-weight:bold;
+	border: 1px solid #d35400;
+	padding: 5px;
+	ion-col {
+	  text-align: left;
+	  color: #d35400;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+.note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:left;
+  }
+  .recfy {
+	font-size: 0.8rem;
+	font-weight:bold;
+  }
+  ion-card-header {
+	font-size: 25px;
+	font-weight: bold;
+  }
+  .note2 {
+	font-weight:bold;
+	padding: 5px;
+    text-align:center;
+  }
+   p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+  .fuse {
+  color: #f71702;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+ ion-item.ktitle {
+    font-size: 1.45rem;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+  }
+  ion-item.ksubtitle {
+	font-weight:bold;
+	font-size: 1.1rem;
+	color: #0a1df2;
+  }

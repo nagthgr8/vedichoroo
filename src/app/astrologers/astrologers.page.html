@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<ion-list>
+      <ion-item (click)="viewprof($event, ast)" *ngFor="let ast of oAst">
+	   <ion-thumbnail slot="start"> <img [src]="ast.avatar" /></ion-thumbnail>
+        <p><span class="name">{{ast.name}}</span><br/>
+        <span class="tag">{{ast.tagline}}</span><br/>
+		<span [innerHTML]='ast.cfee  '></span><span [innerHTML]='ast.smsg'></span></p>
+		  <div slot="end" *ngIf="ast.status">
+			<ion-button type="button" color="primary" tappable (click)="chatreq($event, ast)">
+			  <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+			  Text
+			</ion-button><br/>
+			
+			<ion-button type="button" color="tertiary" tappable (click)="callreq($event, ast)" icon-start>
+			  <ion-icon name="call"></ion-icon>
+			  Call
+			</ion-button>
+		  </div>
+	  </ion-item>
+</ion-list>		
+</ion-content>

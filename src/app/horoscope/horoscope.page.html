@@ -1,0 +1,73 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+<div class='note' [innerHTML]='chartanls'></div>
+<div #birthChart></div>
+<ion-item><ion-label>{{'AYANAMSA'|translate}}: </ion-label><span class="more">{{aynt}}</span><ion-badge color="primary" tappable (click)="chgayan($event)">change</ion-badge></ion-item>
+<div *ngIf="showBD">
+ <ion-row class="maintitle"><ion-col col-12>{{'Birth Details'|translate}}</ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Date of Birth'|translate}}</div></ion-col><ion-col><div>{{dob}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna'|translate}}</div></ion-col><ion-col><div>{{lagna}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna Lord'|translate}}</div></ion-col><ion-col><div>{{lagna_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Sign'|translate}}</div></ion-col><ion-col><div>{{moon_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sun Sign'|translate}}</div></ion-col><ion-col><div>{{sun_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Tithi'|translate}}</div></ion-col><ion-col><div>{{tithi}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Birth Star'|translate}}</div></ion-col><ion-col><div class="bstar" tappable (click)="nakdtl()">{{birth_star}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star Lord'|translate}}</div></ion-col><ion-col><div>{{star_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Phase'|translate}}</div></ion-col><ion-col><div>{{moon_phase}}</div></ion-col></ion-row>
+ </div>
+ <div [innerHTML]="msg1"></div>
+ <div [innerHTML]="msg2"></div>
+ <div [innerHTML]="msg3"></div>
+ <div [innerHTML]="msg4"></div>
+<ion-grid no-padding>
+     <ion-row class="title"><ion-col>{{'PLANET'|translate}}</ion-col><ion-col>{{'POS'|translate}}</ion-col><ion-col>{{'RASI'|translate}}</ion-col><ion-col>{{'NAK'|translate}}</ion-col><ion-col>{{'NAK LORD'|translate}}</ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col><div color="primary" ion-text [innerHTML]='pnam1'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos1'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras1'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak1'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl1'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam2'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos2'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras2'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak2'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl2'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam3'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos3'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras3'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak3'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl3'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam4'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos4'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras4'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak4'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl4'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam5'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos5'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras5'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak5'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl5'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam6'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos6'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras6'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak6'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl6'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam7'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos7'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras7'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak7'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl7'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam8'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos8'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras8'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak8'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl8'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='pnam9'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='ppos9'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='pras9'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='pnak9'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='nakl9'></div></ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col ><div color="primary" ion-text [innerHTML]='anam'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='apos'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='aras'></div></ion-col><ion-col col-4><div color="primary" ion-text [innerHTML]='anak'></div></ion-col><ion-col ><div color="primary" ion-text [innerHTML]='anakl'></div></ion-col></ion-row>
+     <ion-row><ion-col col-12><div [innerHTML]='horo'></div></ion-col></ion-row>
+</ion-grid>
+ <div *ngIf="showVIM" no-padding>
+    <div class="title">{{'VIMSOTTARI DASHA'|translate}}</div><br>
+	<div class="vdas lines" *ngFor="let das of oDas" [hidden]="!das.show">
+		<div class="lrd"><span [class]="das.style">{{das.lord}}</span></div>
+		<div class="per"><span [class]="das.style">{{das.per}}</span></div>
+		<ion-icon tappable (click)="ontoggle($event, das)" *ngIf="das.show" [name]="das.icon"></ion-icon><br>
+	</div>
+</div>
+<div *ngIf="showPS">
+<h3>{{'Strength Of Each Planet'|translate}}</h3>
+</div>
+<div tappable (click)="shadb()">
+<canvas #cnvPS></canvas>
+</div>
+<div *ngIf="showHS">
+<h3>{{'Strength Of Each House'|translate}}</h3>
+</div>
+<div tappable (click)="astak()">
+<canvas #cnvHS></canvas>
+</div>
+<ion-grid no-padding *ngIf="showDS">
+ <ion-row class="maintitle"><ion-col>{{'DOSHAS'|translate}}</ion-col></ion-row>
+ <div *ngFor="let dos of objectKeys(oDos)">
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div class="bstar" tappable (click)="dosdtl(oDos[dos].id)">{{oDos[dos].name|translate}}</div></ion-col><ion-col><div [class]="oDos[dos].style">{{oDos[dos].res}}</div></ion-col></ion-row>
+ </div>
+ </ion-grid>
+<h3>{{'Analysis Of House & Zodiac Sign'|translate}}</h3>
+<div [innerHTML]='akashWani'></div>
+</ion-content>

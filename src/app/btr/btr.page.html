@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<h2>Choose the option below</h2>
+<ion-list>
+ <ion-item tappable (click)="rfy('RAM')">
+   <ion-icon slot="start" name="star-sharp"></ion-icon>
+   <p> <span class="ktitle">Rectify Birth Time by Ascendant & Moon star interlink</span></p>
+ </ion-item>  
+ <ion-item tappable (click)="rfy('RGY')">
+   <ion-icon slot="start" name="star-sharp"></ion-icon>
+   <p> <span class="ktitle">Rectify Birth Time by genetic connection with younger coborn</span></p>
+ </ion-item>  
+<ion-item tappable (click)="rfy('RGE')">
+   <ion-icon slot="start" name="star-sharp"></ion-icon>
+   <p> <span class="ktitle">Rectify Birth Time by genetic connection with elder coborn</span></p>
+ </ion-item>  
+<ion-item tappable (click)="rfy('RGM')">
+   <ion-icon slot="start" name="star-sharp"></ion-icon>
+   <p> <span class="ktitle">Rectify Birth Time by genetic connection with Mother</span></p>
+ </ion-item>  
+<ion-item tappable (click)="rfy('RGF')">
+   <ion-icon slot="start" name="star-sharp"></ion-icon>
+   <p> <span class="ktitle">Rectify Birth Time by genetic connection with Father</span></p>
+ </ion-item>  
+</ion-list>
+</ion-content>

@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+<ion-grid class="bct">
+ <ion-row><ion-col size="6"><div #birthChart ></div></ion-col><ion-col><div #navChart ></div></ion-col></ion-row>
+ </ion-grid>
+ <div text-center><p ion-text class="info" color="primary" [innerHTML]='info'></p></div>
+ <ion-grid>
+ <ion-row class="title"><ion-col col-12>{{'Birth Details'|translate}}</ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Date of Birth'|translate}}</div></ion-col><ion-col><div>{{dob}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna'|translate}}</div></ion-col><ion-col><div>{{lagna}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna Lord'|translate}}</div></ion-col><ion-col><div>{{lagna_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Sign'|translate}}</div></ion-col><ion-col><div>{{moon_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sun Sign'|translate}}</div></ion-col><ion-col><div>{{sun_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Tithi'|translate}}</div></ion-col><ion-col><div>{{tithi}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Birth Star'|translate}}</div></ion-col><ion-col><div>{{birth_star}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star Lord'|translate}}</div></ion-col><ion-col><div>{{star_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Phase'|translate}}</div></ion-col><ion-col><div>{{moon_phase}}</div></ion-col></ion-row>
+ 
+ <ion-row class="title" *ngIf="showCD"><ion-col col-12>{{'Career In Current Dasha'|translate}}</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oDas)">
+ <ion-row class="desc"><ion-col col-12><div [innerHTML]='oDas[key].desc'></div></ion-col></ion-row>
+ </div>
+ <ion-row class="title"><ion-col col-12>{{'Detailed Analysis'|translate}}</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oYog)">
+ <ion-row class="desc"><ion-col col-12><div [innerHTML]='oYog[key].desc'></div></ion-col></ion-row>
+ </div>
+  <div *ngIf="showSU">
+ <ion-row class="title">SUGGEST AN IMPROVEMENT<ion-col col-12></ion-col></ion-row>
+ <ion-row><ion-col col-12><div><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
+ 		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			</div>
+			<button ion-button full (click)="save()">Submit</button>
+ </div>
+
+</ion-grid> 
+<ion-card>
+<img src="https://66.media.tumblr.com/25b5954e66a9d530721a0d1edb9ba82e/tumblr_pjdvgo6gY51xp0noco1_540.png"/>
+<div class="adv"> Any questions? <span class="more" tappable (click)="more()">Talk to Astrologer </span></div>
+</ion-card>
+
+</ion-content>
+

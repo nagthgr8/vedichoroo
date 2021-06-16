@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<div *ngIf="showP">
+<ion-card>
+<img [src]="data.image" style="width: 100%"/>
+<div class="card-title"></div>
+<div class="card-subtitle"></div>
+</ion-card>
+<ion-icon name="camera" (click)="takePic()" item-right></ion-icon>
+<ion-icon name="attach" (click)="uploadPic()" item-right></ion-icon>
+<div *ngIf="edit" class="edit" (click)="edtbio()">edit</div>
+<div *ngIf !="edit" [innerHTML]='bio'></div>
+<ion-textarea *ngIf ="edit" rows="6" [(ngModel)]='bio' placeholder="Enter or Copy/Paste Text"></ion-textarea>
+<ion-button ngIf="edit" type="button" expand="block" tappable color="primary">
+           Save
+        </ion-button>
+<div *ngIf="showASU">
+	<a [href]="walnk"><ion-button type="button" expand="block" tappable color="primary">
+          <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+          Chat Now
+        </ion-button></a>
+        <ion-button type="button" expand="block" tappable color="tertiary" (click)="callreq($event)">
+          <ion-icon name="call"></ion-icon>
+          Call Now
+        </ion-button>
+		</div>
+</div>		
+</ion-content>
+

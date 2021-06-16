@@ -1,0 +1,22 @@
+body {
+  font-family: roboto;
+}
+ion-list.his {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+    }
+.name {
+ font-weight: bold;
+}
+.sub {
+  font-size: 0.8rem;
+  font-weight: bold;
+}

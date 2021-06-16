@@ -1,0 +1,88 @@
+body {
+  font-family: roboto;
+}
+    ion-list {
+        background: none;
+        ion-item {
+            background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            padding: 3px 20px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+			
+			ion-label {
+				font-weight: bold;
+			}
+
+            .item-native {
+                --background: none !important;
+            }
+			
+            & ion-select-option{
+                margin-left: auto;
+                max-width: unset;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+                padding: 0;
+
+                .select {
+                    max-width: 100%;
+                    .select-text {
+                        font-size: 1.35rem;
+                    }
+                }
+            }
+            &.item-input {
+                .text-input::placeholder {
+                    color: #78927e !important;
+                    font-size: 1.3rem;
+                }
+            }
+
+            .label {
+                font-size: 1.35rem;
+                font-weight: 400;
+                color: #78927e;
+                flex: unset;
+            }
+        }
+    }
+ p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+.title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #d35400;
+}
+
+ .msg {
+   font-size: 1.25rem;
+   font-weight: bold;
+  }
+  .note {
+    font-size: 0.9rem;
+	font-weight: bold;
+	color: #eb0202;
+  }
+  .pink {
+    font-weight: bold;
+	color: #ee4f7c;
+  }
+  .blue {
+   font-size: 1.3rem;
+   font-weight: bold;
+   color: #2502eb;
+  }
+  p.hg {
+   text-align: center;
+   font-weight: bold;
+   color: #d35400;
+   font-size: 1.30rem;
+  }

@@ -1,3 +1,85 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<ion-menu menuId="first" contentId="main" side="start">
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+  </ion-toolbar>
+</ion-header>
+  <ion-content>
+    <div class="ion-text-center"><img [src]="avatar" alt="profile picture" class="avatar" (click)="profile()"/></div>
+    <ion-list>
+	  <ion-menu-toggle auto-hide="true">
+	   <div *ngIf="bAST">
+		  <ion-item>
+		   <p [innerHTML]='statuslbl'></p>
+		   <ion-toggle [(ngModel)]="status" [checked]="status" (ionChange)="chgstatus()" ></ion-toggle>
+		  </ion-item>
+	  </div>
+      <ion-button expand="block" ion-item icon-start *ngFor="let p of pages" tappable (click)="openPage(p)">
+	  <ion-icon name={{p.icon}}></ion-icon>
+        {{p.title}}
+		<ion-spinner *ngIf="p.spin" item-right></ion-spinner>
+      </ion-button>
+	  </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+ <ion-menu menuId="second" contentId="main" side="end">
+ <ion-content>
+ <ion-menu-toggle auto-hide="true">
+ <ion-grid class="tgrid" *ngIf="btran">
+ <ion-row class="trow">
+ <ion-col>
+ <p><span>Predictions based on</span><span class="green"> {{predn}}</span> sign. <ion-badge tappable (click)="chgpred()">change</ion-badge></p>
+ <div class="ion-text-center"><strong>{{info}}</strong></div>
+  </ion-col>
+  </ion-row>
+ <ion-row class="trow">
+ <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Su.png"/></div><br><p><span class="pln">Sun</span> is in <span class="dras">{{ rasSu }} </span> <span class="dttitle"> {{posSu}}</span><br><span class="dtstitle">{{smsgSu}}..</span></p>
+  </ion-col>
+ <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Mo.png"/></div>
+ <br><p><span class="pln">Moon</span> is in <span class="dras">{{ rasMo }} </span><span class="dttitle">{{posMo}}</span><br><span class="dtstitle">{{smsgMo}}..</span></p>
+ </ion-col>
+ </ion-row>
+ <ion-row class="trow">
+  <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Me.png"/></div>
+ <br><p><span class="pln">Mercury</span> is in <span class="dras">{{ rasMe }} </span><span class="dttitle">{{posMe}}</span><br><span class="dtstitle">{{smsgMe}}..</span></p>
+ </ion-col>
+  <ion-col class="tdash-items" size="6"><div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Ve.png"/></div>
+ <br><p><span class="pln">Venus</span> is in <span class="dras">{{ rasVe }} </span><span class="dttitle">{{posVe}}</span><br><span class="dtstitle">{{smsgVe}}..</span></p>
+ </ion-col>
+ </ion-row>
+ <ion-row class="trow">
+  <ion-col class="tdash-items" size="6"><div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Ma.png"/></div>
+ <br><p><span class="pln">Mars</span> is in <span class="dras">{{ rasMa }} </span><span class="dttitle">{{posMa}}</span><br><span class="dtstitle">{{smsgMa}}..</span></p>
+ </ion-col>
+  <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Ju.png"/></div>
+ <br><p><span class="pln">Jupiter</span> is in <span class="dras">{{ rasJu }} </span><span class="dttitle">{{posJu}}</span><br><span class="dtstitle">{{smsgJu}}..</span></p>
+ </ion-col>
+ </ion-row>
+ <ion-row class="trow">
+  <ion-col class="tdash-items" size="12">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Sa.png"/></div>
+ <br><p><span class="pln">Saturn</span> is in <span class="dras">{{ rasSa }} </span><span class="dttitle">{{posSa}}</span><br><span class="dtstitle">{{indsSa}}</span></p>
+ </ion-col>
+ </ion-row>
+ <ion-row class="trow">
+  <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Ra.png"/></div>
+  <br><p><span class="pln">Rahu</span> is in <span class="dras">{{ rasRa }}</span><span class="dttitle">{{posRa}}</span><br><span class="dtstitle">{{smsgRa}}..</span></p>
+ </ion-col>
+  <ion-col class="tdash-items" size="6">
+ <div class="ion-text-center"><img width="48" height="48" src="assets/imgs/Ke.png"/></div>
+ <br><p><span class="pln">Ketu</span> is in <span class="dras">{{ rasKe }} </span><span class="dttitle">{{posKe}}</span><br><span class="dtstitle">{{smsgKe}}..</span></p>
+ </ion-col>
+</ion-row>
+  </ion-grid>
+ </ion-menu-toggle>
+ </ion-content>
+ </ion-menu>
+<ion-router-outlet id="main"></ion-router-outlet>
+ </ion-app>

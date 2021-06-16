@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+         <ion-list padding>
+		 
+		<ion-item>
+			<p><strong>Name: </strong><span>{{nam}}</span></p>
+		</ion-item>
+    <ion-item>
+			<p><strong>Gender: </strong><span>{{gen}}</span></p>
+    </ion-item>
+		<ion-item>
+			<p><strong>DOB: </strong><span>{{dob}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Latitude: </strong><span>{{lat}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Longitude: </strong><span>{{lng}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Timezone: </strong><span>{{tz}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Chart Type: </strong><span>{{chtyp}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Ayanamsa: </strong><span>{{aynm}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Language: </strong><span>{{lan}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Email: </strong><span>{{eml}}</span></p>
+		</ion-item>
+		<ion-item>	
+			<p><strong>Mobile: </strong><span>{{mob}}</span></p>
+		</ion-item>
+		<ion-item>
+			<ion-label>Link</ion-label>
+			<ion-input [(ngModel)]="lnk"></ion-input>
+		</ion-item>
+   </ion-list>
+	   <div padding>
+				<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save()">OK</ion-button>
+		</div>
+</ion-content>

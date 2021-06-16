@@ -1,0 +1,190 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<form>
+ <ion-list class="pd">
+ <ion-item lines="full">
+  <ion-label position="floating">Name: </ion-label><br>
+  <ion-input class="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+ </ion-item>
+ <ion-radio-group lines="full" [(ngModel)]="gen" [ngModelOptions]="{standalone: true}">
+      <ion-item>
+        <ion-label >Male</ion-label>
+        <ion-radio slot="start" value="M" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label >Female</ion-label>
+        <ion-radio slot="start" value="F"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+	</ion-list>
+	<ion-grid class="pd">
+    <ion-row><ion-col size="12"><ion-label>Date of Birth</ion-label></ion-col></ion-row>
+	<ion-row>
+	<ion-col size="3">
+      <ion-input id="day" placeholder="DD" type="number" [(ngModel)]="day" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="3">
+      <ion-input id="mon" placeholder="MM" type="number" [(ngModel)]="mon" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="4">
+      <ion-input id="year" placeholder="YYYY" type="number"  [(ngModel)]="year" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="2">
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showDatePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-col>
+	</ion-row>
+    <ion-row><ion-col size="12"><ion-label>Time of Birth</ion-label></ion-col></ion-row>
+	<ion-row>
+	<ion-col size="3">
+      <ion-input id="hou" placeholder="HH" type="number" [(ngModel)]="hou" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="3">
+      <ion-input id="min" placeholder="MM" type="number" [(ngModel)]="min" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="4">
+      <ion-input id="sec" placeholder="SS" type="number" [(ngModel)]="sec" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="2">
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showTimePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-col>
+	</ion-row>
+	</ion-grid>
+	<ion-list class="pd">
+	<ion-item lines="full">
+		<ion-label position="floating">Place: </ion-label><br>
+		<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-item>
+		<ion-item class="places" *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+					{{ item }}
+		</ion-item>
+		<p ion-text class="info" color="primary" [innerHTML]='place'></p>
+	   <div padding *ngIf="showSU">
+		   <div *ngIf="showYO">
+				<p ion-text class="adtxt2">Our App will check all these <ion-badge color="primary" tappable (click)="yoginf()">Yogas</ion-badge> in your Horoscope. Report can be available in all 4 supported languages.</p>
+			</div>
+			<div class="atxt" tappable (click)="advset()">{{advs}}</div>
+			<div *ngIf="showAD">
+			  <ion-radio-group no-padding radio-group (ionChange)="ayanSel()" [(ngModel)]="aynm" [ngModelOptions]="{standalone: true}">
+				<ion-list-header tappable (click)="showInf('ayanamsa')">
+				  <div class="title" ion-text tappable (click)="showInf('Ayanamsa')">Ayanamsa</div>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('lahiri')">NC Lahiri</ion-label>
+				  <ion-radio name="group1" value="4" checked ></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('bvraman')">BV Raman </ion-label>
+				  <ion-radio name="group1" value="1"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('kpold')">KP Old</ion-label>
+				  <ion-radio name="group1" value="2"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('kpnew')">KP New</ion-label>
+				  <ion-radio name="group1" value="3"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('khullar')">Khullar</ion-label>
+				  <ion-radio name="group1" value="5"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label tappable (click)="showInf('faganbradley')">Fagan Bradley</ion-label>
+				  <ion-radio name="group1" value="6"></ion-radio>
+				</ion-item>
+			</ion-radio-group>
+              <ion-radio-group no-padding radio-group (ionChange)="chartSel()" [(ngModel)]="chtyp" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <div class="title">Chart Type</div>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>South Indian</ion-label>
+				  <ion-radio name="group2" value="sind" checked></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>North Indian</ion-label>
+				  <ion-radio name="group2" value="nind"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+              <ion-radio-group no-padding radio-group (ionChange)="switchLanguage()" [(ngModel)]="lang" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <h2>Language</h2>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>English</ion-label>
+				  <ion-radio name="group3" value="en" checked></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Hindi (हिंदी)</ion-label>
+				  <ion-radio name="group3" value="hi"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Tamil (தமிழ்)</ion-label>
+				  <ion-radio name="group3" value="ta"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Telugu (తెలుగు)</ion-label>
+				  <ion-radio name="group3" value="te"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			</div>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">Submit</ion-button>
+		</div>
+		<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
+	</ion-list>
+		   <div padding *ngIf="showCR">
+	        <p ion-text class="adtxt1">You have used up your <ion-badge color="secondary" tappable (click)="morecred()">credits</ion-badge> Add more credits and enjoy uninterrupted service.</p>
+			  <ion-list>
+			  <ion-radio-group [(ngModel)]="paym" ngDefaultControl [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <ion-label class="subhead">Payment Method</ion-label>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </ion-list>
+			<ion-button expand="block" color="secondary" tappable (click)="buy(15)">Buy 15 Credits for just Rs. 125</ion-button><br/>
+			<ion-button expand="block" color="secondary" tappable (click)="buy(25)">Buy 25 Credits for just Rs. 200</ion-button><br/>
+			<ion-button expand="block" color="tertiary" tappable (click)="subscribe()">Subscribe Now for just 999/- per year</ion-button><br/>
+			<p class="adtxt2">If you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited horoscope readings. <span class="more" tappable (click)="more()">Know more..</span></p>
+		</div>
+   <div padding *ngIf="showH">
+   <div class="title">History</div>
+   <ion-list class="his">
+    <div *ngFor="let birth of oBirth">
+    <ion-item *ngIf="birth.show">
+      <ion-icon size="large" name="person" slot="start"></ion-icon>
+		     <p> <span class="name">{{birth.name }}</span><br/>
+			 <span class="dob"> {{birth.dob_short}}</span></p>
+			  <div slot="end">
+			  <ion-button type="button" color="primary" tappable (click)="selDOB($event, birth)">View</ion-button><ion-spinner *ngIf="birth.fetch" item-right></ion-spinner><br/>
+			  <ion-button type="button" color="tertiary" tappable (click)="remDOB($event, birth)">Remove</ion-button> 
+			  </div>
+    </ion-item>
+	</div>
+  </ion-list>
+   </div>
+  </form>
+</ion-content>

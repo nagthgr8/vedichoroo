@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-list>
+<ion-card no-padding>
+<img src="https://i.imgur.com/0aUIaDI.png"/>
+</ion-card>
+  <ion-item>
+	 <ion-label>CALENDAR FOR : {{monyer}}</ion-label>
+  </ion-item>
+	<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+	<p ion-text class="title">{{kpd.title}}</p>
+	<div #hinduCal></div>
+	<div class="msg" [innerHTML]='info2'></div>
+	<div class="note">If you don't see any dates with pink circle then it means the planet transit is not favouring for this calendar month.</div>
+  <div class="title"> {{ 'Panchangam' | translate }} for {{ sdt | date:'mediumDate'}} </div>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/ec76b7d7e0529af6e3a437edb6c6c255/tumblr_phiurjqePq1xp0noco1_75sq.png" slot="start"/>
+    <div class="heading" text-center>
+  <div class="sunrise">
+    <span class='title'>{{ 'Sunrise' | translate }} : </span><span class="blue">{{sunrise}}</span>
+  </div>
+  <div class="sunset">
+    <span class='title'>{{ 'Sunset' | translate }} : </span><span class="blue">{{sunset}}</span>
+  </div>
+</div>	
+    <img src="https://66.media.tumblr.com/13aee56bcd3ca9e102f84df710ee7157/tumblr_phiut1zqQs1xp0noco1_75sq.png" slot="end"/>
+  </ion-item>
+  <ion-item>
+      <ion-icon name="star" slot="start"></ion-icon>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title'> {{ 'Nakshatra' | translate }} : </span><span class="blue">{{nak}}</span>
+  </div>
+  <div class="sunset">
+    <span class='title'>{{ 'Tithi' | translate }} :</span><span class="blue">{{tithi}}</span>
+    <span class='title'>{{ 'Yoga' | translate }} :</span><span class="green">{{yoga}}</span><br>
+    <span class='title'>{{ 'Karana' | translate }} :</span><span class="green">{{karana}}</span><br>
+  </div>
+</div>	
+    <img [src]="lunapic" slot="end"/>
+  </ion-item>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/e5dbe359045e1bd4aadcd3326ea5712b/tumblr_phkcj7LrJb1xp0noco1_75sq.png" slot="start"/>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title'>{{ 'Rahu Kaalam' | translate  }} : </span><span class="red">{{rahukal}}</span>
+  </div>
+</div>	
+  </ion-item>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/d8ce8901fd2147a23a83f40903be3c95/tumblr_phkcjxdFpp1xp0noco1_75sq.png" slot="start"/>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title'>{{ 'Yama Gandam' | translate  }} : </span><span class="red">{{yama}}</span>
+  </div>
+</div>	
+  </ion-item>
+ <ion-item>
+      <img src="https://66.media.tumblr.com/49d1b055d916ae941c21e23efefe2b7e/tumblr_phkchoTfuO1xp0noco1_75sq.png" slot="start"/>
+ 	<div class="heading">
+  <div class="sunrise">
+    <span class='title'>{{ 'Abhijit' | translate  }} : </span><span class="blue">{{abhjit}}</span>
+  </div>
+</div>	
+  </ion-item>
+</ion-list>
+</ion-content>

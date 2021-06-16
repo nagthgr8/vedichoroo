@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<ion-grid no-padding>
+<div *ngIf="showBD">
+ <ion-row class="dmaintitle"><ion-col col-12>{{'Birth Details'|translate}}</ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Date of Birth'|translate}}</div></ion-col><ion-col><div>{{dob}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna'|translate}}</div></ion-col><ion-col><div>{{lagna}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna Lord'|translate}}</div></ion-col><ion-col><div>{{lagna_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Sign'|translate}}</div></ion-col><ion-col><div>{{moon_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sun Sign'|translate}}</div></ion-col><ion-col><div>{{sun_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Tithi'|translate}}</div></ion-col><ion-col><div>{{tithi}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Birth Star'|translate}}</div></ion-col><ion-col><div>{{birth_star}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star Lord'|translate}}</div></ion-col><ion-col><div>{{star_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Phase'|translate}}</div></ion-col><ion-col><div>{{moon_phase}}</div></ion-col></ion-row>
+ </div>
+ </ion-grid>
+  <p class="p1">You are currently in <span class="s1">{{mdas1}}</span> Maha Dasha, <span class="s2">{{adas1}}</span> Antar Dasha and <span class="s3">{{pdas1}}</span> Pratyantar Dasha. This period ends on {{pend1}}</p>
+  <p class="p2">During this period can expect {{lifevts}} <br><span>the timing & promising of this events depends on which planet is transiting in the constellation of these lords and also in which SUB the dasha lord </span><br><span class="s1">{{mdas1}}</span> is currently in transit and if SUB LORD is favouring or not. Currently dasha lord <span class="s1">{{mdas1}}</span> is transiting in <span class="r1">{{mdras}}</span><ion-spinner *ngIf="bras" item-right></ion-spinner> and in the SUB of <span class="mds">{{mdsub}}</span><ion-spinner *ngIf="bras" item-right></ion-spinner></p>
+  <p class="p3">Below is KP transit report of current dasha, antar & pratyantar dasha</p>
+  <p class="p4">In KP Astrology the star depositor/significators of the planet produces the results more predominantly than lordship and ownership of the planet during its dasha, antar dasha or pratyantar dasha, below transit report is analyzed according to star depositors of dasha lords, transiting planet & the sub lord.</p>
+  <div *ngIf="sands">
+    <p class="p5">Please select below button to generate a personalized calendar with the dates that are favouring {{devts}} </p>
+	<ion-button type="button" expand="block" color="tertiary" tappable (click)="rep($event)">GET REPORT</ion-button>
+  </div>
+  <div *ngIf="nsands">
+    <p class="p5">Please <ion-badge color="primary" tappable (click)="subscribe()">Subscribe</ion-badge> to get personalized calendar with the dates that are favouring {{devts}} </p>
+  </div>
+ 	<div #cal1>
+	</div>
+	<div [innerHTML]='mon1'></div>
+	<ion-list class="dash">
+      <ion-item (click)="analyze($event, oTrans1[key])" *ngFor="let key of objectKeys(oTrans1)">
+        <p><span class="desc" [innerHTML]= 'oTrans1[key].desc'></span><br>
+		<span class="sdesc">{{oTrans1[key].sdesc}}</span></p>
+	  </ion-item>
+	</ion-list>
+	<div #cal2>
+	</div>
+	<div [innerHTML]='mon2'></div>
+	<ion-list class="dash">
+      <ion-item (click)="analyze($event, oTrans2[key])" *ngFor="let key of objectKeys(oTrans2)">
+        <p><span class="desc" [innerHTML]= 'oTrans2[key].desc'></span><br>
+		<span class="sdesc">{{oTrans2[key].sdesc}}</span></p>
+	  </ion-item>
+	</ion-list>
+	<div #cal3>
+	</div>
+	<div [innerHTML]='mon3'></div>
+	<ion-list class="dash">
+      <ion-item (click)="analyze($event, oTrans3[key])" *ngFor="let key of objectKeys(oTrans3)">
+        <p><span class="desc" [innerHTML]= 'oTrans3[key].desc'></span><br>
+		<span class="sdesc">{{oTrans3[key].sdesc}}</span></p>
+	  </ion-item>
+	</ion-list>
+	<div #cal4>
+	</div>
+	<div [innerHTML]='mon4'></div>
+	<ion-list class="dash">
+      <ion-item (click)="analyze($event, oTrans4[key])" *ngFor="let key of objectKeys(oTrans4)">
+        <p><span class="desc" [innerHTML]= 'oTrans4[key].desc'></span><br>
+		<span class="sdesc">{{oTrans4[key].sdesc}}</span></p>
+	  </ion-item>
+	</ion-list>
+<ion-card *ngIf="showNote">
+   <ion-card-content><span>No Transits identified</span>
+	</ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	    <div  ion-text class="atxt" tappable (click)="back()">Go Back</div>
+<ion-list>
+<ion-item>
+<div class="notif" [innerHTML]="mpz"></div>
+</ion-item>
+	<ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">OK</ion-button>
+</ion-list>
+</ion-content>

@@ -24,3 +24,93 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+.redText {
+color: #FF0000;
+font-size: bold;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #0c5902;
+}
+  ion-row.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+   ion-row.lines ion-col {
+    border: 1px solid #ffd9a3;
+    padding: 5px;
+    text-align: center;
+	display: border-box;
+  }
+  ion-row.subtitle {
+	font-weight:bold;
+	font-size:15px;
+  }
+  ion-row.desc {
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+    ion-row.bd {
+    text-align:center;
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col.lbl {
+	  color: #d35400;
+	  background-color: #ffd9a3;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	  font-weight: bold;
+	}
+	ion-col.desc {
+	  text-align: left !important;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+
+  ion-row.maintitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+
+  .pln {
+   font-weight: bold;
+  }
+   .bstar {
+ color: blue;
+  text-decoration: underline;
+ }
+ ion-grid.bct {
+  margin: 0px;
+  padding:0px;
+  ion-row {
+	  margin: 0px;
+	  padding: 0px;
+  }
+  ion-col {
+	  margin: 0px;
+	  padding: 0px;
+  }
+}

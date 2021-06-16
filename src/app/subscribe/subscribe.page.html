@@ -1,0 +1,103 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-content padding>
+<form>
+	<div class="ion-text-center">
+	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
+	</div>
+	 <div *ngIf="showSU">
+	 <p><span class="title">Why do you need Subscription?</span><br></p>
+	 <ion-list>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Unlimited Access Without Ad interruptions</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Professional Astrologers can connect with many users accross the globe & offer online consultation</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Complete Personalized Report In PDF Format</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get KP Dasha & Transit Predictions Report</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Your Personalized Calendar highlighting all favourable dates using B V Raman's Muhurta Principles</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Your Daily & Monthly Predictions</span></p>
+	</ion-item>
+	</ion-list>
+	 </div>
+<div  *ngIf="showSU">
+	</div>
+	   <div padding *ngIf="showPAY">
+	   
+	           <ion-list>
+			  <ion-radio-group [(ngModel)]="paym" ngDefaultControl [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <ion-label class="subhead">Payment Method</ion-label>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </ion-list>
+				<ion-button type="button" expand="block" color="tertiary" tappable (click)="subscribe()" >Subscribe Now Just for Rs. 999/- per year</ion-button><br/>
+		
+		<p class="desc">
+		   If you have problems with our online payment, you can also make a direct payment to below account & write to our <ion-badge (click)="help()">Help Desk</ion-badge>. The request will be processed within 24 hours.
+		</p><br/>
+		<div class="ion-text-center">
+        <p class="adtxt1">Hamsini Smart Solutions<br>ICICI A/c No. 180505001023<br>IFSC Code: ICIC0001805</p>
+		</div>
+			
+		</div>
+	   <div padding *ngIf="showCR">
+	        <p ion-text class="adtxt1"><strong>Thanks for being our valuable Subscriber. If you have any questions please contact <ion-badge (click)="help()">Help Desk</ion-badge></strong></p>
+		</div>
+		<div padding *ngIf="showWC">
+		<p ion-text class="adtxt1"><strong>Dear Customer,</strong><br/><br/><span class="desc">Congratulations!! Your subscrption is now upgraded to Premium. One of our representatives will be in touch with you within 24hrs to get started with building your amaizing App. Meanwhile please be prepared with your profile & other relevent meta data such as banner, logo, title, theme, font, etc you may want to customize in your App. There will be maximum upto 15 business days we will be getting your App ready, anytime during this window you can cancel your Subscription & get full refund back. For queries/complaints, please contact <ion-badge  color="secondary" tappable (click)="help()">Help Desk</ion-badge>. <br/><br/>Thank You,</span><br/><strong>MYPUBZ Team</strong></p>
+		</div>
+		<div padding *ngIf="showCI">
+		<ion-list>
+		<p class="ion-text-center"><strong>Please enter below details to continue further</strong></p>
+		<ion-item>
+		<ion-label>Name</ion-label>
+		<ion-input maxlength="25" type="text" name="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Mobile Number</ion-label>
+		<ion-input type="tel" [(ngModel)]="mob" name="mob" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Email</ion-label>
+		<ion-input type="text" [(ngModel)]="eml" name="eml" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+	        <p ion-text class="info" color="primary" [innerHTML]='sinf'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="saveSub()">Submit</ion-button>
+			<ion-button type="button" expand="block" color="secondary" tappable (click)="back()">Back</ion-button>
+		
+		</ion-list>
+		</div>
+</form>	
+</ion-content>

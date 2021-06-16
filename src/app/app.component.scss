@@ -1,0 +1,85 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+ion-header {
+  .button-md {
+    box-shadow: none;
+  }
+
+  .toolbar-title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+}
+.avatar {
+	  border-radius: 50%;
+	  height: 12rem;
+	  width: 12rem;
+}
+body {
+ font-family: roboto;
+}
+
+.green {
+  color: '#266e33';
+  font-weight: bold;
+}
+.red {
+  color: '#eb4034';
+  font-weight: bold;
+}
+.dttitle {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #d35400;
+}
+.dtstitle {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.dras {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #343deb;
+}
+.tgrid {
+    height: 100% !important;
+ }
+.trow {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  align-items: center !important;
+    justify-content: center !important;
+	display: flex;
+ }
+  .tdash-items {
+  border-color: black; 
+  border-width: .01em; 
+  border-style:solid; margin-bottom : -1px;
+  text-align: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.more {
+	color: blue;
+	padding: 5px;
+    font-size: 0.8rem;
+	font-weight: bold;
+  }

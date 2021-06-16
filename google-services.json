@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "242286730499",
+    "firebase_url": "https://astrology-e9e07.firebaseio.com",
+    "project_id": "astrology-e9e07",
+    "storage_bucket": "astrology-e9e07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242286730499:android:2f30c2e339a0b7ae",
+        "android_client_info": {
+          "package_name": "com.mypubz.eportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "REMOVED"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8442845715303800~9749985830"
+    }
+  ],
+  "configuration_version": "1"
+}

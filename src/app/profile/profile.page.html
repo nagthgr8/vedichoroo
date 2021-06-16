@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	<div class="ion-text-center">
+		<p *ngIf="isLoading">Loading ...</p>
+		<img class="avatar" [src]="data.image" />            
+    </div>
+	<div text-center><p ion-text class="info" color="primary" [innerHTML]='info1'></p></div>
+   <ion-list class="pd">
+		<ion-item class="item item-icon-right">	
+			<ion-label>Profile Picture</ion-label>
+			<ion-icon name="camera" (click)="takePic()" item-right></ion-icon>
+			<ion-icon name="attach" (click)="uploadPic()" item-right></ion-icon>
+		</ion-item>		
+		<ion-item lines="full">
+			<ion-label>Name</ion-label>
+			<ion-input [(ngModel)]="nam"></ion-input>
+		</ion-item>
+	<ion-radio-group lines="full" [(ngModel)]="gen" [ngModelOptions]="{standalone: true}">
+      <ion-item>
+        <ion-label >Male</ion-label>
+        <ion-radio slot="start" value="M" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label >Female</ion-label>
+        <ion-radio slot="start" value="F"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+	<ion-item text-center lines="full">
+      <ion-label >Date of Birth</ion-label>{{dob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showDatePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+	<ion-item text-center lines="full">
+      <ion-label >Time of Birth</ion-label>{{tob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showTimePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+		<div *ngIf="showP">
+		<ion-item lines="full">	
+			<ion-label position="floating">Place of Birth(min. 3 chars)</ion-label>
+			<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text"></ion-input>
+		</ion-item>
+		<p ion-text class="info" color="primary" [innerHTML]='place'></p>
+		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+		{{ item }}
+		</ion-item>
+		</div>
+		<div *ngIf="showL">
+		<ion-item lines="full">	
+			<ion-label>Latitude & Longitude</ion-label>
+			<p>{{latlng}}</p>
+		</ion-item>
+		<ion-item>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="enter()">Edit Place of Birth</ion-button>
+		</ion-item>
+		</div>
+		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<div *ngIf="showS">
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">Submit</ion-button></div>
+		</div>
+  </ion-list>
+</ion-content>
+

@@ -1,0 +1,30 @@
+body {
+  font-family: roboto;
+}
+
+  ion-row.ds {
+	border: 1px solid #d35400;
+	padding: 5px;
+	ion-col.lbl {
+	  color: #d35400;
+	  background-color: #ffd9a3;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	  font-weight: bold;
+	}
+  }
+
+  ion-row.dstitle {
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+ion-card {
+    position: relative;
+	border-radius: 10px;
+  }

@@ -1,27 +1,148 @@
-#container {
+ body {
+  font-family: roboto;
+ }
+ ion-row.bd {
+    align-items: center !important;
+    justify-content: center !important;
+    text-align:center;
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col.lbl {
+	  border-color: black; 
+	  border-width: .01em; 
+	  border-style:solid; margin-bottom : -1px;
+	  background-color: lightgrey;
+	  text-align: center;
+	}
+  }
+  .dash-items {
+  border-color: black; 
+  border-width: .01em; 
+  border-style:solid; margin-bottom : -1px;
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  flex: 1;
+  justify-content: center;
+}
+.dhoro {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d35400;
+  padding: 1em;
+  margin-bottom : -1px;
+}
+.dcont {
+  width: 100%;
+  height: auto;
+}
+.dimg {
+  width: 56px;
+  height: 56px;
+  float: left;
+}
+.dtxt {
+margin-left: 60px;
+font-size: 0.9rem;
+font-weight: bold;
+color: #d35400;
+}
+.dtitle {
+margin-left: 70px;
+font-size: 1.01rem;
+font-weight: bold;
+color: #d35400;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.dmore {
+float: right;
 }
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.hgrid {
+    height: 100% !important;
+ }
+.hrow {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  align-items: center !important;
+    justify-content: center !important;
+	display: flex;
+ }
+ .drow {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+	display: flex;
+ }
+.htitle {
+  font-size: 1.01rem;
+  font-weight: bold;
+  color: #d35400;
 }
-
-#container a {
-  text-decoration: none;
+.atitle {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #d35400;
+  padding-left: 2em;
 }
+.astitle {
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 2em;
+}
+.hstitle {
+  font-size: 0.8rem;
+  font-weight: bold;
+  
+}
+.fuse {
+  color: #f71702;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+ion-button span.title {
+  font-size: medium;
+  text-transform: none;
+}
+  ion-card {
+    position: relative;
+    text-align: right;
+	border-radius: 10px;
+  }
+
+  .card-title {
+    position: absolute;
+    font-size: 1.4em;
+    width: 100%;
+    font-weight: bold;
+    color: #80ffaa;
+	top:2%;
+	padding: 1%;
+  }
+
+  .card-subtitle {
+    font-size: 1.22em;
+    position: absolute;
+    width: 100%;
+    color: #ffffff;
+    font-weight: bold;
+	top:15%;
+	padding: 1%;
+  }
+  .clbl {
+    font-size: 1.1em !important;
+	color: #80ffaa;
+  }
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:30px;
+  }
+ 
+ .more {
+	color: blue;
+	padding: 5px;
+	font-weight: bold;
+  }
+  p.info {
+   text-align: center;
+   font-weight: bold;
+  }

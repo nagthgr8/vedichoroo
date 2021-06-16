@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-grid no-padding>
+     <ion-row class="hititle"><ion-col col-12>{{ hou }} HOUSE SIGNIFICATION</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oHou)">
+ <ion-row class="hisubtitle"><ion-col col-12><div>{{ oHou[key].details }}</div></ion-col></ion-row>
+ </div>
+     <ion-row class="title"><ion-col col-12>{{ hou }} HOUSE GROUPING</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oGrp)">
+ <ion-row class="subtitle"><ion-col size="4"><div color="primary">{{ key }}</div></ion-col><ion-col col-8><div color="secondary">{{ oGrp[key].details }}</div></ion-col></ion-row>
+ </div>
+   <div *ngIf="showSU">
+ <ion-row class="title">ANY MORE SUGGESTIONS?<ion-col col-12></ion-col></ion-row>
+ <ion-row class="subtitle"><ion-col col-12><div><ion-textarea rows="10" [(ngModel)]="msg"></ion-textarea></div></ion-col></ion-row>
+ 		<div padding text-center>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			</div>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save()">Submit</ion-button>
+			
+ </div>
+</ion-grid>
+</ion-content>

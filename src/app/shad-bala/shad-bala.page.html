@@ -1,0 +1,95 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-grid no-padding>
+     <ion-row class="maintitle"><ion-col col-12>Sthana Bala/Positional Strength</ion-col></ion-row>
+     <ion-row class="title"><ion-col col-12>Uccha Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>This indicates how far a Graha is situated from its Uccha-sthana-sphuta or the deepest exaltation point. Closer a Graha to its exaltation point, stronger it is as per UcchaBala. When a Graha occupies it Paramoccha sphuta, it gets 1 rupa and 0 rupa when it is in Paramaneecha Sphuta</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['uchBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['uchBala'][key]"></div></ion-col></ion-row>
+ </div>
+     <ion-row class="title"><ion-col col-12>Saptavargaja Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>This indicates the strength of a Graha in 7 (sapta) divisions (varga) viz., Rāśi, Hora, Dreshkana, Saptāńśa, Navāńśa, Dvadashāńśa and Trimshāńśa. The details of this strength is given in following section.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['sptvBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['sptvBala'][key]"></div></ion-col></ion-row>
+ </div>
+    <ion-row class="title"><ion-col col-12>Ojayugma Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Oja means odd or male, while yuma means even or female. Ojayugma bala is derived from placement alignment of male and female grahas with the male and female Rāśis. Female Grahas in female Rāśis and male Grahas in male Rāśis attain this strength. This is to be judged in both Rāśi and Navāńśa charts. Here, Shukra & Chandra are considered female and rest are considered male.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['ojayBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['ojayBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Kendradi Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>The 1–4–7–10 are called Kendra (Quadrant), 2–5–8–11 are called Panaphara (Succedent) and 12–3–6–9 are called the Apoklima (Precedent Houses). Grahas in Kendra are the strongest and in Apoklima are the weakest. Those placed in Panaphara have middling strength. Again within the Kendras, the position in certain Kendras are considered stronger than others. Grahas in Kendras are strongest (60 virupas) and in Apoklima (15 virupas) are weakest. Those placed in Panaphara (30 virupas) have middling strength</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['kenBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['kenBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Drekkana Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Male Grahas (Surya, Mangal and Guru) get full strength in 1st Drekkana. Female Grahas (Chandra & Shukra) get full strength in 2nd Drekkana. Eunuch Grahas (Shani and Budha) gets full strength in the 3rd Drekkana of a Rāśi. According to Parashara, the 1st Drekkana of a Rāśi falls in the sign itself. The 2nd Drekkana falls in the 5th from it while the 3rd Drekkana falls in the 9th from it. Saravali gives another view on the Drekkana Bala. Maximum possible Drekkana Bala is 15 virupas while minimum is Zero.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['drekBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['drekBala'][key]"></div></ion-col></ion-row>
+ </div> 
+     <ion-row class="maintitle"><ion-col col-12>Dikbala Bala/Directional Strength</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>The Dikbala is based on the placement of Grahas in one of the four Kendras representing 4 directions (Dik).
+Lagna represents the East and Guru, Budha attains Dikbala here. 7th house represents the West and Shani attains Dikbala here. 10th house represents the South, where Surya and Mangal attains dikbala here. 4th house represents the north and Chandra-Shukra attain Dikbala here.
+The tattva governing the Lagna are Akasha and Prthvi, that governing 4th house is Jala, that governing 7H is Vayu and that governing 10th house is Agni. When grahas occupy their Dikbala, the tattva governing the graha attains great strength and prominence and the native is blessed by the Tattva devata.
+When A Graha is placed in the Dik (Direction) where they belong to, the attain 60 Virupa of strength. In the opposite sign, they attain 0 Virupa of strength. In other Bhavas, their strength is proportionally allocated based on their placement with regards to the Bhava where they attain Dikbala.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['dikBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['dikBala'][key]"></div></ion-col></ion-row>
+ </div> 
+     <ion-row class="maintitle"><ion-col col-12>Kala Bala/Time Strength</ion-col></ion-row>
+    <ion-row class="title"><ion-col col-12>Natonnata Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Some Grahas are strong during daytime while some are strong at night time. This strength is based on this concept. Sūrya, Guru and Śukra gets this strength highest near to the Noon time. On the other hand Chandra, Mangal and Śani gets strength highest near to the Midnight time. Budha is strong throughout the day. At other times, their strength is proportionally reduced. The Maximum attainable strength here is 60 virupa which is during the peak time of the Graha. Budha has always 60 virupa of strength.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['natoBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['natoBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Tribhaga Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>When the Day and Night each are divided by 3, the 6 grahas (excluding Guru) attains this strength in various portions of the Day. (a) Budha, Sūrya and Śani are strong in the 1st, 2nd and 3rd portion of the day-time. (b) Similarly Chandra, Śukra and Mangal get full strength in the 1st, 2nd and the 3rd portions of the night-time. (c) Guru is strong through all the portions. The highest achievable bala is 60 when the Graha is placed in their own portion (Bhaga). Guru always gets 60 virupas as Tribhaga Bala.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['triBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['triBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Paksha Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Some Grahas are strong during Shukla Paksha while others are stronger during Krsna Pasha. (a) The Shubha Grahas Chandra, Budha, and Guru and Śukra gets highest on this strength during Purnima. (c) The Krura Graha gets highest on this strength during during Amavashya. At other times, this strength is proportionally reduced. Shubha Grahas get 60 virupa during Purnima and 0 during Amavashya. The reverse is true for Papa Grahas. The Sum-total of the Shubha and Papa Graha Paksha Bala is always 60 virupas.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['pakBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['pakBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Varsh-Maas-Dina-Hora Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Various segments of time are governed by various grahas. It starts with the lord of the year, which is further sub-divided into Month, Day and Hour. each of these sub-divisions are governed by a Graha, and each having strength that is higher in the order of Year, Month, Day and Hour. There are four component of this strength each of them is 25% stronger than the previous one. The components are Hora (Graha hour), Vara (Vedic weekday), Masa (Solar month) and Abda (Solar year). The Maximum strength that can be gained here is 60 + 45 + 30 + 15 = 150 virupas. It is possible, only when a Graha simultaneously rules all the 4 period.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['hvmaBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['hvmaBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="title"><ion-col col-12>Ayana Bala</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>This Strength depends on the Uttarayana or Dakshinayana movement of Grahas. Jataka Parijata Ch 2 mentions that Chandra and Shani are strong in Dakshinayana (southern movement) and Surya and Guru are strong in Uttarayana (northern movement). However, according to BPHS Ch 27, Chandra and Shani are strong in southern Kranti (declination), while when Sūrya, Mangal, Guru and Shukra are strong in northern Kranti. As far as Budha is concerned, is strong in both Uttarayana and Dakshinayana.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['ayanBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['ayanBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="maintitle"><ion-col col-12>Chesta Bala/Motional Strength</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Chesta means effort. This source of strength means how much effort a Graha is making. The effort is less when the Graha is moving steadily, and highest when it is Retrograde.
+Retrogression can be equated with moving against the river current, which is extremely tough.
+Movement of Surya and Chandra are always steady, and they never have retrogression or acceleration, hence their Chestabala equates to their Ayana Bala and Paksha Bala respectively. For the Tara Grahas (Mangal to Shani), their Chestabala is computed based on their speed and direction of their motion.
+The Chesta Bala can be known from the speed of the Grahas. </ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['chestBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['chestBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="maintitle"><ion-col col-12>Naisargika Bala/Natural Strength</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>The natural strength of Grahas is called Naisargika Bala. The Grahas are progressively stronger in the order of Shani, Mangal, Budha, Guru, Śukra, Chandra and Sūrya, respectively.
+When two Grahas influence each other by conjunction or mutual aspect, the one who is stronger in this order has higher ability to influence the other and give results predominantly of its own. Since Surya is the strongest, any Graha conjoining with Surya becomes Combust, but Surya does not become weaker</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['naiskBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['naiskBala'][key]"></div></ion-col></ion-row>
+ </div> 
+    <ion-row class="maintitle"><ion-col col-12>Drg Bala/Aspect Strength</ion-col></ion-row>
+     <ion-row class="desc"><ion-col col-12>Drg means aspect.This strength is acquired by the virtue of being aspected by Natural Benefic or Natural Malefics.
+The Aspect of Natural Benefics add to the strength, while that of Natural Malefics reduces the strength.
+The strength of aspect depends on the longitudinal difference between the aspecting Graha and the aspected Graha.</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oShd['drgBala'])">
+    <ion-row class="title2"><ion-col class = "border" col-6>{{key}}</ion-col><ion-col class = "border" col-6><div [innerHTML]="oShd['drgBala'][key]"></div></ion-col></ion-row>
+ </div> 
+ </ion-grid>
+</ion-content>

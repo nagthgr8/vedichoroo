@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+  <ion-list class="his">
+      <div *ngFor="let key of objectKeys(oRep)">
+      <ion-item class="item item-icon-left" tappable (click)="viewprof($event, oRep[key])">
+      <ion-icon size="large" name="person" slot="start"></ion-icon>
+	   <p> <span class="name">{{oRep[key].dob }}</span><br/>
+	   <span [innerHTML]='oRep[key].reqdt'></span>
+	  </ion-item>
+	  </div>
+  </ion-list>
+  
+</ion-content>

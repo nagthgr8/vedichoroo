@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<form #myForm="ngForm">
+<div *ngIf="showH">
+	<ion-button type="button" expand="block" color="tertiary" tappable (click)="enter()">Enter New Birth Details</ion-button>
+    <h2>(or) Choose From History</h2>
+   <ion-list class="his">
+   <div class="title">{{title}}</div>
+     <ion-radio-group no-padding radio-group [(ngModel)]="sdb" [ngModelOptions]="{standalone: true}">
+    <ion-item *ngFor="let birth of oBirth">
+      <ion-icon size="large" name="person" slot="start"></ion-icon>
+	   <p> <span class="name">{{birth.name }}</span><br/>
+	   <span class="sub"> {{birth.dob_short}}</span></p>
+	   <div slot="end"><ion-radio name="group1" value="{{birth.dob_short}}" (click)="selDOB($event, birth)" item-right></ion-radio></div>
+    </ion-item>
+	</ion-radio-group>
+  </ion-list>
+</div>
+<div *ngIf="showN">
+ <ion-list class="pd">
+  <ion-item>
+  <ion-label position="floating">Name: </ion-label><br>
+  <ion-input class="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+ </ion-item>
+ <ion-radio-group lines="full" [(ngModel)]="gen" [ngModelOptions]="{standalone: true}">
+      <ion-item>
+        <ion-label >Male</ion-label>
+        <ion-radio slot="start" value="M" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label >Female</ion-label>
+        <ion-radio slot="start" value="F"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+	<ion-item text-center lines="full">
+      <ion-label >Date of Birth</ion-label>{{dob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showDatePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+	<ion-item text-center lines="full">
+      <ion-label >Time of Birth</ion-label>{{tob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showTimePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+	<ion-item lines="full">
+		<ion-label position="floating">Place of Birth(min 4 chrs): </ion-label><br>
+		<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-item>
+		<ion-item class="places" *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+					{{ item }}
+		</ion-item>
+		<p ion-text class="info" color="primary" [innerHTML]='place'></p>
+		<ion-button *ngIf="his" type="button" expand="block" color="tertiary" tappable (click)="choose()"> (or) Choose From History</ion-button>
+	</ion-list>
+   </div>
+	<ion-button *ngIf="showBK" type="button" expand="block" color="tertiary" tappable (click)="back()" >Back</ion-button><br>
+	<ion-button type="button" expand="block" color="tertiary" tappable (click)="sub(); myForm.reset()">{{bnm}}</ion-button><br>
+</form>
+</ion-content>
