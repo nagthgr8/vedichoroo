@@ -44,7 +44,7 @@ export class HouseInfoPage implements OnInit {
 			   console.log(err);
 			});
    this.platform.ready().then(() => {
-	this.shareService.plan.subscribe((pln) => {
+	this.shareService.getPLAN().then((pln) => {
 		this.showSU = (pln.name == 'com.mypubz.eportal.astrologer') ? true : false;
 		 if(pln.name == 'com.mypubz.eportal.astrologer' || pln.name == 'com.mypubz.eportal.adfree' || pln.name == 'com.mypubz.eportal.year' || pln.name == 'com.mypubz.eportal.month') {
 				this.horoService.getKPHouseGroup(this.device.uuid)

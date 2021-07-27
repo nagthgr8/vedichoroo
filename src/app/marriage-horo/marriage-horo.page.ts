@@ -44,8 +44,12 @@ export class MarriageHoroPage implements OnInit {
   autocompleteItems2;
   htz: string = '';
   rtz: string = '';
-  latlng1: string = '';
-  latlng2: string = '';
+  hdst: number = 0;
+  rdst: number = 0;
+  lat1: number = 0;
+  lng1: number = 0;
+  lat2: number = 0;
+  lng2: number = 0;
   birthStar: string;
   birthSign: string;
   partnerBirthStar: string;
@@ -100,8 +104,8 @@ export class MarriageHoroPage implements OnInit {
   constructor(private router: Router, private platform: Platform, private zone: NgZone, private datePicker: DatePicker, public horoService: HoroscopeService, public renderer: Renderer2, public shareService: ShareService) {//, public admob: AdMob) { 
 	 this.dos = {};
      platform.ready().then(() => {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({
 			id: {
@@ -121,7 +125,7 @@ export class MarriageHoroPage implements OnInit {
 		}
 	}, (err) => {
 	});	 
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 //			if(pln.name != 'com.mypubz.eportal.astrologer') this.showBanner();
 		 }, (err) => {
 		});	
@@ -247,7 +251,9 @@ export class MarriageHoroPage implements OnInit {
 		var res = this.shareService.getAYNM();
 		if(res) ayanid = Number(res);
 		this.info = 'Analyzing stars..';
-	this.horoService.getBirthStars(this.dob1 + 'T' + this.tob1 + ':00Z', this.dob2 + 'T' + this.tob2 + ':00Z', this.latlng1 + 'L' + this.latlng2, this.htz + '|' + this.rtz, ayanid)
+//	this.horoService.getBirthStars(this.dob1 + 'T' + this.tob1 + ':00Z', this.dob2 + 'T' + this.tob2 + ':00Z', this.latlng1 + 'L' + this.latlng2, this.htz + '|' + this.rtz, ayanid)
+//       .subscribe(res => {
+	this.horoService.getCompatibilityReport(this.dob1 + 'T' + this.tob1 + ':0', this.dob2 + 'T' + this.tob2 + ':0', this.lat1, this.lng1,  this.lat2, this.lng2, this.htz, this.rtz, this.hdst, this.rdst, ayanid)
        .subscribe(res => {
 	   this.birthStar = res['birthStar'];
 	   this.pada = Number(res['pada']);
@@ -275,7 +281,7 @@ export class MarriageHoroPage implements OnInit {
 			 this.dos.mngl = "Manglik Dosh does not exist in both boys & girls kundli";
 			 this.dos.mngls = 'greenText';
 		 } else if(mdm2 == true) {
-			 this.dos.mngl = "Manglik Dosh exist in both boys & girls kundli";
+			 this.dos.mngl = "Manglik Dosh exist in both boys & girls kundli, hence the dosha is cancelled";
 			 this.dos.mngls = 'greenText';
 		 } else if(res['manglik'] != '0') {
 			 this.dos.mngl = "Manglik Dosh exist in boys kundli & not exist in girls kundli";
@@ -356,7 +362,8 @@ export class MarriageHoroPage implements OnInit {
     this.info = 'geocoding..';
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': address }, (results, status) => {
-    this.latlng1 = results[0].geometry.location.lat() + '|' + results[0].geometry.location.lng();
+    this.lat1 = results[0].geometry.location.lat();
+	this.lng1 = results[0].geometry.location.lng();
 	//let utc_offset: number = 0;
 	//if(results[0].geometry.hasOwnProperty('utc_offset'))
 		//utc_offset = results[0].geometry.utc_offset;
@@ -364,6 +371,7 @@ export class MarriageHoroPage implements OnInit {
 		.subscribe(res2 => {
 		   this.htz = res2['timeZoneId'];
 		   console.log(res2['timeZoneId']);
+   		   this.hdst = res2['dstOffset'];
 		   this.info = '';
 		}, (err) => {
 		  console.log(err);
@@ -376,7 +384,8 @@ export class MarriageHoroPage implements OnInit {
     this.info = 'geocoding..';
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': address }, (results, status) => {
-    this.latlng2 = results[0].geometry.location.lat() + '|' + results[0].geometry.location.lng();
+    this.lat2 = results[0].geometry.location.lat();
+	this.lng2 = results[0].geometry.location.lng();
 	//let utc_offset: number = 0;
 	//if(results[0].geometry.hasOwnProperty('utc_offset'))
 		//utc_offset = results[0].geometry.utc_offset;
@@ -384,6 +393,7 @@ export class MarriageHoroPage implements OnInit {
 		.subscribe(res2 => {
 		   this.rtz = res2['timeZoneId'];
 		   console.log(res2['timeZoneId']);
+		   this.rdst = res2['dstOffset'];
 		   this.info = '';
 		}, (err) => {
 		  console.log(err);
@@ -1104,7 +1114,7 @@ export class MarriageHoroPage implements OnInit {
 			//html += rem + '\n';
 			this.dos.attr = rem;
 			
-			this.dos.attr = (bvsy == true) ? 'greenText' : 'redText';//'<img src="assets/imgs/thumbsup.png" alt="Gun Milan, Marriage Compatibility" ></img>';
+			this.dos.attrs = (bvsy == true) ? 'greenText' : 'redText';//'<img src="assets/imgs/thumbsup.png" alt="Gun Milan, Marriage Compatibility" ></img>';
 			//else this.attrs = 'redText';//'<img src="assets/imgs/lovewarn.png" alt="Gun Milan, Marriage Compatibility" ></img>';
 			//html += 'This magnetic attraction or draw can cause the person who is drawn to the other to do almost anything for the relationship';
 			//this.add1ColRow(html);

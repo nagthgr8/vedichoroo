@@ -194,6 +194,14 @@ const routes: Routes = [
   {
     path: 'btr-report',
     loadChildren: () => import('./btr-report/btr-report.module').then( m => m.BtrReportPageModule)
+  },
+  {
+    path: 'btr-detail-rel',
+    loadChildren: () => import('./btr-detail-rel/btr-detail-rel.module').then( m => m.BtrDetailRelPageModule)
+  },
+  {
+    path: 'reg-ast',
+    loadChildren: () => import('./reg-ast/reg-ast.module').then( m => m.RegAstPageModule)
   }
 ];
 

@@ -73,7 +73,7 @@ export class KpAstroPage implements OnInit {
 	hssub1 :string = '';hssub2 :string = '';hssub3 :string = '';hssub4 :string = '';hssub5 :string = '';hssub6 :string = '';hssub7 :string = '';hssub8 :string = '';hssub9 :string = '';hssub10 :string = '';hssub11 :string = '';hssub12 :string = '';
 	hn1: string =''; hn2: string =''; hn3: string =''; hn4: string =''; hn5: string =''; hn6: string =''; hn7: string =''; hn8: string =''; hn9: string =''; hn10: string =''; hn11: string =''; hn12: string ='';
 	fpos: string = '';fras: string = '';fnak: string = ''; fsub: string ='';hssub13: string = '';
-	apos: string = '';aras: string = '';anak: string = ''; hssub14: string ='';
+	apos: string = '';aras: string = '';anak: string = ''; asub: string = '';hssub14: string ='';
 	L1ps1: string = '';L1ps2: string = '';L1ps3: string = '';L1ps4: string = '';L1ps5: string = '';L1ps6: string = '';L1ps7: string = '';L1ps8: string = '';L1ps9: string = '';
 	L2ps1: string = '';L2ps2: string = '';L2ps3: string = '';L2ps4: string = '';L2ps5: string = '';L2ps6: string = '';L2ps7: string = '';L2ps8: string = '';L2ps9: string = '';
 	L3ps1: string = '';L3ps2: string = '';L3ps3: string = '';L3ps4: string = '';L3ps5: string = '';L3ps6: string = '';L3ps7: string = '';L3ps8: string = '';L3ps9: string = '';
@@ -152,8 +152,8 @@ export class KpAstroPage implements OnInit {
 	this.binf = this.router.getCurrentNavigation().extras.state;
 	console.log('ngOnInit', this.binf);
     this.platform.ready().then((readySource) => {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 			this.plan = res;
 			for(let i = 0; i < this.items.length; i++) {
 				switch(this.items[i].title)
@@ -373,11 +373,29 @@ export class KpAstroPage implements OnInit {
 		var ras_num = Number(this.o_rashis_v[this.binf.moon_sign].split('\|')[0]);
 		var ras_num2 = Number(this.o_rashis_v[bstar.split('|')[3]].split('\|')[0]);
 		this.info = 'Calculating Vimsottari Dasha..';
+		this.shareService.getKVIMS(this.binf.dob).then( vims => {
+			if(vims) { 
+			   this.info = '';
+				this.vim = vims;
+				console.log('vimsObj1');
+				this.vimsObj();
+			} else {
 		this.horoService.calcVim(this.binf.dob, bstar.split('|')[2], mdeg, Number(bstar.split('|')[1]), ras_num, ras_num2, this.shareService.getLANG() )
 			.subscribe(res => {
 				this.info = '';
+				this.shareService.setKVIMS(this.binf.dob, res);
 				this.vim = res;
-				this.showTPD = true;
+				console.log('vimsObj1');
+				this.vimsObj();
+			}, (err) => {
+				//this.mon1 = JSON.stringify(err);
+			});
+			}
+		});
+	}
+ }
+ vimsObj() {
+ 				this.showTPD = true;
 				let mdas1: string = '';
 				let adas1: string = '';
 				let pdas1: string = '';
@@ -426,10 +444,6 @@ export class KpAstroPage implements OnInit {
 				}
 				this.items[3].show = sh;
 				this.bvm = true;
-			}, (err) => {
-				//this.mon1 = JSON.stringify(err);
-			});
-	}
  }
   chkAndLoad() {
 	this.info = 'Loading..';

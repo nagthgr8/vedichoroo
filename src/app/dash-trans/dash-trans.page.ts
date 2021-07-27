@@ -13,7 +13,6 @@ import * as mon_weeks from '../mon_weeks.json';
 import * as o_rashis from '../o_rashis.json';
 import * as ruler_name from '../ruler_name.json';
 import { Group } from '../group';
-declare var admob;
 
 @Component({
   selector: 'app-dash-trans',
@@ -95,28 +94,7 @@ export class DashTransPage implements OnInit {
 		   this.moon_phase = this.trans(res['moon_phase']);
       }, (err) => {
       }) ;
-   	  this.shareService.plan
-		   .subscribe(res => {
-		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
-			//admob.setDevMode(true);
-		admob.banner.show({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/9508397855',
-			  ios: 'ca-app-pub-8442845715303800/9508397855',
-			},
-		  }).then(() => {
-			setTimeout(() => {
-			  admob.banner.hide({
-				// replace with your ad unit IDs
-				android: 'ca-app-pub-8442845715303800/9508397855',
-				ios: 'ca-app-pub-8442845715303800/9508397855',
-			  })
-			}, 10000)
-		  })
-		}
-	 });
-		console.log('Width: ' + this.platform.width());
+ 		console.log('Width: ' + this.platform.width());
 		this.device_width = this.platform.width();
 		console.log('Height: ' + this.platform.height());
 		this.device_height = this.platform.height();

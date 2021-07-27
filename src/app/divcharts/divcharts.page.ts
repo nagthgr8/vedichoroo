@@ -38,8 +38,8 @@ export class DivchartsPage implements OnInit {
 	  this.item.ID = '-1';
  	this.binf = this.router.getCurrentNavigation().extras.state;
   this.platform.ready().then(() => {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 			this.plan = res;
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({

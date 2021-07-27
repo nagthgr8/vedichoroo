@@ -82,8 +82,8 @@ export class StarConstPage implements OnInit {
   btithi: string = '';
   yoga: string = '';
   karana: string = '';
-  clat: any;
-  clng: any;
+  //clat: number = 0;
+  //clng: number = 0;
   localtz: string = '';
   lunapic: string = '';
   ofset: number = 1;
@@ -97,7 +97,7 @@ export class StarConstPage implements OnInit {
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
 		this.translate.use(this.shareService.getLANG());
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 			//if(pln.name != 'com.mypubz.eportal.astrologer') {
 				//this.launchInterstitial();
 				//this.showBanner();
@@ -109,6 +109,8 @@ export class StarConstPage implements OnInit {
   }
   ngOnInit() {
  	this.binf = this.router.getCurrentNavigation().extras.state;
+		//this.clat = this.shareService.getCLAT();
+		//this.clng = this.shareService.getCLNG();
 	var cd = new Date();
 	let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
 	this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds()+'Z', Intl.DateTimeFormat().resolvedOptions().timeZone, ayanid)
@@ -127,8 +129,6 @@ export class StarConstPage implements OnInit {
 		 //this.monyer = my; 
         this.sunrise = res['sunrise'];
 		this.sunset = res['sunset'];
-		this.clat = this.shareService.getCLAT();
-		this.clng = this.shareService.getCLNG();
 		this.localtz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		this.ofset = -(cd.getTimezoneOffset() / 60);
 		this.calcPanch(cd);
@@ -139,8 +139,8 @@ export class StarConstPage implements OnInit {
 	}, (err) => {
 			this.info = JSON.stringify(err);
 	  });
-   	  this.shareService.plan
-		   .subscribe(res => {
+   	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({
@@ -265,9 +265,9 @@ export class StarConstPage implements OnInit {
 			this.hcal = trns;
 			this.publishReport(trns);
 		} else {
-		let ayanid = 1;
+		let ayanid: number = 1;
 		if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
-		this.horoService.getProStarConst(this.birth_star, this.moon_sign, this.birthSignDeg, this.shareService.getCLAT() + '|' + this.shareService.getCLNG(), Intl.DateTimeFormat().resolvedOptions().timeZone, ayanid)
+		this.horoService.getStarsForMon(this.birth_star, this.moon_sign, this.shareService.getCLAT(), this.shareService.getCLNG(), Intl.DateTimeFormat().resolvedOptions().timeZone, this.shareService.getLocalDST(), ayanid)
        .subscribe(res2 => {
 		   this.shareService.setSCR(this.birth_star, this.moon_sign, res2);
 		   this.info = '';
@@ -285,6 +285,7 @@ export class StarConstPage implements OnInit {
   
   publishReport(stars: any)
   {
+	 console.log('stars', stars);
 	 var mons = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	  this.info2 = '<strong>star strength & lunar strength</strong> on each day calaculated with reference from the book <a href="http://www.veda.mn/Book/JCC/MUHURTHA.pdf"><ion-badge>Muhurtha By BV Raman</ion-badge></a>.'
 	//this.showCal1 = true;
@@ -306,7 +307,9 @@ export class StarConstPage implements OnInit {
 			break;
 		}
 	}
-	var ldt = new Date(Number(stars[stars.length-1].date.split(',')[0].split(' ')[2]), Number(this.mon), Number(this.yer));
+   var keys = Object.keys(stars);
+   var last = keys[keys.length-1];
+	var ldt = new Date(Number(stars[last].date.split(',')[0].split(' ')[2]), Number(this.mon), Number(this.yer));
 	if(ldt < dt) {
 		this.info = 'This calendar is cached, hence may not be able to display for current date. Please clear the cache from App settings & reopen the App to get updated calendar. Pleaase contact info@vedichoroo.com for futher help';
 	}
@@ -1306,15 +1309,15 @@ export class StarConstPage implements OnInit {
 			console.log('ofset', this.ofset);
 		  var jd = this.shareService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
 		  console.log('jd', jd);
-		  console.log('lat', this.clat);
-		  console.log('lng', this.clng);
+		  console.log('lat', this.shareService.getCLAT());
+		  console.log('lng', this.shareService.getCLNG());
 		  //var datestr = this.horoService.getDateString(cd)
 		 // var utcoffset = moment(datestr).tz(this.localtz).format('Z');
 		  //var a = utcoffset.split(":")
 		  //var tz = parseFloat(a[0]) + parseFloat(a[1])/60.0
-		  this.sunrise = this.shareService.calcSunriseSet(1, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunrise = this.shareService.calcSunriseSet(1, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunrise', this.sunrise);
-		  this.sunset = this.shareService.calcSunriseSet(0, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunset = this.shareService.calcSunriseSet(0, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunset', this.sunset);
 		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
 		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");

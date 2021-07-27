@@ -90,7 +90,7 @@ export class PersonalDetailsPage implements OnInit {
 	 this.lang = this.shareService.getLANG();
     console.log('personal-details ngOnInit called');	  
 	this.source = '';
-    this.shareService.plan.subscribe((pln) => {
+    this.shareService.getPLAN().then((pln) => {
 	    console.log('personal-details fetched plan', pln);
 		this.plan = pln;
     }, (err) => {
@@ -542,7 +542,7 @@ export class PersonalDetailsPage implements OnInit {
 	 this.nwait = 18;
 	 if(this.source == 'Muhurtha by BV Raman') {
 	  if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.year') {
-		 let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: null, retro: '', plstr: '',  hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+		 let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: null, retro: '', plstr: '',  hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 		  this.info = '';
 		  this.nwait = 0;
 		 this.router.navigate(['/star-const'], {state: binf});
@@ -566,7 +566,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getAKV(dob).then( akv => {
 		this.shareService.getDOHS(dob).then( dohs => {
 		 if(ppos) {
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: 0, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'1', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: vims, sdb: sdb, akv: akv, dohs: dohs};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: 0, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'1', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: vims, sdb: sdb, akv: akv, dohs: dohs};
 			this.info = '';
 			this.nwait = 0;
 			this.router.navigate(['/horoscope'], {state: binf});
@@ -579,7 +579,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPLSTR(dob, res['plStren']);
 			this.info = '';
 			this.nwait = 0;
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'1', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'1', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.router.navigate(['/horoscope'], {state: binf});
 		  }, (err) => {
 			this.info = JSON.stringify(err);
@@ -606,7 +606,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getHPOS(dob).then( hpos => {
 		this.shareService.getPLSTR(dob).then( plstr => {
 		if(ppos) {
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: hpos, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: hpos, vims: null, sdb: null, akv: null, dohs: null};
 			this.info = '';
 			this.nwait = 0;
 			this.router.navigate(['/kp-astro'], {state: binf});
@@ -619,7 +619,7 @@ export class PersonalDetailsPage implements OnInit {
  		    this.shareService.setHPOS(dob, res['housePos']);
 			this.info = '';
 			this.nwait = 0;
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: res['housePos'], vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: res['housePos'], vims: null, sdb: null, akv: null, dohs: null};
 			this.router.navigate(['/kp-astro'], {state: binf});
 		  }, (err) => {
 			this.info = JSON.stringify(err);
@@ -672,13 +672,13 @@ export class PersonalDetailsPage implements OnInit {
 				this.nwait = 0;
 				if(yogs) {
 					this.shareService.setYOGS(dob, yogs);
-					let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+					let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 					this.router.navigate(['/rajayoga'], {state: binf});
 				} else {
 					this.horoService.getYogas(lat, lng, dob, tz, this.shareService.getLANG())
 					.subscribe(res2 => {
 					this.shareService.setYOGS(dob, res2);
-					let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+					let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 					this.router.navigate(['/rajayoga'], {state: binf});
 					}, (err) => {
 						this.info = JSON.stringify(err);
@@ -694,7 +694,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPPOS(dob, res1['planetPos']);
 			if(yogs) { 
 				this.shareService.setYOGS(dob, yogs);
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res1['planetPos'], retro: res1['retroPls'], plstr: res1['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res1['planetPos'], retro: res1['retroPls'], plstr: res1['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.router.navigate(['/rajayoga'], {state: binf});
 			} else { 
 				this.horoService.getYogas(lat, lng, dob, tz, this.shareService.getLANG())
@@ -702,7 +702,7 @@ export class PersonalDetailsPage implements OnInit {
 				this.shareService.setYOGS(dob, res2);
 				this.info = '';
 				this.nwait = 0;
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res1['planetPos'], retro: res1['retroPls'], plstr: res1['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res1['planetPos'], retro: res1['retroPls'], plstr: res1['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.router.navigate(['/rajayoga'], {state: binf});
 				}, (err) => {
 					this.info = JSON.stringify(err);
@@ -730,7 +730,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getRETRO(dob).then( retro => {
 		this.shareService.getPPOS(dob).then( plstr => {
 		if(ppos) {
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.info = '';
 			this.nwait = 0;
 			this.router.navigate(['/transit-predictions'], {state: binf});
@@ -743,7 +743,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPLSTR(dob, res['plStren']);
 			this.info = '';
 			this.nwait = 0;
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.router.navigate(['/transit-predictions'], {state: binf});
 		}, (err) => {
 			this.info = err;
@@ -765,7 +765,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getRETRO(dob).then( retro => {
 		this.shareService.getPPOS(dob).then( plstr => {
 		if(ppos) {
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'5', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'5', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.info = '';
 			this.nwait = 0;
 			this.router.navigate(['/divcharts'], {state: binf});
@@ -778,7 +778,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPLSTR(dob, res['plStren']);
 			this.info = '';
 			this.nwait = 0;
-			let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'5', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'5', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.router.navigate(['/divcharts'], {state: binf});
 		  }, (err) => {
 			this.info = err;
@@ -800,7 +800,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getRETRO(dob).then( retro => {
 		this.shareService.getPPOS(dob).then( plstr => {
 		if(ppos) {
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short:dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.info = '';
 				this.nwait = 0;
 				this.router.navigate(['/careerhoro'], {state: binf});
@@ -813,7 +813,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPLSTR(dob, res['plStren']);
 				this.info = '';
 				this.nwait = 0;
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.router.navigate(['/careerhoro'], {state: binf});
 		  }, (err) => {
 			this.info = err;
@@ -835,7 +835,7 @@ export class PersonalDetailsPage implements OnInit {
 		this.shareService.getRETRO(dob).then( retro => {
 		this.shareService.getPPOS(dob).then( plstr => {
 		if(ppos) {
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: ppos, retro: retro, plstr: plstr, hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.info = '';
 				this.nwait = 0;
 				this.router.navigate(['/moneyhoro'], {state: binf});
@@ -848,7 +848,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.shareService.setPLSTR(dob, res['plStren']);
 				this.info = '';
 				this.nwait = 0;
-				let binf: BirthInfo = { dob: dob, dob_short: '', lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
+				let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'4', fetch: false, show: true, genrep: false, ppos: res['planetPos'], retro: res['retroPls'], plstr: res['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 				this.router.navigate(['/moneyhoro'], {state: binf});
 		  }, (err) => {
 			this.info = err;

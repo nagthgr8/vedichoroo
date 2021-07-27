@@ -68,8 +68,8 @@ export class HinduCalPage implements OnInit {
   tithi: string = '';
   yoga: string = '';
   karana: string = '';
-  clat: any;
-  clng: any;
+ // clat: string;
+  //clng: any;
   localtz: string = '';
   lunapic: string = '';
   info: string = '';
@@ -102,7 +102,7 @@ export class HinduCalPage implements OnInit {
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 			//if(pln.name != 'com.mypubz.eportal.astrologer') this.showBanner();
 		 }, (err) => {
 		});	
@@ -111,8 +111,8 @@ export class HinduCalPage implements OnInit {
 
   ngOnInit() {
     console.log('hindu-cal ngOnInit');
-    this.shareService.plan
-		   .subscribe(res => {
+    this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
  		  //admob.setDevMode(true);
 		  admob.banner.show({
@@ -134,8 +134,8 @@ export class HinduCalPage implements OnInit {
 	}, (err) => {
 	});	 
 		//let ayanid: number = (this.shareService.getAYNM()) ? Number(this.shareService.getAYNM()) : 4;
-		this.clat = this.shareService.getCLAT();
-		this.clng = this.shareService.getCLNG();
+		//this.clat = this.shareService.getCLAT();
+		//this.clng = this.shareService.getCLNG();
 		this.localtz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		//this.info = 'Getting todays panchang...';
 		//this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds()+'Z', Intl.DateTimeFormat().resolvedOptions().timeZone, ayanid)
@@ -260,7 +260,7 @@ export class HinduCalPage implements OnInit {
  	let ayanid = 1;
 	if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
 	this.info = 'Calculating Hindu Calendar for  ' + this.monyer + '..' ;
-	this.horoService.calForMon(m, y, this.clat+'|'+this.clng, this.localtz, ayanid)
+	this.horoService.calForMon(m, y, this.shareService.getCLAT().toString()+'|'+this.shareService.getCLNG().toString(), this.localtz, ayanid)
 		.subscribe(res => {
 			this.info = '';
 		this.hcal = res;
@@ -598,15 +598,15 @@ export class HinduCalPage implements OnInit {
 			console.log('ofset', this.ofset);
 		  var jd = this.shareService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
 		  console.log('jd', jd);
-		  console.log('lat', this.clat);
-		  console.log('lng', this.clng);
+		  console.log('lat', this.shareService.getCLAT());
+		  console.log('lng', this.shareService.getCLNG());
 		  //var datestr = this.horoService.getDateString(cd)
 		 // var utcoffset = moment(datestr).tz(this.localtz).format('Z');
 		  //var a = utcoffset.split(":")
 		  //var tz = parseFloat(a[0]) + parseFloat(a[1])/60.0
-		  this.sunrise = this.shareService.calcSunriseSet(1, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunrise = this.shareService.calcSunriseSet(1, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunrise', this.sunrise);
-		  this.sunset = this.shareService.calcSunriseSet(0, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunset = this.shareService.calcSunriseSet(0, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunset', this.sunset);
 		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
 		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
@@ -651,7 +651,7 @@ export class HinduCalPage implements OnInit {
     getMoonPhase(cd) {
 		this.info = 'Calculating moon phase..'
 		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
-		this.horoService.getProMoonPhase(this.clat, this.clng, cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes() + ':' + cd.getSeconds() + 'Z', this.localtz, ayanid)
+		this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes() + ':' + cd.getSeconds() + 'Z', this.localtz, ayanid)
 		   .subscribe(res3 => {
 		   this.showPAN = true;
 		   this.info = '';

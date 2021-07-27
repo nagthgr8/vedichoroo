@@ -79,7 +79,9 @@
    <ion-card-content><span><strong>LEVEL I Signinificators are highlighted in <span style="color:#f44141;font-size:bold">RED</span><br/>LEVEL II Signinificators are highlighted in <span style="color:#3db161;font-size:bold">GREEN</span><br/>LEVEL III Signinificators are highlighted in <span style="color:#001EFF;font-size:bold">BLUE</span><br/>LEVEL IV Signinificators are highlighted in <span style="color:#f0882f;font-size:bold">ORANGE</span></strong></span>
 	</ion-card-content>
   </ion-card>
-  <ion-list *ngIf="showTPD">
+	</div>
+	<div *ngIf="showTPD">
+  <ion-list>
 	      <ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
 	  <ion-icon slot="start" name="star-sharp"></ion-icon>
         <p> <span class="ktitle">{{item.title}}</span><br><span class="ksubtitle"> {{item.note | translate}}</span><br><span *ngIf="!item.fuse" class="fuse"> Available for Subscribers</span></p>

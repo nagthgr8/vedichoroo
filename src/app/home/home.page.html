@@ -70,14 +70,16 @@
 <br> <span class="htitle">{{item.title | translate}}</span></div>
 </ion-col>
 </ion-row>
+<div *ngIf="bpf">
 <ion-row class="hrow">
 <ion-col size="6" class="dash-items" tappable (click)="yogs()">
 <div><img  width="56" height="56" src="assets/imgs/yogas.png"/></div><div class="htitle" >{{'Yogas In Your Horoscope' | translate}}</div>
 </ion-col>
 <ion-col size="6" class="dash-items" tappable (click)="btr()">
-<div><img  width="56" height="56" src="assets/imgs/BTR.png"/></div><div class="htitle" >{{'Birth Time Rectification' | translate}}</div>
+<div><img  width="56" height="56" src="assets/imgs/btr1.png"/></div><div class="htitle" >{{'Birth Time Rectification' | translate}}</div>
 </ion-col>
 </ion-row>
+</div>
     <ion-row class="hrow">
         <ion-col tappable (click)="openUrl()">
             <img src="assets/imgs/gamezop.png" style="width: 100%">

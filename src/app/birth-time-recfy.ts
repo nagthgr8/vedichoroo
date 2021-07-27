@@ -6,4 +6,5 @@ export interface BirthTimeRecfy
   res: string;
   style: string;
   fetch: boolean;
+  rdt: any;
  }

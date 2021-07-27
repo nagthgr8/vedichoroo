@@ -148,7 +148,7 @@ scrollToTop() {
  }
 
   ngOnInit() {
-    this.shareService.plan.subscribe((pln) => {
+    this.shareService.getPLAN().then((pln) => {
 		this.plan = pln;
 	    console.log('reports fetched plan', pln);
 		 if(pln.name == 'com.mypubz.eportal.astrologer' || pln.name == 'com.mypubz.eportal.adfree' || pln.name == 'com.mypubz.eportal.year' || pln.name == 'com.mypubz.eportal.month') {

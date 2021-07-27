@@ -49,8 +49,8 @@ export class RajayogaPage implements OnInit, AfterViewInit {
 	this.info = 'Loading..';
 	this.binf = this.router.getCurrentNavigation().extras.state;
 	this.platform.ready().then(() => {
-   	  this.shareService.plan
-		   .subscribe(res => {
+   	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({

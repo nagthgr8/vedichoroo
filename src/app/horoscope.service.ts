@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ShareService } from './share.service';
 
 @Injectable({
   providedIn: 'root'
@@ -93,12 +94,29 @@ private apiUrl90 = 'https://api.vedichoroo.com/api/DailyTrans';
 private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
   private apiUrl92 = 'https://api.vedichoroo.com/api/AnalyzeD3';
   private apiUrl93 = 'https://api.vedichoroo.com/api/AnalyzeD7';
-  constructor(private http: HttpClient) { }
+  private apiUrl94 = 'https://api.vedichoroo.com/api/RecfyBTSML';
+  private apiUrl95 = 'https://api.vedichoroo.com/api/StarsForMon';
+  private apiUrl96 = 'https://api.vedichoroo.com/api/CompatibilityReport';
+  private apiUrl97 = 'https://api.vedichoroo.com/api/Login';
+  constructor(private http: HttpClient, private shareService: ShareService) { }
   getJson(url: string): Observable<{}> {
 	return this.http.get(url).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
+  }
+  login(password: string) : Observable<{}> {
+	  var oDat = {
+		  name: 'VUSER',
+		  password: password
+	  }
+	  let headers = new HttpHeaders()
+		  .set('Accept', 'application/json; charset=utf-8')
+		  .set('Content-Type', 'application/json; charset=utf-8');
+	  return this.http.post(this.apiUrl97, JSON.stringify(oDat), { headers: headers }).pipe(
+		  map(this.extractData),
+		  catchError(this.handleError)
+	  );
   }
 	setProfileBnr(uuid: string, banner: string): Observable<{}> {
 	  var oDat = {
@@ -128,7 +146,7 @@ private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
  }
   getDailyHoro(moonSign: string): Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');   
+			.set('Accept', 'application/json; charset=utf-8')
 	let httpParams = new HttpParams()
                         .set('sign', moonSign);
 	console.log('calling api', this.apiUrl2);
@@ -748,14 +766,14 @@ getHoro(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
     catchError(this.handleError)
    );
   }
-getProHoro(lat: any, lng: any, dob: string, tz: string, ofset: number, ayanid: number): Observable<{}> {
+getProHoro(lat: number, lng: number, dob: string, tz: string, ofset: number, ayanid: number): Observable<{}> {
 	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	if(lat.toString().indexOf('º') > -1)
-		lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
-	if(lng.toString().indexOf('º') > -1)
-		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
-	var latlng = lat + '|' + lng;
+	//if(lat.toString().indexOf('º') > -1)
+		//lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
+	//if(lng.toString().indexOf('º') > -1)
+		//lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
+	var latlng = lat.toString() + '|' + lng.toString();
 	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
 
    //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
@@ -775,14 +793,14 @@ getProHoro(lat: any, lng: any, dob: string, tz: string, ofset: number, ayanid: n
     catchError(this.handleError)
    );
   }
-getBirthchartEx2(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid: number): Observable<{}> {
+getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: number, ayanid: number): Observable<{}> {
 	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	if(lat.toString().indexOf('º') > -1)
-		lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
-	if(lng.toString().indexOf('º') > -1)
-		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
-	var latlng = lat + '|' + lng;
+	//if(lat.toString().indexOf('º') > -1)
+		//lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
+	//if(lng.toString().indexOf('º') > -1)
+		//lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
+	var latlng = lat.toString() + '|' + lng.toString();
 	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
 
    //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
@@ -908,10 +926,10 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
     catchError(this.handleError)
    );
   }
- getProMoonPhase(lat: string, lng: string, dob: string, tz: string, ayanid: number): Observable<{}> {
+ getProMoonPhase(lat: number, lng: number, dob: string, tz: string, ayanid: number): Observable<{}> {
 	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
 	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	var latlng = lat + '|' + lng;
+	var latlng = lat.toString() + '|' + lng.toString();
 	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
    //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
@@ -1025,6 +1043,27 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
     catchError(this.handleError)
    );
   }
+recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset: number, ayanid: number): Observable<{}> {
+	 var oDat = {
+	   dobf: dobf,
+	   dobr: dobr,
+	   lat: lat,
+	   lng: lng,
+	   timezone: tz,
+	   dstofset: dstofset,
+	   ayanid: ayanid
+	 };
+	  let headers = new HttpHeaders()
+				.set('Accept', 'application/json; charset=utf-8')
+				.set('Content-Type', 'application/json; charset=utf-8');
+	return this.http.post(this.apiUrl94, JSON.stringify(oDat), { headers: headers }).pipe(
+		  map(this.extractData),
+		  catchError(this.handleError)
+		  );
+  }
+ async getCuspsPromise(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid: number) : Promise<any>{
+   return await this.getCuspsEx(lat, lng, dob, tz, dstofset, ayanid).toPromise();
+  }
  getPrashna(lat: any, lng: any, dob: string, tz: string, znum: number): Observable<{}> {
 	if(lat.toString().indexOf('º') > -1)
 		lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
@@ -1099,6 +1138,29 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
     catchError(this.handleError)
    );
   }
+  getCompatibilityReport(dob: string, partner_dob: string, lat: number, lng: number, partner_lat: number, partner_lng: number, tz: string, partner_tz: string, dst: number, partner_dst: number, ayanid: number): Observable<{}> {
+	 var oDat = {
+	   dob: dob,
+	   partner_dob: partner_dob,
+	   lat: lat,
+	   lng: lng,
+	   partner_lat: partner_lat,
+	   partner_lng: partner_lng,
+	   tz: tz,
+	   partner_tz: partner_tz,
+	   dst: dst,
+	   partner_dst: partner_dst,
+	   ayanid: ayanid
+	 };
+	  let headers = new HttpHeaders()
+				.set('Accept', 'application/json; charset=utf-8')
+				.set('Content-Type', 'application/json; charset=utf-8')
+				.set('Access-Control-Allow-Origin', '*');
+	return this.http.post(this.apiUrl96, JSON.stringify(oDat), { headers: headers }).pipe(
+		  map(this.extractData),
+		  catchError(this.handleError)
+		  );
+  }
   getBirthStar(dob: string): Observable<{}> {
 	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
 	let headers = new HttpHeaders()
@@ -1148,6 +1210,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
   }
   getProStarConst(star: string, sign: string, moondeg: string, latlng: string, tz: string, ayanid: number): Observable<{}> {
 	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
+	
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8');
 				//.set('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
@@ -1163,6 +1226,24 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
     catchError(this.handleError)
    );
   }
+  getStarsForMon(star: string, sign: string, lat: number, lng: number, tz: string, dstofset: number, ayanid: number) : Observable<{}> {
+  	 var oDat = {
+	   star: star,
+	   sign: sign,
+	   lat: lat,
+	   lng: lng,
+	   timezone: tz,
+	   dstofset: dstofset,
+	   ayanid: ayanid
+	 };
+	  let headers = new HttpHeaders()
+				.set('Accept', 'application/json; charset=utf-8')
+				.set('Content-Type', 'application/json; charset=utf-8');
+	return this.http.post(this.apiUrl95, JSON.stringify(oDat), { headers: headers }).pipe(
+		  map(this.extractData),
+		  catchError(this.handleError)
+		  );
+}
   getStarsForDay(dob: string, star: string, sign: string, moondeg: string, latlng: string, tz: string, dstofset: number, ayanid: number): Observable<{}> {
 	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 

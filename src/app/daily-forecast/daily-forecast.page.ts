@@ -29,8 +29,8 @@ export class DailyForecastPage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({
 			id: {
@@ -77,7 +77,7 @@ export class DailyForecastPage implements OnInit, AfterViewInit {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DailyforecastPage');
    this.platform.ready().then(() => {
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 			//if(pln.name != 'com.mypubz.eportal.astrologer') this.showBanner();
 		 }, (err) => {
 		});	

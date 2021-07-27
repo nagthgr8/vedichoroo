@@ -60,8 +60,8 @@ export class TransitPredictionsPage implements OnInit, AfterViewInit  {
 	  this.device_width = this.platform.width();
 	  console.log('Height: ' + this.platform.height());
 	  this.device_height = this.platform.height();
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({
 			id: {
@@ -158,7 +158,7 @@ export class TransitPredictionsPage implements OnInit, AfterViewInit  {
 						//oDas.push(das);
 					}
 					this.info = 'Getting predictions based on current planet transit...';
-			this.shareService.plan.subscribe((pln) => {
+			this.shareService.getPLAN().then((pln) => {
 			//	if(pln.name == 'com.mypubz.eportal.astrologer' || pln.name == 'com.mypubz.eportal.offer499' || pln.name == 'com.mypubz.eportal.adfree' || pln.name == 'com.mypubz.eportal.year' || pln.name == //'com.mypubz.eportal.month'){
 					var dt = new Date();
 					var n = dt.getTimezoneOffset();

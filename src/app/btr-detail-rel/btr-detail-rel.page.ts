@@ -8,11 +8,11 @@ import { BirthInfo } from '../birth-info';
 declare var google; 
 
 @Component({
-  selector: 'app-btr-details',
-  templateUrl: './btr-details.page.html',
-  styleUrls: ['./btr-details.page.scss'],
+  selector: 'app-btr-detail-rel',
+  templateUrl: './btr-detail-rel.page.html',
+  styleUrls: ['./btr-detail-rel.page.scss'],
 })
-export class BtrDetailsPage implements OnInit {
+export class BtrDetailRelPage implements OnInit {
  oBirth :BirthInfo[] = [];
  service = new google.maps.places.AutocompleteService();
 autocomplete;
@@ -59,8 +59,28 @@ autocomplete;
 	  console.log('btd', btd);
       this.id = btd.id;
 	  console.log('id', this.id);
-	  if(btd.binf) this.binf1 = btd.binf;
+	  if(btd.binf1) this.binf1 = btd.binf1;
 	this.platform.ready().then(() => {
+		  switch(this.id)
+		  {
+			  case 'RGY':
+			      this.tit = 'Enter Younger Coborn Birth Details';
+			      break;
+			  case 'RGE':
+			      this.tit = 'Enter Elder Coborn Birth Details';
+			      break;
+			  case 'RGM':
+			      this.tit = 'Enter Mothers Birth Details';
+			      break;
+			  case 'RGF':
+			      this.tit = 'Enter Father Birth Details';
+			      break;
+			  case 'REV':
+			     break;
+			  default:
+			     break;
+		  }
+	   
 	   this.shareService.getPLAN().then((pln) => {
 			if(pln.dobs.trim() != '') {
 			   let dobs = pln.dobs.split('|');
@@ -143,38 +163,34 @@ autocomplete;
 	});
   }
   sub() {
-	  this.binf1 = this.sbinf;
-		  if(this.showN == true ) {
-			if(this.nam != '') {
+	 this.binf2 = this.sbinf;
+		  if(this.showN == true) {
+			if(this.nam == '') { this.info = 'Please enter name'; return; }
 				if(this.gen == '') { this.info = 'Please specify gender'; return; }
 				if(this.dob == '') {this.info == 'Please enter date of birth'; return; }
 				if(this.place == '') {this.info == 'Please enter place of birth'; return;}
-			}
-			this.binf1.dob = this.dob;
-			this.binf1.dob_short = this.dob;
-			this.binf1.gender = this.gen;
-			this.binf1.lat = this.lat.toString();
-			this.binf1.lng = this.lng.toString();
-			this.binf1.timezone = this.tzn;
-			this.binf1.dstofset = this.dstofset;
+				this.binf2.dob = this.dob;
+				this.binf2.dob_short = this.dob;
+				this.binf2.gender = this.gen;
+				this.binf2.lat = this.lat.toString();
+				this.binf2.lng = this.lng.toString();
+				this.binf2.timezone = this.tzn;
+				this.binf2.dstofset = this.dstofset;
 		  } else {
-				//this.binf1.dob = this.dob;
-				//this.binf1.dob_short = this.dob;
-				//this.binf1.gender = this.gen;
-				//this.binf1.lat = this.lat.toString();
-				//this.binf1.lng = this.lng.toString();
-				//this.binf1.timezone = this.tzn;
-				//this.binf1.dstofset = this.dstofset;
-		  }
+				//this.binf2.dob = this.dob;
+				//this.binf2.gender = this.gen;
+				//this.binf2.lat = this.lat.toString();
+				//this.binf2.lng = this.lng.toString();
+				//this.binf2.timezone = this.tzn;
+				//this.binf2.dstofset = this.dstofset;
+			}
 				let btr: any = {};
 				btr.binf1 = this.binf1;
-				btr.binf2 = null;
+				btr.binf2 = this.binf2;
 				btr.id = this.id;
-			if(this.id == 'RAM' || this.id == 'REV') {
+				console.log('binf1', this.binf1);
+				console.log('binf2', this.binf2);
 				this.router.navigate(['/btr-report'], {state: btr});
-			} else {
-				this.router.navigate(['/btr-detail-rel'], {state: btr});
-			}
   }
   selDOB(evt, pd)
   {
@@ -293,3 +309,4 @@ updateSearch() {
 	);
  }
 }
+

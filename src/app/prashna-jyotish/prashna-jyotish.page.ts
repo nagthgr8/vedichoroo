@@ -36,8 +36,8 @@ export class PrashnaJyotishPage implements OnInit {
   showDET: boolean = false;
   showBK: boolean = false;
   plan: string = '';
-  clat: string = '';
-  clng: string = '';
+  clat: number = 0;
+  clng: number = 0;
   tzid: string = '';
   constructor(private router: Router, private zone: NgZone, public horoService: HoroscopeService, public shareService: ShareService, private file: File, public platform: Platform, public device: Device, public translate: TranslateService){//, public admob: AdMob) { 
    this.autocompleteItems = [];
@@ -46,9 +46,11 @@ export class PrashnaJyotishPage implements OnInit {
   ngOnInit() {
     this.info = 'Loading..';
    	this.platform.ready().then(() => {
+	  this.clat = this.shareService.getCLAT();
+	  this.clng = this.shareService.getCLNG();
 	  this.info = 'Getting configurations..';
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 	      this.info = '';
 	     this.plan = res['name'];
 		 this.today = Date.now();
@@ -80,7 +82,7 @@ export class PrashnaJyotishPage implements OnInit {
 		}		  
 		}, (err) => {
 	 });
-      this.rgeoCode2(this.shareService.getCLAT(), this.shareService.getCLNG());
+      this.rgeoCode2(this.clat, this.clng);
 	});
   }
   save()
@@ -107,7 +109,7 @@ export class PrashnaJyotishPage implements OnInit {
 	}
     this.showSU = false;
 	var cd = new Date();
-		this.horoService.getPrashna((this.clat == '') ? this.shareService.getCLAT() : this.clat, (this.clng == '') ? this.shareService.getCLNG() : this.clng,  cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds() + 'Z', (this.tzid == '') ? Intl.DateTimeFormat().resolvedOptions().timeZone : this.tzid, this.num)
+		this.horoService.getPrashna(this.clat, this.clng,  cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds() + 'Z', (this.tzid == '') ? Intl.DateTimeFormat().resolvedOptions().timeZone : this.tzid, this.num)
 		   .subscribe(res => {
 		   this.info = '';
 		   this.showQ = false;

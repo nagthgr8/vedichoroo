@@ -57,8 +57,8 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.info = 'Loading..';
    this.platform.ready().then(() => {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({
 			id: {
@@ -183,7 +183,7 @@ export class CareerhoroPage implements OnInit, AfterViewInit {
   }	
   ionViewDidLoad() {
     console.log('ionViewDidLoad CareerhoroPage');
-	this.shareService.plan.subscribe((pln) => {
+	this.shareService.getPLAN().then((pln) => {
 		this.showSU = (pln.name == 'com.mypubz.eportal.astrologer') ? true : false;
 		//if(!this.showSU) this.launchInterstitial();
 	 }, (err) => {

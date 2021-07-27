@@ -67,8 +67,8 @@ export class SubscribePage implements OnInit {
 //	}, (err) => {
 		//this.info = JSON.stringify(err);
 //	});	 
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 			    if(res['credits'] == 0) this.co = true;
 				let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
 				this.plan = pln;

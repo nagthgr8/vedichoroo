@@ -159,10 +159,19 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 	if(!this.bpf) {
 		this.info = "Please wait, while the App fetches your current plan...";
 	}
+ }
+ ngAfterViewInit() {
+  this.platform.ready().then(() => {
+	console.log('check location permission');
 	this.shareService.plan
 		.subscribe((pln) => {
-		  if(pln.name != '') {
+		  console.log('pln', pln);
+		  if(pln && pln.name != '') {
 			this.plan = pln;
+			if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') {
+			} else if(this.plan.credits == 0) {
+				this.router.navigate(['/subscribe'], {queryParams : {ci: true}, replaceUrl: true});
+			}
         if(!this.bpf) {			
 			for(let i = 1; i < 16; i++) {
 				let fuse: boolean = true;
@@ -222,48 +231,44 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 				this.r2items[0].fuse = true;
 				this.r3items[0].fuse = true;
 			}
-		 }
-		}, (err) => {
-	});	 
- }
- ngAfterViewInit() {
-  this.platform.ready().then(() => {
-	console.log('check location permission');
-	  this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION).then(
-	    res => {
-	  console.log('request permission?',res)
-	  this.geolocation.getCurrentPosition().then((resp) => {
-		  console.log('loc', resp);
-		   this.shareService.setCLAT(resp.coords.latitude);
-		   this.shareService.setCLNG(resp.coords.longitude);
-		   this.showPanch();
-		   this.getDST(resp.coords.latitude, resp.coords.longitude);
-	   });  
-		}, (err) => {
+		 
+			  this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION).then(
+				res => {
+			  console.log('request permission?',res)
+			  this.geolocation.getCurrentPosition().then((resp) => {
+				  console.log('loc', resp);
+					if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') {
+					   this.shareService.setCLAT(resp.coords.latitude);
+					   this.shareService.setCLNG(resp.coords.longitude);
+					   this.showPanch();
+					   this.getDST(resp.coords.latitude, resp.coords.longitude);
+					} else {
+					}
+			   });  
+		 }, (err) => {
 			console.log(err);
 		});
-	if(!this.notif) {
-		this.notif = true;
-		this.horoService.getNotif(this.device.uuid)
-		.subscribe(res => {
-			if(res['status'] == 'R') {
-				let ticket: Ticket = {
-						uuid: res['uuid'],
-						guid: res['guid'],
-						resp: res['resp'],
-						status: res['status']
-					};	
-					console.log('notification');
-					this.ticket = ticket;
-					this.router.navigate(['/mypubz-resp'], {state : this.ticket});
-			} else if(res['status'] == 'CI') {
-				this.router.navigate(['/subscribe'], {queryParams : {ci: true}, replaceUrl: true});
-			}
-		}, (err) => {
-		  //this.splashScreen.hide();
-		});	  
-	}
-	
+		if(!this.notif) {
+			this.notif = true;
+			this.horoService.getNotif(this.device.uuid)
+			.subscribe(res => {
+				if(res['status'] == 'R') {
+					let ticket: Ticket = {
+							uuid: res['uuid'],
+							guid: res['guid'],
+							resp: res['resp'],
+							status: res['status']
+						};	
+						console.log('notification');
+						this.ticket = ticket;
+						this.router.navigate(['/mypubz-resp'], {state : this.ticket});
+				} else if(res['status'] == 'CI') {
+					this.router.navigate(['/subscribe'], {queryParams : {ci: true}, replaceUrl: true});
+				}
+			}, (err) => {
+			  //this.splashScreen.hide();
+			});	 
+		}
 	this.shareService.getMSGN().then( msgn => {
 	  if(msgn != null && msgn.trim() != '') {
 		this.dho.msgn = msgn;
@@ -305,8 +310,10 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 	this.shareService.getASGN().then( asgn => {
 		if(!asgn) this.router.navigate(['/profile'], {queryParams : {source: 'proreq-home'}});
 	});
+    });
+   }
+   });
   });
- });
  }
    getDST(lat, lng) {
     this.horoService.getTimezone(lat, lng, (Math.round((new Date().getTime())/1000)).toString())
@@ -322,8 +329,10 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
  showPanch() {
    		var cd = new Date();
 		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
+		this.info = "Fetching todays panchang...";
 		this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds()+'Z', Intl.DateTimeFormat().resolvedOptions().timeZone, ayanid)
 		   .subscribe(res3 => {
+			   this.info = '';
 		   this.bthi = false;
 		   this.sunrise = res3['sunrise'];
 		   this.sunset = res3['sunset'];
@@ -353,10 +362,10 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 		   this.lagal = sssl.split('|')[1];
 		   this.lagsl = sssl.split('|')[2];
 		   var intv = setInterval(() =>  {
-		    this.ticks++;
-			this.arcs++;
+			//this.arcs++;
 			//console.log('ticks=' + this.ticks.toString());
-			if(this.arcs == 15) { this.lag_s++; this.arcs = 0; }
+			if(this.ticks > 0) {
+			this.lag_s += 15; 
 			if(this.lag_s > 59) {
 				this.lag_s = this.lag_s -59;
 				this.lag_m++;
@@ -391,6 +400,8 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 			   this.lag_m = 0;
 			   this.lag_s = 0;
 		   }
+		  }
+		    this.ticks++;
 			//let key: string = this.lag_d.toString() + '-' + this.lag_m.toString() + '-' + this.lag_s.toString();
 			//this.lagna = this.lag_d.toString() + 'º' + this.lag_m.toString() + "'" + this.lag_s.toString() + '"';
 			//this.lagml = lagnas[key].split('-')[0];
@@ -996,9 +1007,6 @@ private router: Router, private appRate: AppRate, private renderer: Renderer2, p
 		this.menu.open('second');
 	}
 	btr() {
-	  if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.year') 
 		this.router.navigate(['/btr'], {state: null});
-	  else
-	    this.router.navigate(['/subscribe']);
 	}
 }

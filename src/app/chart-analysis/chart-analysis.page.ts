@@ -75,8 +75,8 @@ export class ChartAnalysisPage implements OnInit, AfterViewInit {
     this.chart_id = item.ID;
 	this.atmk = item.atmk;
 	this.binf = item.binf;
-   	  this.shareService.plan
-		   .subscribe(res => {
+   	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({

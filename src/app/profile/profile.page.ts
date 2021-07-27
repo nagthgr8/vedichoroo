@@ -71,7 +71,7 @@ export class ProfilePage implements OnInit {
 		}
       });
     this.platform.ready().then(() => {
-    this.shareService.plan.subscribe((pln) => {
+    this.shareService.getPLAN().then((pln) => {
 			this.horoService.getProfile(this.device.uuid)
 		.subscribe(res => {
 		   this.isLoading = false;

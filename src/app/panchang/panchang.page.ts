@@ -47,8 +47,8 @@ export class PanchangPage implements OnInit {
   tithi: string = '';
   yoga: string = '';
   karana: string = '';
-  clat: any;
-  clng: any;
+ // clat: any;
+  //clng: any;
   localtz: string = '';
   ofset: number = 1;
   lunapic: string = '';
@@ -77,7 +77,7 @@ export class PanchangPage implements OnInit {
 		this.device_width = platform.width();
 		console.log('Height: ' + platform.height());
 		this.device_height = platform.height();
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 			//if(pln.name != 'com.mypubz.eportal.astrologer') this.showBanner();
 		 }, (err) => {
 		});	
@@ -88,8 +88,8 @@ export class PanchangPage implements OnInit {
  	this.today = Date.now();
 	this.info = 'Fetching todays panchang....';
     console.log(this.file.dataDirectory);	
-    this.shareService.plan
-		   .subscribe(res => {
+    this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
  		  //admob.setDevMode(true);
 		  admob.banner.show({
@@ -117,8 +117,8 @@ export class PanchangPage implements OnInit {
 		var cd = new Date();
         this.sunrise = res['sunrise'];
 		this.sunset = res['sunset'];
-		this.clat = this.shareService.getCLAT();
-		this.clng = this.shareService.getCLNG();
+		//this.clat = this.shareService.getCLAT();
+		//this.clng = this.shareService.getCLNG();
 		this.localtz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		this.ofset = -(cd.getTimezoneOffset() / 60);
 		this.calcPanch(cd);
@@ -176,10 +176,9 @@ export class PanchangPage implements OnInit {
 		   this.lagal = sssl.split('|')[1];
 		   this.lagsl = sssl.split('|')[2];
 		var intv = setInterval(() =>  {
-		    this.ticks++;
-			this.arcs++;
 			//console.log('ticks=' + this.ticks.toString());
-			if(this.arcs == 15) { this.lag_s++; this.arcs = 0; }
+			if(this.ticks > 0) {
+			this.lag_s += 15; 
 			if(this.lag_s > 59) {
 				this.lag_s = this.lag_s -59;
 				this.lag_m++;
@@ -213,6 +212,8 @@ export class PanchangPage implements OnInit {
 			   this.lag_m = 0;
 			   this.lag_s = 0;
 		   }
+		  }
+		  this.ticks++;
 		},1000);
 	  //}, (err) => {
 			//this.info = err;
@@ -265,7 +266,7 @@ export class PanchangPage implements OnInit {
 		var minutes = duration.asMinutes()%60;	
         var totmins = hours*60 + minutes;		
 		let ayanid: number = (this.shareService.getRAYNM()) ? Number(this.shareService.getRAYNM()) : 1;
-		this.horoService.getProMoonPhase(this.clat, this.clng, cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':'  + cd.getSeconds()+'Z', this.localtz, ayanid)
+		this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':'  + cd.getSeconds()+'Z', this.localtz, ayanid)
 		   .subscribe(res3 => {
 		   this.showPAN = true;
 		   this.info = '';
@@ -330,7 +331,7 @@ alert("The local time is " + nd.toLocaleString());
 			var cd = new Date();
 			let ayanid = 1;
 			if(this.shareService.getRAYNM()) ayanid = Number(this.shareService.getRAYNM());
-			this.horoService.calForMon(cd.getMonth()+1, cd.getFullYear(), this.clat+'|'+this.clng, this.localtz, ayanid)
+			this.horoService.calForMon(cd.getMonth()+1, cd.getFullYear(), this.shareService.getCLAT().toString()+'|'+this.shareService.getCLNG().toString(), this.localtz, ayanid)
 		.subscribe(res => {
 //			this.horoService.getProBirthStar(this.clat, this.clng, cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes(), this.localtz, ayanid)
 //		   .subscribe(res => {
@@ -707,15 +708,15 @@ alert("The local time is " + nd.toLocaleString());
 			//console.log('ofset', this.ofset);
 		  var jd = this.shareService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
 		  console.log('jd', jd);
-		  console.log('lat', this.clat);
-		  console.log('lng', this.clng);
+		  console.log('lat', this.shareService.getCLAT());
+		  console.log('lng', this.shareService.getCLNG());
 		  //var datestr = this.horoService.getDateString(cd)
 		 // var utcoffset = moment(datestr).tz(this.localtz).format('Z');
 		  //var a = utcoffset.split(":")
 		  //var tz = parseFloat(a[0]) + parseFloat(a[1])/60.0
-		  this.sunrise = this.shareService.calcSunriseSet(1, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunrise = this.shareService.calcSunriseSet(1, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunrise', this.sunrise);
-		  this.sunset = this.shareService.calcSunriseSet(0, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+		  this.sunset = this.shareService.calcSunriseSet(0, jd, this.shareService.getCLAT(), this.shareService.getCLNG(), this.ofset, 0);
 		  console.log('sunset', this.sunset);
 		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
 		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");

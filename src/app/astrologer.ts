@@ -1,4 +1,5 @@
 export interface Astrologer {
+ uuid: string;
   name: string;
   tagline: string;
   avatar: string;

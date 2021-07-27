@@ -25,8 +25,8 @@ export class StoriesPage implements OnInit {
 	  this.info = 'Loading..';
    this.platform.ready().then(() => {
 	   this.info = 'Fetching stories..';
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({
@@ -56,7 +56,7 @@ export class StoriesPage implements OnInit {
 	}, (err) => {
 		//this.info = JSON.stringify(err);
 	});
-		this.shareService.plan.subscribe((pln) => {
+		this.shareService.getPLAN().then((pln) => {
 			//if(pln.name != 'com.mypubz.eportal.astrologer') this.showBanner();
 		 }, (err) => {
 		});	

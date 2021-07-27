@@ -86,7 +86,12 @@ export class AppComponent implements AfterViewInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
 	  console.log(this.device.uuid);
-		this.horoService.isAdmin(this.device.uuid)
+	  this.horoService.login(this.device.uuid)
+	    .subscribe(lres => {
+		if(lres['status'] == 'X') this.router.navigate(['/profile'], {replaceUrl: true});
+		else if(lres['status'] != 'E') {
+		 this.shareService.setToken(lres['token']);
+		 this.horoService.isAdmin(this.device.uuid)
 			.subscribe(res => {
 				if(res['uuid'] == this.device.uuid) {
 					this.pages.push({ title: 'View Orders', component: '/orders', icon: 'basket', spin: false});
@@ -180,33 +185,20 @@ export class AppComponent implements AfterViewInit {
 				  }
 		 
 	 });
-	 this.shareService.plan.subscribe(pln => {
-		 if(pln.uuid == '') {
-		  this.horoService.getPlan(this.device.uuid)
-			   .subscribe(res => {
-					console.log('Fetched the plan details from App component');
-					let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
-					this.bpln = true;
-					this.shareService.setPLAN(pln);
-					
-				}, (err) => {
-				});	
-		 } else {
-			      this.plan = pln;
-					if(pln.name == 'com.mypubz.eportal.astrologer' || pln.name == 'com.mypubz.eportal.adfree' || pln.name == 'com.mypubz.eportal.year' || pln.name == 'com.mypubz.eportal.month') {
-						this.pages[5].title = 'Available Credits(UNL)';
-						this.showAD = false;
-				 } else {
-					this.pages[5].title = 'Available Credits(' + pln.credits.toString() + ')';
-					if(pln.credits > 0) {
-					} else {
-						//this.router.navigate(['/subscribe'], {replaceUrl: true});
-					}
-				 } 
-		 }
-		}, (err) => {
-		});	  
-						this.horoService.getAstrologer(this.device.uuid)
+	 this.shareService.getPLAN()
+		.then(pln => {
+		console.log('pln', pln);
+		 if(pln) {
+			 this.shareService.sigPLAN(pln);
+			 if(pln.uuid == '') {
+				 
+			 } else {
+					  this.plan = pln;
+						if(pln.name == 'com.mypubz.eportal.astrologer' || pln.name == 'com.mypubz.eportal.adfree' || pln.name == 'com.mypubz.eportal.year' || pln.name == 'com.mypubz.eportal.month') {
+							this.pages[5].title = 'Available Credits(UNL)';
+							this.showAD = false;
+							if(pln.name == 'com.mypubz.eportal.astrologer') {
+								this.horoService.getAstrologer(this.device.uuid)
 								.subscribe(res => {
 									if(res['status'] == 'A') {
 										this.bAST = true;
@@ -219,8 +211,43 @@ export class AppComponent implements AfterViewInit {
 									}
 								}, (err) => {
 								});	  
-			
-   });
+							}
+					 } else {
+						this.pages[5].title = 'Available Credits(' + pln.credits.toString() + ')';
+						if(pln.credits > 0) {
+						} else {
+							//this.router.navigate(['/subscribe'], {replaceUrl: true});
+						}
+					 } 
+			 }
+		 } else {
+			  this.horoService.getPlan(this.device.uuid)
+				   .subscribe(res => {
+						console.log('Fetched the plan details from App component');
+						let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'] };
+						this.bpln = true;
+						this.shareService.setPLAN(pn);
+							if(pn.name == 'com.mypubz.eportal.astrologer') {
+								this.horoService.getAstrologer(this.device.uuid)
+								.subscribe(res => {
+									if(res['status'] == 'A') {
+										this.bAST = true;
+										this.status = true;
+										this.statuslbl = "<span class='green'>Available</span>";
+									} else if(res['status'] == 'NA'){
+										this.bAST = true;
+										this.status = false;
+										this.statuslbl = "<span class='red'>Not Available</span>";
+									}
+								}, (err) => {
+								});	
+					}
+			});
+		 }
+	 });
+	}
+	});
+  });
   }
   fetchTran(msgn) {
 				  if(msgn != null && msgn.trim() != '') {

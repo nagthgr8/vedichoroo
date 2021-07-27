@@ -68,8 +68,8 @@ export class MoneyhoroPage implements OnInit, AfterViewInit {
   ngOnInit() {
 	this.binf = this.router.getCurrentNavigation().extras.state;
 	this.platform.ready().then(() => {
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 		  admob.banner.show({
 			id: {

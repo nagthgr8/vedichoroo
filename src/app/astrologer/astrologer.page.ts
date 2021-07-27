@@ -43,6 +43,10 @@ ngOnInit()
 	this.info = 'Loading..';
 	this.data = {};
 	this.ast = this.router.getCurrentNavigation().extras.state;
+	if(this.device.uuid == this.ast.uuid) {
+		console.log('edit', 'true');
+		this.edit = true;
+	}
 	this.walnk = this.ast.walnk;
     this.showASU = this.ast.isavailable;
 		this.horoService.getAstroBio(this.ast.uid)

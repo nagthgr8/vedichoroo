@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ShareService } from '../share.service'
 
 @Component({
   selector: 'app-btr',
@@ -9,12 +10,20 @@ import { Router } from '@angular/router';
 export class BtrPage implements OnInit {
 
 binf: any = null;
-  constructor(private router: Router) { }
+  plan: any;
+  constructor(private router: Router, private shareService: ShareService) { }
 
   ngOnInit() {
      this.binf = this.router.getCurrentNavigation().extras.state;
+	this.shareService.getPLAN()
+		.then((pln) => {
+		  if(pln.name != '') {
+			this.plan = pln;
+		  }
+		  });
 }
   rfy(id) {
+			if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') {
 	  if(id == 'RAM' && this.binf ) {
 				let btr: any = {};
 				btr.binf1 = this.binf;
@@ -24,8 +33,11 @@ binf: any = null;
 	  } else {
 	   let btd: any = {};
 	   btd.id = id;
-	   btd.binf = this.binf;
+	   btd.binf = (this.binf) ? this.binf : null;
    	    this.router.navigate(['/btr-details'], {state : btd});
 	  }
+	} else {
+	   this.router.navigate(['/subscribe']);
+	}
   }
 }

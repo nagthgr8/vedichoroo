@@ -21,7 +21,7 @@ export class AstrologersPage implements OnInit {
   oAst : Astrologer[] = [];
   //oHAst :Astrologer[] = [];
   showCTL: boolean = false;
-  clat: any; clng: any;
+  //clat: any; clng: any;
   constructor(private router: Router, public platform: Platform,  public horoService: HoroscopeService, private shareService: ShareService, private callNumber: CallNumber, public device: Device, private file: File) { 
      this.info = 'Loading, please wait..';
 	   this.horoService.getAllAstrologers()
@@ -37,8 +37,8 @@ export class AstrologersPage implements OnInit {
 	//this.file.readAsText(this.file.dataDirectory, 'vedicperfs.json').then(res => {
 		//console.log('vedicperfs', res);
 	    //var jsonv = JSON.parse(res);
-		this.clat = this.shareService.getCLAT();
-		this.clng = this.shareService.getCLNG();
+		//this.clat = this.shareService.getCLAT();
+		//this.clng = this.shareService.getCLNG();
 	//}, (err) => {
 			//this.info = JSON.stringify(err);
 	  //});		
@@ -73,6 +73,7 @@ export class AstrologersPage implements OnInit {
 			   cfee = '<span class="cfee">&#8377; 21 per min</span>';
 			}
 			let ast: Astrologer = {
+				   uuid: oa[i].uuid,
 					name: oa[i].name,
 					tagline: oa[i].tagline,
 					avatar: oa[i].avatar,
@@ -128,6 +129,7 @@ export class AstrologersPage implements OnInit {
 	item.blog = false;
     console.log('meta5');	   
 	item.uid = ast.uid;
+	item.uuid = ast.uuid;
 	console.log('Invoking AstrologerPage');
 	this.router.navigate(['/astrologer'], {state: item});
   }

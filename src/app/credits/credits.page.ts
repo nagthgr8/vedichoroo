@@ -27,8 +27,8 @@ export class CreditsPage implements OnInit {
 
   constructor(private router: Router, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService) { 
    platform.ready().then(() => {
-	  this.shareService.plan
-		   .subscribe((pln) => {
+	  this.shareService.getPLAN()
+		   .then((pln) => {
 				this.plan = pln;
 			}, (err) => {
 				//this.info = err;

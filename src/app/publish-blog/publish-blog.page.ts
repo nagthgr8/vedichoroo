@@ -57,8 +57,8 @@ export class PublishBlogPage implements OnInit {
 }
 
   ngOnInit() {
-   	  this.shareService.plan
-		   .subscribe(res => {
+   	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({

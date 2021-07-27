@@ -131,8 +131,8 @@ export class AstakvargaPage implements OnInit {
 			this.akpts += '<span class="pts">MERCURY: ' + akvPts['Me-12'] + '</span><br/>'; 
 			this.akpts += '<span class="pts">VENUS: ' + akvPts['Ve-12'] + '</span><br/>'; 
 			this.akpts += '<span class="pts">SATURN: ' + akvPts['Sa-12'] + '</span></p>'; 
-  	  this.shareService.plan
-		   .subscribe(res => {
+  	  this.shareService.getPLAN()
+		   .then(res => {
 		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
 			//admob.setDevMode(true);
 		admob.banner.show({

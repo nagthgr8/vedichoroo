@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="12600370" id="com.mypubz.eportal" ios-CFBundleVersion="126.37.0" version="126.37.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="12600379" id="com.mypubz.eportal" ios-CFBundleVersion="126.37.9" version="126.37.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Vedic Horoo</name>
     <description>126 Astrology is a free Horoscope Kundali app based on Hindu, Vedic,Indian Astrology is available in ENGLISH, HINDI, TAMIL and TELUGU languages</description>
     <author email="mohan@vedichoroo.com" href="http://www.vedichoroo.com/">MYPUBZ Team</author>
