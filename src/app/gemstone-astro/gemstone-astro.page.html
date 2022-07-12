@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<div class="msg">{{msg2}}</div>
+<ion-grid *ngIf="showBD">
+ <ion-row class="bd"><ion-col class="lbl" size="12">{{'Birth Details'|translate}}</ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Date of Birth'|translate}}</div></ion-col><ion-col><div>{{dob}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna'|translate}}</div></ion-col><ion-col><div>{{lagna}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Lagna Lord'|translate}}</div></ion-col><ion-col><div>{{lagna_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Sign'|translate}}</div></ion-col><ion-col><div>{{moon_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Sun Sign'|translate}}</div></ion-col><ion-col><div>{{sun_sign}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Tithi'|translate}}</div></ion-col><ion-col><div>{{tithi}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Birth Star'|translate}}</div></ion-col><ion-col><div class="more" tappable (click)="nakdtl()">{{birth_star}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Star Lord'|translate}}</div></ion-col><ion-col><div>{{star_lord}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Moon Phase'|translate}}</div></ion-col><ion-col><div>{{moon_phase}}</div></ion-col></ion-row>
+ </ion-grid>
+<ion-grid>
+<div class="msg">{{msg}}</div>
+ <ion-row class="maintitle"><ion-col>{{'GEMSTONE REPORT'|translate}}</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oGem)">
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{key}}</div></ion-col><ion-col><div>{{oGem[key].desc|translate}}</div></ion-col></ion-row>
+ </div>
+ </ion-grid>
+ <div class="info">{{info}}</div>
+<div #birthChart></div>
+</ion-content>

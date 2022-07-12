@@ -1,0 +1,163 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+ion-header {
+  .button-md {
+    box-shadow: none;
+  }
+
+  .toolbar-title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+}
+.avatar {
+	  border-radius: 50%;
+	  height: 12rem;
+	  width: 12rem;
+}
+body {
+ font-family: roboto;
+}
+
+.green {
+  color: --ion-color-success;
+  font-weight: bold;
+}
+.red {
+  color: '#eb4034';
+  font-weight: bold;
+}
+.whiteBox {
+  color: #f4f5f8;
+}
+.tgrid {
+    height: 100% !important;
+ }
+ion-item.tdash-items {
+  border-color: --ion-color-dark; 	
+  border-style: solid;
+  border-width: 0.125rem; 
+}
+  span.itmnote {
+	text-align: left !important;
+    color: #0a0a0a;
+	font-size: 0.625rem;
+	font-weight: bold;
+  }
+  span.itm {
+	text-align: left !important;
+    color: #0a0a0a;
+	font-weight: bold;
+  }
+.vdash-items {
+  border-color: --ion-color-dark; 
+  border-style: solid;
+  border-width: 0.125rem; 
+  border-style:solid; margin-bottom : -1px;
+  text-align: center;
+  flex: 1;
+  justify-content: center;
+}
+.more {
+	color: --ion-color-success;
+	padding: 5px;
+    font-size: 0.8rem;
+	font-weight: bold;
+  }
+.vdas .lrd {
+   width: 40%;
+   max-width: 40%;
+   display: inline-block;
+   text-align: center;
+}
+.vdas .per {
+   width: 50%;
+   max-width: 50%;
+   display: inline-block;
+   text-align: center;
+}
+   div.lines  {
+    border: 1px solid --ion-color-dark;
+	display: border-box;
+    padding: 2px;
+  }
+  .mdas {
+   color: --ion-color-primary;
+ }
+ .mdasc {
+   color: --ion-color-primary;
+   font-weight: bold;
+ }
+ .adas {
+   color:--ion-color-secondary;
+ }
+ .adasc {
+   font-weight: bold;
+   color: --ion-color-secondary;
+ }
+ .pdas {
+  color: --ion-color-success;
+ }
+ .pdasc {
+   font-weight: bold;
+   color: --ion-color-success;
+ }
+ div.title {
+    text-align:center;
+	font-weight:bold;
+	background-color: --ion-color-dark;
+	padding: 5px;
+	div.vdas {
+	  color: --ion-color-light;
+	  padding: 5px;
+	  border: 1px solid --ion-color-dark;
+	}
+  }
+.rslist {
+  background: #ffffff;
+}
+.ticon {
+ margin-left:2%;
+float:left; 
+height:2rem;
+width:2rem; 
+} 
+.titm {
+  display: block;
+  background: #ffffff;
+  background-color: #ffffff;
+  border: 1px solid black;
+}
+.tcont {
+    background: #ffffff;
+    background-color: #ffffff;
+    width:100%;
+    height:auto;
+    padding:1%;
+}
+.trght {
+margin-left: 2.5rem;
+}
+.cmsg {
+  background-color: --ion-color-success;
+  font-weight: bold;  
+  text-align: center;
+}

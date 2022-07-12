@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-content padding>
+<form>
+	<div class="ion-text-center">
+	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
+	</div>
+	 <div *ngIf="showSU">
+	 <div class="ion-text-center"><h2>PLEASE SUBSCRIBE NOW!!</h2></div>
+	 <ion-list>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Unlimited Access To All Advanced features in the App</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Predictions On Your Current Dasha Combined With Planetary Transits & Know The Fruitfut Events On Each Day</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Know Your Favourable & Un-Favourable Days Based On B V Raman's powerful principles</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Detailed 25 Page Horoscope Report for unlimited date of births</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Report on each aspect of your life through Varga Chart Analysis such as Navamsha, Dashamsa, Chaturtamsa, Vimsamsa, Shastamsa and more</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Get Nadi Analysis In The Transit Predictions</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">Access To BTR, a powerful feature to correct your Birth Timings with accuracy level up to seconds</span></p>
+	</ion-item>
+	<ion-item class="dash-items">
+     <div slot="start"><img height="24" src="assets/imgs/tick.png" alt="126 Astrology"/></div>
+     <p> <span class="wsub">We have a dedicated server for our Subscribers, hence you will experience better performance of our App</span></p>
+	</ion-item>
+	</ion-list>
+	 </div>
+<div  *ngIf="showSU">
+	</div>
+	   <div padding *ngIf="showPAY">
+	   
+	           <ion-list>
+			  <ion-radio-group [(ngModel)]="paym" ngDefaultControl [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <ion-label class="subhead">Payment Method</ion-label>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </ion-list>
+				<ion-button type="button" expand="block" color="tertiary" tappable (click)="subscribe()" >Subscribe Now Just for Rs. 999/- per year</ion-button><br/>
+		
+	     <div class="slug">Your Subscrption can also help all future App Developments. </div><br/>
+		<p class="desc">
+		   If you have problems with our online payment, you can also make a direct payment to below account & write to our <ion-badge (click)="help()">Help Desk</ion-badge>. The request will be processed within 24 hours.
+		</p><br/>
+		<div class="ion-text-center">
+        <p class="adtxt1">Hamsini Smart Solutions<br>ICICI A/c No. 180505001023<br>IFSC Code: ICIC0001805</p>
+		</div>
+			
+		</div>
+	   <div padding *ngIf="showCR">
+	        <p ion-text class="adtxt1"><strong>Thanks for being our valuable Subscriber. If you have any questions please contact <ion-badge (click)="help()">Help Desk</ion-badge></strong></p>
+		</div>
+		<div padding *ngIf="showWC">
+		<p ion-text class="adtxt1"><span class="desc">Thank you for subscribing to our App, if you are astrologer & would like host your profile in the App , please send us email to <a href="mailto:info@vedichoroo.com">info@vedichoroo.com</a> with your profile picture and experience summary. And for queries/complaints, please contact <ion-badge  color="secondary" tappable (click)="help()">Help Desk</ion-badge></span></p>
+		</div>
+		<div padding *ngIf="showCI">
+		<ion-list>
+		<p class="ion-text-center"><strong>Please Enter Your Contact Details</strong></p>
+		<ion-item>
+		<ion-label>Name</ion-label>
+		<ion-input maxlength="25" type="text" name="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Mobile Number</ion-label>
+		<ion-input type="tel" [(ngModel)]="mob" name="mob" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item>
+		<ion-label>Email</ion-label>
+		<ion-input type="text" [(ngModel)]="eml" name="eml" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+	        <p ion-text class="info" color="primary" [innerHTML]='sinf'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="saveSub()">Submit</ion-button>
+		
+		</ion-list>
+		</div>
+</form>	
+</ion-content>

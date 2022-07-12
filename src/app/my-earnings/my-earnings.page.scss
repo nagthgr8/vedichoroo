@@ -1,0 +1,44 @@
+ body {
+  font-family: roboto;
+ }
+ ion-content {
+	--ion-background-color: rgba(var(--ion-color-primary-rgb), 0.05) !important;;
+ }
+  ion-card.emsg {
+              background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            --padding: 3px 20px !important;
+            padding: 3px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+   }
+
+.etitle {
+  font-size: 1.45rem;
+  font-weight: bold;
+            --padding: 3px 20px !important;
+            padding: 3px !important;
+            margin-bottom: 5px;
+}
+    ion-list.his {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+    }
+.name {
+ font-weight: bold;
+}
+.dob {
+  font-size: 0.8rem;
+  font-weight: bold;
+}

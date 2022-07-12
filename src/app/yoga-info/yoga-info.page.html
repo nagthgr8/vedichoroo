@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-grid no-padding>
+     <ion-row class="title"><ion-col col-4>NAME</ion-col><ion-col col-8>DESC</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oYog)">
+ <ion-row><ion-col col-4><div color="primary" >{{ key }}</div></ion-col><ion-col col-8><div color="level2"  >{{ oYog[key].desc }}</div></ion-col></ion-row>
+ </div>
+</ion-grid>
+</ion-content>

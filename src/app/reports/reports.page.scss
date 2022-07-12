@@ -1,0 +1,50 @@
+body {
+  font-family: roboto;
+}
+  .atxt {
+  text-align: right;
+  color: blue;
+  text-decoration: underline;
+  }
+      ion-list {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+    }
+p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+  .title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #d35400;
+}
+p.adtxt1 {
+	font-weight: bold;
+	font-size: 15px;
+  }
+p.adtxt2 {
+	font-weight: bold;
+	color: blue;
+	font-size: 14px;
+  }
+  
+  .subhead {
+    font-size:1.25rem;
+	font-weight: bold;
+  }
+  .border {
+     border: 1px solid #d35400;
+  }
+  .nam {
+ font-weight: bold;
+ font-size: 1.20rem;
+}

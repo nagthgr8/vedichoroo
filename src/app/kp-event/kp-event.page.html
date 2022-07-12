@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-card no-padding>
+<img src="https://i.imgur.com/0aUIaDI.png"/>
+</ion-card>
+<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<div *ngIf="showSGF">
+	<ion-grid class="pd">
+    <ion-row><ion-col size="12"><ion-label>Transit Date </ion-label></ion-col></ion-row>
+	<ion-row>
+	<ion-col size="3">
+      <ion-input id="day" placeholder="DD" type="tel" [(ngModel)]="day" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="3">
+      <ion-input id="mon" placeholder="MM" type="tel" [(ngModel)]="mon" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="4">
+      <ion-input id="year" placeholder="YYYY" type="tel"  [(ngModel)]="year" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="2">
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showDatePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-col>
+	</ion-row>
+    <ion-row><ion-col size="12"><ion-label>Transit Time</ion-label></ion-col></ion-row>
+	<ion-row>
+	<ion-col size="3">
+      <ion-input id="hou" placeholder="HH" type="tel" [(ngModel)]="hou" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="3">
+      <ion-input id="min" placeholder="MM" type="tel" [(ngModel)]="min" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="4">
+      <ion-input id="sec" placeholder="SS" type="tel" [(ngModel)]="sec" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-col>
+	<ion-col size="2">
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showTimePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-col>
+	</ion-row>
+	<ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">Submit</ion-button>
+	</ion-grid>
+<div>''</div>	
+<div [innerHTML]='rupl'></div>
+<div [innerHTML]='dasl'></div>
+<ion-grid>
+<ion-row class="kptitle">
+<ion-col size="3">PLANET</ion-col><ion-col size="3">SIGN</ion-col><ion-col size="3">STAR</ion-col><ion-col size="3">SUB</ion-col>
+</ion-row>
+<div *ngFor="let trn of ptrns">
+<ion-row class="kpsubtitle"><ion-col size="3">{{trn.pl}}</ion-col><ion-col size="3">{{trn.sign}}</ion-col><ion-col size="3">{{trn.nak}}</ion-col><ion-col size="3">{{trn.sub}}</ion-col></ion-row>
+<div [class]="trn.sdesc">{{trn.desc}}</div>
+</div>
+</ion-grid>
+</div>
+</ion-content>

@@ -1,0 +1,40 @@
+body {
+  font-family: roboto;
+}
+ p.info1 {
+   font-weight: bold;
+  }
+ p.info2 {
+   font-weight: bold;
+   color: #170fff;
+  }
+ p.info3 {
+   font-weight: bold;
+   color: #0f5fff;
+  }
+   p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+ion-row.kptitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 2px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 2px solid #ffd9a3;
+	}
+  }
+  ion-row.kpsubtitle {
+    text-align:center;
+	font-weight:bold;
+	font-size: 1rem;
+	color: #d35400;
+	ion-col {
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }

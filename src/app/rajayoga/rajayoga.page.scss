@@ -1,0 +1,77 @@
+body {
+ font-family: roboto;
+}
+.redText {
+color: #FF0000;
+}
+.blueText {
+color: #001EFF;
+}
+.greenText {
+color: #3db161;
+}
+.orangeText {
+color: #f0882f;
+}
+  ion-row.bd {
+    text-align:center;
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col.lbl {
+	  color: #d35400;
+	  background-color: #ffd9a3;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	  font-weight: bold;
+	}
+  }
+  ion-row.maintitle {
+    text-align:center;
+	font-weight:bold;
+	font-size: 1rem;
+	color: #d35400;
+	ion-col {
+	  font-size: 1.35rem;
+	  padding: 5px;
+	}
+  }
+  ion-row.desc {
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+  ion-row.author {
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: blue;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
+  }
+ .zoom {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+ p.info {
+   text-align: center;
+   font-weight: bold;
+  }

@@ -1,0 +1,101 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<form>
+<ion-list>
+<div *ngIf="showCSET">
+              <ion-radio-group no-padding radio-group (ionChange)="switchLanguage()" [(ngModel)]="lang" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <h2>Language</h2>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>English</ion-label>
+				  <ion-radio name="group3" value="en" checked></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Hindi (हिंदी)</ion-label>
+				  <ion-radio name="group3" value="hi"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Tamil (தமிழ்)</ion-label>
+				  <ion-radio name="group3" value="ta"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Telugu (తెలుగు)</ion-label>
+				  <ion-radio name="group3" value="te"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+            <div *ngIf="showCHT">
+              <ion-radio-group no-padding radio-group (ionChange)="chartSel()" [(ngModel)]="chtyp" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <div class="title">Chart Type</div>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>South Indian</ion-label>
+				  <ion-radio name="group2" value="sind" checked></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>North Indian</ion-label>
+				  <ion-radio name="group2" value="nind"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </div>
+			  <ion-radio-group no-padding radio-group (ionChange)="switchLanguage()" [(ngModel)]="aynm" [ngModelOptions]="{standalone: true}">
+				<ion-list-header tappable (click)="showInf('ayanamsa')">
+				  <div class="heading label" ion-text tappable (click)="showInf('Ayanamsa')">{{'Ayanamsa' | translate }}</div>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label  class="label" tappable (click)="showInf('lahiri')">NC Lahiri</ion-label>
+				  <ion-radio name="group1" value="4" checked ></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label  class="label" tappable (click)="showInf('bvraman')">BV Raman </ion-label>
+				  <ion-radio name="group1" value="1" ></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label  class="label" tappable (click)="showInf('kpold')">KP Old</ion-label>
+				  <ion-radio name="group1" value="2"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label  class="label" tappable (click)="showInf('kpnew')">KP New</ion-label>
+				  <ion-radio name="group1" value="3" ></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label class="label"  tappable (click)="showInf('khullar')">Khullar</ion-label>
+				  <ion-radio name="group1" value="5" ></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label class="label"  tappable (click)="showInf('faganbradley')">Fagan Bradley</ion-label>
+				  <ion-radio name="group1" value="6" ></ion-radio>
+				</ion-item>
+			</ion-radio-group>
+			</div>
+			<div *ngIf="showPRD">
+			 <ion-radio-group no-padding radio-group (ionChange)="switchPred()" [(ngModel)]="pred" [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <div class="heading" ion-text>{{'Get Transit Predictions Based On' | translate }}</div>
+				</ion-list-header>
+			 <ion-item>
+			 <ion-label>Sun Sign</ion-label><ion-radio name="group4" value="Su"></ion-radio>
+			 </ion-item>
+			 <ion-item>
+			 <ion-label>Moon Sign</ion-label><ion-radio name="group4" value="Mo" checked></ion-radio>
+			 </ion-item>
+			 <ion-item>
+			 <ion-label>Ascendant</ion-label><ion-radio name="group4" value="AC"></ion-radio>
+			 </ion-item>
+			</ion-radio-group>
+			</div>
+			  <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			 <ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">OK</ion-button>
+		</ion-list>
+</form>
+</ion-content>

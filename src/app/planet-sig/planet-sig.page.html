@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+ <ion-grid no-padding>
+ <div *ngFor="let key of objectKeys(oPlanet)">
+      <div *ngIf="oPlanet[key].inds">
+     <ion-row class="psmaintitle"><ion-col col-12>{{key}}</ion-col></ion-row>
+    <ion-row class="pstitle2"><ion-col col-12><div [innerHTML]='oPlanet[key].inds'></div></ion-col></ion-row>
+	</div>
+ </div>
+ </ion-grid>
+</ion-content>

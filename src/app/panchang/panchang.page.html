@@ -1,0 +1,98 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	<div class="ion-text-center">
+	<img src="https://78.media.tumblr.com/37ccdb3f1236975606c9d8c8dfbc132f/tumblr_pefats6oGY1xp0noco1_250.png" alt="subscribe button"/>
+	<h2>{{ today | date:'fullDate'}}</h2>
+	<p ion-text class="center" color="primary" [innerHTML]='info'></p>
+	</div>
+	<div *ngIf="showPAN">
+<ion-list>
+  <ion-item>
+  <div slot="start"><ion-badge color="primary" tappable (click)="showCal($event)" item-left>{{cal}}</ion-badge></div>
+  <div slot="end"><ion-label>AYANAMSA: </ion-label><span class="more">{{aynt}}</span><ion-badge color="primary" tappable (click)="chgayan()">change</ion-badge></div>
+  </ion-item>
+  <ion-item [hidden]="hideCALD">
+	   <div #hinduCal></div>
+  </ion-item>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/ec76b7d7e0529af6e3a437edb6c6c255/tumblr_phiurjqePq1xp0noco1_75sq.png" slot="start"/>
+    <div class="heading" text-center>
+  <div class="sunrise">
+    <span class='title'>{{ 'Sunrise' | translate }} : </span><span class="blue">{{sunrise}}</span>
+  </div>
+  <div class="sunset">
+    <span class='title'>{{ 'Sunset' | translate }} : </span><span class="blue">{{sunset}}</span>
+  </div>
+</div>	
+    <img src="https://66.media.tumblr.com/13aee56bcd3ca9e102f84df710ee7157/tumblr_phiut1zqQs1xp0noco1_75sq.png" slot="end"/>
+  </ion-item>
+ <ion-item>
+      <img src="https://66.media.tumblr.com/85a4d43753ea263ec6b06309139fec07/tumblr_phkcikpz9v1xp0noco1_75sq.png" slot="start"/>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title' tappable (click)="showInf('Lagna')">{{ 'Lagna' | translate }} : </span><span>{{lagna}}</span>
+  </div>
+  <div class="sunset">
+  <span style="color:#f44141;font-size:bold">  {{lagml}}</span>-<span style="color:#03469a;font-size:bold">{{lagal}}</span>-<span style="color:#2c8e40;font-size:bold">{{lagsl}}</span>
+  </div>
+</div>	
+  </ion-item>
+  <ion-item>
+      <ion-icon name="star" slot="start"></ion-icon>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title' tappable (click)="showInf('Nakshatra')"> {{ 'Nakshatra' | translate }} : </span><span class="bstar" tappable (click)="nakdtl()">{{nak}}</span>
+  </div>
+  <div class="sunset">
+    <span class='title' tappable (click)="showInf('Panchang')">{{ 'Tithi' | translate }} :</span><span class="blue">{{tithi}}</span><br>
+    <span class='title' tappable (click)="showInf('Panchang')">{{ 'Yoga' | translate }} :</span><span class="green">{{yoga}}</span><br>
+    <span class='title' tappable (click)="showInf('Panchang')">{{ 'Karana' | translate }} :</span><span class="green">{{karana}}</span><br>
+  </div>
+</div>	
+    <img [src]="lunapic" slot="end"/>
+  </ion-item>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/e5dbe359045e1bd4aadcd3326ea5712b/tumblr_phkcj7LrJb1xp0noco1_75sq.png" slot="start"/>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title' tappable (click)="showInf('Rahukaal')">{{ 'Rahu Kaalam' | translate  }} : </span><span class="red">{{rahukal}}</span>
+  </div>
+</div>	
+  </ion-item>
+  <ion-item>
+      <img src="https://66.media.tumblr.com/d8ce8901fd2147a23a83f40903be3c95/tumblr_phkcjxdFpp1xp0noco1_75sq.png" slot="start"/>
+	<div class="heading">
+  <div class="sunrise">
+    <span class='title' tappable (click)="showInf('Yamagand')">{{ 'Yama Gandam' | translate  }} : </span><span class="red">{{yama}}</span>
+  </div>
+</div>	
+  </ion-item>
+ <ion-item>
+      <img src="https://66.media.tumblr.com/49d1b055d916ae941c21e23efefe2b7e/tumblr_phkchoTfuO1xp0noco1_75sq.png" slot="start"/>
+ 	<div class="heading">
+  <div class="sunrise">
+    <span class='title' tappable (click)="showInf('Panchang')">{{ 'Abhijit' | translate  }} : </span><span class="blue">{{abhjit}}</span>
+  </div>
+</div>	
+  </ion-item>
+  <ion-item>
+  <div class="desc">{{tithinf}}</div>
+  </ion-item>
+  </ion-list>
+  </div>
+  
+  </ion-content>

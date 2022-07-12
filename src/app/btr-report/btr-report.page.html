@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-grid no-padding *ngIf="showBT">
+ <ion-row class="maintitle"><ion-col>{{'BIRTH TIME RECTIFICATION'}}</ion-col></ion-row>
+ <div *ngFor="let rcf of objectKeys(oRecfy)">
+ <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{oRecfy[rcf].name}}</div></ion-col><ion-col><ion-spinner *ngIf="oRecfy[rcf].fetch" ></ion-spinner><div [class]="oRecfy[rcf].style">{{oRecfy[rcf].res}}</div></ion-col></ion-row>
+ </div>
+ </ion-grid>
+
+</ion-content>

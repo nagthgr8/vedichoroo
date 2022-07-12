@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<div><h1>{{title}}</h1></div>
+<div #divChart></div>
+<ion-grid>
+     <ion-row class="lines title"><ion-col>PLANET</ion-col><ion-col>RASI(D1)</ion-col><ion-col>RASI{{chart_id}})</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oPR)">
+     <ion-row class="lines subtitle"><ion-col>{{key}}</ion-col><ion-col>{{oPR[key].sign}}</ion-col><ion-col>{{oPR[key].sign_x}}</ion-col></ion-row>
+ </div>
+</ion-grid>
+<ion-grid no-padding *ngIf="showLS">
+     <ion-row class="lines title"><ion-col>Planet</ion-col><ion-col>Sign</ion-col><ion-col>House</ion-col><ion-col>Diety</ion-col><ion-col>Nature</ion-col></ion-row>
+ <div *ngFor="let key of objectKeys(oPlanet)">
+     <ion-row class="lines subtitle"><ion-col>{{key}}</ion-col><ion-col>{{oPlanet[key].sign}}</ion-col><ion-col>{{oPlanet[key].hno}}</ion-col><ion-col>{{oPlanet[key].deity}}</ion-col><ion-col>{{oPlanet[key].nat}}</ion-col></ion-row>
+    <ion-row class="lines subtitle"><ion-col col-12><div color="level2">{{oPlanet[key].desc}}</div></ion-col></ion-row>
+ </div>
+ <ion-row class="desc"><ion-col><div>As per Sacred texts, the Deity in Shastiamsa Chart can give more insight on each house, for instance to know about your karma in past life look at the planet(s) that are in 5th house from the Ascendant in Shastiamsa chart, if there are no planents then consider 5th house Lord & then refer to the Diety & its nature, if nature of the Diety is good then you had done good karma in your past life if not you had done some bad karma in your past life. <br>BEFORE ANY CONCLUSION MAKE SURE THIS CHART IS SHASTAMSA RECTIFIED AS LAGNA CHANGES EVERY 2 MINUTES IN D60 or SHASTIAMSA CHART. ALL CALCULATIONS GO WRONG IF NOT RECTIFIED, DUE TO SUCH LIMITATION ASTROLOGERS DO NOT USE THIS CHART FOR PREDICTIONS</div></ion-col></ion-row>
+</ion-grid>
+<div [innerHTML]='akashWani'></div>
+</ion-content>

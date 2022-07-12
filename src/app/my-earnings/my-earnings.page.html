@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-card class="emsg" no-padding>
+<div class="etitle">{{ 'Last 30 Days Earnings : ' }} {{ erns | number }} INR</div>
+</ion-card>
+<div class="etitle">Call Information</div>
+  <ion-list class="his">
+    <div *ngFor="let c of cinf"> 
+    <ion-item tappable (click)="callinfo($event, c)">
+      <ion-icon size="large" name="person" slot="start"></ion-icon>
+		     <p> <span class="name">{{c.name }}</span><br/>
+			 <span class="dob"> {{c.date}}</span></p>
+			  <div slot="end">
+				<ion-button size="small" type="button" color="tertiary" tappable (click)="settle($event, c)">Capture</ion-button>
+			  </div>
+    </ion-item>
+	</div>
+  </ion-list>
+ </ion-content>

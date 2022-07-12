@@ -1,0 +1,24 @@
+body {
+  font-family: roboto;
+}
+.txt1 {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.txt2 {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.round-img {
+--border-radius: 50%;
+  width: 72;
+  height: 72;
+}
+ion-icon.cstar {
+   font-size: 1.125rem;
+   color: #FFBF00;
+ }
+ p.info {
+   text-align: center;
+   font-weight: bold;
+  }

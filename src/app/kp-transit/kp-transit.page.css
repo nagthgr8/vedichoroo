@@ -1,0 +1,43 @@
+body {
+  font-family: roboto;
+}
+ion-label {
+	font-weight: bold;
+  }
+    ion-grid.pd {
+        ion-row {
+            background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            padding: 3px 20px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+			
+			ion-label {
+				font-weight: bold;
+			}
+            &.item-input {
+                .text-input::placeholder {
+                    color: #78927e !important;
+                    font-size: 1.3rem;
+                }
+            }
+
+            .label {
+                font-size: 1.35rem;
+                font-weight: 400;
+                color: #78927e;
+                flex: unset;
+            }
+		}
+	}
+p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+  .atxt {
+  color: blue;
+  text-decoration: underline;
+  }

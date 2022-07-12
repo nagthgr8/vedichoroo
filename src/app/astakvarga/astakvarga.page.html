@@ -1,0 +1,14 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<ion-card class="intro">The asthakavargas is a unique way of dividing each of the 12 rasis into eight sub divisions, based on the influence of the lagna and the 7 main planets on these 12 rasis. Rahu & Ketu are omitted in asthakavargas. Based on their individual positions in a horoscope, the lagna and the 7 main planets, contribute certain positive(bindus) and negative(rekhas) influences on the 12 signs of the horoscope</ion-card>
+<div [innerHTML]='akpts'></div>
+</ion-content>

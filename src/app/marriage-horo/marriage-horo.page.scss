@@ -1,0 +1,74 @@
+ body {
+ font-family: roboto;
+}
+ ion-row.lvlines ion-col {
+    border: 1px solid #ffb6d1;
+    padding: 5px;
+  }
+  ion-row.lvsubtitle {
+	font-weight:bold;
+	font-size:1.2rem;
+  }
+  ion-row.lvsubtitle2 {
+	font-weight:bold;
+	font-size:1.25rem;
+  }
+
+ion-content.background{
+    --background: url('../../assets/imgs/love-theme4.jpg') 0 0/100% 100% no-repeat;
+}
+ion-item.ion-input {
+   text-align: right;
+   font-size:bold;
+}
+.frep {
+   font-size: 1.25rem;
+   font-weight: bold;
+   font-style: oblique;
+}
+.hn {
+	    color: blue !important;
+		text-decoration: underline;
+}
+
+  .chart {
+    background-color: #ffffff;
+	width: 100%;
+	height: auto;
+	background-position: left;
+  }
+  ion-row.lvtitle {
+	font-size:1.3rem;
+    text-align:center;
+	font-weight:bold;
+	padding: 5px;
+	background-color: #ffb6d1;
+	color: #ffffff;
+  }
+  ion-grid.report ion-col {
+    margin: 5px;
+  }
+  ion-grid.lines {
+  margin:0px;
+}
+  ion-grid.lines ion-col div {
+    border: 1px solid #e6e9ee;
+    padding: 5px;
+    text-align: center;
+	display: border-box;
+  }
+  p.info {
+   text-align: center;
+   font-weight: bold;
+  }
+.nam {
+text-align: right;
+ font-weight: bold;
+ font-size: 1.20rem;
+}
+ion-card.adtxt {
+font-size: 1.45rem;
+font-weight: bold;
+color: #0b03fc;
+font-style: oblique;
+}

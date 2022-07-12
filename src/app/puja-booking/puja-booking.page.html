@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<form>
+ <ion-list class="pd">
+ <ion-item>
+ <ion-label>Puja Name: </ion-label><div class="pnam">{{pnam}}</div>
+ </ion-item>
+ <ion-item>
+         <ion-label>Puja Date: </ion-label><div class="nam">{{bkd}}</div>
+		  <ion-button clear style="background-color:#fdd7d7" icon-right (click)="openCal()">
+			<ion-icon name="calendar">
+			</ion-icon>
+		  </ion-button>
+	</ion-item>
+	<ion-item>
+	<ion-label>Time Slot: </ion-label>
+	</ion-item>
+ <ion-item lines="full">
+  <ion-label position="floating">Name: </ion-label><br>
+  <ion-input class="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+ </ion-item>
+ <ion-item lines="full">
+  <ion-label position="floating">Gotram: </ion-label><br>
+  <ion-input class="nam" [(ngModel)]="got" [ngModelOptions]="{standalone: true}"></ion-input>
+ </ion-item>
+ 		  <div class="title">Contact Details</div>
+		<ion-item lines="full">
+		<ion-label>Mobile Number</ion-label>
+		<ion-input type="tel" [(ngModel)]="mob"  required [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item lines="full">
+		<ion-label>Email</ion-label>
+		<ion-input type="tel" [(ngModel)]="eml"  type="text" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+
+	</ion-list>
+				  <ion-list>
+			  <ion-radio-group [(ngModel)]="paym" ngDefaultControl [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <div class="title">Payment Method</div>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>I'll Pay after the Service</ion-label>
+				  <ion-radio slot="start" name="group1" value="afts" (ionSelect)="paymSel('afts')"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </ion-list>
+
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="book($event)">Book Now</ion-button>
+  </form>
+</ion-content>

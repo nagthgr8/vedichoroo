@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<div class="post" [ngStyle]="{'background-image': 'url(' + backgroundImg + ')'}">
+<br><br><br><br><div class="title">{{dho.msgn}} : {{today | date:'fullDate'}}</div>
+<br><br><div class="desc" [innerHTML]='dho.msg'></div>
+</div>
+</ion-content>

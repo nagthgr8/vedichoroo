@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+         <ion-list padding>
+		<ion-item>
+			<ion-label>Message: </ion-label><br><span>{{tick.msg}}</span>
+		</ion-item>
+    <ion-item>
+			<ion-label>Response: </ion-label>
+		<ion-textarea rows="6" [(ngModel)]='tres'></ion-textarea>
+    </ion-item>
+   </ion-list>
+	   <div padding>
+				<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save()">Submit</ion-button>
+		</div>
+</ion-content>

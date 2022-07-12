@@ -1,0 +1,98 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+    <ion-button *ngIf="dho.sho" color="primary" slot="end">
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-fab *ngIf="showASU" vertical="center" horizontal="end" slot="fixed" tappable (click)="sub()">
+<ion-fab-button title="{{ 'Please Subscribe & get full access' | translate }}">
+	<ion-icon name="gift"></ion-icon>
+</ion-fab-button>
+  </ion-fab>
+ <ion-card class="amsg" no-padding *ngIf="aumsg">
+<div class="amsg-title">APP UPDATE REQUIRED!!</div>
+<div class="amsg-subtitle">{{aumsg}}</div>
+<ion-button type="button" size="small" color="success" tappable (click)="skip()">SKIP UPDATE</ion-button>
+<ion-button type="button" size="small" color="success" tappable (click)="update()">UPDATE NOW</ion-button>
+</ion-card>
+<ion-card class="amsg" no-padding *ngIf="amsg">
+<div class="amsg-title">{{atitle}}</div>
+<div class="amsg-subtitle">{{amsg}}</div>
+<ion-button type="button" size="small" color="success" tappable (click)="msgok()">OK, Got It!</ion-button>
+</ion-card>
+<ion-card class="amsg" no-padding *ngIf="hmsg">
+<div class="amsg-title">HELP DESK MESSAGE!!</div>
+<div class="amsg-subtitle">{{hmsg}}</div>
+<ion-button type="button" size="small" color="success" tappable (click)="hmsgok()">HIDE</ion-button>
+</ion-card>
+<p *ngIf="hmsg" class="winfo" [innerHTML]='info3'></p>
+<ion-card class="panch" tappable (click)="viewPanchang()">
+<div class="ion-text-center ched">{{ today }}</div>
+<ion-grid>
+<ion-row class="hrow">
+<ion-col size="4">
+<img src ="assets/imgs/valmiki.png" />
+</ion-col>
+<ion-col size="8">
+<div><span class='cfn'>{{ 'Sunrise' | translate }} : </span><span class="cvl">{{sunrise}} </span><span class='cfn'>{{ 'Sunset' | translate }} : </span><span class="cvl">{{sunset}}</span><br/>
+	<span class='cfn'>{{ 'Rahu Kalam' | translate }}:</span><span class="cvl">{{rahukal}} </span><br/>
+	<span class='cfn'>{{ 'Yamagandam' | translate }} :</span><span class="cvl"> {{yama}} </span><br/>
+	<span class='cfn'>{{ 'Abhijit' | translate }} :</span><span class="cvl"> {{abhjit}}</span><br/>
+	<span class='cfn'>{{ 'Nakshatra' | translate }} :</span><span class="cvl"> {{nak }} <ion-spinner *ngIf="bthi" item-right></ion-spinner></span><br/>
+	<span class='cfn'>{{ 'Tithi' | translate }}	:</span><span class="cvl"> {{tithi }}</span><br>
+	<span class='cfn'>{{ 'Yoga' | translate }}	: </span><span class="cvl">{{yog}}</span><br>
+	<span class='cfn'>{{ 'Karan' | translate }}	:</span><span class="cvl"> {{karn}}</span><br>
+	<span class='cfn'>{{ 'Lagna' | translate }} :</span><span class="cvl"> {{lagna}}</span><span>  {{lagml}}</span>-<span>{{lagal}}</span>-<span>{{lagsl}}<ion-spinner *ngIf="blag" item-right></ion-spinner></span><br/>
+	</div>
+</ion-col>
+</ion-row>
+</ion-grid>
+</ion-card>
+<ion-card *ngIf="showBN" tappable (click)="advt()">
+<img [src]="adv.img"/>
+<div class="adv" [innerHTML]="adv.msg"> </div>
+</ion-card>
+<p class="info" [innerHTML]='info'></p>
+<p class="info" [innerHTML]='info2'></p>
+<ion-grid>
+<ion-row class="drow">
+<ion-col>
+<div class="dcont" *ngIf="dho.sho"><div><img  class="dimg" [src]="dho.img"/></div><p class="dtxt"  >{{dho.smsg}}<span class="more" tappable (click)="dhoro()">..Read More</span></p></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r1items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r2items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+<ion-row class="hrow">
+<ion-col size="4" class="dash-items" *ngFor="let item of r3items" tappable (click)="itemTapped($event, item)">
+<div class="ion-text-center"><img width="56" height="56" src="{{item.icon}}"/>
+<br> <span class="htitle">{{item.title | translate}}</span></div>
+</ion-col>
+</ion-row>
+</ion-grid>
+ <ion-list class="kpitems">
+	  <ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
+	  <img [src]="item.img" slot="start"/>
+        <p> <span class="kitem">{{item.title | translate}}</span><br><span class="ksitem"> {{item.note | translate}}</span></p>
+      </ion-item>
+</ion-list>
+ </ion-content>

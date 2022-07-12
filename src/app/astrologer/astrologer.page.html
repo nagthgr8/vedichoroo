@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<div *ngIf="showP">
+<ion-card>
+<img [src]="data.image" style="width: 100%"/>
+<div class="card-title"></div>
+<div class="card-subtitle"></div>
+</ion-card>
+<div *ngIf="showASU">
+ <ion-button type="button" size="small" color="tertiary" tappable (click)="callreq($event)" item-right><ion-icon name="call"></ion-icon>Call Now</ion-button>
+</div>
+<div *ngIf="edit">
+<ion-item class="item item-icon-right">	
+<ion-icon name="camera" (click)="takePic()" item-right></ion-icon>
+<ion-icon name="attach" (click)="uploadPic()" item-right></ion-icon>
+</ion-item>
+</div>
+<div *ngIf="edit" class="edit" (click)="edtbio()">edit</div>
+<div *ngIf ="!edit" [innerHTML]='bio'></div><br>
+<ion-textarea *ngIf ="edit" rows="6" [(ngModel)]='bio' placeholder="Enter or Copy/Paste Text"></ion-textarea>
+<ion-button *ngIf="edit" type="button" expand="block" tappable color="primary">
+           Save
+        </ion-button>
+	<div *ngIf="showPUJ" class="rvw" tappable (click)="opuja($event)">Check Our Online Puja Services</div><br>
+	<div *ngIf="!rated">
+	<div class="title">Rate This Astrologer</div><br/>
+				<div class="ion-text-center">
+<ion-icon class="user-star" name={{str1}} tappable (click)="stars($event, 1)"></ion-icon><ion-icon class="user-star" name={{str2}} tappable (click)="stars($event, 2)"></ion-icon><ion-icon class="user-star" name={{str3}} tappable (click)="stars($event, 3)"></ion-icon><ion-icon class="user-star" name={{str4}} tappable (click)="stars($event, 4)"></ion-icon><ion-icon class="user-star" name={{str5}} tappable (click)="stars($event, 5)"></ion-icon></div></div>
+	<div *ngIf="!urat.review" class="rvw" tappable (click)="wrev($event)">Write A Review</div>
+	<div *ngIf="urat.review">
+	<div class="title">Your review</div><br/>
+	   <ion-grid>
+		<ion-row><ion-col size="2"><ion-avatar class="img-center"><img [src]="urat.avatar"/></ion-avatar></ion-col><ion-col size="10"><div class="name"><span>{{urat.name}}</span><br/><ion-icon class="star" name={{urat.str1}}></ion-icon><ion-icon class="star" name={{urat.str2}}></ion-icon><ion-icon class="star" name={{urat.str3}}></ion-icon><ion-icon class="star" name={{urat.str4}}></ion-icon><ion-icon class="star" name={{urat.str5}}></ion-icon></div></ion-col>
+		  </ion-row>
+		  <ion-row><ion-col size="12"><div class="ion-text-wrap">{{urat.review}}</div></ion-col></ion-row>
+		  <ion-row><ion-col><div class="edtfb" tappable (click)="wrev($event)">Edit your Feedback</div></ion-col></ion-row>
+	  </ion-grid>
+	</div>
+   <ion-list *ngIf="showRVW" class="his">
+   <div class="title">Reviews</div>
+    <ion-item *ngFor="let r of oRev">
+	   <ion-grid>
+			<ion-row>
+				<ion-col size="2"><ion-avatar class="img-center"> <img [src]="r.avatar" /></ion-avatar></ion-col><ion-col size="10"><span class="name">{{r.name}}</span></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="12"><ion-icon class="star" name={{r.str1}}></ion-icon><ion-icon class="star" name={{r.str2}}></ion-icon><ion-icon class="star" name={{r.str3}}></ion-icon><ion-icon class="star" name={{r.str4}}></ion-icon><ion-icon class="star" name={{r.str5}}></ion-icon></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col><div class="ion-text-wrap">{{r.review }}</div></ion-col>
+			</ion-row>
+		</ion-grid>
+    </ion-item>
+	</ion-list>
+</div>		
+</ion-content>
+

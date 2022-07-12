@@ -1,0 +1,7 @@
+{
+  "name": "vedichoroo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

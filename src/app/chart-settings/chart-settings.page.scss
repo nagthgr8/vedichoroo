@@ -1,0 +1,37 @@
+body {
+ font-family: roboto;
+}
+  .note {
+   background-color: #ffffb2;
+	font-weight:bold;
+	padding: 5px;
+    text-align:center;
+  }
+ion-list {
+        background: none;
+        ion-item {
+            background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            padding: 3px 20px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+			ion-label {
+				font-weight: bold;
+			}
+		}
+}	  
+.label {
+  color: blue !important;
+  text-decoration: underline;
+}
+.heading {
+ font-weight: bold;
+ font-size: 1.3rem;
+}
+	 p.info {
+   text-align: center;
+   font-weight: bold;
+  } 

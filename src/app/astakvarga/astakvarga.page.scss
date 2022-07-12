@@ -1,0 +1,29 @@
+body {
+  font-family: roboto;
+}
+ion-card.intro {
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+    border-radius: 10px;
+    padding: 3px 20px !important;
+    margin-bottom: 5px;
+    border: 1px solid #d35400;;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+	font-size: 1rem;
+	font-weight: bold;
+}
+p {
+	span.desc {
+	  background: rgba(var(--ion-color-primary-rgb), 0.05);
+	  font-size: 1rem;
+	  font-weight: bold;
+	  padding: 3px 20px !important;
+	}
+	span.pts {
+	  background: rgba(var(--ion-color-primary-rgb), 0.05);
+	  font-size: 0.8rem;
+	  font-weight: bold;
+	  color: #d35400;
+	  padding: 3px 20px !important;
+	}
+}

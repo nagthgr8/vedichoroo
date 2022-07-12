@@ -1,0 +1,163 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	<div>
+	 <p><span class="title">Personalized Report</span></p>
+	 <p class="desc">A detailed 25 page personalized report will be sent to your email address within 24hrs. The report can also be accessible from our 126 Astrolgy App through <strong>Reports</strong> menu on left hand side. You can send request for upto 10 date of births at a time. <span *ngIf="!ast"><ion-badge color="primary" (click)="subscribe()">subscribe</ion-badge> now & get  the reports for FREE.</span><br></p>
+	 <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event, 'HI')">{{dbtn1}}</ion-button>
+    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'EN')">{{dbtn2}}</ion-button>
+    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'TA')">{{dbtn3}}</ion-button>
+    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'TE')">{{dbtn4}}</ion-button>
+	</div>
+   <ion-list class="pd">
+		  <div class="title">Contact Details</div>
+		<ion-item lines="full">
+		<ion-label>Mobile Number</ion-label>
+		<ion-input type="tel" [(ngModel)]="mob"  required [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+		<ion-item lines="full">
+		<ion-label>Email</ion-label>
+		<ion-input type="tel" [(ngModel)]="eml"  type="text" [ngModelOptions]="{standalone: true}"></ion-input>
+		</ion-item>
+	</ion-list>
+	
+<div *ngIf="showH">
+   <ion-list class="his">
+   <div class="title">Choose From History</div>
+    <ion-item *ngFor="let birth of oBirth">
+      <ion-icon size="large" name="person" slot="start"></ion-icon>
+	   <p> <span class="name">{{birth.name }}</span><br/>
+	   <span class="sub"> {{birth.dob_short}}</span></p>
+	   <div slot="end"><ion-checkbox [(ngModel)]="birth.fetch" (click)="selDOB($event, birth)" item-right [ngModelOptions]="{standalone: true}"></ion-checkbox></div>
+    </ion-item>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="enter()">Enter New Details</ion-button>
+  </ion-list>
+</div>
+<div *ngIf="showN">
+ <ion-list class="pd">
+  <ion-item>
+  <ion-label position="floating">Name: </ion-label><br>
+  <ion-input class="nam" [(ngModel)]="nam" [ngModelOptions]="{standalone: true}"></ion-input>
+ </ion-item>
+ <ion-radio-group lines="full" [(ngModel)]="gen" [ngModelOptions]="{standalone: true}">
+      <ion-item>
+        <ion-label >Male</ion-label>
+        <ion-radio slot="start" value="M" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label >Female</ion-label>
+        <ion-radio slot="start" value="F"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+	<ion-item text-center lines="full">
+      <ion-label >Date of Birth</ion-label>{{dob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showDatePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+	<ion-item text-center lines="full">
+      <ion-label >Time of Birth</ion-label>{{tob}}
+      <ion-button clear style="background-color:#f6f7f8" icon-right (click)="showTimePicker()">
+        <ion-icon name="calendar">
+        </ion-icon>
+      </ion-button>
+	</ion-item>
+	<ion-item lines="full">
+		<ion-label position="floating">Place of Birth(min 4 chrs): </ion-label><br>
+		<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text" [ngModelOptions]="{standalone: true}"></ion-input>
+	</ion-item>
+		<ion-item class="places" *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+					{{ item }}
+		</ion-item>
+		<p ion-text class="info" color="primary" [innerHTML]='place'></p>
+		<ion-button *ngIf="his" type="button" expand="block" color="tertiary" tappable (click)="choose()">Choose From History</ion-button>
+	</ion-list>
+   </div>
+              <ion-list>
+              <ion-radio-group no-padding radio-group [(ngModel)]="lan" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <div class="title">Choose Language</div>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>Hindi</ion-label>
+				  <ion-radio name="group1" value="HI" (ionSelect)="lanSel('HI')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>English</ion-label>
+				  <ion-radio name="group1" value="EN" checked (ionSelect)="lanSel('EN')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Telugu</ion-label>
+				  <ion-radio name="group1" value="TE" checked (ionSelect)="lanSel('TE')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Tamil</ion-label>
+				  <ion-radio name="group1" value="TA" checked (ionSelect)="lanSel('TA')"></ion-radio>
+				</ion-item>
+				</ion-radio-group>
+			  </ion-list>
+              <ion-list>
+              <ion-radio-group no-padding radio-group [(ngModel)]="chtyp" [ngModelOptions]="{standalone: true}">
+			  <ion-list-header>
+			  <div class="title">Chart Type</div>
+			  </ion-list-header>
+				<ion-item>
+				  <ion-label>South Indian</ion-label>
+				  <ion-radio name="group2" value="sind" checked (ionSelect)="chartSel('sind')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>North Indian</ion-label>
+				  <ion-radio name="group2" value="nind" (ionSelect)="chartSel('nind')"></ion-radio>
+				</ion-item>
+				</ion-radio-group>
+			  </ion-list>
+			  <ion-list>
+              <ion-radio-group no-padding radio-group [(ngModel)]="aynm" [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <div class="title">{{'Ayanamsa' | translate }}</div>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label>NC Lahiri</ion-label>
+				  <ion-radio name="group3" value="LAH" checked (ionSelect)="ayanSel('LAH')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>BV Raman </ion-label>
+				  <ion-radio name="group3" value="RMN" (ionSelect)="ayanSel('RMN')"></ion-radio>
+				</ion-item> 
+				<ion-item>
+				  <ion-label>Krishna Murthy</ion-label>
+				  <ion-radio name="group3" value="KP" (ionSelect)="ayanSel('KP')"></ion-radio>
+				</ion-item>
+				</ion-radio-group>
+				<div *ngIf="!ast">
+			  <ion-radio-group [(ngModel)]="paym" ngDefaultControl [ngModelOptions]="{standalone: true}">
+				<ion-list-header>
+				  <div class="title">Payment Method</div>
+				</ion-list-header>
+				<ion-item>
+				  <ion-label><p>Pay using RazorPay</ion-label>
+				  <ion-radio slot="start" name="group1" value="rpay" (ionSelect)="paymSel('rpay')"></ion-radio>
+				</ion-item>
+				<ion-item>
+				  <ion-label>Pay using GooglePay</ion-label>
+				  <ion-radio slot="start" name="group1" value="gpay" (ionSelect)="paymSel('gpay')"></ion-radio>
+				</ion-item>
+			  </ion-radio-group>
+			  </div>
+			  </ion-list>
+			  <div>
+				<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+				<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
+				<div *ngIf="showSU"><ion-button type="button" expand="block" color="tertiary" tappable (click)="buy()">{{btnam}}</ion-button></div><br>
+			  </div>
+</ion-content>
+

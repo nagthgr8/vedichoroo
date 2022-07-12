@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-grid>
+		<ion-row>	
+			<ion-col><img class="img img-circle" [src]="rimg" /></ion-col>
+			</ion-row>
+			<ion-row>
+			<ion-col>
+			<div class="rtitle">{{rtitle}}</div>
+			<div class="ion-text-center">
+<ion-icon class="star" name={{str1}} tappable (click)="stars($event, 1)"></ion-icon><ion-icon class="star" name={{str2}} tappable (click)="stars($event, 2)"></ion-icon><ion-icon class="star" name={{str3}} tappable (click)="stars($event, 3)"></ion-icon><ion-icon class="star" name={{str4}} tappable (click)="stars($event, 4)"></ion-icon><ion-icon class="star" name={{str5}} tappable (click)="stars($event, 5)"></ion-icon></div>
+           </ion-col>
+		</ion-row>
+		<ion-row>
+		<ion-col><ion-textarea maxlength="1024" rows="6" [(ngModel)]="msg" placeholder="Comments"></ion-textarea></ion-col>
+		</ion-row>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+			<div *ngIf="showSU">
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save($event)">Submit</ion-button></div>
+		
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+    <ion-row class="white-bg">
+        <ion-col>
+            <img [src]="art.img" style="width: 100%">
+        </ion-col>
+    </ion-row>
+    <ion-row class="white-bg" padding>
+        <ion-col>
+            <h1 class="title">{{art.title}}</h1>
+            <p class="date">Published: {{art.createdt}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row class="white-bg" padding>
+        <ion-col>
+            <div [innerHTML]="art.story">
+            </div>
+        </ion-col>
+
+    </ion-row>
+    <ion-row class="white-bg">
+        <ion-col tappable (click)="openUrl()">
+            <img src="assets/imgs/gamezop2.png" style="width: 100%">
+        </ion-col>
+    </ion-row>
+	<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
+	<ion-row *ngIf="showAVT">
+	   <ion-col col-12>
+	   <div class="ion-text-center"><h2>{{byline}}</h2>
+	   <img [src]="avatar" class="avatar" /></div>
+	   </ion-col>
+	</ion-row>
+	</ion-grid>
+	<ion-list *ngIf="showCA">
+	<ion-item>
+	<ion-textarea rows="6" [(ngModel)]='cmt' placeholder="Enter your comment"></ion-textarea>
+	</ion-item>
+	<ion-item>
+			<ion-thumbnail slot="start"> <img class="avt" [src]="cavt" /></ion-thumbnail>
+	  <span color="primary">{{cnme}}</span><ion-badge *ngIf="showPE" color="primary" tappable (click)="profile($event)">Enter Profile</ion-badge>
+	</ion-item>
+	<ion-button *ngIf="showSU" type="button" expand="block" color="tertiary" tappable (click)="comment($event)" >Leave a comment</ion-button>
+	</ion-list>
+	<p ion-text class="info" color="primary" [innerHTML]='info'></p>
+   <ion-list *ngIf="his" class="his">
+   <div class="title">Comments</div>
+    <ion-item *ngFor="let cmt of comments">
+	   <ion-thumbnail slot="start"> <img class="avt" [src]="cmt.profile_picture_url" /></ion-thumbnail>
+	   <p> <span class="name">{{cmt.content }}</span><br/>
+	   <div *ngIf="cmt.brep">
+		  <ion-label position="floating">Reply: </ion-label><br>
+		  <ion-input class="rep" [(ngModel)]="cmt.rep" [ngModelOptions]="{standalone: true}"></ion-input>
+		  <ion-button type="button" expand="block" color="tertiary" tappable (click)="reply($event, cmt)" >Reply</ion-button>
+		  <ion-button type="button" expand="block" color="tertiary" tappable (click)="cancel()" >Cancel</ion-button>
+	   </div>
+	   <div *ngIf="cmt.nrep">
+	   <span class="nrep" tappable (click)="viewrep($event, cmt)">View ({{cmt.nrep}})Replies</span>
+	   <div *ngIf="cmt.breps">
+		<ion-item *ngFor="let rep of orep[cmt.cid]">
+			<ion-icon size="large" name="person" slot="start"></ion-icon>
+			<p> <span class="name">{{rep.msg }}</span><br/>
+		</ion-item>
+	   </div>
+	   </div>
+    </ion-item>
+	</ion-list>
+</ion-content>

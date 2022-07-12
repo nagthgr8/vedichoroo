@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+	    <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+<ion-list>
+      <ion-item (click)="viewprof($event, p)" *ngFor="let p of pujas">
+	  <ion-card>
+	    <img [src]="p.img" />
+		<ion-card-content>
+        <ion-card-title>{{p.name}}</ion-card-title>
+        <p><span class="tag">{{p.desc}}</span><br/>
+		<span class="fee">Rs. {{p.fee}}</span></p>
+		
+		  
+			<ion-button type="button" color="primary" tappable (click)="booknow($event, p)">
+			  <ion-icon name="gift-outline"></ion-icon>
+			  Book Now
+			</ion-button>
+
+			<ion-button type="button" color="tertiary" tappable (click)="viewprof($event, p)" icon-start>
+			  <ion-icon name="information-circle-outline"></ion-icon>
+			  Know More
+			</ion-button>
+		  </ion-card-content>
+		  </ion-card>
+	  </ion-item>
+</ion-list>		
+</ion-content>

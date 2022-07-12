@@ -1,0 +1,50 @@
+
+ ion-col div {
+    border: 1px solid #e6e9ee;
+    text-align: left;
+	display: border-box;
+  }
+  
+  ion-row.hititle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+  ion-row.hisubtitle {
+    text-align:center;
+	font-weight:bold;
+	border: 1px solid #d35400;
+	ion-col {
+	  text-align:center;
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }
+ion-row.note div {
+	font-weight:bold;
+	background-color: #ffffb2;
+	padding: 5px;
+	color: #222334;
+    text-align:left;
+	font-size:15px;
+  }  
+  .adv {
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    font-weight: bold;
+	text-align: left;
+	margin-left:25px;
+  }
+  .more {
+	color: blue;
+  }

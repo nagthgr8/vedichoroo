@@ -1,0 +1,88 @@
+body {
+  font-family: roboto;
+}
+
+.title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #d35400;
+}
+    ion-list.pd {
+        background: none;
+        ion-item {
+            background: rgba(var(--ion-color-primary-rgb), 0.05);
+            --background: none;
+            border-radius: 10px;
+            padding: 3px 20px !important;
+            margin-bottom: 5px;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+			
+			ion-label {
+				font-weight: bold;
+			}
+
+            .item-native {
+                --background: none !important;
+            }
+			
+            & ion-select-option{
+                margin-left: auto;
+                max-width: unset;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+                padding: 0;
+
+                .select {
+                    max-width: 100%;
+                    .select-text {
+                        font-size: 1.35rem;
+                    }
+                }
+            }
+            &.item-input {
+                .text-input::placeholder {
+                    color: #78927e !important;
+                    font-size: 1.3rem;
+                }
+            }
+
+            .label {
+                font-size: 1.35rem;
+                font-weight: 400;
+                color: #78927e;
+                flex: unset;
+            }
+        }
+    }
+    ion-list.his {
+        margin-bottom: 0!important;
+        ion-item {
+		--border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #ffd9a3;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+         }
+        }
+    }
+.name {
+ font-weight: bold;
+}
+.sub {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.nam {
+ font-weight: bold;
+ font-size: 1.20rem;
+}
+.pnam {
+ font-weight: bold;
+ font-size: 1.20rem;
+ color: blue;
+}

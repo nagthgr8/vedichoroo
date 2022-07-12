@@ -1,0 +1,24 @@
+body {
+  font-family: roboto;
+}
+ ion-row.psmaintitle {
+    text-align:center;
+	font-weight:bold;
+	background-color: #ffd9a3;
+	border: 1px solid #d35400;
+	ion-col {
+	  color: #d35400;
+	  padding: 5px;
+	  border: 1px solid #ffd9a3;
+	}
+  }  
+   ion-row.pstitle2 {
+	font-weight:bold;
+	border: 1px solid #d35400;
+	padding: 5px;
+	ion-col {
+	  text-align: left;
+	  color: #d35400;
+	  border: 1px solid #ffd9a3;
+	}
+  }

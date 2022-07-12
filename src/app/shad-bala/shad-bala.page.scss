@@ -1,0 +1,22 @@
+body {
+	font-family: roboto;
+}
+ion-grid {
+  ion-row.maintitle {
+	font-weight:bold;
+	font-size:1.35rem;
+	color: #d35400;
+	text-align: center;
+  }  
+   ion-row.title2 {
+	font-weight:bold;
+	padding: 0px;
+	background-color: #ffd9a3;
+	
+  }
+	ion-col.border {
+	  border: 1px solid #d35400;
+	  padding: 0px;
+	}
+
+}

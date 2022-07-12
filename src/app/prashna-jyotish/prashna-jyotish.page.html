@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+    <ion-button color="primary" slot="start" menuToggle>
+      <ion-menu-button width="24">
+       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+	  </ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+<div *ngIf="showQ">
+<div class="ion-text-center">
+	<img src="https://66.media.tumblr.com/d2a74b04e9c4c36a72f4d21df3d3d971/tumblr_pjru78otip1xp0noco1_100.png" alt="vedic astrology"/>
+	<h2>{{ 'Today' | translate }} is {{ today | date:'mediumDate'}} </h2>
+	</div>
+
+	<div *ngIf="showMSG"><p class='note'>Ask any specific question & get to know the answer. Our Prashan Jyotish uses well known <ion-badge color="primary" tappable (click)="showinfo()">Gulberga Theory</ion-badge></p></div>
+<ion-list>
+<ion-item lines="full">
+<ion-label position="floating">Location from where question asked</ion-label>
+    <ion-input [(ngModel)]="loc" type="text" (input)="updateSearch()"></ion-input>
+</ion-item>
+		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
+				{{ item }}
+		</ion-item>
+<ion-item lines="full">
+<ion-label position="floating">Ask a very specific question</ion-label>
+    <ion-textarea rows="5" [(ngModel)]="que" type="text"></ion-textarea>
+</ion-item>
+<ion-item lines="full">
+<ion-label position="floating">Enter number between 1 & 249</ion-label>
+    <ion-input [(ngModel)]="num" type="tel"></ion-input>
+</ion-item>
+	        <p ion-text class="info" color="primary" [innerHTML]='info'></p>
+		<div padding *ngIf="showCR">
+	   			<p ion-text class="adtxt2">You can ask one question per day. But if you are an Astrologer can <ion-badge tappable (click)="more()">subscribe</ion-badge> & get unlimited usage, you can also customize this App as per your choice. <span class="more" tappable (click)="more()">Know more..</span></p>
+		</div>
+	   <div padding>
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="save()">Submit</ion-button>
+		</div>
+</ion-list>
+</div>
+		<div class="ion-text-center" *ngIf="showANS">
+		<img src="https://66.media.tumblr.com/e582f6f460ffdbef56ae7a426463fc71/tumblr_pjs9gebrMr1xp0noco1_250.png" alt="vedic astrology"/>
+		<div class="ion-text-center" class="que" [innerHTML]="wque"></div>
+		<div class="ion-text-center" class="ans" [innerHTML]='ans'></div>
+		<div *ngIf="showDET" class='note' [innerHTML]='det'></div>
+	   </div>
+	   <div padding *ngIf="showBK">
+			<ion-button type="button" expand="block" color="tertiary" tappable (click)="ask()">BACK</ion-button>
+		</div>
+	   
+</ion-content>
