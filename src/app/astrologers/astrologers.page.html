@@ -25,19 +25,5 @@
 			</ion-row>
 		</ion-grid>
 		</ion-item>
-		<ion-item tappable (click)="viewprof($event, ast)" *ngFor="let ast of oAstb">
-	  <ion-grid>
-			<ion-row><ion-col size="2"><ion-avatar item-left> <img class="img img-circle" [src]="ast.avatar" /></ion-avatar></ion-col>
-					<ion-col size="10">
-					 <ion-grid>
-					 <ion-row><ion-col><div class="name">{{ast.name}}</div></ion-col><ion-col> <div class="abtn"><ion-icon class="info" name="information-circle-outline" tappable (click)="viewprof($event, ast)"></ion-icon><ion-icon *ngIf="ast.status" class="info" name="call" tappable (click)="callreq($event, ast)"></ion-icon></div></ion-col></ion-row>
-					 <ion-row><ion-col><div class="tag">{{ast.tagline}}</div></ion-col></ion-row>
-					<div *ngIf="ast.tot_ratings"><ion-row><ion-col size="12"><span class="arat"><ion-icon class="star" name={{ast.str1}}></ion-icon><ion-icon class="star" name={{ast.str2}}></ion-icon><ion-icon class="star" name={{ast.str3}}></ion-icon><ion-icon class="star" name={{ast.str4}}></ion-icon><ion-icon class="star" name={{ast.str5}}></ion-icon>({{ast.tot_ratings}})</span></ion-col></ion-row></div>
-					<ion-row><ion-col><span [innerHTML]="ast.cfee"></span><span [innerHTML]="ast.smsg"></span></ion-col></ion-row>
-					</ion-grid>
-				    </ion-col>
-			</ion-row>
-		</ion-grid>
-		</ion-item>
 	</ion-list>
 </ion-content>

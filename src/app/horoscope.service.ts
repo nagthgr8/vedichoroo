@@ -98,7 +98,7 @@ private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
   private apiUrl94 = 'https://api.vedichoroo.com/api/RecfyBTSML';
   private apiUrl95 = 'https://api.vedichoroo.com/api/StarsForMon';
   private apiUrl96 = 'https://api.vedichoroo.com/api/CompatibilityReport';
-  private apiUrl97 = 'https://api.vedichoroo.com/api/Login';
+  private apiUrl97 = 'https://api.vedichoroo.com/user/SSOLogin';
   private apiUrl98 = 'https://api.vedichoroo.com/api/GetPujas';
   private apiUrl99 = 'https://api.vedichoroo.com/api/GetTickets';
   private apiUrl100 = 'https://api.vedichoroo.com/api/AddTicketResp';
@@ -115,6 +115,11 @@ private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
   private apiUrl112 = 'https://api.vedichoroo.com/api/GetDashTrans4DT';
   private apiUrl113 = 'https://sapi.vedichoroo.com/api/LogCall';
   private apiUrl114 = 'https://sapi.vedichoroo.com/api/GetCallInfo';
+   private apiUrl115 = 'https://api.vedichoroo.com/payment/GetExchangeRate';
+  private apiUrl116 = 'https://api.vedichoroo.com/payment/GetBalance';
+  private apiUrl117 = 'https://api.vedichoroo.com/payment/CreateOrder';
+  private apiUrl118 = 'https://api.vedichoroo.com/payment/Orders';
+  private apiUrl119 = 'https://api.vedichoroo.com/api/IsAstrologer';
   constructor(private http: HttpClient, private shareService: ShareService) { }
   getJson(url: string): Observable<{}> {
 	return this.http.get(url).pipe(
@@ -122,20 +127,92 @@ private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
     catchError(this.handleError)
    );
   }
-  login(password: string) : Observable<{}> {
+   getConnectedAstros() : Observable<{}> {
+	let headers = new HttpHeaders()
+			.set('Accept', 'application/json; charset=utf-8');   
+	return this.http.get('https://ast.vedichoroo.com/astrologers', {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+    
+  }
+ getActivePeers(): Observable<any> {
+  let headers = new HttpHeaders().set('Accept', 'application/json; charset=utf-8');
+  return this.http.get('https://ast.vedichoroo.com/active-peers', {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+  );
+}
+getBalance(uid):Observable<{}> {
+	let headers = new HttpHeaders()
+			.set('Accept', 'application/json; charset=utf-8');   
+	let httpParams = new HttpParams()
+                        .set('cid', uid);
+	return this.http.get(this.apiUrl115, {headers: headers, params: httpParams}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+	);
+  }
+  login(email: string, password: string) : Observable<{}> {
 	  var oDat = {
-		  name: 'VUSER',
-		  password: password
-	  }
+	      UserName: email,
+		  Email: email,
+		  Password: password
+	  };
 	  let headers = new HttpHeaders()
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8');
 	  
-	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl97.replace('https://api', 'https://sapi') : this.apiUrl97, JSON.stringify(oDat), { headers: headers }).pipe(
+	  return this.http.post(this.apiUrl97, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
   }
+    getCurrencyExchangeRate(ccode, ccy): Observable<{}> {
+	let headers = new HttpHeaders()
+			.set('Accept', 'application/json; charset=utf-8');   
+	let httpParams = new HttpParams()
+                        .set('ccode', ccode)
+						.set('ccy', ccy);
+	return this.http.get(this.apiUrl115, {headers: headers, params: httpParams}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  getOrderStatus(orderid): Observable<{}> {
+     let url = this.apiUrl118 + '/' + orderid + '/status';
+	let headers = new HttpHeaders()
+			.set('Accept', 'application/json; charset=utf-8');   
+	return this.http.get(url, {headers: headers}).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+   );
+  }
+  createOrder(amt, ccy):Observable<{}> {
+	  var oDat = {
+		  Amount: amt,
+		  Currency: ccy
+	  };
+	  let headers = new HttpHeaders()
+		  .set('Accept', 'application/json; charset=utf-8')
+		  .set('Content-Type', 'application/json; charset=utf-8');
+	  return this.http.post(this.apiUrl117, JSON.stringify(oDat), { headers: headers }).pipe(
+		  map(this.extractData),
+		  catchError(this.handleError)
+		  );
+   }
+   isAstro(eml):Observable<{}> {
+	let headers = new HttpHeaders()
+			.set('Accept', 'application/json; charset=utf-8');   
+	let httpParams = new HttpParams()
+                        .set('eml', eml);
+	return this.http.get(this.apiUrl95, {headers: headers, params: httpParams}).pipe(
+    map(this.extractData),
+	map((res: any) => res === true),
+    catchError(this.handleError)
+	);
+   }
+
   uploadImage(b64img: string) : Observable<{}> {
   //  var oDat = {
 //		key: '838018be3fb23483659f6041c6586217',

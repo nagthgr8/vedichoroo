@@ -12,11 +12,14 @@ import {TranslateService} from '@ngx-translate/core';
 import { File } from '@ionic-native/file/ngx';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 import { Market } from '@ionic-native/market/ngx';
-import { CallService } from '../call.service';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
+import { astroStatus, CallService } from '../call.service';
 import { Ticket } from '../ticket';
 import { Plan } from '../plan';
+import { Astrologer } from '../astrologer';
+import { User } from '../user';
+import { Location } from '../location';
 import * as sign_imgs from '../sign_imgs.json';
 import * as sublords from '../sublords.json';
 import * as moment from 'moment';
@@ -114,6 +117,7 @@ export class HomePage  {
   items: Array<{title: string, note: string, spin: boolean, show: boolean, fuse: boolean, img: string}>;
   private weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   urat: any = {};
+  oAst: Astrologer[] = [];
   constructor(private androidPermissions: AndroidPermissions, 	
   public alertController: AlertController,
    private geolocation: Geolocation,	
@@ -210,32 +214,68 @@ private menu: MenuController, private device: Device, private appVersion: AppVer
 		}) ;
    }
 
+	async callreq(evt, ast) {
+	  console.log('ast', ast);
+	  evt.stopPropagation();
+	  //check balance, if is insufficient invoke the recharge dialog 
+	  let user: User = await this.shareService.getItem('user') as User;
+	  if(!user) { this.shareService.setGEVT('login'); return; }
+	  else if(user.dob == ''){
+	      this.shareService.setGEVT('dob');
+	  } else {
+	    console.log('user', user);
+		this.horoService.getBalance(user.email).subscribe((res) => {	
+		  //if(res['balance'] > 0) {
+		  // Parse the astrologer's fee from the string format
+		   this.shareService.getItem('vho:loc').then((loc: Location) => {
+			this.getMinBal(ast.cfee, ast.ccy, loc.country_code).then(minBal => {
+				//const estimatedCallCost = astrologerFeePerMinute*5; //minimum 5 minutes of balance is required;
+				//if (user.balance >= minBal) {
+			this.callService.callAstro(ast.eml, ast.name, ast.avatar, user.email, user.dob, (user.isprivate) ? 'https://i.imgur.com/LR7e1vw.png' : user.imageUrl).then(() => {
+							   
+							});
+				//} else {
+							//display recharge dialog
+				//	this.shareService.setGEVT('recharge');
+				//}
+			});
+		   });
+		// } else {
+			// if(res['balance'] == 0) {
+				// this.shareService.setGEVT('recharge');
+			// } else {
+				// alert('Our server did not respond, please try afer sometime.');
+			// }
+	    // }
+	}, (err) => {
+		      console.log(JSON.stringify(err));
+	}); 
+	
+     }
+	  
+	}
+	async getMinBal(fee: string, ccy: string, ccode: string): Promise<number> {
+	  const res = await this.horoService.getCurrencyExchangeRate(ccode, ccy);
+
+	  const [price,per,unit] = fee.split(' ');
+
+	  let rate: number;
+	  if (per === 'per' && (unit === 'min' || unit === 'minute')) {
+		rate = Number(price) * res['ConversionRate'] * 5;
+	  } else if (per === 'per' && unit === 'hour') {
+		rate = Number(price) * res['ConversionRate'];
+	  } else {
+		rate = parseFloat(price);
+	  }
+	  return rate;
+	}
+
 showDASH() {
 			this.bpf = true;
 			this.info2 = '';
 			  this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.RECORD_AUDIO]).then(
 				adp => {
 					console.log('request permission?',adp)
-					   this.horoService.getAllAstrologers()
-					   .subscribe(asts => {
-						   for(var i = 0; i < (asts as any).length; i++) {
-							  console.log('astuuid', asts[i].uuid);
-							  console.log('deviceuuid', this.device.uuid);
-							 if(this.device.uuid == asts[i].uuid) { 
-							   this.shareService.setUID(asts[i].uid);
-							   asts[i].status = "A|" + this.shareService.getPeerId();
-								this.shareService.setASTFlag(); 
-								this.callService.enableCallAnswer();
-								this.horoService.setAstStatus(this.device.uuid, "A|" + this.shareService.getPeerId())
-									.subscribe(res => {
-									}, (err) => {
-									});	  
-								break; 
-							   }
-						   }
-						   this.shareService.setASTS(asts);
-					   }, (err) => {
-					   });
 					let options = {timeout: 10000, enableHighAccuracy: true, maximumAge: 3600};
 					this.geolocation.getCurrentPosition(options).then((resp) => {
 						console.log('loc', resp);
@@ -441,9 +481,15 @@ getSN(msgn) {
         }
 
  ngAfterViewInit() {
- 		  console.log('home', 'ngOnInit');
+ 		  console.log('home', 'ngOnAfterViewInit');
 		 this.info = 'Fetching..';
-	      this.shareService.getPLAN().then((pln)=> { 
+	astroStatus.subscribe((ast) => {
+		console.log('astroStatus', ast);
+		let a = this.oAst.find((o) => o.eml === ast.aid);
+		a.smsg = (ast.busy) ? 'Not Available': 'Available';
+		a.status = !ast.busy;
+	  });
+  this.shareService.getPLAN().then((pln)=> { 
 		      console.log('fetched plan', pln);
 		        this.info = '';
 				this.plan = pln; 
@@ -616,6 +662,101 @@ getSN(msgn) {
 					 }
 				  }, (err) => {
 	    });
+		this.horoService.getAllAstrologers().subscribe((oa: any[]) => {
+			        let a: number = 0;
+			  for (var i = 0; i < oa.length; i++) {
+				console.log(i, oa[i]);
+				let call: string = oa[i].mob;
+				let chat: string = oa[i].mob;
+				if (oa[i].mob.indexOf('|') > -1) {
+				  call = oa[i].mob.split('|')[0];
+				  chat = oa[i].mob.split('|')[1];
+				}
+				let smsg = 'Not Available';
+				let status = false;
+				let cfee: string = '';
+				let ast: Astrologer = {
+				  uuid: oa[i].uuid,
+				  name: oa[i].name,
+				  tagline: oa[i].tagline,
+				  avatar: oa[i].avatar,
+				  uid: oa[i].uid,
+				  mob: call,
+				  walnk: '',
+				  smsg: smsg,
+				  status: status,
+				  peerid: '',
+				  cfee: oa[i].cfee,
+				  ccy: 'INR',
+				  rating: oa[i].rating,
+				  tot_ratings: oa[i].tot_ratings,
+				  str1: 'fa fa-star-o',
+				  str2: 'fa fa-star-o',
+				  str3: 'fa fa-star-o',
+				  str4: 'fa fa-star-o',
+				  str5: 'fa fa-star-o',
+				  lng: oa[i].lng,
+				  eml: oa[i].eml
+				};
+
+				if (oa[i].rating >= 1 && oa[i].rating < 2) {
+				  ast.str1 = 'fa-solid fa-star';
+				  ast.str2 = (oa[i].rating > 1) ? 'fa fa-star-half-o' : 'fa fa-star-o';
+				  ast.str3 = 'fa fa-star-o';
+				  ast.str4 = 'fa fa-star-o';
+				  ast.str5 = 'fa fa-star-o';
+				}
+				else if (oa[i].rating >= 2 && oa[i].rating < 3) {
+				  ast.str1 = 'fa-solid fa-star';
+				  ast.str2 = 'fa-solid fa-star';
+				  ast.str3 = (oa[i].rating > 2) ? 'fa fa-star-half-o' : 'fa fa-star-o';
+				  ast.str4 = 'fa fa-star-o';
+				  ast.str5 = 'fa fa-star-o';
+				}
+				else if (oa[i].rating >= 3 && oa[i].rating < 4) {
+				  ast.str1 = 'fa-solid fa-star';
+				  ast.str2 = 'fa-solid fa-star';
+				  ast.str3 = 'fa-solid fa-star';
+				  ast.str4 = (oa[i].rating > 3) ? 'fa fa-star-half-o' : 'fa fa-star-o';
+				  ast.str5 = 'fa fa-star-o';
+				}
+				else if (oa[i].rating >= 4 && oa[i].rating < 5) {
+				  ast.str1 = 'fa-solid fa-star';
+				  ast.str2 = 'fa-solid fa-star';
+				  ast.str3 = 'fa-solid fa-star';
+				  ast.str4 = 'fa-solid fa-star';
+				  ast.str5 = (oa[i].rating > 4) ? 'fa fa-star-half-o' : 'fa fa-star-o';
+				} else {
+				  ast.str1 = 'fa-solid fa-star';
+				  ast.str2 = 'fa-solid fa-star';
+				  ast.str3 = 'fa-solid fa-star';
+				  ast.str4 = 'fa-solid fa-star';
+				  ast.str5 = 'fa-solid fa-star';
+				}
+				console.log(ast.name, ast.status);
+				this.oAst.push(ast);
+			  }
+			  this.shareService.setASTS(this.oAst);
+			this.horoService.getConnectedAstros().subscribe((casts: any[]) => {
+				  console.log('casts', casts);
+			console.log('oAst', this.oAst);
+			this.shareService.getASTS().forEach(item1 => {
+			  //console.log('ast', item1.eml);
+			  const cast = casts.find(item2 => item2.aid === item1.eml);
+		  
+			  if (cast) {
+				console.log('astrologer found', cast);
+				item1.smsg = (cast.busy) ? 'Busy' : 'Available';
+				item1.status = !cast.busy;
+			  }
+			});
+		  },(error) => {
+			console.log(error);
+		  });
+		},(error) => {
+			console.log(error);
+		});
+	   
 }
  showPanch() {
    		var cd = new Date();

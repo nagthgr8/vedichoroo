@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Device } from '@ionic-native/device/ngx';
-import { CallService } from '../call.service';
 import { File } from '@ionic-native/file/ngx';
 import { HoroscopeService } from '../horoscope.service';
-import { ShareService } from '../share.service'
+import { ShareService } from '../share.service';
+import { astroStatus, CallService } from '../call.service';
 import { Astrologer } from '../astrologer';
+import { User } from '../user';
+import { Location } from '../location';
 import { AstrologerPage } from '../astrologer/astrologer.page';
 
 @Component({
@@ -29,28 +31,12 @@ export class AstrologersPage implements OnInit {
 	 this.publishReport(this.shareService.getASTS());
   }
   ngOnInit() {
-      // this.callService.localStream$
-      // .pipe(filter(res => !!res))
-      // .subscribe(stream => this.localVideo.nativeElement.srcObject = stream)
-    // this.callService.remoteStream$
-      // .pipe(filter(res => !!res))
-      // .subscribe(stream => this.remoteVideo.nativeElement.srcObject = stream)
-	this.callService.isCallAnswered$
-		.subscribe(res => {
-			if(this.shareService.isAST()) {
-				this.horoService.setAstStatus(this.device.uuid, "C|" + this.shareService.getPeerId())
-					.subscribe(stat => {
-				});
-			}
-		});
-	this.callService.isCallClosed$
-		.subscribe(res => {
-			if(this.shareService.isAST()) {
-				this.horoService.setAstStatus(this.device.uuid, "A|" + this.shareService.getPeerId())
-				.subscribe(stat => {
-				});
-			}
-		});
+	  astroStatus.subscribe((ast) => {
+		console.log('astroStatus', ast);
+		let a = this.oAst.find((o) => o.eml === ast.aid);
+		a.smsg = (ast.busy) ? 'Not Available': 'Available';
+		a.status = !ast.busy;
+	  });
 }
   publishReport(oa: any)
   {
@@ -99,7 +85,10 @@ export class AstrologersPage implements OnInit {
                     str2: 'star-outline',					
                     str3: 'star-outline',					
                     str4: 'star-outline',					
-                    str5: 'star-outline',					
+                    str5: 'star-outline',	
+					          ccy: 'INR',
+					  lng: oa[i].lng,
+					  eml: oa[i].eml
 					};
 					
 			if(oa[i].rating >= 1 && oa[i].rating < 2) {
@@ -145,72 +134,48 @@ export class AstrologersPage implements OnInit {
 		 }
   
   }
-  callreq(event, ast) {
-     event.stopPropagation();
-     console.log(ast);
-	this.shareService.getCSTATS().then( csts => {
-				if(csts && csts.split('|')[0] == 'C') {
-					if( csts.split('|')[1] != ast.uid) {
-						this.shareService.setCSTATS('1|' + ast.uid);
-					} 
-				} else {
-						this.shareService.setCSTATS('1|' + ast.uid);
-				}
-	})
-	.catch(e => {
-			this.shareService.setCSTATS('1|' + ast.uid);
-	});
-	 
-	this.horoService.talkToAstro(ast.uid, this.device.uuid + '|' + this.shareService.getCLAT().toString() + ',' + this.shareService.getCLNG().toString(), 'C')
-	   .subscribe(res => {
-	   }, (err) => {
-	     console.log(err);
-	   });	 
-		this.shareService.getUPRO().then( upro => {
-			this.horoService.getAstrologer(ast.uuid)
-			.subscribe(aast => {
-				   if(aast['status'].split('|')[0] == 'A'){
-					this.callService.establishMediaCall(upro['dob'], aast['status'].split('|')[1], true);
-					let cinf: any = {};
-					cinf.uid = ast.uid;
-					cinf.name =  ast.name;
-				   cinf.avatar = ast.avatar;
-				   cinf.iscaller = true;
-				   cinf.secs = 0;
-				   cinf.starttime = '';
-				   cinf.endtime = '';
-				   this.router.navigate(['/astro-call'], {state: cinf});
-				 } else {
-				   
-				 }
+  	async callreq(evt, ast) {
+	  console.log('ast', ast);
+	  evt.stopPropagation();
+	  //check balance, if is insufficient invoke the recharge dialog 
+	  let user: User = await this.shareService.getItem('user') as User;
+	  if(!user) { this.shareService.setGEVT('login'); return; }
+	  else if(user.dob == ''){
+	      this.shareService.setGEVT('dob');
+	  } else {
+	    console.log('user', user);
+		this.horoService.getBalance(user.email).subscribe((res) => {	
+		  //if(res['balance'] > 0) {
+		  // Parse the astrologer's fee from the string format
+		   this.shareService.getItem('vho:loc').then((loc: Location) => {
+			this.getMinBal(ast.cfee, ast.ccy, loc.country_code).then(minBal => {
+				//const estimatedCallCost = astrologerFeePerMinute*5; //minimum 5 minutes of balance is required;
+				//if (user.balance >= minBal) {
+			this.callService.callAstro(ast.eml, ast.name, ast.avatar, user.email, user.dob, (user.isprivate) ? 'https://i.imgur.com/LR7e1vw.png' : user.imageUrl).then(() => {
+							   
+							});
+				//} else {
+							//display recharge dialog
+				//	this.shareService.setGEVT('recharge');
+				//}
 			});
-		})
-		.catch(e => {
-			console.log(e);
-			this.horoService.getProfile(this.device.uuid).subscribe( upro => {
-			  this.horoService.getAstrologer(ast.uuid)
-			  .subscribe(aast => {
-			   if(aast['status'].split('|')[0] == 'A'){
-				this.callService.establishMediaCall(upro['dob'], aast['status'].split('|')[1], true);
-				let cinf: any = {};
-			   cinf.name =  ast.name;
-			   cinf.avatar = ast.avatar;
-			   cinf.iscaller = true;
-			   cinf.secs = 0;
-			   cinf.starttime = '';
-			   cinf.endtime = '';
-			   this.router.navigate(['/astro-call'], {state: cinf});
-				 } else {
-				   
-				 }
-		     });
-			});
-		});
-	   //this.callNumber.callNumber('+' + ast.mob, true)
-		//.then(res => console.log('Launched dialer!', res))
-		//.catch(err => console.log('Error launching dialer', err));
-		
-  }
+		   });
+		// } else {
+			// if(res['balance'] == 0) {
+				// this.shareService.setGEVT('recharge');
+			// } else {
+				// alert('Our server did not respond, please try afer sometime.');
+			// }
+	    // }
+	}, (err) => {
+		      console.log(JSON.stringify(err));
+	}); 
+	
+     }
+	  
+	}
+
+
   // chatreq(event, ast) {
      // event.stopPropagation();
      // console.log(ast);
@@ -232,6 +197,22 @@ export class AstrologersPage implements OnInit {
 		   // this.router.navigate(['/astro-chat'], {state: this.cinf});
 		// });
   // }
+  	async getMinBal(fee: string, ccy: string, ccode: string): Promise<number> {
+	  const res = await this.horoService.getCurrencyExchangeRate(ccode, ccy);
+
+	  const [price,per,unit] = fee.split(' ');
+
+	  let rate: number;
+	  if (per === 'per' && (unit === 'min' || unit === 'minute')) {
+		rate = Number(price) * res['ConversionRate'] * 5;
+	  } else if (per === 'per' && unit === 'hour') {
+		rate = Number(price) * res['ConversionRate'];
+	  } else {
+		rate = parseFloat(price);
+	  }
+	  return rate;
+	}
+
   viewprof(event, ast) {
      event.stopPropagation();
      console.log(ast);

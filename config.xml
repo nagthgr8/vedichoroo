@@ -1,19 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="12600715" id="com.mypubz.eportal" ios-CFBundleVersion="126.71.5" version="126.71.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>VEDIC HOROO</name>
-    <description>VEDIC HOROO is a free Horoscope Kundali app based on Hindu, Vedic,Indian Astrology is available in ENGLISH, HINDI, TAMIL and TELUGU languages</description>
-    <author email="mohan@vedichoroo.com" href="http://www.vedichoroo.com/">MYPUBZ Team</author>
+<widget android-versionCode="5" id="com.vedichoroo.astrology" ios-CFBundleVersion="1.0.4" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>VEDICHOROO</name>
+    <description>Free Astrology services, online astrology consultation with our best astrologer, get daily horoscope for your zodiac sign, love compatibility horoscope matching</description>
+    <author email="mohan@vedichoroo.com" href="http://www.vedichoroo.com/">Cosmic Creations</author>
     <content src="index.html" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
+    <access origin="https://www.vedichoroo.com" />
+    <access origin="https://*.vedichoroo.com" />
+    <allow-navigation href="https://www.vedichoroo.com/*" />
+    <allow-navigation href="https://*.vedichoroo.com/*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
-    <preference name="android-targetSdkVersion" value="30" />
-    <preference name="android-compileSdkVersion" value="30" />
+    <preference name="android-targetSdkVersion" value="33" />
+    <preference name="android-compileSdkVersion" value="33" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
@@ -30,6 +28,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference default="15.0.1" name="GOOGLE_PLAY_SERVICES_VERSION" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
@@ -105,7 +104,6 @@
         <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
-    <allow-navigation href="http://192.168.1.101:8100" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />

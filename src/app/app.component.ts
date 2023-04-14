@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild, Renderer2  } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform, MenuController, AlertController } from '@ionic/angular';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -16,18 +18,19 @@ import { Ticket } from './ticket';
 import { Plan } from './plan';
 import { BirthInfo } from './birth-info';
 import { Dasha } from './dasha';
-
+import { User } from './user';
+import { Caller } from './caller';
+declare var navigator: any;
 declare var admob;
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+  styleUrls: ['app.component.scss']
 })
-export class AppComponent implements  OnDestroy, AfterViewInit {
+export class AppComponent implements OnDestroy {
   @ViewChild('vhoring', {static: true}) vhoRing;
-  public isCallStarted$: Observable<boolean>;
   private peerId: string;  
   lstnr: () => void;
   backmode: boolean = false;
@@ -63,8 +66,12 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
   ringing: boolean = false;
   vring: any;
   rngdely: number = 1000;
- constructor(
+  showAstroCall = false;
+	callEnded: any;
+	callEndedEvent: any;
+   constructor(
    public alertController: AlertController,
+   private googlePlus: GooglePlus,
    private callService: CallService,
    private router: Router,
 	private renderer: Renderer2,
@@ -78,16 +85,8 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 	public device: Device,
 	private file: File
   ) {
-    this.isCallStarted$ = this.callService.isCallStarted$;
-    this.peerId = this.callService.initPeer();
-	this.shareService.setPeerId(this.peerId);
-	console.log('peerId', this.peerId);
-	this.vring = new Audio('assets/sounds/telephone-ring-03a.mp3');
-		this.vring.addEventListener('ended', (evt) => {
-			console.log('vring: call ended', this.ringing);
-			this.ring();
-		}, false);
-	//pubnub.init({ publishKey: 'pub-c-8b05f8ad-9452-4d4e-9413-009199c16c4b', subscribeKey: 'sub-c-df97f024-c6cd-11ec-8bed-a6fdca316470' });
+	navigator.notification.activityStart('Loading...');
+	navigator.notification.activityStop();
     this.backmode = false;
 	translate.setDefaultLang('en');
     this.initializeApp();
@@ -102,60 +101,40 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 	  { title: 'Privacy Policy', component: '/privacy', icon: 'lock-closed-outline', spin: false },
       { title: 'Vedic Stories', component: '/stories', icon: 'leaf-outline', spin: false },
       { title: 'Settings', component: '/chart-settings', icon: 'settings-outline', spin: false },
+      { title: 'Memories', component: '/memories', icon: 'heart', spin: false },
 	  { title: 'Exit App', component: '/exit-app', icon: 'exit', spin: false}
     ];
-	this.callService.isCallStarted$
-		.subscribe(res => {
-			console.log('isCallStarted$', res);
-			if(res && this.shareService.isAST()) {
-				let cinf: any = {};
-				cinf.name =  '';
-				cinf.avatar = 'https://i.imgur.com/LR7e1vw.png';
-				cinf.iscaller = false;
-				cinf.secs = 0;
-				cinf.starttime = '';
-				cinf.endtime = '';
-				this.router.navigate(['/astro-call'], {state: cinf});
-			}
-			if(res) {
-				this.ringing = true;
-				this.vring.play();
-			} else this.ringing = false;
-		});
-  	this.callService.isCallClosed$
-		.subscribe(res => {
-			this.ringing = false;
-		});
-		this.callService.isCallAnswered$
-		.subscribe(res => {
-			console.log('isCallAnswered$ triggered at app.component');
-			this.ringing = false;
-			//this.vring.loop = false;
-		});
-		this.callService.msgRecved$
-		.subscribe(res => {
-			if(this.router.url != '/astro-chat') {
-				let cinf: any = {};
-				let met: any = this.callService.getConnMetadata();
-				let dob = met['dob'];
-				cinf.name =  dob.split('#')[1].split('&')[0];
-				cinf.avatar = 'https://i.imgur.com/LR7e1vw.png';
-				cinf.iscaller = false;
-				cinf.secs = 0;
-				cinf.starttime = '';
-				cinf.endtime = '';
-				cinf.msg = res;
-				cinf.dob = dob;
-				this.router.navigate(['/astro-chat'], {state: cinf});
-			}
-		});
+	this.callService.callStarted.subscribe((cinf) => {
+	  console.log('AppComponent: callStarted');
+		  let callerInfo: Caller  = {
+		    uuid: '',
+			uid: cinf.cid,
+		    aid: cinf.aid,
+		    caller_name: '',
+		    name: '',
+			avatar: cinf.pic,
+		    iscaller: cinf.is_caller,
+		    duration: 0,
+		    starttime: '',
+		    endtime: '',
+           };
+		  console.log('emitting callerInfo', callerInfo);
+          this.shareService.emitCallerInfo(callerInfo);		   
+		  console.log('showAstroCall');
+		  this.showAstroCall = true;
+	});
+    this.callService.callEnded.subscribe(() => {
+      this.showAstroCall = false;
+    });  
         this.shareService.astro
 			.subscribe(res => {
 				this.pages.push({ title: 'My Earnings', component: '/my-earnings', icon: 'cash', spin: false});
 			});
 	// this.callService.enableCallAnswer();
   }
-    
+  onCallEnded(cEnd: any) {
+	this.showAstroCall = false;
+  }  
   async ring() {
  	if(this.ringing) {
 		await timer(this.rngdely);
@@ -170,6 +149,41 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
       // Here you can do any higher level native things you might need.
     this.platform.ready().then(() => {
 	  console.log('platform ready');
+	  try {
+			this.googlePlus.trySilentLogin({ webClientId: '242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com', requestProfile: true, scopes: 'email profile' }).then(profile => {
+	   		  console.log("User is already signed in");
+			  this.horoService.getBalance(profile.email).subscribe((res) => {
+				 this.info = '';
+            		let user: User = {
+						name: profile.displayName,
+						email: profile.email,
+						imageUrl: profile.imageUrl,
+						balance: res['balance'],
+						ccy: (res['currency_code'].length > 3) ? '' : res['currency_code'],
+						peerid: '',
+						dob: '',
+						isprivate: true
+					};
+				  this.shareService.setItem('user', user);
+			  }, (err) => {
+				  console.log(err);
+				  this.info = JSON.stringify(err);
+			  });
+			})
+			.catch(error => {
+				this.alertController.create({
+				header: 'Alert',
+				message: 'Redirecting to sign-in.',
+				buttons: ['OK']
+				}).then(alert => alert.present());
+				this.router.navigate(['/sign-in'], {replaceUrl: true});
+			});
+		}
+		catch(e){
+			console.log(e);
+			navigator.notification.activityStart(JSON.stringify(e));
+		  navigator.notification.activityStop();
+		}
       this.statusBar.styleDefault();				
 	  console.log('stor ready');
 	                this.shareService.getUPRO().then(prf => {
@@ -258,15 +272,11 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 								}
 		});
 		console.log('logging in..');
-			this.horoService.addTicket(this.device.uuid, 'technical', this.device.uuid.toString() + ' LoggingIn',  'LoggingIn')
-				.subscribe(res => {
-				});
-	  this.horoService.login(this.device.uuid)
+		navigator.notification.activityStart('Logging in...');
+		  navigator.notification.activityStop();
+	  this.horoService.login(this.device.uuid, this.device.uuid)
 	    .subscribe(lres => {
 				console.log('logged in', lres);
-			this.horoService.addTicket(this.device.uuid, 'technical', this.device.uuid.toString() + ' LoggedIn',  'LoggedIn')
-				.subscribe(res => {
-				});
 		if(lres['status'] == 'X') {  
 					 setTimeout(() => {
 						this.splashScreen.hide();
@@ -351,9 +361,6 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 			})
 			.catch(e => {
 				console.log(e);
-				this.horoService.addTicket(this.device.uuid, 'technical', this.device.uuid.toString() + ' calling GetPlan',  'GetPlan')
-				.subscribe(res => {
-				});
 				this.horoService.getPlan(this.device.uuid).subscribe(res => {
 					let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
 					console.log('setPLAN');
@@ -364,22 +371,19 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 					 setTimeout(() => {
 						this.splashScreen.hide();
 					  }, 1000);				
-			this.horoService.addTicket(this.device.uuid, 'technical', this.device.uuid.toString() + ' redirecting to Profile page',  'Profile')
-				.subscribe(res => {
-				});
 					this.router.navigate(['/profile'], {replaceUrl: true});
 				});
 			});
 		 }
+	  }, (err) => {
+		   console.log(err);
+		  	navigator.notification.activityStart(JSON.stringify(err));
+			    navigator.notification.activityStop();
 	  });
-	 // this.platform.pause.subscribe(() => {
-	//	if(this.shareService.isAST()) {
-	//		this.horoService.setAstStatus(this.device.uuid, "NA")
-	//		.subscribe(stat => {
-	//		});
-	//	}
-	//	this.callService.destroyPeer();
-	 //});
+   }, (err) => {
+	  console.log(err);
+	  navigator.notification.activityStart(JSON.stringify(err));
+	    navigator.notification.activityStop();
    });
   }
   close() {
@@ -388,7 +392,7 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 		.subscribe(stat => {
 		});
 	}
-	this.callService.destroyPeer();
+	//this.callService.destroyPeer();
 	if (this.lstnr) {
       this.lstnr();
     }
@@ -538,7 +542,7 @@ export class AppComponent implements  OnDestroy, AfterViewInit {
 		.subscribe(stat => {
 		});
 	}
-	this.callService.destroyPeer();
+    this.callService.stopTracks();
 	if (this.lstnr) {
       this.lstnr();
     }
