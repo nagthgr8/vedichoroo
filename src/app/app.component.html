@@ -1,104 +1,105 @@
 <ion-app>
-<ion-menu menuId="first" contentId="main" side="start">
-<ion-header [translucent]="true">
-  <ion-toolbar mode="ios">
-    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
-  </ion-toolbar>
-</ion-header>
-  <ion-content>
-    <div class="ion-text-center"><img [src]="avatar" alt="profile picture" class="avatar" (click)="profile()"/></div>
-    <ion-list *ngIf="btran">
-	  <ion-menu-toggle auto-hide="true">
-	   <div *ngIf="bAST">
-		  <ion-item>
-		   <p [innerHTML]='statuslbl'></p>
-		   <ion-toggle [(ngModel)]="status" [checked]="status" (ionChange)="chgstatus()" ></ion-toggle>
-		  </ion-item>
-	  </div>
-      <ion-button expand="block" ion-item icon-start *ngFor="let p of pages" tappable (click)="openPage(p)">
-	  <ion-icon name={{p.icon}}></ion-icon>
-        {{p.title}}
-		<ion-spinner *ngIf="p.spin" item-right></ion-spinner>
-      </ion-button>
-	  </ion-menu-toggle>
-    </ion-list>
-  </ion-content>
-</ion-menu>
- <ion-menu menuId="second" contentId="main" side="end">
- <ion-content>
- <ion-menu-toggle auto-hide="true">
-<ion-item><span class="green">{{predn}}</span>&nbsp;sign {{'Predictions' |translate}}<ion-badge color="primary" tappable (click)="chgpred()">change</ion-badge></ion-item>
- <div class="ion-text-center">{{info}}</div>
- <div class="tcont" *ngIf="btran">
-    <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Su.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posSu }}</span> <img width="16" height="16" [src]="rasSu"/><br><span class="itmnote"> {{smsgSu}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Mo.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posMo }}</span> <img width="16" height="16" [src]="rasMo"/><br><span class="itmnote"> {{smsgMo}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Ju.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posJu }}</span> <img width="16" height="16" [src]="rasJu"/><br><span class="itmnote"> {{smsgJu}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Ve.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posVe }}</span> <img width="16" height="16" [src]="rasVe"/><br><span class="itmnote"> {{smsgVe}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Me.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posMe }}</span> <img width="16" height="16" [src]="rasMe"/><br><span class="itmnote"> {{smsgMe}}</span></div>
-	  </div>
-	 </div>
- 	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Ma.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posMa }}</span> <img width="16" height="16" [src]="rasMa"/><br><span class="itmnote"> {{smsgMa}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Sa.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posSa }}</span> <img width="16" height="16" [src]="rasSa"/><br><span class="itmnote"> {{smsgSa}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Ra.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posRa }}</span> <img width="16" height="16" [src]="rasRa"/><br><span class="itmnote"> {{smsgRa}}</span></div>
-	  </div>
-	 </div>
-	 <div class="titm">
-	 <div> <img width="16" height="16" src="assets/imgs/Ke.png" class="ticon" /> </div>
-	  <div class="trght">
-			<div> <span class="itm">{{posKe }}</span> <img width="16" height="16" [src]="rasKe"/><br><span class="itmnote"> {{smsgKe}}</span></div>
-	  </div>
-	 </div>
-</div>
-	<ion-grid class="vgrid">
- <ion-row class="vrow" *ngIf="showVIM">
-  <ion-col class="vdash-items">
-    <div class="title">{{'VIMSOTTARI DASHA'|translate}}</div><br>
-	<div class="vdas lines" *ngFor="let das of oDas" [hidden]="!das.show">
-		<div class="lrd"><span [class]="das.style">{{das.lord}}</span></div>
-		<div class="per"><span [class]="das.style">{{das.per}}</span></div>
-		<ion-icon tappable (click)="ontoggle($event, das)" *ngIf="das.show" [name]="das.icon"></ion-icon><br>
-	</div>
-	</ion-col>
-</ion-row>
-	</ion-grid>
- </ion-menu-toggle>
- </ion-content>
- </ion-menu>
- <ion-router-outlet id="main"></ion-router-outlet>
+	<ion-menu menuId="first" contentId="main" side="start">
+		<ion-header [translucent]="true">
+			<ion-toolbar mode="ios">
+				<ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+			</ion-toolbar>
+		</ion-header>
+		<ion-content>
+			<div class="ion-text-center"><img [src]="avatar" alt="profile picture" class="avatar" /></div>
+			<ion-list *ngIf="btran">
+				<ion-menu-toggle auto-hide="true">
+					<div *ngIf="bAST">
+						<ion-item>
+							<p [innerHTML]='statuslbl'></p>
+							<ion-toggle [(ngModel)]="status" [checked]="status" (ionChange)="chgstatus()"></ion-toggle>
+						</ion-item>
+					</div>
+					<ion-button expand="block" ion-item icon-start *ngFor="let p of pages" tappable (click)="openPage(p)">
+						<ion-icon name={{p.icon}}></ion-icon>
+						{{p.title}}
+						<ion-spinner *ngIf="p.spin" item-right></ion-spinner>
+					</ion-button>
+				</ion-menu-toggle>
+			</ion-list>
+		</ion-content>
+	</ion-menu>
+	<ion-menu menuId="second" contentId="main" side="end">
+		<ion-content>
+			<ion-menu-toggle auto-hide="true">
+				<ion-item><span class="green">{{predn}}</span>&nbsp;sign {{'Predictions' |translate}}<ion-badge color="primary" tappable (click)="chgpred()">change</ion-badge></ion-item>
+				<div class="ion-text-center">{{info}}</div>
+				<div class="tcont" *ngIf="btran">
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Su.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posSu }}</span> <img width="16" height="16" [src]="rasSu" /><br><span class="itmnote"> {{smsgSu}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Mo.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posMo }}</span> <img width="16" height="16" [src]="rasMo" /><br><span class="itmnote"> {{smsgMo}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Ju.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posJu }}</span> <img width="16" height="16" [src]="rasJu" /><br><span class="itmnote"> {{smsgJu}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Ve.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posVe }}</span> <img width="16" height="16" [src]="rasVe" /><br><span class="itmnote"> {{smsgVe}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Me.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posMe }}</span> <img width="16" height="16" [src]="rasMe" /><br><span class="itmnote"> {{smsgMe}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Ma.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posMa }}</span> <img width="16" height="16" [src]="rasMa" /><br><span class="itmnote"> {{smsgMa}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Sa.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posSa }}</span> <img width="16" height="16" [src]="rasSa" /><br><span class="itmnote"> {{smsgSa}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Ra.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posRa }}</span> <img width="16" height="16" [src]="rasRa" /><br><span class="itmnote"> {{smsgRa}}</span></div>
+						</div>
+					</div>
+					<div class="titm">
+						<div> <img width="16" height="16" src="assets/imgs/Ke.png" class="ticon" /> </div>
+						<div class="trght">
+							<div> <span class="itm">{{posKe }}</span> <img width="16" height="16" [src]="rasKe" /><br><span class="itmnote"> {{smsgKe}}</span></div>
+						</div>
+					</div>
+				</div>
+				<ion-grid class="vgrid">
+					<ion-row class="vrow" *ngIf="showVIM">
+						<ion-col class="vdash-items">
+							<div class="title">{{'VIMSOTTARI DASHA'|translate}}</div><br>
+							<div class="vdas lines" *ngFor="let das of oDas" [hidden]="!das.show">
+								<div class="lrd"><span [class]="das.style">{{das.lord}}</span></div>
+								<div class="per"><span [class]="das.style">{{das.per}}</span></div>
+								<ion-icon tappable (click)="ontoggle($event, das)" *ngIf="das.show" [name]="das.icon"></ion-icon><br>
+							</div>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-menu-toggle>
+		</ion-content>
+	</ion-menu>
+	<app-astro-call (callEndedEvent)="onCallEnded($event)" [callEnded]="callEnded" *ngIf="showAstroCall"></app-astro-call>
+	<ng-container *ngIf="!showAstroCall"><ion-router-outlet id="main"></ion-router-outlet></ng-container>
 </ion-app>

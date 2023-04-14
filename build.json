@@ -1,0 +1,25 @@
+{
+  "android": {
+    "release": {
+      "keystore": "vedichoroo.keystore",
+      "storePassword": "dhanwin",
+      "alias": "vedichoroo",
+      "password" : "dhanwin",
+      "packageType": "bundle",
+      "sign": true,
+      "zipalign": true,
+      "jarsigner": true
+    },
+	"debug": {
+  "keystore": "debug.keystore",
+  "storePassword": "android",
+  "alias": "androiddebugkey",
+  "password" : "android",
+  "packageType": "bundle",
+  "sign": true,
+  "zipalign": true,
+  "jarsigner": true
+}
+
+  }
+}

@@ -7,6 +7,7 @@ import { TranslateService} from '@ngx-translate/core';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx'
 import { Device } from '@ionic-native/device/ngx';;
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -16,7 +17,7 @@ import { Market } from '@ionic-native/market/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { InAppPurchase2 } from '@ionic-native//in-app-purchase-2/ngx';
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 import { AppComponent } from './app.component';
@@ -51,6 +52,7 @@ import { CalendarModule } from 'ion2-calendar';
 	],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA],
   providers: [
+	GooglePlus,
     NativeStorage,
     AndroidPermissions,
     Geolocation,

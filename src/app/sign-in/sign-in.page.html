@@ -1,0 +1,15 @@
+<ion-header [translucent]="true" >
+    <ion-toolbar mode="ios">
+        <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
+        <ion-button color="primary" slot="start" menuToggle>
+            <ion-menu-button width="24">
+                <img alt="menu" height="24" src="assets/icon/hamburger.png" />
+            </ion-menu-button>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-content-centered">
+    <ion-button (click)="googleLogin()">Sign in with Google</ion-button>
+    <ion-button (click)="facebookLogin()">Sign in with Facebook</ion-button>
+    <div class="text-center"><strong>{{info}}</strong></div>
+</ion-content>

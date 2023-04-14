@@ -1,22 +1,21 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AstroCallPage } from './astro-call.page';
+import { AstroCallComponent } from './astro-call.component';
 
-describe('AstroCallPage', () => {
-  let component: AstroCallPage;
-  let fixture: ComponentFixture<AstroCallPage>;
+describe('AstroCallComponent', () => {
+  let component: AstroCallComponent;
+  let fixture: ComponentFixture<AstroCallComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AstroCallPage ],
-      imports: [IonicModule.forRoot()]
-    }).compileComponents();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ AstroCallComponent ]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(AstroCallPage);
+    fixture = TestBed.createComponent(AstroCallComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

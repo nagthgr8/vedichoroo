@@ -29,6 +29,12 @@ export class ShareService {
 	prof = this.dsProf.asObservable();
 	private dsAstro = new Subject();
 	astro = this.dsAstro.asObservable();
+	private dsSignIn = new BehaviorSubject(null);
+	signin = this.dsSignIn.asObservable();
+	private dsGevts = new BehaviorSubject('');
+	gevt = this.dsGevts.asObservable();
+	private dsCinf = new BehaviorSubject(null);
+	cinf = this.dsCinf.asObservable();
     place: string;
 	dob: string;
 	pdob: string = '';
@@ -225,6 +231,37 @@ export class ShareService {
 			.catch(e => {
 			});
 		});			
+	}
+	getItem(key) {
+		return new Promise((resolve, reject) => {
+			try {
+				const value = localStorage.getItem(key);
+				
+				if (value === null) {
+					resolve(null);
+				} else {
+				  try {
+					resolve(JSON.parse(value));
+				   } catch (e) {
+				     resolve(value);
+				   }
+				}
+			} catch (err) {
+				reject(err);
+			}
+		});
+	}
+	setItem(key, val) {
+	   localStorage.setItem(key,val);
+	}
+	emitSignIn(usr) {
+		this.dsSignIn.next(usr);
+	}
+    emitCallerInfo(cinf) {
+	    this.dsCinf.next(cinf);
+	}
+	setGEVT(evt) {
+		this.dsGevts.next(evt);
 	}
 	setUID(uid) { this.uid = uid; }
 	getUID() { return this.uid; }

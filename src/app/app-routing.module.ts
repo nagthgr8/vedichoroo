@@ -120,10 +120,6 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'publish-blog',
-    loadChildren: () => import('./publish-blog/publish-blog.module').then( m => m.PublishBlogPageModule)
-  },
-  {
     path: 'stories',
     loadChildren: () => import('./stories/stories.module').then( m => m.StoriesPageModule)
   },
@@ -252,13 +248,18 @@ const routes: Routes = [
     loadChildren: () => import('./astro-call/astro-call.module').then( m => m.AstroCallPageModule)
   },
   {
-    path: 'astro-chat',
-    loadChildren: () => import('./astro-chat/astro-chat.module').then( m => m.AstroChatPageModule)
-  },
-  {
     path: 'my-earnings',
     loadChildren: () => import('./my-earnings/my-earnings.module').then( m => m.MyEarningsPageModule)
+  },
+  {
+    path: 'sign-in',
+    loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
+  },  {
+    path: 'memories',
+    loadChildren: () => import('./memories/memories.module').then( m => m.MemoriesPageModule)
   }
+
+
 ];
 
 @NgModule({

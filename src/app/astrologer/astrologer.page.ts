@@ -10,7 +10,8 @@ import { Crop, CropOptions } from '@ionic-native/crop/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Rating } from '../rating';
-
+import { User } from '../user';
+import { Location } from '../location';
 import * as AWS from 'aws-sdk';
 
 declare var google; 
@@ -224,21 +225,62 @@ ngOnInit()
 	//if(this.showBLG == false) {
 	//}
   }
-callreq(event) {	
-     event.stopPropagation();
-			this.shareService.getUPRO().then( upro => {
-		this.callService.establishMediaCall(upro['dob'], this.ast.peerid, true);
-			let cinf: any = {};
-		   cinf.name =  this.ast.name;
-		   cinf.avatar = this.ast.avatar;
-		   cinf.iscaller = true;
-		   cinf.secs = 0;
-		   cinf.starttime = '';
-		   cinf.endtime = '';
-		   this.router.navigate(['/astro-call'], {state: cinf});
-		});
-  }
- public uploadPic() {
+	async callreq(evt) {
+	  //console.log('ast', ast);
+	  evt.stopPropagation();
+	  //check balance, if is insufficient invoke the recharge dialog 
+	  let user: User = await this.shareService.getItem('user') as User;
+	  if(!user) { this.shareService.setGEVT('login'); return; }
+	  else if(user.dob == ''){
+	      this.shareService.setGEVT('dob');
+	  } else {
+	    console.log('user', user);
+		this.horoService.getBalance(user.email).subscribe((res) => {	
+		  //if(res['balance'] > 0) {
+		  // Parse the astrologer's fee from the string format
+		   this.shareService.getItem('vho:loc').then((loc: Location) => {
+			this.getMinBal(this.ast.cfee, this.ast.ccy, loc.country_code).then(minBal => {
+				//const estimatedCallCost = astrologerFeePerMinute*5; //minimum 5 minutes of balance is required;
+				//if (user.balance >= minBal) {
+			this.callService.callAstro(this.ast.eml, this.ast.name, this.ast.avatar, user.email, user.dob, (user.isprivate) ? 'https://i.imgur.com/LR7e1vw.png' : user.imageUrl).then(() => {
+							   
+							});
+				//} else {
+							//display recharge dialog
+				//	this.shareService.setGEVT('recharge');
+				//}
+			});
+		   });
+		// } else {
+			// if(res['balance'] == 0) {
+				// this.shareService.setGEVT('recharge');
+			// } else {
+				// alert('Our server did not respond, please try afer sometime.');
+			// }
+	    // }
+	}, (err) => {
+		      console.log(JSON.stringify(err));
+	}); 
+	
+     }
+	  
+	}
+    async getMinBal(fee: string, ccy: string, ccode: string): Promise<number> {
+	  const res = await this.horoService.getCurrencyExchangeRate(ccode, ccy);
+
+	  const [price,per,unit] = fee.split(' ');
+
+	  let rate: number;
+	  if (per === 'per' && (unit === 'min' || unit === 'minute')) {
+		rate = Number(price) * res['ConversionRate'] * 5;
+	  } else if (per === 'per' && unit === 'hour') {
+		rate = Number(price) * res['ConversionRate'];
+	  } else {
+		rate = parseFloat(price);
+	  }
+	  return rate;
+	} 
+	public uploadPic() {
     this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
   }
   public takePic() {

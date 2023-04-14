@@ -9,7 +9,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { HoroscopeService } from '../horoscope.service';
-import { ShareService } from '../share.service'
+import { ShareService } from '../share.service';
+import { User } from '../user';
 import * as AWS from 'aws-sdk';
 
 declare var google; 
@@ -208,7 +209,17 @@ dob: string = '';
 			if(this.gen.length > 0) db += '&' + this.gen;
 			if(db != '') {
 				this.info = 'Saving the profile..';
-				this.shareService.setPDOB(db);
+				this.shareService.getItem('user').then((user: User) => {
+						user.dob = db;
+						console.log('user.dob', user.dob);
+						this.shareService.setItem('user', JSON.stringify(user));
+				})
+				.catch(e => {
+					console.log(e);
+					this.info = JSON.stringify(e);
+				});
+				
+						this.shareService.setPDOB(db);
 				this.horoService.setProfile(this.device.uuid, this.avatar, db)
 				.subscribe(res => {
 					this.showS = false;

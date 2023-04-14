@@ -1,0 +1,12 @@
+.ion-content-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ion-button-centered {
+    flex: 1;
+    width: 100%;
+    max-width: 280px;
+}

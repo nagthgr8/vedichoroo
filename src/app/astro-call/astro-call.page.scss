@@ -1,24 +1,33 @@
-body {
-  font-family: roboto;
+.container-fluid {
+  margin: 0 auto; /* center container horizontally */
+  padding: 20px;
 }
-.txt1 {
-  font-size: 0.875rem;
+.container-astro {
+  max-width: 50%;
+}
+.border-astro {
+  border-color: var(--bs-border-color-translucent);
+}
+.avatar {
+  max-width: 100%;
+  height: auto;
+}
+
+.lbl {
+  cursor: pointer;
+}
+
+.sbd {
+  font-size: 20px;
   font-weight: bold;
 }
-.txt2 {
-  font-size: 0.75rem;
-  font-weight: bold;
+
+/* Style for speaker and microphone images when active */
+.active {
+  filter: drop-shadow(0px 0px 5px #00FF00); /* green drop shadow */
 }
-.round-img {
---border-radius: 50%;
-  width: 72;
-  height: 72;
+
+/* Style for speaker and microphone images when inactive */
+.inactive {
+  filter: drop-shadow(0px 0px 5px #FF0000); /* red drop shadow */
 }
-ion-icon.cstar {
-   font-size: 1.125rem;
-   color: #FFBF00;
- }
- p.info {
-   text-align: center;
-   font-weight: bold;
-  }

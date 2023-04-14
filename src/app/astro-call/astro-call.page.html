@@ -1,50 +1,81 @@
-<ion-header [translucent]="true">
-  <ion-toolbar mode="ios">
-    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-<ion-grid>
-<ion-row>
-<ion-col size="12">
-<div class="txt1 ion-text-center">{{txt1}}</div>
-</ion-col>
-</ion-row>
-<ion-row>
-<ion-col size="12">
-<div class="txt2 ion-text-center">{{txt2}}</div>
-</ion-col>
-</ion-row>
-<ion-row>
-<ion-col size="12">
-<div class="ion-text-center"><img class="round-img" [src]="img1"></div>
-</ion-col>
-</ion-row>
-</ion-grid>
-<audio #vhoaudio muted="true"></audio>
-<ion-grid no-padding *ngIf="showCI">
- <ion-row class="maintitle"><ion-col>{{'CALL INFORMATION'}}</ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>Start Time</div></ion-col><ion-col><div>{{cinf.starttime}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>End Time</div></ion-col><ion-col><div>{{cinf.endtime}}</div></ion-col></ion-row>
- <div *ngIf="cinf.iscaller">
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>Rate our Astrologer</div></ion-col><ion-col>
-			<div class="ion-text-center">
-<ion-icon class="cstar" name={{str1}} tappable (click)="stars($event, 1)"></ion-icon><ion-icon class="cstar" name={{str2}} tappable (click)="stars($event, 2)"></ion-icon><ion-icon class="cstar" name={{str3}} tappable (click)="stars($event, 3)"></ion-icon><ion-icon class="cstar" name={{str4}} tappable (click)="stars($event, 4)"></ion-icon><ion-icon class="cstar" name={{str5}} tappable (click)="stars($event, 5)"></ion-icon></div>
-           </ion-col>
-			</ion-row>
-		<ion-row>
-		<ion-col><ion-textarea maxlength="1024" rows="6" [(ngModel)]="msg" placeholder="Comments"></ion-textarea></ion-col>
-		</ion-row>
-		
+<div class="container-fluid container-astro border border-astro border-4 rounded-3">
+  <div class="row">
+    <div class="col col-md-12">
+      <p class="h2 text-center">{{txt1}}</p>
+    </div>
+  </div>
+<div class="row">
+  <div class="col col-md-12 d-flex justify-content-center">
+    <img class="avatar rounded-circle" [src]="callerInfo?.avatar">
+  </div>
+</div>
+  <div class="row">
+    <div class="col-6 lbl" (click)="record($event)">
+      <<div class="text-center"><i class="fas fa-record-vinyl fa-2x"></i></div>
+    </div>
+    <div class="col-6 lbl" (click)="togglemic($event)">
+      <div class="text-center"><i class="fas fa-microphone fa-2x"></i></div>
+    </div>
+  </div>
+  <div class="audio row">
+    <div class="col-12">
+      <div class="audio-container d-inline-block">
+        <audio id="remoteAudio" controls="controls" autoplay="autoplay" style="width: 100%;">
+          <source [src]="liveStream">
+        </audio>
+        <div *ngIf="showRec"><a href="javascript:void(0)" (click)="downloadRecording($event)"><i class="fas fa-download"></i></a></div>
+      </div>
+    </div>
+    </div>
+    <div class="row my-3">
+    <div class="col text-center">
+      <button class="btn btn-danger" (click)="endCall($event)">End Call</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn btn-primary" (click)="bdtails($event)">Show Birth Details</button>
+    </div>
+  </div>
+<div *ngIf="showCI">
+ <div class="bd-row row"><div class="bd-col col col-md-12 fw-bold fs-4 text-center">{{'CALL INFORMATION'}}</div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>Start Time</div></div><div class="col col-md-6"><div>{{callerInfo?.starttime}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>End Time</div></div><div class="col col-md-6"><div>{{callerInfo?.endtime}}</div></div></div>
+ <div *ngIf="callerInfo.iscaller">
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div><div>Rate our Astrologer</div></div><div class="col col-md-6">
+			<div class="text-center">
+	 <i [class]="str1" aria-hidden="true"></i>
+			 <i [class]="str2" aria-hidden="true"></i>
+			 <i [class]="str3" aria-hidden="true"></i>
+			 <i [class]="str4" aria-hidden="true"></i>
+			 <i [class]="str5" aria-hidden="true"></i></div>
+           </div>
+			</div>
 	</div>
- </ion-grid>
-<ion-footer>
- <p ion-text class="info" color="primary" [innerHTML]='info'></p>
-<ion-button type="button" expand="block" color="tertiary" tappable (click)="btnclick($event)">{{btn}}</ion-button>
-</ion-footer>
-</ion-content>
+		<div class="bd row">
+		<div class="col col-md-6"><textarea class="form-control" maxlength="1024" rows="6" [(ngModel)]="msg" placeholder="Comments"></textarea></div>
+		</div>
+</div>
+ <div *ngIf="!callerInfo?.iscaller">
+		<div class="bd-row row">
+		<div class="col col-md-12"><textarea class="form-control" maxlength="1024" rows="6" [(ngModel)]="reco" placeholder="Remedies"></textarea></div>
+		</div>
+ </div>
+</div>
+<p class="text-center text-primary">{{info}}</p>
+<div class="bd-section container-lg-max-width-50" *ngIf="showBD">
+ <div class="bd-row row"><div class="bd-col col col-md-12 fw-bold fs-4 text-center">{{'Birth Details'|translate}}</div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Date of Birth'|translate}}</div></div><div class="col col-md-6"><div>{{dob}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Lagna'|translate}}</div></div><div class="col col-md-6"><div>{{lagna}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Lagna Lord'|translate}}</div></div><div class="col col-md-6"><div>{{lagna_lord}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Moon Sign'|translate}}</div></div><div class="col col-md-6"><div>{{moon_sign}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Sun Sign'|translate}}</div></div><div class="col col-md-6"><div>{{sun_sign}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Tithi'|translate}}</div></div><div class="col col-md-6"><div>{{tithi}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Birth Star'|translate}}</div></div><div class="col col-md-6"><div class="more" (click)="nakdtl()">{{birth_star}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Star Lord'|translate}}</div></div><div class="col col-md-6"><div>{{star_lord}}</div></div></div>
+ <div class="bd-row row"><div class="bd-col col col-md-6 lbl"><div>{{'Moon Phase'|translate}}</div></div><div class="col col-md-6"><div>{{moon_phase}}</div></div></div>
+ </div>
+
+<div id="bchart" class="col col-md-6 m-1"><div #birthChart></div></div>
+<div style="height: 400px;"></div>
+</div>
