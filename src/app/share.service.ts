@@ -233,26 +233,12 @@ export class ShareService {
 		});			
 	}
 	getItem(key) {
-		return new Promise((resolve, reject) => {
-			try {
-				const value = localStorage.getItem(key);
-				
-				if (value === null) {
-					resolve(null);
-				} else {
-				  try {
-					resolve(JSON.parse(value));
-				   } catch (e) {
-				     resolve(value);
-				   }
-				}
-			} catch (err) {
-				reject(err);
-			}
+			return this._storage.getItem(key).then(res => {
+		  return res;
 		});
 	}
 	setItem(key, val) {
-	   localStorage.setItem(key,val);
+	   this._storage.setItem(key,val);
 	}
 	emitSignIn(usr) {
 		this.dsSignIn.next(usr);

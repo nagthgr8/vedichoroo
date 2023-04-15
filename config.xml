@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="5" id="com.vedichoroo.astrology" ios-CFBundleVersion="1.0.4" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="7" id="com.vedichoroo.astrology" ios-CFBundleVersion="1.0.6" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>VEDICHOROO</name>
     <description>Free Astrology services, online astrology consultation with our best astrologer, get daily horoscope for your zodiac sign, love compatibility horoscope matching</description>
     <author email="mohan@vedichoroo.com" href="http://www.vedichoroo.com/">Cosmic Creations</author>
