@@ -20,7 +20,7 @@ import { BirthInfo } from './birth-info';
 import { Dasha } from './dasha';
 import { User } from './user';
 import { Caller } from './caller';
-declare var navigator: any;
+//declare var navigator: any;
 declare var admob;
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
@@ -85,8 +85,8 @@ export class AppComponent implements OnDestroy {
 	public device: Device,
 	private file: File
   ) {
-	navigator.notification.activityStart('Loading...');
-	navigator.notification.activityStop();
+	//navigator.notification.activityStart('Loading...');
+	//navigator.notification.activityStop();
     this.backmode = false;
 	translate.setDefaultLang('en');
     this.initializeApp();
@@ -171,18 +171,13 @@ export class AppComponent implements OnDestroy {
 			  });
 			})
 			.catch(error => {
-				this.alertController.create({
-				header: 'Alert',
-				message: 'Redirecting to sign-in.',
-				buttons: ['OK']
-				}).then(alert => alert.present());
 				this.router.navigate(['/sign-in'], {replaceUrl: true});
 			});
 		}
 		catch(e){
 			console.log(e);
-			navigator.notification.activityStart(JSON.stringify(e));
-		  navigator.notification.activityStop();
+			//navigator.notification.activityStart(JSON.stringify(e));
+		  //navigator.notification.activityStop();
 		}
       this.statusBar.styleDefault();				
 	  console.log('stor ready');
@@ -272,8 +267,8 @@ export class AppComponent implements OnDestroy {
 								}
 		});
 		console.log('logging in..');
-		navigator.notification.activityStart('Logging in...');
-		  navigator.notification.activityStop();
+		//navigator.notification.activityStart('Logging in...');
+		  //navigator.notification.activityStop();
 	  this.horoService.login(this.device.uuid, this.device.uuid)
 	    .subscribe(lres => {
 				console.log('logged in', lres);
@@ -377,13 +372,13 @@ export class AppComponent implements OnDestroy {
 		 }
 	  }, (err) => {
 		   console.log(err);
-		  	navigator.notification.activityStart(JSON.stringify(err));
-			    navigator.notification.activityStop();
+		  	//navigator.notification.activityStart(JSON.stringify(err));
+			  //  navigator.notification.activityStop();
 	  });
    }, (err) => {
 	  console.log(err);
-	  navigator.notification.activityStart(JSON.stringify(err));
-	    navigator.notification.activityStop();
+	  //navigator.notification.activityStart(JSON.stringify(err));
+	    //navigator.notification.activityStop();
    });
   }
   close() {

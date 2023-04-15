@@ -1,5 +1,6 @@
 import { Component, } from '@angular/core';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Router} from '@angular/router';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { User } from '../user';
@@ -11,7 +12,7 @@ import { User } from '../user';
 })
 export class SignInPage {
   info: string = '';
-  constructor(private googlePlus: GooglePlus, public shareService: ShareService, public horoService: HoroscopeService) { }
+  constructor(private router: Router, private googlePlus: GooglePlus, public shareService: ShareService, public horoService: HoroscopeService) { }
 
   ngOnInit() {
      
@@ -35,6 +36,7 @@ export class SignInPage {
 					isprivate: true
 				};
               this.shareService.setItem('user', user);
+			  this.router.navigate(['/profile'], {replaceUrl : true});
           }, (err) => {
               console.log(err);
               this.info = JSON.stringify(err);
@@ -47,6 +49,7 @@ export class SignInPage {
 }
 
 async facebookLogin() {
+   this.info = 'Sorry, Our Facebook API is still not ready, please use Google account'
 //  try {
 //    const res: FacebookLoginResponse = await this.fb.login(['email']);
 //    if (res.authResponse) {
@@ -56,5 +59,8 @@ async facebookLogin() {
 //  } catch (err) {
 //    console.error(err);
 //  }
+}
+anonymous() {
+  this.router.navigate(['/tabs'], {replaceUrl : true});
 }
 }

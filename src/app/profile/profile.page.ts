@@ -73,6 +73,13 @@ dob: string = '';
 			this.info1 = '';
 		}
     this.platform.ready().then(() => {
+	this.shareService.getItem('user').then( user => {
+	  this.nam = user['name'];
+	  this.data.image = user['imageUrl'];
+	  this.avatar = user['imageUrl'];
+	})
+	.catch(e => {
+	});
     this.shareService.getPLAN().then((pln) => {
 			this.info = 'Finding your profle information..';
 			this.horoService.getProfile(this.device.uuid)
@@ -84,8 +91,8 @@ dob: string = '';
 				 //let image : any        = new Image();
 				 //image.src 				= res['avatar'];
 				 // Assign the Image object to the ImageCropper component 
-				 this.data.image = res['avatar'];
-				 this.avatar = res['avatar'];
+				 //this.data.image = res['avatar'];
+				 //this.avatar = res['avatar'];
 			   } else {
 					if(pln.name == 'com.mypubz.eportal.astrologer') {
 					   this.horoService.getAstrologer(this.device.uuid)
@@ -94,21 +101,21 @@ dob: string = '';
 									this.showASU = true;
 									this.tagline = res2['tagline'];
 									this.status = (res2['status'] == 'A') ? true : false;
-									if(res2['avatar'] != '') {
-									this.avatar = res2['avatar'];
-									 let image : any        = new Image();
-									 image.src 				= res2['avatar'];
+									//if(res2['avatar'] != '') {
+									//this.avatar = res2['avatar'];
+									 //let image : any        = new Image();
+									 //image.src 				= res2['avatar'];
 									 // Assign the Image object to the ImageCropper component 
-									 this.data.image = image;
-									} else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
-								} else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
+									 //this.data.image = image;
+									//} else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
+								} //else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
 							}, (err) => {
 								this.info = JSON.stringify(err);
 							});
 					}
 			   }
 				   
-			   this.nam = res['name'];
+			   //this.nam = res['name'];
 			   this.gen = res['gen'];
 			   let db: string = res['dob'].replace('$NaN$0$0','').replace('$NaN','');
 			   console.log('db', db);

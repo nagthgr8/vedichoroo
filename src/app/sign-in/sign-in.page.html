@@ -9,7 +9,9 @@
     </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-content-centered">
-    <ion-button (click)="googleLogin()">Sign in with Google</ion-button>
-    <ion-button (click)="facebookLogin()">Sign in with Facebook</ion-button>
+    <ion-button class="signin" type="button" expand="block" color="primary" tappable (click)="googleLogin()">Sign in with Google</ion-button>
+    <ion-button class="signin" type="button" expand="block" color="secondary" tappable (click)="facebookLogin()">Sign in with Facebook</ion-button>
+    <ion-button class="signin" type="button" expand="block" color="light" tappable (click)="anonymous()">Continue as Anonymous User(limited access ONLY)</ion-button>
+
     <div class="text-center"><strong>{{info}}</strong></div>
 </ion-content>
