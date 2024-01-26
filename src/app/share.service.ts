@@ -1,6 +1,6 @@
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import { HoroscopeService } from './horoscope.service';
@@ -835,6 +835,7 @@ export class ShareService {
 										resolve(res);
 									})
 							.catch((err)=>{ 
+								console.log('shareService getPLAN error', err);
                                 reject(err); 
 								});	
 		});

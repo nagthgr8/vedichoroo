@@ -1,11 +1,14 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { BirthInfo } from '../birth-info';
 declare var google; 
+
+const selectedTheme = "dark";
+
 
 @Component({
   selector: 'app-btr-detail-rel',
@@ -46,7 +49,7 @@ autocomplete;
   binf2: any = {};
   sbinf: any = {}; 
   sdb: string = '';
-  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public platform: Platform, private datePicker: DatePicker, public shareService: ShareService, public horoService: HoroscopeService) 
+  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public platform: Platform, public shareService: ShareService, public horoService: HoroscopeService) 
   { 
     this.autocompleteItems = [];
     this.autocomplete = {
@@ -283,16 +286,16 @@ updateSearch() {
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: selectedTheme,
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -300,16 +303,16 @@ updateSearch() {
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString() + ':' + date.getSeconds() + 'Z';
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: selectedTheme,
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
 }
 

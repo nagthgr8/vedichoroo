@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
+import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { Router } from '@angular/router';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { Comment } from '../comment';

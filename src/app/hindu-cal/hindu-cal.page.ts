@@ -2,8 +2,8 @@ import { Component, OnInit, NgModule, Renderer2, AfterViewInit, ViewChild, Eleme
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform, MenuController } from '@ionic/angular';
-import { File } from '@ionic-native/file/ngx';
-import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { WheelSelector } from '@awesome-cordova-plugins/wheel-selector/ngx';
 //import { AdMob } from "ionic-admob";
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';

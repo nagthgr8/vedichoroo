@@ -2,12 +2,11 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Router, ActivatedRoute} from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { Device } from '@ionic-native/device/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
-import { Crop, CropOptions } from '@ionic-native/crop/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { User } from '../user';
@@ -50,11 +49,11 @@ dob: string = '';
   showS: boolean = true;
   isLoading: boolean = false;
   source: any;
-  cropOptions: CropOptions = {
-    quality: 50
-  }
+//   cropOptions: CropOptions = {
+//     quality: 50
+//   }
   avatar: string = 'https://i.imgur.com/LR7e1vw.png';
-  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, private datePicker: DatePicker, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private camera: Camera, private crop: Crop, private filePath: FilePath, private file: File) { 
+  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private camera: Camera, private filePath: FilePath, private file: File) { 
   this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -367,17 +366,17 @@ dob: string = '';
   });
  }  
  cropImage(imgPath) {
-    this.crop.crop(imgPath, this.cropOptions)
-      .then(
-        newPath => {
-          this.showCroppedImage(newPath.split('?')[0]);
-		  this.shareService.setPIMG(newPath.split('?')[0]);
+    // this.crop.crop(imgPath, this.cropOptions)
+    //   .then(
+    //     newPath => {
+    //       this.showCroppedImage(newPath.split('?')[0]);
+	// 	  this.shareService.setPIMG(newPath.split('?')[0]);
 		  
-        },
-        error => {
-          alert('Error cropping image' + error);
-        }
-      );
+    //     },
+    //     error => {
+    //       alert('Error cropping image' + error);
+    //     }
+    //   );
   }
   
   showCroppedImage(ImagePath) {
@@ -542,19 +541,19 @@ dob: string = '';
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
 		this.year = date.getFullYear();
 		this.mon = date.getMonth()+1;
 		this.day = date.getDate();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -562,18 +561,18 @@ dob: string = '';
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
 		this.hou = date.getHours();
 		this.min = date.getMinutes();
 		this.sec = 0;
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
 }

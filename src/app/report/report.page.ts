@@ -6,12 +6,12 @@ import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { Plan } from '../plan';
 import { BirthInfo } from '../birth-info';
-import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx';
-import { Device } from '@ionic-native/device/ngx';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
+import { InAppPurchase2, IAPProduct } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
 declare var google; 
 declare var RazorpayCheckout: any;
 
@@ -65,7 +65,7 @@ export class ReportPage implements OnInit {
    dbtn3: string = 'Download Sample Report(Tamil';
    dbtn4: string = 'Download Sample Report(Telugu)';
    dstofset: number = 0;
-  constructor(public router: Router, private zone: NgZone, private translate: TranslateService, private datePicker: DatePicker, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private store: InAppPurchase2, private file: File, private fileOpener: FileOpener, private filePath: FilePath) { 
+  constructor(public router: Router, private zone: NgZone, private translate: TranslateService, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private store: InAppPurchase2, private file: File, private fileOpener: FileOpener, private filePath: FilePath) { 
       this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -164,16 +164,16 @@ export class ReportPage implements OnInit {
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getHours().toString()+":"+date.getMinutes().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -181,16 +181,16 @@ export class ReportPage implements OnInit {
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
 
     ionViewDidEnter() {

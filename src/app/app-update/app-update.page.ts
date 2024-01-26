@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { Market } from '@ionic-native/market/ngx';
+import { Market } from '@awesome-cordova-plugins/market/ngx';
 import { Location } from '@angular/common';
 
 @Component({

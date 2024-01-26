@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import { ShareService } from '../share.service';
 import { HoroscopeService } from '../horoscope.service';
 import { PlanetTrans } from '../planet-trans';
@@ -49,7 +49,7 @@ export class KpEventPage implements OnInit {
   sec: number;
 dob: string = '';
   tob: string = '';
-  constructor(private router: Router, public platform: Platform, private menu: MenuController, private datePicker: DatePicker, public shareService: ShareService, public horoService: HoroscopeService, private translate: TranslateService) { }
+  constructor(private router: Router, public platform: Platform, private menu: MenuController, public shareService: ShareService, public horoService: HoroscopeService, private translate: TranslateService) { }
 
   ngOnInit() {
   	this.binf = this.router.getCurrentNavigation().extras.state;
@@ -575,19 +575,19 @@ dob: string = '';
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
 		this.year = date.getFullYear();
 		this.mon = date.getMonth()+1;
 		this.day = date.getDate();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -595,18 +595,18 @@ dob: string = '';
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
 		this.hou = date.getHours();
 		this.min = date.getMinutes();
 		this.sec = 0;
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
 }

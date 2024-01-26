@@ -1,10 +1,10 @@
 import { Component, } from '@angular/core';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 import { Router} from '@angular/router';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { User } from '../user';
-//import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+//import { Facebook, FacebookLoginResponse } from '@awesome-cordova-plugins/facebook/ngx';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',

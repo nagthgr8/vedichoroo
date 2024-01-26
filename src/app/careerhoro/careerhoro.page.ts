@@ -2,7 +2,7 @@ import { Component, Renderer2, AfterViewInit, ViewChild, ElementRef, OnInit, NgM
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform, MenuController } from '@ionic/angular';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { BirthInfo } from '../birth-info';

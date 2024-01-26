@@ -7,7 +7,7 @@ import {
   CalendarModalOptions,
   DayConfig,
   CalendarResult
-} from 'ion2-calendar';
+} from 'ion7-calendar';
 
 @Component({
   selector: 'app-puja-booking',

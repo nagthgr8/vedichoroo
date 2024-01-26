@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, Renderer2, ViewChild, ElementRef, ViewEncaps
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform, MenuController} from '@ionic/angular';
-import { File } from '@ionic-native/file/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { Group } from '../group';

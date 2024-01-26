@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { Device } from '@ionic-native/device/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
 
