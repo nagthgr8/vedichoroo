@@ -2,9 +2,9 @@ import { Component, OnInit, NgModule, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA 
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Device } from '@ionic-native/device/ngx';
-import { File } from '@ionic-native/file/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { astroStatus, CallService } from '../call.service';

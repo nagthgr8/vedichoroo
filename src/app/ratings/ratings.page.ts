@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { Device } from '@ionic-native/device/ngx';
+import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Market } from '@ionic-native/market/ngx';
+import { Market } from '@awesome-cordova-plugins/market/ngx';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
 

@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ViewChild, Renderer2 } from '@angular/core';
 import { Platform, MenuController } from '@ionic/angular';
 //import { AdMob } from "ionic-admob";
 import { Router } from '@angular/router';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { Chart, registerables } from 'chart.js';
@@ -101,7 +101,7 @@ export class MarriageHoroPage implements OnInit {
   pada: number = 0;
   ptnPada: number = 0;
   dos: any;
-  constructor(private router: Router, private platform: Platform, private menu: MenuController, private zone: NgZone, private datePicker: DatePicker, public horoService: HoroscopeService, public renderer: Renderer2, public shareService: ShareService) {//, public admob: AdMob) { 
+  constructor(private router: Router, private platform: Platform, private menu: MenuController, private zone: NgZone, public horoService: HoroscopeService, public renderer: Renderer2, public shareService: ShareService) {//, public admob: AdMob) { 
 	  Chart.register(...registerables);
 	 this.dos = {};
      platform.ready().then(() => {
@@ -147,16 +147,16 @@ export class MarriageHoroPage implements OnInit {
 		dt.setMonth(Number(this.dob1.split('-')[1])-1);
 		dt.setDate(Number(this.dob1.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob1 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob1 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showHisTimePicker() {
 	var dt = new Date();
@@ -164,16 +164,16 @@ export class MarriageHoroPage implements OnInit {
 		dt.setHours(Number(this.tob1.split(':')[0]));
 		dt.setMinutes(Number(this.tob1.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob1 = date.getHours().toString()+":"+date.getMinutes().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob1 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
   showHerDatePicker() {
 	var dt = new Date();
@@ -182,16 +182,16 @@ export class MarriageHoroPage implements OnInit {
 		dt.setMonth(Number(this.dob2.split('-')[1])-1);
 		dt.setDate(Number(this.dob2.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob2 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob2 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showHerTimePicker() {
 	var dt = new Date();
@@ -199,16 +199,16 @@ export class MarriageHoroPage implements OnInit {
 		dt.setHours(Number(this.tob2.split(':')[0]));
 		dt.setMinutes(Number(this.tob2.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob2 = date.getHours().toString()+":"+date.getMinutes().toString();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob2 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
 
   ngOnInit() {

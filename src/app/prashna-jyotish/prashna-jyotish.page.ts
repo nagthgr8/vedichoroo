@@ -5,8 +5,8 @@ import {TranslateService} from '@ngx-translate/core';
 import { Platform } from '@ionic/angular';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
-import { File } from '@ionic-native/file/ngx';
-import { Device } from '@ionic-native/device/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Plan } from '../plan';
 
 declare var google; 

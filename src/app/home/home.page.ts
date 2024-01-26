@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewEncapsulation, Renderer2  } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { skip } from 'rxjs/operators';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { Device } from '@ionic-native/device/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import { File } from '@ionic-native/file/ngx';
-import { AppRate } from '@ionic-native/app-rate/ngx';
-import { Market } from '@ionic-native/market/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { Market } from '@awesome-cordova-plugins/market/ngx';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
 import { astroStatus, CallService } from '../call.service';
@@ -170,7 +170,7 @@ private menu: MenuController, private device: Device, private appVersion: AppVer
 			}
 }
     showRatePrompt(){
-	 this.appRate.preferences = {
+	 this.appRate.setPreferences({
 		displayAppName: '126 ASTROLOGY',
 		usesUntilPrompt: 5,
 		promptAgainForEachNewVersion: false,
@@ -193,9 +193,8 @@ private menu: MenuController, private device: Device, private appVersion: AppVer
 				console.log('Selected Button Index',buttonIndex);
 				if(buttonIndex == 3) this.apr = true;
 			}
-		},
-		openUrl: this.appRate.preferences.openUrl
-	}
+		}
+	 });
     this.appRate.promptForRating(true); 
   //}
   //ionViewWillEnter() {
@@ -327,12 +326,14 @@ showDASH() {
 				}, (err) => {
 					   this.shareService.setCLAT(-1);
 					   this.shareService.setCLNG(-1);
+					   console.log('getCurrentPosition', err);
 					   this.showAlert();
-				console.log(err);
+				
 			});
 		 }, (err) => {
 					   this.shareService.setCLAT(-1);
 					   this.shareService.setCLNG(-1);
+					   console.log('requestPermissions', err);
 					   this.showAlert();
 			});				
     }
@@ -489,15 +490,15 @@ getSN(msgn) {
 		a.smsg = (ast.busy) ? 'Not Available': 'Available';
 		a.status = !ast.busy;
 	  });
-  this.shareService.getPLAN().then((pln)=> { 
+	this.shareService.getPLAN().then((pln)=> { 
 		      console.log('fetched plan', pln);
 		        this.info = '';
 				this.plan = pln; 
 				if(this.plan.name != 'com.mypubz.eportal.astrologer') this.showASU = true;
 			this.showDASH();
 			this.shareService.getMSGN().then( msgn => {
-				  console.log('home getMSGN', msgn);
-				  if(msgn != null && msgn.trim() != '') {
+				console.log('home getMSGN', msgn);
+				if(msgn != null && msgn.trim() != '') {
 					let mos: string = this.getSN(msgn.toLowerCase());
 					this.dho.msgn = msgn;
 					this.dho.img = 'assets/imgs/'+msgn.toLowerCase() +'.png'//this.sign_imgs_v[mos];
@@ -520,8 +521,8 @@ getSN(msgn) {
 						  }, (err) => {
 							//this.info = JSON.stringify(err);
 						  }) ;
-					 }
-				  } else {
+					    }
+				     } else {
 						  console.log('calling getDailyHoro 2');
 						  this.horoService.getDailyHoro(msgn)
 							.subscribe(res2 => {
@@ -533,10 +534,10 @@ getSN(msgn) {
 						  }, (err) => {
 							//this.info = JSON.stringify(err);
 						  }) ;
-				  }
-				})
-				.catch( e => {
-					console.log(e);
+				     }
+				    })
+					.catch( e => {
+						console.log(e);
 						  console.log('calling getDailyHoro 3');
 						  this.horoService.getDailyHoro(msgn)
 							.subscribe(res2 => {
@@ -547,9 +548,9 @@ getSN(msgn) {
 							this.dho.sho = true;
 						  }, (err) => {
 							//this.info = JSON.stringify(err);
-						  }) ;
+					}) ;
 				});
-				}	
+			   }
 			});
 			this.shareService.getCSTATS().then( csts => {
 				if(csts) {
@@ -616,7 +617,8 @@ getSN(msgn) {
 				   this.shareService.setSTATS(udys, cd.getDate()+'-'+cd.getMonth()+'-'+cd.getFullYear());
 			})
 			.catch( e => {
-					console.log(e);
+				console.log('getPLAN failed');
+				console.log(e);
 					var cd = new Date();
 					let udys: number = 1;
 				   this.shareService.setSTATS(udys, cd.getDate()+'-'+cd.getMonth()+'-'+cd.getFullYear());

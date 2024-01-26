@@ -1,7 +1,8 @@
 {
   "name": "vedichoroo",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, NgModule, Renderer2, AfterViewInit, ViewChild, Eleme
 import { Router, ActivatedRoute } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform } from '@ionic/angular';
-import { File } from '@ionic-native/file/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { ChartSettingsPage } from '../chart-settings/chart-settings.page';

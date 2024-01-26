@@ -4,7 +4,7 @@ import { Platform, MenuController } from '@ionic/angular';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
 import { Prediction } from '../prediction';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Plan } from '../plan';
 import * as signs from '../signs.json';
 import * as o_signs from '../o_signs.json';

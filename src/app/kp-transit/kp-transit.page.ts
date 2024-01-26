@@ -2,8 +2,8 @@ import { Component, OnInit, ViewEncapsulation, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
-import { Device } from '@ionic-native/device/ngx';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import * as o_rashis from '../o_rashis.json';
 import * as ruler_name from '../ruler_name.json';
 declare var google; 
@@ -26,7 +26,7 @@ export class KpTransitPage implements OnInit {
    dob: string = ''; tob: string = '';
    showP: boolean = false; showL: boolean = true;
    place: string = '';
-  constructor(private router: Router, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, private datePicker: DatePicker) { 
+  constructor(private router: Router, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService) { 
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -51,19 +51,16 @@ export class KpTransitPage implements OnInit {
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-		this.year = date.getFullYear();
-		this.mon = date.getMonth()+1;
-		this.day = date.getDate();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -71,19 +68,16 @@ export class KpTransitPage implements OnInit {
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
-		this.hou = date.getHours();
-		this.min = date.getMinutes();
-		this.sec = date.getSeconds();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
   save(evt) {
 	evt.stopPropagation();

@@ -1,0 +1,14 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "vedichoroo",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "cordova": {
+    "preferences": {
+      
+    }
+  },
+  "android": {
+    "androidX": true
+  }
+}

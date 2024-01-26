@@ -4,11 +4,10 @@ import { Platform } from '@ionic/angular';
 import { HoroscopeService } from '../horoscope.service';
 import { CallService } from '../call.service';
 import { ShareService } from '../share.service';
-import { Device } from '@ionic-native/device/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
-import { Crop, CropOptions } from '@ionic-native/crop/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { File } from '@ionic-native/file/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { Rating } from '../rating';
 import { User } from '../user';
 import { Location } from '../location';
@@ -56,14 +55,14 @@ export class AstrologerPage {
   showP: boolean = false;
   showPUJ: boolean = false;
   edit: boolean = false;
-    cropOptions: CropOptions = {
-    quality: 50
-  }
+//     cropOptions: CropOptions = {
+//     quality: 50
+//   }
   oRev: Rating[] = [];
   objectKeys = Object.keys;
   showRVW: boolean = false;
   rated: boolean = false;
-  constructor(private platform: Platform, private router: Router, private horoService: HoroscopeService, private callService: CallService, private shareService: ShareService, public device: Device, private camera: Camera, private crop: Crop, private filePath: FilePath, private file: File) {
+  constructor(private platform: Platform, private router: Router, private horoService: HoroscopeService, private callService: CallService, private shareService: ShareService, public device: Device, private camera: Camera,  private filePath: FilePath, private file: File) {
 	console.log('AstrologerPage: Constructor called');
   }
 ngOnInit()
@@ -317,15 +316,15 @@ ngOnInit()
   });
  }  
  cropImage(imgPath) {
-    this.crop.crop(imgPath, this.cropOptions)
-      .then(
-        newPath => {
-          this.showCroppedImage(newPath.split('?')[0])
-        },
-        error => {
-          alert('Error cropping image' + error);
-        }
-      );
+    // this.crop.crop(imgPath, this.cropOptions)
+    //   .then(
+    //     newPath => {
+    //       this.showCroppedImage(newPath.split('?')[0])
+    //     },
+    //     error => {
+    //       alert('Error cropping image' + error);
+    //     }
+    //   );
   }
     showCroppedImage(ImagePath) {
     //this.isLoading = true;

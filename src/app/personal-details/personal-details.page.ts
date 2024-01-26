@@ -2,15 +2,15 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Platform } from '@ionic/angular';
 import {TranslateService} from '@ngx-translate/core';
-import { File } from '@ionic-native/file/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 //import { AdMob } from "ionic-admob";
 import { Router, ActivatedRoute } from '@angular/router';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
-import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx';
-import { Device } from '@ionic-native/device/ngx';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { InAppPurchase2, IAPProduct } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { DatePicker } from '@capacitor-community/date-picker';
 import { Plan } from '../plan';
 import { BirthInfo } from '../birth-info';
 import { PlanetPos } from '../planet-pos';
@@ -72,7 +72,7 @@ export class PersonalDetailsPage implements OnInit {
 	ncdts: number = 0;
 	showL: boolean = false;
 	showP: boolean = true;
-  constructor(private router: Router, private route: ActivatedRoute, private datePicker: DatePicker, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private file: File, private fileOpener : FileOpener, private store: InAppPurchase2, private translate: TranslateService) {//, public admob: AdMob) {
+  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private file: File, private fileOpener : FileOpener, private store: InAppPurchase2, private translate: TranslateService) {//, public admob: AdMob) {
   this.info2 = 'Please wait...';
     this.autocompleteItems = [];
     this.autocomplete = {
@@ -266,19 +266,19 @@ export class PersonalDetailsPage implements OnInit {
 		dt.setMonth(Number(this.dob.split('-')[1])-1);
 		dt.setDate(Number(this.dob.split('-')[2]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'date',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'date',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
 		this.year = date.getFullYear();
 		this.mon = date.getMonth()+1;
 		this.day = date.getDate();
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
   }
  showTimePicker() {
 	var dt = new Date();
@@ -286,19 +286,19 @@ export class PersonalDetailsPage implements OnInit {
 		dt.setHours(Number(this.tob.split(':')[0]));
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
-	this.datePicker.show({
-	  date: dt,
-	  mode: 'time',
-	  androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-	}).then(
-	  date => {
-        this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
+	DatePicker.present({
+		format: 'dd/MM/yyyy',
+		mode: 'time',
+		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		theme: 'dark',
+	  }).then(odt => {
+		var date = new Date(odt.value);
+		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
 		this.hou = date.getHours();
 		this.min = date.getMinutes();
 		this.sec = 0;
-      },
-	  err => console.log('Error occurred while getting date: ', err)
-	);
+		},
+		err => console.log('Error occurred while getting date: ', err));
  }
  ionViewDidLoad() {
     console.log('ionViewDidLoad PersonalDetailsPage');

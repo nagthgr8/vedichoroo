@@ -10,116 +10,116 @@ import { ShareService } from './share.service';
   providedIn: 'root'
 })
 export class HoroscopeService {
-  private apiUrl = 'https://api.vedichoroo.com/api/Birthchart';
-  private apiUrl43 = 'https://api.vedichoroo.com/api/BirthchartEx';
-  private apiUrl54 = 'https://api.vedichoroo.com/api/BirthchartPro';
-  private apiUrl2 = 'https://api.vedichoroo.com/api/DailyHoroscope';
-  private apiUrl3 = 'https://api.vedichoroo.com/api/SubscribeAstroUser';
-  private apiUrl4 = 'https://api.vedichoroo.com/api/BirthstarsEx';
-  private apiUrl5 = 'https://api.vedichoroo.com/api/Birthstar';
-  private apiUrl6 = 'https://api.vedichoroo.com/api/StarsForMonth';
+  private apiUrl = 'https://charts.vedichoroo.com/v1/Birthchart';
+  private apiUrl43 = 'https://charts.vedichoroo.com/v1/BirthchartEx';
+  private apiUrl54 = 'https://charts.vedichoroo.com/v1/BirthchartPro';
+  private apiUrl2 = 'https://charts.vedichoroo.com/v1/DailyHoroscope';
+  private apiUrl3 = 'https://charts.vedichoroo.com/v1/SubscribeAstroUser';
+  private apiUrl4 = 'https://charts.vedichoroo.com/v1/BirthstarsEx';
+  private apiUrl5 = 'https://charts.vedichoroo.com/v1/Birthstar';
+  private apiUrl6 = 'https://charts.vedichoroo.com/v1/StarsForMonth';
   private apiUrl7 = 'https://maps.googleapis.com/maps/api/timezone/json';
-  private apiUrl8 = 'https://api.vedichoroo.com/api/AstroStories';
-  private apiUrl9 = 'https://api.vedichoroo.com/api/Getcusps';
-  private apiUrl10 = 'https://api.vedichoroo.com/api/GetTransits';
-  private apiUrl20 = 'https://api.vedichoroo.com/api/GetDashTrans';
-  private apiUrl11 = 'https://api.vedichoroo.com/api/GetDashaTransits';
+  private apiUrl8 = 'https://charts.vedichoroo.com/v1/AstroStories';
+  private apiUrl9 = 'https://charts.vedichoroo.com/v1/Getcusps';
+  private apiUrl10 = 'https://charts.vedichoroo.com/v1/GetTransits';
+  private apiUrl20 = 'https://charts.vedichoroo.com/v1/GetDashTrans';
+  private apiUrl11 = 'https://charts.vedichoroo.com/v1/GetDashaTransits';
   private apiUrl111 = 'https://translation.googleapis.com/language/translate/v2';
-  private apiUrl1111 = 'https://api.vedichoroo.com/api/GetYogas';
-  private apiUrl22 = 'https://api.vedichoroo.com/api/RecfyBTEx';
-  private apiUrl23 = 'https://api.vedichoroo.com/api/GetPlan';
-  private apiUrl24 = 'https://api.vedichoroo.com/api/SetPlan';
-  private apiUrl25 = 'https://api.vedichoroo.com/api/AddCredits';
-  private apiUrl26 = 'https://api.vedichoroo.com/api/AddDOB';
-  private apiUrl27 = 'https://api.vedichoroo.com/api/AddTicket';
-  private apiUrl28 = 'https://api.vedichoroo.com/api/FollowTicket';
-  private apiUrl29 = 'https://api.vedichoroo.com/api/GetNotif';
-  private apiUrl30 = 'https://api.vedichoroo.com/api/AddSubscriber';
-  private apiUrl31 = 'https://api.vedichoroo.com/api/Birthinfo';
-  private apiUrl32 = 'https://api.vedichoroo.com/api/GetAstrologer';
-  private apiUrl33 = 'https://api.vedichoroo.com/api/AstrologerStatus';
-  private apiUrl34 = 'https://api.vedichoroo.com/api/AstrologerTagline';
-  private apiUrl35 = 'https://api.vedichoroo.com/api/AstrologerAvatar';
-  private apiUrl36 = 'https://api.vedichoroo.com/api/GetAllAstrologers';
-  private apiUrl37 = 'https://api.vedichoroo.com/api/PrashnaJyotish';
-  private apiUrl38 = 'https://api.vedichoroo.com/api/GetTransPreds';
+  private apiUrl1111 = 'https://charts.vedichoroo.com/v1/GetYogas';
+  private apiUrl22 = 'https://charts.vedichoroo.com/v1/RecfyBTEx';
+  private apiUrl23 = 'https://charts.vedichoroo.com/v1/GetPlan';
+  private apiUrl24 = 'https://charts.vedichoroo.com/v1/SetPlan';
+  private apiUrl25 = 'https://charts.vedichoroo.com/v1/AddCredits';
+  private apiUrl26 = 'https://charts.vedichoroo.com/v1/AddDOB';
+  private apiUrl27 = 'https://charts.vedichoroo.com/v1/AddTicket';
+  private apiUrl28 = 'https://charts.vedichoroo.com/v1/FollowTicket';
+  private apiUrl29 = 'https://charts.vedichoroo.com/v1/GetNotif';
+  private apiUrl30 = 'https://charts.vedichoroo.com/v1/AddSubscriber';
+  private apiUrl31 = 'https://charts.vedichoroo.com/v1/Birthinfo';
+  private apiUrl32 = 'https://charts.vedichoroo.com/v1/GetAstrologer';
+  private apiUrl33 = 'https://charts.vedichoroo.com/v1/AstrologerStatus';
+  private apiUrl34 = 'https://charts.vedichoroo.com/v1/AstrologerTagline';
+  private apiUrl35 = 'https://charts.vedichoroo.com/v1/AstrologerAvatar';
+  private apiUrl36 = 'https://charts.vedichoroo.com/v1/GetAllAstrologers';
+  private apiUrl37 = 'https://charts.vedichoroo.com/v1/PrashnaJyotish';
+  private apiUrl38 = 'https://charts.vedichoroo.com/v1/GetTransPreds';
   private apiUrl39 = 'https://www.126news.com/Publication/AstroBlogs';
-  private apiUrl40 = 'https://www.126news.com/api/PublishBlog';
+  private apiUrl40 = 'https://www.126news.com/v1/PublishBlog';
   private apiUrl41 = 'https://www.126news.com/Publication/GetUserId';
-  private apiUrl42 = 'https://api.vedichoroo.com/api/GetMoonPhase';
-  private apiUrl44 = 'https://www.126news.com/api/GetArticle';
-  private apiUrl45 = 'https://api.vedichoroo.com/api/GetBirthstarEx';
-  private apiUrl46 = 'https://api.vedichoroo.com/api/StarsForMonthEx2';
-  private apiUrl47 = 'https://api.vedichoroo.com/api/GetMoonPhaseEx';
-  private apiUrl48 = 'https://api.vedichoroo.com/api/GetcuspsEx3';
-  private apiUrl49 = 'https://api.vedichoroo.com/api/TalkToAstro';
-  private apiUrl50 = 'https://api.vedichoroo.com/api/AnalyzeDasamsa';
-  private apiUrl51 = 'https://api.vedichoroo.com/api/AnalyzeDasamsaDasha';
-  private apiUrl52 = 'https://api.vedichoroo.com/api/GetAllHobbyAsts';
-  private apiUrl53 = 'https://api.vedichoroo.com/api/GetOffer';
-  private apiUrl55 = 'https://api.vedichoroo.com/api/CalcVim';
-  private apiUrl56 = 'https://api.vedichoroo.com/api/GetTransPredsEx';
-  private apiUrl57 = 'https://api.vedichoroo.com/api/AnalyzeMoney';
-  private apiUrl58 = 'https://api.vedichoroo.com/api/AnalyzeD4';
-  private apiUrl59 = 'https://api.vedichoroo.com/api/GetDashTransEx';
-  private apiUrl60 = 'https://api.vedichoroo.com/api/AnalyzeD9';
-  private apiUrl61 = 'https://api.vedichoroo.com/api/GetHouseGroup';
-  private apiUrl62 = 'https://api.vedichoroo.com/api/AddHouseGroup';
-  private apiUrl63 = 'https://api.vedichoroo.com/api/Astakvarga';
-  private apiUrl64 = 'https://api.vedichoroo.com/api/AstroBio';
-  private apiUrl65 = 'https://api.vedichoroo.com/api/Shadbala';
-  private apiUrl67 = 'https://api.vedichoroo.com/api/IsAdmin';
-  private apiUrl68 = 'https://api.vedichoroo.com/api/GetAllReports';
-  private apiUrl69 = 'https://api.vedichoroo.com/api/AddReport';
-  private apiUrl70 = 'https://api.vedichoroo.com/api/GetReports';
-  private apiUrl71 = 'https://api.vedichoroo.com/api/UpdateReport';
-  private apiUrl72 = 'https://api.vedichoroo.com/api/GetProfile';
-  private apiUrl73 = 'https://api.vedichoroo.com/api/SetProfile';
-  private apiUrl74 = 'https://www.126news.com/api/GetStory';
-  private apiUrl75 = 'https://www.126news.com/api/GetMsg';
-  private apiUrl76 = 'https://api.vedichoroo.com/api/GetAdv';
-  private apiUrl77 = 'https://api.vedichoroo.com/api/GetQuota';
-  private apiUrl78 = 'https://api.vedichoroo.com/api/SetQuota';
-  private apiUrl79 = 'https://api.vedichoroo.com/api/BirthinfoEx';
-  private apiUrl80 = 'https://api.vedichoroo.com/api/BirthchartEx3';
-  private apiUrl81 = 'https://api.vedichoroo.com/api/RemDOB';
-  private apiUrl82 = 'https://api.vedichoroo.com/api/CalForMon';
+  private apiUrl42 = 'https://charts.vedichoroo.com/v1/GetMoonPhase';
+  private apiUrl44 = 'https://www.126news.com/v1/GetArticle';
+  private apiUrl45 = 'https://charts.vedichoroo.com/v1/GetBirthstarEx';
+  private apiUrl46 = 'https://charts.vedichoroo.com/v1/StarsForMonthEx2';
+  private apiUrl47 = 'https://charts.vedichoroo.com/v1/GetMoonPhaseEx';
+  private apiUrl48 = 'https://charts.vedichoroo.com/v1/GetcuspsEx3';
+  private apiUrl49 = 'https://charts.vedichoroo.com/v1/TalkToAstro';
+  private apiUrl50 = 'https://charts.vedichoroo.com/v1/AnalyzeDasamsa';
+  private apiUrl51 = 'https://charts.vedichoroo.com/v1/AnalyzeDasamsaDasha';
+  private apiUrl52 = 'https://charts.vedichoroo.com/v1/GetAllHobbyAsts';
+  private apiUrl53 = 'https://charts.vedichoroo.com/v1/GetOffer';
+  private apiUrl55 = 'https://charts.vedichoroo.com/v1/CalcVim';
+  private apiUrl56 = 'https://charts.vedichoroo.com/v1/GetTransPredsEx';
+  private apiUrl57 = 'https://charts.vedichoroo.com/v1/AnalyzeMoney';
+  private apiUrl58 = 'https://charts.vedichoroo.com/v1/AnalyzeD4';
+  private apiUrl59 = 'https://charts.vedichoroo.com/v1/GetDashTransEx';
+  private apiUrl60 = 'https://charts.vedichoroo.com/v1/AnalyzeD9';
+  private apiUrl61 = 'https://charts.vedichoroo.com/v1/GetHouseGroup';
+  private apiUrl62 = 'https://charts.vedichoroo.com/v1/AddHouseGroup';
+  private apiUrl63 = 'https://charts.vedichoroo.com/v1/Astakvarga';
+  private apiUrl64 = 'https://charts.vedichoroo.com/v1/AstroBio';
+  private apiUrl65 = 'https://charts.vedichoroo.com/v1/Shadbala';
+  private apiUrl67 = 'https://charts.vedichoroo.com/v1/IsAdmin';
+  private apiUrl68 = 'https://charts.vedichoroo.com/v1/GetAllReports';
+  private apiUrl69 = 'https://charts.vedichoroo.com/v1/AddReport';
+  private apiUrl70 = 'https://charts.vedichoroo.com/v1/GetReports';
+  private apiUrl71 = 'https://charts.vedichoroo.com/v1/UpdateReport';
+  private apiUrl72 = 'https://charts.vedichoroo.com/v1/GetProfile';
+  private apiUrl73 = 'https://charts.vedichoroo.com/v1/SetProfile';
+  private apiUrl74 = 'https://www.126news.com/v1/GetStory';
+  private apiUrl75 = 'https://www.126news.com/v1/GetMsg';
+  private apiUrl76 = 'https://charts.vedichoroo.com/v1/GetAdv';
+  private apiUrl77 = 'https://charts.vedichoroo.com/v1/GetQuota';
+  private apiUrl78 = 'https://charts.vedichoroo.com/v1/SetQuota';
+  private apiUrl79 = 'https://charts.vedichoroo.com/v1/BirthinfoEx';
+  private apiUrl80 = 'https://charts.vedichoroo.com/v1/BirthchartEx3';
+  private apiUrl81 = 'https://charts.vedichoroo.com/v1/RemDOB';
+  private apiUrl82 = 'https://charts.vedichoroo.com/v1/CalForMon';
   private apiUrl83 = 'https://www.126news.com/GetComment';
   private apiUrl84 = 'https://www.126news.com/PostComment';
-  private apiUrl85 = 'https://api.vedichoroo.com/api/GeneratePDFDoc';
-	private apiUrl86 = 'https://api.vedichoroo.com/api/ProfileBanner';
-	private apiUrl87 = 'https://api.vedichoroo.com/api/ProfileBio';
-  private apiUrl88 = 'https://api.vedichoroo.com/api/GeneratePDFDocEx';
-private apiUrl89 = 'https://api.vedichoroo.com/api/StarsForDay';
-private apiUrl90 = 'https://api.vedichoroo.com/api/DailyTrans';
-private apiUrl91 = 'https://api.vedichoroo.com/api/GetDoshas';
-  private apiUrl92 = 'https://api.vedichoroo.com/api/AnalyzeD3';
-  private apiUrl93 = 'https://api.vedichoroo.com/api/AnalyzeD7';
-  private apiUrl94 = 'https://api.vedichoroo.com/api/RecfyBTSML';
-  private apiUrl95 = 'https://api.vedichoroo.com/api/StarsForMon';
-  private apiUrl96 = 'https://api.vedichoroo.com/api/CompatibilityReport';
-  private apiUrl97 = 'https://api.vedichoroo.com/user/SSOLogin';
-  private apiUrl98 = 'https://api.vedichoroo.com/api/GetPujas';
-  private apiUrl99 = 'https://api.vedichoroo.com/api/GetTickets';
-  private apiUrl100 = 'https://api.vedichoroo.com/api/AddTicketResp';
-  private apiUrl101 = 'https://api.vedichoroo.com/api/ApplyPromo';
-  private apiUrl102 = 'https://api.vedichoroo.com/api/AddRating';
-  private apiUrl103 = 'https://api.vedichoroo.com/api/GetTicketResps';
-  private apiUrl104 = 'https://api.vedichoroo.com/api/AddReview';
-  private apiUrl105= 'https://api.vedichoroo.com/api/GetAppVersion';
+  private apiUrl85 = 'https://charts.vedichoroo.com/v1/GeneratePDFDoc';
+	private apiUrl86 = 'https://charts.vedichoroo.com/v1/ProfileBanner';
+	private apiUrl87 = 'https://charts.vedichoroo.com/v1/ProfileBio';
+  private apiUrl88 = 'https://charts.vedichoroo.com/v1/GeneratePDFDocEx';
+private apiUrl89 = 'https://charts.vedichoroo.com/v1/StarsForDay';
+private apiUrl90 = 'https://charts.vedichoroo.com/v1/DailyTrans';
+private apiUrl91 = 'https://charts.vedichoroo.com/v1/GetDoshas';
+  private apiUrl92 = 'https://charts.vedichoroo.com/v1/AnalyzeD3';
+  private apiUrl93 = 'https://charts.vedichoroo.com/v1/AnalyzeD7';
+  private apiUrl94 = 'https://charts.vedichoroo.com/v1/RecfyBTSML';
+  private apiUrl95 = 'https://charts.vedichoroo.com/v1/StarsForMon';
+  private apiUrl96 = 'https://charts.vedichoroo.com/v1/CompatibilityReport';
+  private apiUrl97 = 'https://charts.vedichoroo.com/v1/SSOLogin';
+  private apiUrl98 = 'https://charts.vedichoroo.com/v1/GetPujas';
+  private apiUrl99 = 'https://charts.vedichoroo.com/v1/GetTickets';
+  private apiUrl100 = 'https://charts.vedichoroo.com/v1/AddTicketResp';
+  private apiUrl101 = 'https://charts.vedichoroo.com/v1/ApplyPromo';
+  private apiUrl102 = 'https://charts.vedichoroo.com/v1/AddRating';
+  private apiUrl103 = 'https://charts.vedichoroo.com/v1/GetTicketResps';
+  private apiUrl104 = 'https://charts.vedichoroo.com/v1/AddReview';
+  private apiUrl105= 'https://charts.vedichoroo.com/v1/GetAppVersion';
   private apiUrl106 = 'https://imgur-apiv3.p.rapidapi.com/3/image';
-  private apiUrl107= 'https://api.vedichoroo.com/api/UserReviews';
-  private apiUrl108= 'https://api.vedichoroo.com/api/UserRating';
-  private apiUrl109= 'https://api.vedichoroo.com/api/UserReview';
-  private apiUrl110= 'https://api.vedichoroo.com/api/AppRating';
-  private apiUrl112 = 'https://api.vedichoroo.com/api/GetDashTrans4DT';
-  private apiUrl113 = 'https://sapi.vedichoroo.com/api/LogCall';
-  private apiUrl114 = 'https://sapi.vedichoroo.com/api/GetCallInfo';
-   private apiUrl115 = 'https://api.vedichoroo.com/payment/GetExchangeRate';
-  private apiUrl116 = 'https://api.vedichoroo.com/payment/GetBalance';
-  private apiUrl117 = 'https://api.vedichoroo.com/payment/CreateOrder';
-  private apiUrl118 = 'https://api.vedichoroo.com/payment/Orders';
-  private apiUrl119 = 'https://api.vedichoroo.com/api/IsAstrologer';
+  private apiUrl107= 'https://charts.vedichoroo.com/v1/UserReviews';
+  private apiUrl108= 'https://charts.vedichoroo.com/v1/UserRating';
+  private apiUrl109= 'https://charts.vedichoroo.com/v1/UserReview';
+  private apiUrl110= 'https://charts.vedichoroo.com/v1/AppRating';
+  private apiUrl112 = 'https://charts.vedichoroo.com/v1/GetDashTrans4DT';
+  private apiUrl113 = 'https://sapi.vedichoroo.com/v1/LogCall';
+  private apiUrl114 = 'https://sapi.vedichoroo.com/v1/GetCallInfo';
+   private apiUrl115 = 'https://charts.vedichoroo.com/v1/GetExchangeRate';
+  private apiUrl116 = 'https://charts.vedichoroo.com/v1/GetBalance';
+  private apiUrl117 = 'https://charts.vedichoroo.com/v1/CreateOrder';
+  private apiUrl118 = 'https://charts.vedichoroo.com/v1/Orders';
+  private apiUrl119 = 'https://charts.vedichoroo.com/v1/IsAstrologer';
   constructor(private http: HttpClient, private shareService: ShareService) { }
   getJson(url: string): Observable<{}> {
 	return this.http.get(url).pipe(
@@ -224,7 +224,7 @@ getBalance(uid):Observable<{}> {
 			.set('Authorization', 'Bearer ' + this.shareService.getToken());
    var form = new FormData();
    form.append('image', b64img.split(',')[1]);
-	  return this.http.post('https://api.imgbb.com/1/upload', form, { params: {key: '838018be3fb23483659f6041c6586217'} }).pipe(
+	  return this.http.post('https://charts.imgbb.com/1/upload', form, { params: {key: '838018be3fb23483659f6041c6586217'} }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
@@ -256,7 +256,7 @@ getBalance(uid):Observable<{}> {
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
 			.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl86.replace('https://api', 'https://sapi') : this.apiUrl86, JSON.stringify(oDat), { headers: headers }).pipe(
+	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl86.replace('https://charts', 'https://sapi') : this.apiUrl86, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
@@ -270,7 +270,7 @@ getBalance(uid):Observable<{}> {
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
 			.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl87.replace('https://api', 'https://sapi') : this.apiUrl87, JSON.stringify(oDat), { headers: headers }).pipe(
+	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl87.replace('https://charts', 'https://sapi') : this.apiUrl87, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
@@ -282,7 +282,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('sign', moonSign);
 	console.log('calling api', this.apiUrl2);
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl2.replace('https://api', 'https://sapi') : this.apiUrl2, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl2.replace('https://charts', 'https://sapi') : this.apiUrl2, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -295,7 +295,7 @@ getBalance(uid):Observable<{}> {
                         .set('token', token)
 						.set('sign', moonSign)
 						.set('deg', moonDeg.toString())
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl3.replace('https://api', 'https://sapi') : this.apiUrl3, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl3.replace('https://charts', 'https://sapi') : this.apiUrl3, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -310,7 +310,7 @@ getBalance(uid):Observable<{}> {
 						.set('nam', nam)
 						.set('mob', mob)
 						.set('eml', eml);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl30.replace('https://api', 'https://sapi') : this.apiUrl30, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl30.replace('https://charts', 'https://sapi') : this.apiUrl30, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -322,7 +322,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('promo', promo);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl101.replace('https://api', 'https://sapi') : this.apiUrl101, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl101.replace('https://charts', 'https://sapi') : this.apiUrl101, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -357,7 +357,7 @@ getBalance(uid):Observable<{}> {
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('lang', lang);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl1111.replace('https://api', 'https://sapi') : this.apiUrl1111, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl1111.replace('https://charts', 'https://sapi') : this.apiUrl1111, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -376,7 +376,7 @@ getBalance(uid):Observable<{}> {
 						.set('msi', msi.toString())
 						.set('nsi', nsi.toString())
 						.set('lang', lang);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl55.replace('https://api', 'https://sapi') : this.apiUrl55, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl55.replace('https://charts', 'https://sapi') : this.apiUrl55, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -400,7 +400,7 @@ getBalance(uid):Observable<{}> {
 						.set('timezone', tz)
 						.set('lang', lang)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl50.replace('https://api', 'https://sapi') : this.apiUrl50, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl50.replace('https://charts', 'https://sapi') : this.apiUrl50, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -425,7 +425,7 @@ getBalance(uid):Observable<{}> {
 						.set('timezone', tz)
 						.set('lang', lang)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl57.replace('https://api', 'https://sapi') : this.apiUrl57, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl57.replace('https://charts', 'https://sapi') : this.apiUrl57, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -449,7 +449,7 @@ getBalance(uid):Observable<{}> {
 						.set('timezone', tz)
 						.set('lang', lang)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl58.replace('https://api', 'https://sapi') : this.apiUrl58, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl58.replace('https://charts', 'https://sapi') : this.apiUrl58, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -476,7 +476,7 @@ getBalance(uid):Observable<{}> {
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString())
 						.set('lang', lang);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl92.replace('https://api', 'https://sapi') : this.apiUrl92, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl92.replace('https://charts', 'https://sapi') : this.apiUrl92, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -504,7 +504,7 @@ getBalance(uid):Observable<{}> {
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString())
 						.set('lang', lang);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl93.replace('https://api', 'https://sapi') : this.apiUrl93, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl93.replace('https://charts', 'https://sapi') : this.apiUrl93, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -530,7 +530,7 @@ getBalance(uid):Observable<{}> {
 						.set('timezone', tz)
 						.set('lang', lang)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl60.replace('https://api', 'https://sapi') : this.apiUrl60, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl60.replace('https://charts', 'https://sapi') : this.apiUrl60, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -554,7 +554,7 @@ getBalance(uid):Observable<{}> {
 						.set('timezone', tz)
 						.set('lang', lang)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl51.replace('https://api', 'https://sapi') : this.apiUrl51, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl51.replace('https://charts', 'https://sapi') : this.apiUrl51, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -568,7 +568,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0');
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl38.replace('https://api', 'https://sapi') : this.apiUrl38, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl38.replace('https://charts', 'https://sapi') : this.apiUrl38, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -579,7 +579,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl29.replace('https://api', 'https://sapi') : this.apiUrl29, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl29.replace('https://charts', 'https://sapi') : this.apiUrl29, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -590,7 +590,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl77.replace('https://api', 'https://sapi') : this.apiUrl77, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl77.replace('https://charts', 'https://sapi') : this.apiUrl77, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -601,7 +601,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl23.replace('https://api', 'https://sapi') : this.apiUrl23, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl23.replace('https://charts', 'https://sapi') : this.apiUrl23, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -612,7 +612,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl53.replace('https://api', 'https://sapi') : this.apiUrl53, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl53.replace('https://charts', 'https://sapi') : this.apiUrl53, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -621,7 +621,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl36.replace('https://api', 'https://sapi') : this.apiUrl36, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl36.replace('https://charts', 'https://sapi') : this.apiUrl36, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -630,7 +630,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl98.replace('https://api', 'https://sapi') : this.apiUrl98, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl98.replace('https://charts', 'https://sapi') : this.apiUrl98, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -641,7 +641,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('pid', pid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl110.replace('https://api', 'https://sapi') : this.apiUrl110, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl110.replace('https://charts', 'https://sapi') : this.apiUrl110, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -652,7 +652,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('pid', pid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl107.replace('https://api', 'https://sapi') : this.apiUrl107, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl107.replace('https://charts', 'https://sapi') : this.apiUrl107, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -670,7 +670,7 @@ getBalance(uid):Observable<{}> {
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
 			.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl108.replace('https://api', 'https://sapi') : this.apiUrl108, JSON.stringify(oDat), { headers: headers }).pipe(
+	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl108.replace('https://charts', 'https://sapi') : this.apiUrl108, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
@@ -688,7 +688,7 @@ getBalance(uid):Observable<{}> {
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
 			.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl109.replace('https://api', 'https://sapi') : this.apiUrl109, JSON.stringify(oDat), { headers: headers }).pipe(
+	  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl109.replace('https://charts', 'https://sapi') : this.apiUrl109, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 	  );
@@ -698,7 +698,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl99.replace('https://api', 'https://sapi') : this.apiUrl99, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl99.replace('https://charts', 'https://sapi') : this.apiUrl99, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -707,7 +707,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl105.replace('https://api', 'https://sapi') : this.apiUrl105, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl105.replace('https://charts', 'https://sapi') : this.apiUrl105, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -719,7 +719,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl103.replace('https://api', 'https://sapi') : this.apiUrl103, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl103.replace('https://charts', 'https://sapi') : this.apiUrl103, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -728,7 +728,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl68.replace('https://api', 'https://sapi') : this.apiUrl68, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl68.replace('https://charts', 'https://sapi') : this.apiUrl68, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -739,7 +739,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl70.replace('https://api', 'https://sapi') : this.apiUrl70, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl70.replace('https://charts', 'https://sapi') : this.apiUrl70, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -759,7 +759,7 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')   
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl52.replace('https://api', 'https://sapi') : this.apiUrl52, {headers: headers}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl52.replace('https://charts', 'https://sapi') : this.apiUrl52, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -770,7 +770,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl32.replace('https://api', 'https://sapi') : this.apiUrl32, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl32.replace('https://charts', 'https://sapi') : this.apiUrl32, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -781,7 +781,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('title', title);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl74.replace('https://api', 'https://sapi') : this.apiUrl74, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl74.replace('https://charts', 'https://sapi') : this.apiUrl74, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -791,7 +791,7 @@ getBalance(uid):Observable<{}> {
 			.set('Accept', 'application/json; charset=utf-8');
 	let httpParams = new HttpParams()
 						.set('page_id', title);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl83.replace('https://api', 'https://sapi') : this.apiUrl83, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl83.replace('https://charts', 'https://sapi') : this.apiUrl83, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -802,7 +802,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('tag', tag);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl75.replace('https://api', 'https://sapi') : this.apiUrl75, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl75.replace('https://charts', 'https://sapi') : this.apiUrl75, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -813,7 +813,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl72.replace('https://api', 'https://sapi') : this.apiUrl72, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl72.replace('https://charts', 'https://sapi') : this.apiUrl72, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -826,7 +826,7 @@ getBalance(uid):Observable<{}> {
                         .set('uuid', uuid)
 						.set('avatar', avatar)
 						.set('dob', dob);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl73.replace('https://api', 'https://sapi') : this.apiUrl73, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl73.replace('https://charts', 'https://sapi') : this.apiUrl73, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -838,7 +838,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl67.replace('https://api', 'https://sapi') : this.apiUrl67, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl67.replace('https://charts', 'https://sapi') : this.apiUrl67, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -849,7 +849,7 @@ getBalance(uid):Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uid', uid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl64.replace('https://api', 'https://sapi') : this.apiUrl64, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl64.replace('https://charts', 'https://sapi') : this.apiUrl64, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -861,7 +861,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('status', status);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl33.replace('https://api', 'https://sapi') : this.apiUrl33, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl33.replace('https://charts', 'https://sapi') : this.apiUrl33, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -873,7 +873,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('tagline', tagline);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl34.replace('https://api', 'https://sapi') : this.apiUrl34, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl34.replace('https://charts', 'https://sapi') : this.apiUrl34, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -889,7 +889,7 @@ getBalance(uid):Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('avatar', avatar);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl35.replace('https://api', 'https://sapi') : this.apiUrl35, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl35.replace('https://charts', 'https://sapi') : this.apiUrl35, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -901,7 +901,7 @@ setQuota(uuid: string, qta: number): Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('qta', qta.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl78.replace('https://api', 'https://sapi') : this.apiUrl78, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl78.replace('https://charts', 'https://sapi') : this.apiUrl78, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -913,7 +913,7 @@ setQuota(uuid: string, qta: number): Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('name', name);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl24.replace('https://api', 'https://sapi') : this.apiUrl24, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl24.replace('https://charts', 'https://sapi') : this.apiUrl24, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -925,7 +925,7 @@ setQuota(uuid: string, qta: number): Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('credits', credits.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl25.replace('https://api', 'https://sapi') : this.apiUrl25, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl25.replace('https://charts', 'https://sapi') : this.apiUrl25, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -937,7 +937,7 @@ setQuota(uuid: string, qta: number): Observable<{}> {
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('review', review);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl104.replace('https://api', 'https://sapi') : this.apiUrl104, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl104.replace('https://charts', 'https://sapi') : this.apiUrl104, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -949,7 +949,7 @@ setQuota(uuid: string, qta: number): Observable<{}> {
 let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('rating', rating.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl102.replace('https://api', 'https://sapi') : this.apiUrl102, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl102.replace('https://charts', 'https://sapi') : this.apiUrl102, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -961,7 +961,7 @@ let httpParams = new HttpParams()
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('dob', dob);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl26.replace('https://api', 'https://sapi') : this.apiUrl26, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl26.replace('https://charts', 'https://sapi') : this.apiUrl26, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -973,7 +973,7 @@ let httpParams = new HttpParams()
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('dob', dob);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl81.replace('https://api', 'https://sapi') : this.apiUrl81, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl81.replace('https://charts', 'https://sapi') : this.apiUrl81, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -987,7 +987,7 @@ let httpParams = new HttpParams()
 						.set('cat', cat)
 						.set('sub', sub)
 						.set('msg', msg);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl27.replace('https://api', 'https://sapi') : this.apiUrl27, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl27.replace('https://charts', 'https://sapi') : this.apiUrl27, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1000,7 +1000,7 @@ let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('guid', guid)
 						.set('resp', resp);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl100.replace('https://api', 'https://sapi') : this.apiUrl100, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl100.replace('https://charts', 'https://sapi') : this.apiUrl100, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1024,7 +1024,7 @@ let httpParams = new HttpParams()
  let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 			.set('Content-Type', 'application/json; charset=utf-8');
- 	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl84.replace('https://api', 'https://sapi') : this.apiUrl84, JSON.stringify(oDat), {headers: headers}).pipe(
+ 	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl84.replace('https://charts', 'https://sapi') : this.apiUrl84, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1042,7 +1042,7 @@ let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('guid', guid)
 						.set('msg', msg);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl28.replace('https://api', 'https://sapi') : this.apiUrl28, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl28.replace('https://charts', 'https://sapi') : this.apiUrl28, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1059,7 +1059,7 @@ let httpParams = new HttpParams()
 						.set('lan', lan)
 						.set('eml', eml)
 						.set('mob', mob);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl69.replace('https://api', 'https://sapi') : this.apiUrl69, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl69.replace('https://charts', 'https://sapi') : this.apiUrl69, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1072,7 +1072,7 @@ let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('guid', guid)
 						.set('lnk', lnk);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl71.replace('https://api', 'https://sapi') : this.apiUrl71, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl71.replace('https://charts', 'https://sapi') : this.apiUrl71, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1095,7 +1095,7 @@ getHoro(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0')
 						.set('latlng', latlng)
 						.set('timezone', tz);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl.replace('https://api', 'https://sapi') : this.apiUrl, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl.replace('https://charts', 'https://sapi') : this.apiUrl, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1123,7 +1123,7 @@ getProHoro(lat: number, lng: number, dob: string, tz: string, ofset: number, aya
 						.set('name', '')
 						.set('eml', '')
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl54.replace('https://api', 'https://sapi') : this.apiUrl54, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl54.replace('https://charts', 'https://sapi') : this.apiUrl54, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1153,7 +1153,7 @@ getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: nu
 						.set('name', '')
 						.set('eml', '')
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl80.replace('https://api', 'https://sapi') : this.apiUrl80, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl80.replace('https://charts', 'https://sapi') : this.apiUrl80, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1179,7 +1179,7 @@ getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: nu
 						.set('timezone', tz)
 						.set('tzofset', ofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl63.replace('https://api', 'https://sapi') : this.apiUrl63, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl63.replace('https://charts', 'https://sapi') : this.apiUrl63, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1205,7 +1205,7 @@ getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: nu
 						.set('timezone', tz)
 						.set('tzofset', ofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl65.replace('https://api', 'https://sapi') : this.apiUrl65, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl65.replace('https://charts', 'https://sapi') : this.apiUrl65, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1234,7 +1234,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('name', '')
 						.set('eml', '')
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl56.replace('https://api', 'https://sapi') : this.apiUrl56, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl56.replace('https://charts', 'https://sapi') : this.apiUrl56, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1261,7 +1261,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' +  tsec)
 						.set('latlng', latlng)
 						.set('timezone', tz);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl42.replace('https://api', 'https://sapi') : this.apiUrl42, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl42.replace('https://charts', 'https://sapi') : this.apiUrl42, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1288,7 +1288,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl47.replace('https://api', 'https://sapi') : this.apiUrl47, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl47.replace('https://charts', 'https://sapi') : this.apiUrl47, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1316,7 +1316,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('msgn', msgn)
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl90.replace('https://api', 'https://sapi') : this.apiUrl90, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl90.replace('https://charts', 'https://sapi') : this.apiUrl90, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1353,7 +1353,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' +  tsec)
 						.set('latlng', latlng)
 						.set('timezone', tz);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl9.replace('https://api', 'https://sapi') : this.apiUrl9, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl9.replace('https://charts', 'https://sapi') : this.apiUrl9, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1382,7 +1382,7 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 						.set('timezone', tz)
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl48.replace('https://api', 'https://sapi') : this.apiUrl48, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl48.replace('https://charts', 'https://sapi') : this.apiUrl48, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1401,7 +1401,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 				.set('Accept', 'application/json; charset=utf-8')
 				.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl94.replace('https://api', 'https://sapi') : this.apiUrl94, JSON.stringify(oDat), { headers: headers }).pipe(
+	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl94.replace('https://charts', 'https://sapi') : this.apiUrl94, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 		  );
@@ -1432,7 +1432,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('znum', znum.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl37.replace('https://api', 'https://sapi') : this.apiUrl37, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl37.replace('https://charts', 'https://sapi') : this.apiUrl37, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1461,7 +1461,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('timezone', tz)
 						.set('tzofset', ofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl22.replace('https://api', 'https://sapi') : this.apiUrl22, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl22.replace('https://charts', 'https://sapi') : this.apiUrl22, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1481,7 +1481,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl4.replace('https://api', 'https://sapi') : this.apiUrl4, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl4.replace('https://charts', 'https://sapi') : this.apiUrl4, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1505,7 +1505,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 				.set('Content-Type', 'application/json; charset=utf-8')
 				.set('Access-Control-Allow-Origin', '*')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl96.replace('https://api', 'https://sapi') : this.apiUrl96, JSON.stringify(oDat), { headers: headers }).pipe(
+	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl96.replace('https://charts', 'https://sapi') : this.apiUrl96, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 		  );
@@ -1518,7 +1518,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0');
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl5.replace('https://api', 'https://sapi') : this.apiUrl5, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl5.replace('https://charts', 'https://sapi') : this.apiUrl5, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1541,7 +1541,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl45.replace('https://api', 'https://sapi') : this.apiUrl45, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl45.replace('https://charts', 'https://sapi') : this.apiUrl45, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1555,7 +1555,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
                         .set('star', star)
 						.set('sign', sign)
 						.set('moondeg', moondeg);
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl6.replace('https://api', 'https://sapi') : this.apiUrl6, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl6.replace('https://charts', 'https://sapi') : this.apiUrl6, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1574,7 +1574,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl46.replace('https://api', 'https://sapi') : this.apiUrl46, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl46.replace('https://charts', 'https://sapi') : this.apiUrl46, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1593,7 +1593,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 				.set('Accept', 'application/json; charset=utf-8')
 				.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl95.replace('https://api', 'https://sapi') : this.apiUrl95, JSON.stringify(oDat), { headers: headers }).pipe(
+	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl95.replace('https://charts', 'https://sapi') : this.apiUrl95, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 		  );
@@ -1616,7 +1616,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('timezone', tz)
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl89.replace('https://api', 'https://sapi') : this.apiUrl89, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl89.replace('https://charts', 'https://sapi') : this.apiUrl89, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1632,7 +1632,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl82.replace('https://api', 'https://sapi') : this.apiUrl82, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl82.replace('https://charts', 'https://sapi') : this.apiUrl82, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1645,7 +1645,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
                         .set('location', lat + ',' + lng)
 						.set('timestamp', timestamp)
 						.set('key', 'AIzaSyCx1IH3j2RVc6hT12jR0kG3D8g-cDDq3MA');
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl7.replace('https://api', 'https://sapi') : this.apiUrl7, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl7.replace('https://charts', 'https://sapi') : this.apiUrl7, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1653,7 +1653,7 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
  getStories(): Observable<{}> {
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8');
-   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl8.replace('https://api', 'https://sapi') : this.apiUrl8, {headers: headers}).pipe(
+   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl8.replace('https://charts', 'https://sapi') : this.apiUrl8, {headers: headers}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
 	);
@@ -1663,7 +1663,7 @@ getArticle(tok: string): Observable<{}> {
 			.set('Accept', 'application/json; charset=utf-8');
 	let httpParams = new HttpParams()
                         .set('tok', tok);
-   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl44.replace('https://api', 'https://sapi') : this.apiUrl44, {headers: headers, params: httpParams}).pipe(
+   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl44.replace('https://charts', 'https://sapi') : this.apiUrl44, {headers: headers, params: httpParams}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
 	);
@@ -1675,7 +1675,7 @@ getBlogs(uid: string): Observable<{}> {
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uid', uid);
-   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl39.replace('https://api', 'https://sapi') : this.apiUrl39, {headers: headers, params: httpParams}).pipe(
+   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl39.replace('https://charts', 'https://sapi') : this.apiUrl39, {headers: headers, params: httpParams}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
 	);
@@ -1692,7 +1692,7 @@ pubBlog(uuid: string, name: string, avatar: string, title: string, story: string
   let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 			.set('Content-Type', 'application/json; charset=utf-8');
-   return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl40.replace('https://api', 'https://sapi') : this.apiUrl40, JSON.stringify(oDat), {headers: headers}).pipe(
+   return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl40.replace('https://charts', 'https://sapi') : this.apiUrl40, JSON.stringify(oDat), {headers: headers}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
 	);
@@ -1706,7 +1706,7 @@ addSuggestion(uuid: string, cat: string, msg: string): Observable<{}> {
   let headers = new HttpHeaders()
 		.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-   return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl44.replace('https://api', 'https://sapi') : this.apiUrl44, JSON.stringify(oDat), {headers: headers}).pipe(
+   return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl44.replace('https://charts', 'https://sapi') : this.apiUrl44, JSON.stringify(oDat), {headers: headers}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
 	);
@@ -1720,7 +1720,7 @@ getTransits(mdas: string, adas: string, pdas: string, pend: string): Observable<
 						.set('adas', adas)
 						.set('pdas', pdas)
 						.set('pend', pend);
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl10.replace('https://api', 'https://sapi') : this.apiUrl10, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl10.replace('https://charts', 'https://sapi') : this.apiUrl10, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1742,7 +1742,7 @@ getDashTransEx(mdas: string, adas: string, pdas: string, pend: string, lat: any,
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl59.replace('https://api', 'https://sapi') : this.apiUrl59, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl59.replace('https://charts', 'https://sapi') : this.apiUrl59, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1765,7 +1765,7 @@ getDashTrans4DT(cdt: any, mdas: string, adas: string, pdas: string, lat: any, ln
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl112.replace('https://api', 'https://sapi') : this.apiUrl112, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl112.replace('https://charts', 'https://sapi') : this.apiUrl112, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1790,7 +1790,7 @@ getDashTrans(mdas: string, adas: string, pdas: string, pend: string): Observable
 						.set('pdas', pdas)
 						.set('pend', pend);
 			
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl20.replace('https://api', 'https://sapi') : this.apiUrl20, {headers: headers, params: httpParams}).pipe(
+  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl20.replace('https://charts', 'https://sapi') : this.apiUrl20, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1800,7 +1800,7 @@ getDashaTransits(vim: any): Observable<{}> {
 	let headers = new HttpHeaders();
 	headers = headers.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl11.replace('https://api', 'https://sapi') : this.apiUrl11, JSON.stringify(vim), {headers: headers}).pipe(
+  return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl11.replace('https://charts', 'https://sapi') : this.apiUrl11, JSON.stringify(vim), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1812,7 +1812,7 @@ getDashaTransits(vim: any): Observable<{}> {
 			.append('target', tgt)
 			.append('key ', 'AIzaSyByRjvoxkrwrCgMTmawQcm7zo0m2a5wg2s');
 
-   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl111.replace('https://api', 'https://sapi') : this.apiUrl111, {params: httpParams}).pipe(
+   return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl111.replace('https://charts', 'https://sapi') : this.apiUrl111, {params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    ); 
@@ -1836,7 +1836,7 @@ getBirthInfo(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
 						.set('latlng', latlng)
 						.set('timezone', tz);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl31.replace('https://api', 'https://sapi') : this.apiUrl31, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl31.replace('https://charts', 'https://sapi') : this.apiUrl31, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1861,7 +1861,7 @@ getBirthInfoEx(lat: any, lng: any, dob: string, tz: string, ayanid: number): Obs
 						.set('latlng', latlng)
 						.set('timezone', tz)
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl79.replace('https://api', 'https://sapi') : this.apiUrl79, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl79.replace('https://charts', 'https://sapi') : this.apiUrl79, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1884,7 +1884,7 @@ getDoshas(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid:
 						.set('timezone', tz)
 						.set('dstofset', dstofset.toString())
 						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl91.replace('https://api', 'https://sapi') : this.apiUrl91, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl91.replace('https://charts', 'https://sapi') : this.apiUrl91, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1895,7 +1895,7 @@ getDoshas(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid:
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl61.replace('https://api', 'https://sapi') : this.apiUrl61, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl61.replace('https://charts', 'https://sapi') : this.apiUrl61, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1909,7 +1909,7 @@ getDoshas(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid:
 			.set('Accept', 'application/json; charset=utf-8') 
 			.set('Content-Type', 'application/json; charset=utf-8') 
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl62.replace('https://api', 'https://sapi') : this.apiUrl62, JSON.stringify(oDat), {headers: headers}).pipe(
+	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl62.replace('https://charts', 'https://sapi') : this.apiUrl62, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );
@@ -1936,7 +1936,7 @@ getDoshas(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid:
 			.set('Accept', 'application/pdf; charset=utf-8') 
 			.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl85.replace('https://api', 'https://sapi') : this.apiUrl85, JSON.stringify(oDat), { headers : headers,responseType : 
+return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl85.replace('https://charts', 'https://sapi') : this.apiUrl85, JSON.stringify(oDat), { headers : headers,responseType : 
          'blob' as 'json'});			
 	//return this.http.post(this.apiUrl85, JSON.stringify(oDat), {headers: headers}).pipe(
     // map(this.extractData),
@@ -1969,7 +1969,7 @@ return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl
 			.set('Accept', 'application/pdf; charset=utf-8') 
 			.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl88.replace('https://api', 'https://sapi') : this.apiUrl88, JSON.stringify(oDat), { headers : headers,responseType : 
+return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl88.replace('https://charts', 'https://sapi') : this.apiUrl88, JSON.stringify(oDat), { headers : headers,responseType : 
          'blob' as 'json'});			
 	//return this.http.post(this.apiUrl85, JSON.stringify(oDat), {headers: headers}).pipe(
     // map(this.extractData),
@@ -1984,7 +1984,7 @@ return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl
                         .set('uid', uid)
 						.set('uuid', uuid)
 						.set('aid', aid);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl49.replace('https://api', 'https://sapi') : this.apiUrl49, {headers: headers, params: httpParams}).pipe(
+	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl49.replace('https://charts', 'https://sapi') : this.apiUrl49, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
    );

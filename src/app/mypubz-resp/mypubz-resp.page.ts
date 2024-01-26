@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location  } from '@angular/common';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { HomePage } from '../home/home.page';
 import { SubscribePage } from '../subscribe/subscribe.page';

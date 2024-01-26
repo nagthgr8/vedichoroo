@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, AfterViewInit, ViewChild, Renderer2, Element
 import { Router, ActivatedRoute } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform, MenuController } from '@ionic/angular';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Chart, registerables } from 'chart.js';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';

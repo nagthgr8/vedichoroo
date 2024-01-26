@@ -29,6 +29,7 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+/keystore
 
 # Ignore Gradle project-specific cache directory
 .gradle

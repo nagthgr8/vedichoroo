@@ -1,7 +1,7 @@
 import { Component, Renderer2, AfterViewInit, ViewChild, ViewEncapsulation, ElementRef, OnInit, NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform, MenuController } from '@ionic/angular';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
 import { BirthInfo } from '../birth-info';
