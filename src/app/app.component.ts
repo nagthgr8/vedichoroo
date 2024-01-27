@@ -9,11 +9,11 @@ import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
-import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { TranslateService} from '@ngx-translate/core';
 import { ShareService } from './share.service';
 import { HoroscopeService } from './horoscope.service';
-import { CallService } from './call.service';
+//import { CallService } from './call.service';
 import { Ticket } from './ticket';
 import { Plan } from './plan';
 import { BirthInfo } from './birth-info';
@@ -23,6 +23,7 @@ import { Caller } from './caller';
 //declare var navigator: any;
 declare var admob;
 const timer = ms => new Promise(res => setTimeout(res, ms));
+StatusBar.setOverlaysWebView({ overlay: true });
 
 @Component({
   selector: 'app-root',
@@ -72,13 +73,13 @@ export class AppComponent implements OnDestroy {
    constructor(
    public alertController: AlertController,
    private googlePlus: GooglePlus,
-   private callService: CallService,
+   //private callService: CallService,
    private router: Router,
 	private renderer: Renderer2,
     private platform: Platform,
     public menu: MenuController,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
+   
 	private translate: TranslateService,
 	public shareService: ShareService,
 	public horoService: HoroscopeService,
@@ -104,28 +105,28 @@ export class AppComponent implements OnDestroy {
       { title: 'Memories', component: '/memories', icon: 'heart', spin: false },
 	  { title: 'Exit App', component: '/exit-app', icon: 'exit', spin: false}
     ];
-	this.callService.callStarted.subscribe((cinf) => {
-	  console.log('AppComponent: callStarted');
-		  let callerInfo: Caller  = {
-		    uuid: '',
-			uid: cinf.cid,
-		    aid: cinf.aid,
-		    caller_name: '',
-		    name: '',
-			avatar: cinf.pic,
-		    iscaller: cinf.is_caller,
-		    duration: 0,
-		    starttime: '',
-		    endtime: '',
-           };
-		  console.log('emitting callerInfo', callerInfo);
-          this.shareService.emitCallerInfo(callerInfo);		   
-		  console.log('showAstroCall');
-		  this.showAstroCall = true;
-	});
-    this.callService.callEnded.subscribe(() => {
-      this.showAstroCall = false;
-    });  
+	// this.callService.callStarted.subscribe((cinf) => {
+	//   console.log('AppComponent: callStarted');
+	// 	  let callerInfo: Caller  = {
+	// 	    uuid: '',
+	// 		uid: cinf.cid,
+	// 	    aid: cinf.aid,
+	// 	    caller_name: '',
+	// 	    name: '',
+	// 		avatar: cinf.pic,
+	// 	    iscaller: cinf.is_caller,
+	// 	    duration: 0,
+	// 	    starttime: '',
+	// 	    endtime: '',
+    //        };
+	// 	  console.log('emitting callerInfo', callerInfo);
+    //       this.shareService.emitCallerInfo(callerInfo);		   
+	// 	  console.log('showAstroCall');
+	// 	  this.showAstroCall = true;
+	// });
+    // this.callService.callEnded.subscribe(() => {
+    //   this.showAstroCall = false;
+    // });  
         this.shareService.astro
 			.subscribe(res => {
 				this.pages.push({ title: 'My Earnings', component: '/my-earnings', icon: 'cash', spin: false});
@@ -145,6 +146,7 @@ export class AppComponent implements OnDestroy {
 	}
  }
   initializeApp() {
+	
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
     this.platform.ready().then(() => {
@@ -179,7 +181,7 @@ export class AppComponent implements OnDestroy {
 			//navigator.notification.activityStart(JSON.stringify(e));
 		  //navigator.notification.activityStop();
 		}
-      this.statusBar.styleDefault();				
+      //this.statusBar.styleDefault();				
 	  console.log('stor ready');
 	                this.shareService.getUPRO().then(prf => {
 					this.shareService.getVIMS(prf['dob'].split('L')[0].trim()).then( vres => {
@@ -537,7 +539,7 @@ export class AppComponent implements OnDestroy {
 		.subscribe(stat => {
 		});
 	}
-    this.callService.stopTracks();
+    //this.callService.stopTracks();
 	if (this.lstnr) {
       this.lstnr();
     }

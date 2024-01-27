@@ -114,3 +114,37 @@ color: --ion-color-success;
 	  padding: 0px;
   }
 }
+// global.scss
+ion-content, ion-header, ion-toolbar {
+	--ion-background-color: rgba(var(--ion-color-primary-rgb), 0.05) !important;;
+ }
+ion-header {
+	--min-height: 56px; // Adjust to match the desired height
+  }
+  
+  
+  ion-title.title-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 56px; // Adjust the height based on your design
+	color: #ffffff; // Set text color if needed
+	background: url('assets/imgs/vho-title5.png') center/cover no-repeat;
+	position: relative;
+	opacity: 0.8;
+  }
+  ion-buttons[slot="start"], ion-buttons[slot="end"] {
+	display: flex;
+	align-items: center;
+  }
+  
+  ion-button[slot="start"], ion-button[slot="end"] {
+	img {
+	  height: 24px; // Adjust the height of the icon
+	  width: auto; // Maintain aspect ratio
+	  margin: 0; // Reset any default margins
+	}
+  }
+  
+
+  

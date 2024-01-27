@@ -1,19 +1,20 @@
 <ion-header [translucent]="true">
-  <ion-toolbar mode="ios">
-    <ion-title><img alt="logo" height="24" src="assets/imgs/logo.png" /></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-    <ion-button *ngIf="dho.sho" color="primary" slot="end">
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true">
+	<ion-toolbar mode="ios">
+	  <ion-title class="ion-text-center">
+		  <ion-img src="assets/imgs/vho-title5.png"></ion-img>
+		</ion-title>
+	  <ion-button color="primary" slot="start" menuToggle>
+		<ion-menu-button width="24">
+		 <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
+		</ion-menu-button>
+	  </ion-button>
+	  <ion-button *ngIf="dho.sho" color="primary" slot="end">
+		<ion-menu-button width="24">
+		 <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
+		</ion-menu-button>
+	  </ion-button>
+	</ion-toolbar>
+  </ion-header><ion-content [fullscreen]="true">
 	<ion-fab *ngIf="showASU" vertical="center" horizontal="end" slot="fixed" tappable (click)="sub()">
 		<ion-fab-button title="{{ 'Please Subscribe & get full access' | translate }}">
 			<ion-icon name="gift"></ion-icon>
@@ -102,21 +103,4 @@
 			<p> <span class="kitem">{{item.title | translate}}</span><br><span class="ksitem"> {{item.note | translate}}</span></p>
 		</ion-item>
 	</ion-list>
-	<ion-list>
-		<ion-item *ngFor="let ast of oAst">
-			<ion-grid>
-				<ion-row>
-					<ion-col size="2"><ion-avatar item-left> <img class="img img-circle" [src]="ast.avatar" /></ion-avatar></ion-col>
-					<ion-col size="10">
-						<ion-grid>
-							<ion-row><ion-col><div class="name">{{ast.name}}</div></ion-col><ion-col> <div class="abtn"><ion-icon class="info" name="information-circle-outline"></ion-icon><ion-icon *ngIf="ast.status" class="info" name="call" tappable (click)="callreq($event, ast)"></ion-icon></div></ion-col></ion-row>
-							<ion-row><ion-col><div class="tag">{{ast.tagline}}</div></ion-col></ion-row>
-							<div *ngIf="ast.tot_ratings"><ion-row><ion-col size="12"><span class="arat"><ion-icon class="star" name={{ast.str1}}></ion-icon><ion-icon class="star" name={{ast.str2}}></ion-icon><ion-icon class="star" name={{ast.str3}}></ion-icon><ion-icon class="star" name={{ast.str4}}></ion-icon><ion-icon class="star" name={{ast.str5}}></ion-icon>({{ast.tot_ratings}})</span></ion-col></ion-row></div>
-							<ion-row><ion-col><span [innerHTML]="ast.cfee"></span><span [innerHTML]="ast.smsg"></span></ion-col></ion-row>
-						</ion-grid>
-					</ion-col>
-				</ion-row>
-			</ion-grid>
-		</ion-item>
-		</ion-list>
 </ion-content>

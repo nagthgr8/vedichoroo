@@ -112,7 +112,9 @@ export class AstroCallPage {
 	showRec: boolean = false;
   isMuted: boolean = false;
   remoteAudio;
-  constructor(private router: Router, private callService: CallService, private horoService: HoroscopeService, private shareService: ShareService, public renderer: Renderer2, private translate: TranslateService) { 
+  constructor(private router: Router, 
+	private callService: CallService, 
+	private horoService: HoroscopeService, private shareService: ShareService, public renderer: Renderer2, private translate: TranslateService) { 
   }
   ngOnInit() {
     //const audioElement = this.remoteAudio.nativeElement as HTMLAudioElement;

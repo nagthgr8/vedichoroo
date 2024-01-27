@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ShareService } from './share.service';
 import { HoroscopeService } from './horoscope.service';
-import { CallService } from './call.service';
+//import { CallService } from './call.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
@@ -63,7 +63,7 @@ import { CalendarModule } from 'ion7-calendar';
 	FileOpener,
 	InAppPurchase2,
     Camera,
-	CallService,
+	//CallService,
 	HoroscopeService,
 	ShareService,
 	AppVersion,

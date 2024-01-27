@@ -14,7 +14,7 @@ import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { Market } from '@awesome-cordova-plugins/market/ngx';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
-import { astroStatus, CallService } from '../call.service';
+//import { astroStatus, CallService } from '../call.service';
 import { Ticket } from '../ticket';
 import { Plan } from '../plan';
 import { Astrologer } from '../astrologer';
@@ -121,14 +121,15 @@ export class HomePage  {
   constructor(private androidPermissions: AndroidPermissions, 	
   public alertController: AlertController,
    private geolocation: Geolocation,	
-private menu: MenuController, private device: Device, private appVersion: AppVersion, private market: Market, private browserTab: BrowserTab, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, private callService: CallService, private shareService: ShareService, private horoService: HoroscopeService, private file: File) 
+private menu: MenuController, private device: Device, private appVersion: AppVersion, private market: Market, private browserTab: BrowserTab, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, 
+//private callService: CallService, 
+private shareService: ShareService, private horoService: HoroscopeService, private file: File) 
   {
 	  console.log('home', 'constructor');
     this.items = [
       { title: 'Planetary Transits & Predictions', note: 'Get your monthly  prediction based on planetary transits', spin: false, show: true, fuse: true, img: 'assets/imgs/planets.png' },
 	  { title: 'Birth Time Rectification', note: 'Get the rectified birth time through the scientifically proven KP Stellar Astrology', spin: false, show: true, fuse: false, img: 'assets/imgs/btr1.png' },
 	  { title: 'Yogas In Your Horoscope', note: 'Know your Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yogas and many more..', spin: false, show: true, fuse: false, img: 'assets/imgs/yogas.png' },
-	  { title: 'Talk to Astrologer', note: 'Talk to our certified professional astrologers who has decades of experience in Vedic & KP Asgtrology', spin: false, show: true, fuse: false, img: 'assets/imgs/astrologer.png' }
  ];
     this.icons = ['assets/imgs/chart.png','assets/imgs/vargas.png','assets/imgs/love.png','assets/imgs/kp.png', 'assets/imgs/tarabal.png', 'assets/imgs/prashna.png','assets/imgs/money.png','assets/imgs/career.png', 'assets/imgs/gems.png'];
 	this.title = ['Birth Chart Analysis','Divisional Charts','Love Compatibility','KP Astrology', 'Star Constellation', 'Prashna Jyotish','Money Horoscope','Career Horoscope','Lucky Gemstones']
@@ -230,9 +231,9 @@ private menu: MenuController, private device: Device, private appVersion: AppVer
 			this.getMinBal(ast.cfee, ast.ccy, loc.country_code).then(minBal => {
 				//const estimatedCallCost = astrologerFeePerMinute*5; //minimum 5 minutes of balance is required;
 				//if (user.balance >= minBal) {
-			this.callService.callAstro(ast.eml, ast.name, ast.avatar, user.email, user.dob, (user.isprivate) ? 'https://i.imgur.com/LR7e1vw.png' : user.imageUrl).then(() => {
+			//this.callService.callAstro(ast.eml, ast.name, ast.avatar, user.email, user.dob, (user.isprivate) ? 'https://i.imgur.com/LR7e1vw.png' : user.imageUrl).then(() => {
 							   
-							});
+			//				});
 				//} else {
 							//display recharge dialog
 				//	this.shareService.setGEVT('recharge');
@@ -484,12 +485,12 @@ getSN(msgn) {
  ngAfterViewInit() {
  		  console.log('home', 'ngOnAfterViewInit');
 		 this.info = 'Fetching..';
-	astroStatus.subscribe((ast) => {
-		console.log('astroStatus', ast);
-		let a = this.oAst.find((o) => o.eml === ast.aid);
-		a.smsg = (ast.busy) ? 'Not Available': 'Available';
-		a.status = !ast.busy;
-	  });
+	// astroStatus.subscribe((ast) => {
+	// 	console.log('astroStatus', ast);
+	// 	let a = this.oAst.find((o) => o.eml === ast.aid);
+	// 	a.smsg = (ast.busy) ? 'Not Available': 'Available';
+	// 	a.status = !ast.busy;
+	//   });
 	this.shareService.getPLAN().then((pln)=> { 
 		      console.log('fetched plan', pln);
 		        this.info = '';
