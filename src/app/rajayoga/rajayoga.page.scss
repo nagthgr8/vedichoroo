@@ -5,7 +5,7 @@ body {
 color: #FF0000;
 }
 .blueText {
-color: #001EFF;
+color: var(--vho-color-blue);
 }
 .greenText {
 color: #3db161;
@@ -48,7 +48,7 @@ color: #f0882f;
 	font-weight:bold;
 	border: 1px solid #d35400;
 	ion-col {
-	  color: blue;
+	  color: var(--vho-color-blue);
 	  padding: 5px;
 	  border: 1px solid #ffd9a3;
 	}
@@ -64,7 +64,7 @@ color: #f0882f;
 	margin-left:25px;
   }
   .more {
-	color: blue;
+	color: var(--vho-color-blue);
   }
  .zoom {
     position: fixed;

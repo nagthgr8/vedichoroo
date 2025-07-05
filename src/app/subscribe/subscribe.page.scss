@@ -2,7 +2,7 @@
    font-family: roboto;
   }
   .desc {
-	color: blue;
+	color: var(--vho-color-blue);
 	font-weight: bold;
   }
   .fitm {
@@ -24,7 +24,7 @@
    font-weight: bold;
   }
   .wsub {
-   font-size: 1.25rem;
+   font-size: 1.12rem;
    font-weight: bold;
   }
   .slug {
@@ -46,4 +46,11 @@
  color: #fc0303;
  font-size: 0.8rem;
  font-weight: bold;
+}
+.sdash-items {
+  border-color: #d35400; 
+  border-style: solid;
+  border-width: 0.125rem; 
+  border-style:solid; margin-bottom : -1px;
+  flex: 1;
 }

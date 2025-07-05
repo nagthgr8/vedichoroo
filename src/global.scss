@@ -24,6 +24,15 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+ion-header {
+	padding-top: env(safe-area-inset-top); /* Add safe area inset for iOS */
+	padding-top: 16px;
+	background: var(--ion-color-background); /* Ensure a consistent background color */
+  }
+ion-header ion-button {
+	--background: var(--ion-color-header-button); /* Use the variable for button background */
+  }
+  
 .redText {
 color: --ion-color-danger;
 font-size: bold;
@@ -34,6 +43,9 @@ color: --ion-color-primary;
 .greenText {
 color: --ion-color-success;
 }
+.fixed-content {
+	padding-bottom: 56px; /* Adjust based on your bottom bar's height */
+  }
   ion-row.title {
     text-align:center;
 	font-weight:bold;
@@ -70,7 +82,7 @@ color: --ion-color-success;
 	border: 1px solid rgba(var(--ion-color-warning-rgb), 0.05);
 	ion-col.lbl {
 	  color: --ion-color-warning;
-	  background-color: rgba(var(--ion-color-warning-rgb), 0.05);
+	  background-color: rgba(var(--ion-color-primary-rgb), 0.05);
 	  padding: 5px;
 	  border: 1px solid rgba(var(--ion-color-warning-rgb), 0.05);
 	  font-weight: bold;
@@ -99,7 +111,7 @@ color: --ion-color-success;
    font-weight: bold;
   }
    .bstar {
- color: blue;
+ color: var(--vho-color-blue);
   text-decoration: underline;
  }
  ion-grid.bct {
@@ -116,7 +128,7 @@ color: --ion-color-success;
 }
 // global.scss
 ion-content, ion-header, ion-toolbar {
-	--ion-background-color: rgba(var(--ion-color-primary-rgb), 0.05) !important;;
+	--ion-background-color: rgba(var(--ion-color-primary-rgb), 0.05) !important;
  }
 ion-header {
 	--min-height: 56px; // Adjust to match the desired height

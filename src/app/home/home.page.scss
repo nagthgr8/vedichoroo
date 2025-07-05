@@ -1,35 +1,89 @@
  body {
   font-family: roboto;
  }
-
- ion-row.bd {
-    align-items: center !important;
-    justify-content: center !important;
-    text-align:center;
-	font-weight:bold;
-	border: 1px solid #d35400;
-	ion-col.lbl {
-	  border-color: black; 
-	  border-width: .01em; 
-	  border-style:solid; margin-bottom : -1px;
-	  background-color: lightgrey;
-	  text-align: center;
-	}
-  }
-  .dash-items {
-  border-color: #d35400;; 
-  border-style: solid;
-  border-width: 0.125rem; 
-  border-style:solid; margin-bottom : -1px;
-  text-align: center;
-  flex: 1;
-  justify-content: center;
+ .page-content {
+  height: 100%;
+  overflow-y: auto;
 }
-  .dash-row {
-  border-color: black; 
-  border-width: .01em; 
-  border-style:solid; margin-bottom : -1px;
-  flex: 1;
+ion-grid {
+  ion-row {
+    background: rgba(var(--ion-color-primary-rgb), 0.1); /* Slightly more opaque */
+  }
+}
+.hrow {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  display: flex;
+  justify-content: space-between; /* Space items evenly across the row */
+  margin-bottom: 10px; /* Space between rows */
+}
+
+.dash-items {
+  border: 1px solid var(--vedic-border-color);
+  border-radius: 10px;
+  /* Removed margin from dash-items to prevent excessive spacing */
+  background-color: var(--vedic-bg-color);
+  padding: 10px;
+  flex: 1; /* Ensure each item takes equal space */
+  display: flex; /* Enable flex on item for center alignment */
+  flex-direction: column; /* Align icon and title vertically */
+  align-items: center; /* Center items within the dash-item */
+  margin: 0; /* Set margin to 0 for better alignment */
+  min-width: 0; /* Prevent items from growing too wide */
+}
+
+.hrow ion-col {
+  flex: 1; /* Make each column take equal width */
+  max-width: 33.33%; /* Ensure three items fit in a row */
+}
+
+
+.dash-items:hover {
+  transform: translateY(-3px); /* Lift effect on hover */
+}
+
+.htitle {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--vedic-title-color); /* Use variable for title color */
+}
+
+.drow {
+  background: rgba(var(--ion-color-primary-rgb), 0.1); /* Light background for distinction */
+  display: flex; /* Enable flex for proper alignment */
+  align-items: center; /* Center items vertically */
+  padding: 5px 10px; /* Reduced padding for horizontal space, 5px top/bottom and 10px left/right */
+  border-bottom: 2px solid var(--vedic-border-color); /* Bottom border for separation */
+  margin-bottom: 10px; /* Space between rows */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.dcont {
+  display: flex; /* Enable flex for icon and text */
+  align-items: center; /* Center icon and text vertically */
+  width: 100%; /* Full width */
+}
+
+.dimg-container {
+  flex: 0 0 auto; /* Prevent image from growing too large */
+  margin-right: 10px; /* Space between image and text */
+}
+
+.dimg {
+  width: 56px; /* Fixed width for consistency */
+  height: 56px; /* Fixed height for consistency */
+  border-radius: 50%; /* Circular image */
+}
+
+.dtxt {
+  flex: 1; /* Allow text to take remaining space */
+  font-size: 1rem; /* Font size for readability */
+  color: var(--vedic-text-color); /* Text color */
+}
+
+.more {
+  color: var(--vedic-title-color); /* Distinct color for "Read More" */
+  font-weight: bold; /* Make it stand out */
+  cursor: pointer; /* Pointer cursor on hover */
 }
 .dhoro {
   font-size: 1rem;
@@ -37,21 +91,6 @@
   color: #d35400;
   padding: 1em;
   margin-bottom : -1px;
-}
-.dcont {
-  width: 100%;
-  height: auto;
-}
-.dimg {
-  width: 56px;
-  height: 56px;
-  float: left;
-}
-.dtxt {
-margin-left: 60px;
-font-size: 0.9rem;
-font-weight: bold;
-color: #d35400;
 }
 .dtitle {
 font-size: 1.01rem;
@@ -61,7 +100,7 @@ color: #d35400;
 .dstitle {
 font-size: 0.9rem;
 font-weight: bold;
-color: blue;
+color: var(--vho-color-blue);
 }
 
 .dmore {
@@ -70,26 +109,6 @@ float: right;
 .hgrid {
     height: 100% !important;
  }
- ion-grid {
-    ion-row {
-		background: rgba(var(--ion-color-primary-rgb), 0.05) !important;
-	}
- }
-.hrow {
-  background: rgba(var(--ion-color-primary-rgb), 0.05) !important;
-  align-items: center !important;
-    justify-content: center !important;
-	display: flex;
- }
- .drow {
-  background: rgba(var(--ion-color-primary-rgb), 0.05) !important;
-	display: flex;
- }
-.htitle {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #d35400;
-}
 .rtitle {
   font-size: 1.5rem;
   font-weight: bold;
@@ -121,73 +140,81 @@ ion-button span.title {
   font-size: medium;
   text-transform: none;
 }
-  ion-card.panch {
-    position: relative;
-    text-align: right;
-	border-radius: 10px;
-  }
+.ched {
+  font-size: 1.5rem !important;
+  color: #d35400; /* Date color */
+  font-weight: bold;
+  margin-bottom: 5px; /* Space below date */
+}
 
-  .card-title {
-    position: absolute;
-    font-size: 1.4em;
-    width: 100%;
-    font-weight: bold;
-    color: #80ffaa;
-	top:2%;
-	padding: 1%;
-  }
+.panch-image img {
+  width: 100%; /* Make image responsive */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded image */
+}
 
-  .card-subtitle {
-    font-size: 1.22em;
-    position: absolute;
-    width: 100%;
-    color: #ffffff;
-    font-weight: bold;
-	top:15%;
-	padding: 1%;
-  }
-  ion-card.amsg {
-              background: rgba(var(--ion-color-primary-rgb), 0.05);
-            --background: none;
-            border-radius: 10px;
-            --padding: 3px 20px !important;
-            padding: 3px !important;
-            margin-bottom: 5px;
-            border: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-   }
-  .amsg-title {
-  text-align: center;
-  color: #d35400;
-  font-size: 1.45rem;
-  font-weight: bolder;
-  }
-  .amsg-subtitle {
-  text-align: left;
-  color: #d35400;
+.detail-item {
+  display: flex; /* Flexbox for alignment */
+  justify-content: space-between; /* Space out labels and values */
+  padding: 3px 0; /* Reduced padding */
+  font-size: 1rem; /* Consistent font size */
+}
+
+.cfn {
+  color: #ffffff; /* Retaining label color for better visibility */
+  font-weight: bold;
+}
+
+.cvl {
+  font-weight: bold;
+  color: #f1c40f; /* Enhanced color for the text next to the labels, brighter than before */
+  white-space: nowrap; /* Prevent wrapping for values */
+}
+
+.ion-text-center {
+  margin-top: 5px; /* Reduced spacing for centered text */
+}
+
+.hrow {
+  margin: 0; /* Remove any default margins on rows */
+  padding: 5px 0; /* Add vertical spacing between rows */
+}
+
+.amsg {
+  background: linear-gradient(135deg, #f9e79f 0%, #f4d03f 100%); /* Light yellow gradient */
+  color: #000000; /* Dark text for readability */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 15px; /* Padding for spacing */
+  margin: 15px; /* Margin to separate cards */
+}
+
+/* Style for title and subtitle in the notification card */
+.amsg-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.amsg-subtitle {
   font-size: 1rem;
-  font-weight: bolder;
-  }
-  .tmsg-subtitle {
-  text-align: left;
-  font-size: 0.8rem;
-  }
-  .ched {
-    font-size: 1.25rem !important;
-	color: #d35400;
-	font-weight: bold;
-  }
-  .cfn {
-    font-size: 1rem !important;
-	color: #d35400;
-	font-weight: bold;
-  }
-  .cvl {
-    font-size: 1rem !important;
-	font-weight: bold;
-  }
-  .adv {
+  margin-bottom: 15px;
+}
+
+/* Use Flexbox for button alignment */
+.amsg-button-container {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+}
+
+ion-button {
+  --background: #e67e22; /* Orange background for the button */
+  --color: #ffffff; /* White text for the button */
+  border-radius: 8px; /* Rounded corners for button */
+}
+
+
+.adv {
     padding: 5px;
     position: absolute;
     top: 2%;
@@ -197,11 +224,6 @@ ion-button span.title {
 	margin-left:30px;
   }
  
- .more {
-	color: blue;
-	padding: 5px;
-	font-weight: bold;
-  }
   p.info {
    text-align: center;
    font-weight: bold;
@@ -262,13 +284,12 @@ ion-fab-button[title]::after {
   background-color: var(--ion-color-primary);
   padding: 9px;
   border-radius: 15px;
-  color: #d35400;;
+  color: #d35400;
   font-size: 1.125rem;
   font-weight: bold;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
 }
-ion-card { 
-	ion-button {
-		float: right;
-	}
+.panch {
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }

@@ -1,16 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+      </ion-toolbar>
 </ion-header>
 <ion-content padding>
-<div class="post" [ngStyle]="{'background-image': 'url(' + backgroundImg + ')'}">
-<br><br><br><br><div class="title">{{dho.msgn}} : {{today | date:'fullDate'}}</div>
-<br><br><div class="desc" [innerHTML]='dho.msg'></div>
-</div>
+  <div class="post" [ngStyle]="{'background': 'linear-gradient(to bottom right, #2e2e2e, #1f1f1f)'}">
+    <br><br><br><br>
+    <div class="title">{{dho.msgn}} : {{today | date:'fullDate'}}</div>
+    <br><br>
+    <div class="desc" [innerHTML]='dho.msg'></div>
+  </div>
+  <div class="fixed-content"></div>
 </ion-content>
+

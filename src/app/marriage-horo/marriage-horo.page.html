@@ -1,67 +1,63 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-    <ion-button color="primary" slot="end">
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
-	  </ion-menu-button>
-    </ion-button>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+		  <div slot="end" class="header-icon" (click)="rightmenu()">
+			<ion-icon name="moon" size="large"></ion-icon>
+		  </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="fixed-content">
 
-   <ion-list class="center" padding *ngIf="showList">
+   <ion-list padding *ngIf="showList">
 		<ion-item>
-			<ion-label floating>His Name</ion-label>
+			<ion-label position="floating">Boy's Name</ion-label>
 			<ion-input class="nam" [(ngModel)]="nam1"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>His Date of Birth</ion-label>{{dob1}}
+			<ion-label>Boy's DOB</ion-label>{{dob1}}
 		  <ion-button clear style="background-color:#fdd7d7" icon-right (click)="showHisDatePicker()">
 			<ion-icon name="calendar">
 			</ion-icon>
 		  </ion-button>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>His Time of Birth</ion-label>{{tob1}}
+			<ion-label>Boy's TOB</ion-label>{{tob1}}
 		  <ion-button clear style="background-color:#fdd7d7" icon-right (click)="showHisTimePicker()">
 			<ion-icon name="calendar">
 			</ion-icon>
 		  </ion-button>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>His Place of Birth</ion-label>
+			<ion-label position="floating">Boy's POB</ion-label>
 			<ion-input [(ngModel)]="autocomplete.query" (input)="updateSearch()" type="text"></ion-input>
 		</ion-item>
 		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)">
 		{{ item }}
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Her Name</ion-label>
+			<ion-label position="floating">Girl's Name</ion-label>
 			<ion-input class="nam" [(ngModel)]="nam2"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Her Date of Birth</ion-label>{{dob2}}
+			<ion-label>Girl's DOB</ion-label>{{dob2}}
 		  <ion-button clear style="background-color:#fdd7d7" icon-right (click)="showHerDatePicker()">
 			<ion-icon name="calendar">
 			</ion-icon>
 		  </ion-button>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Her Time of Birth</ion-label>{{tob2}}
+			<ion-label>Girl's TOB</ion-label>{{tob2}}
 		  <ion-button clear style="background-color:#fdd7d7" icon-right (click)="showHerTimePicker()">
 			<ion-icon name="calendar">
 			</ion-icon>
 		  </ion-button>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Her Place of Birth</ion-label>
+			<ion-label position="floating">Girl's POB</ion-label>
 			<ion-input [(ngModel)]="autocomplete.query2" (input)="updateSearch2()" type="text"></ion-input>
 		</ion-item>
 		<ion-item *ngFor="let item of autocompleteItems2" tappable (click)="chooseItem2(item)">
@@ -72,7 +68,7 @@
   <div tappable><canvas #cnvCC></canvas></div>
   <div *ngIf="showGrid" class="frep" [innerHTML]='frep'></div>
   <ion-grid *ngIf="showGrid">
-      <ion-row class="title"><ion-col>{{nam1}}</ion-col><ion-col col-6>{{nam2}}</ion-col></ion-row>
+      <ion-row class="lines title"><ion-col>{{nam1}}</ion-col><ion-col col-6>{{nam2}}</ion-col></ion-row>
     <ion-row class="lines subtitle"><ion-col><div>{{dob1}} {{tob1}}</div></ion-col><ion-col><div>{{dob2}} {{tob2}}</div></ion-col></ion-row>
     <ion-row class="title"><ion-col>Moon Sign</ion-col></ion-row>
     <ion-row class="lines subtitle"><ion-col><div [innerHTML]='msign'></div></ion-col><ion-col><div [innerHTML]='wsign'></div></ion-col></ion-row>
@@ -85,19 +81,19 @@
     <ion-row class="title"><ion-col>Characteristics</ion-col></ion-row>
     <ion-row class="lines subtitle"><ion-col><div [innerHTML]='mchr'></div></ion-col><ion-col><div [innerHTML]='wchr'></div></ion-col></ion-row>
 	<ion-row class="maintitle"><ion-col>Asta koota Points</ion-col></ion-row>
-	<ion-row class="bd" *ngFor="let key of objectKeys(oKota)"><ion-col class="lbl" size="10"><div class="bstar" tappable (click)="showInf('Asta Koota')">{{key}}</div></ion-col><ion-col> <div [innerHTML] = 'oKota[key].pts'></div></ion-col></ion-row>
+	<ion-row class="bd" *ngFor="let key of objectKeys(oKota)"><ion-col class="lbl" size="10"><div tappable (click)="showInf('Asta Koota')">{{key}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col> <div [innerHTML] = 'oKota[key].pts'></div></ion-col></ion-row>
   </ion-grid>
   <ion-grid *ngIf="showGrid">
  <ion-row class="maintitle"><ion-col>{{'DOSHAS'|translate}}</ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('strii')">{{'Strii Dheergha'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.striis">{{dos.strii}}</div></ion-col></ion-row>   
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('vedh')">{{'Vedh Dosha'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.vedhs">{{dos.vedh}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('raju')">{{'Rajju Dosha'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.rajus">{{dos.raju}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('attr')">{{'Vasya'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.attrs">{{dos.attr}}</div></ion-col></ion-row>
-<ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('pap')">{{'Papasamyam'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.paps">{{dos.pap}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('kal')">{{'Kaltra Dosha'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.kals">{{dos.kal}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="4"><div class="bstar" tappable (click)="dosdtl('and')">{{'Mangal Dosha'|translate}}</div></ion-col><ion-col class="desc"><div [class]="dos.mngls">{{dos.mngl}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('strii')">{{'Strii Dheergha'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.striis">{{dos.strii}}</div></ion-col></ion-row>   
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('vedh')">{{'Vedh Dosha'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.vedhs">{{dos.vedh}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('raju')">{{'Rajju Dosha'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.rajus">{{dos.raju}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('attr')">{{'Vasya'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.attrs">{{dos.attr}}</div></ion-col></ion-row>
+<ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('pap')">{{'Papasamyam'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.paps">{{dos.pap}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('kal')">{{'Kaltra Dosha'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.kals">{{dos.kal}}</div></ion-col></ion-row>
+ <ion-row class="bd"><ion-col class="lbl" size="4"><div tappable (click)="dosdtl('and')">{{'Mangal Dosha'|translate}}<ion-icon name="chevron-forward" slot="end"></ion-icon></div></ion-col><ion-col class="desc"><div [class]="dos.mngls">{{dos.mngl}}</div></ion-col></ion-row>
 </ion-grid>
 <div *ngIf="showGrid" tappable (click)="talk2ast()">
 <img src="assets/imgs/126ad.png"/>
 </div>
-</ion-content>
+<div class="fixed-content"></div></ion-content>

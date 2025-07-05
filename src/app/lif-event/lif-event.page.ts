@@ -318,10 +318,12 @@ export class LifEventPage implements OnInit {
 			listItem, 
 			'click',
 			(evt) => {
+				evt.stopPropagation();
 				console.log('clicked', evt);
-				console.log('clicked ', evt.path[0]);
-				console.log('clicked id', evt.path[0].id);
-				let dmy : string = evt.path[0].id.split('|')[1];
+				const clickedElement = evt.target as HTMLElement;
+				const ids = clickedElement.id.split('-');
+				console.log('clicked id', ids[0]);
+				let dmy : string = ids[0].split('|')[1];
 				let m = Number(this.mons_v[dmy.split(',')[0].split(' ')[1]]);
 				let y = Number(dmy.split(',')[1]);
 				let d =  Number(dmy.split(',')[0].split(' ')[2]);

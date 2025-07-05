@@ -1,14 +1,16 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild, Renderer2  } from '@angular/core';
+import { App } from '@capacitor/app';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform, MenuController, AlertController } from '@ionic/angular';
-import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
+import { Plugins } from '@capacitor/core';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { TranslateService} from '@ngx-translate/core';
 import { ShareService } from './share.service';
@@ -24,7 +26,10 @@ import { Caller } from './caller';
 declare var admob;
 const timer = ms => new Promise(res => setTimeout(res, ms));
 StatusBar.setOverlaysWebView({ overlay: true });
-
+SplashScreen.show({
+	autoHide: false,
+  });
+ 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -72,20 +77,26 @@ export class AppComponent implements OnDestroy {
 	callEndedEvent: any;
    constructor(
    public alertController: AlertController,
-   private googlePlus: GooglePlus,
    //private callService: CallService,
    private router: Router,
 	private renderer: Renderer2,
     private platform: Platform,
-    public menu: MenuController,
-    private splashScreen: SplashScreen,
-   
+    public menu: MenuController,  
 	private translate: TranslateService,
 	public shareService: ShareService,
 	public horoService: HoroscopeService,
 	public device: Device,
 	private file: File
   ) {
+	App.addListener('appUrlOpen', (data) => {
+		console.log('App opened with URL:', data.url);
+  
+		// Extract information from the URL and handle the OAuth callback
+		if (data.url.includes('myapp://auth/callback')) {
+		  // Handle OAuth callback logic
+		  // Extract parameters, validate, and complete the OAuth flow
+		}
+	  });
 	//navigator.notification.activityStart('Loading...');
 	//navigator.notification.activityStop();
     this.backmode = false;
@@ -93,45 +104,15 @@ export class AppComponent implements OnDestroy {
     this.initializeApp();
     // set our app's pages
     this.pages = [
-      { title: 'Subscribe', component: '/subscribe', icon: 'apps-outline', spin: false },
-	  { title: 'Notifications', component: '/notifications', icon: 'notifications-outline', spin: false },
       { title: 'Panchangam', component: '/panchang', icon: 'time-outline', spin: false},
       { title: 'Hindu Calendar', component: '/hindu-cal', icon: 'calendar-outline', spin: false},
-      { title: 'Available Credits', component: '/credits', icon: 'cash-outline', spin: false },
 	  { title: 'Help Desk', component: '/help-desk', icon: 'help-circle', spin: false},
 	  { title: 'Privacy Policy', component: '/privacy', icon: 'lock-closed-outline', spin: false },
-      { title: 'Vedic Stories', component: '/stories', icon: 'leaf-outline', spin: false },
       { title: 'Settings', component: '/chart-settings', icon: 'settings-outline', spin: false },
       { title: 'Memories', component: '/memories', icon: 'heart', spin: false },
+	  { title: 'Sign Out', component: '/sign-in', icon: 'log-out', spin: false},
 	  { title: 'Exit App', component: '/exit-app', icon: 'exit', spin: false}
     ];
-	// this.callService.callStarted.subscribe((cinf) => {
-	//   console.log('AppComponent: callStarted');
-	// 	  let callerInfo: Caller  = {
-	// 	    uuid: '',
-	// 		uid: cinf.cid,
-	// 	    aid: cinf.aid,
-	// 	    caller_name: '',
-	// 	    name: '',
-	// 		avatar: cinf.pic,
-	// 	    iscaller: cinf.is_caller,
-	// 	    duration: 0,
-	// 	    starttime: '',
-	// 	    endtime: '',
-    //        };
-	// 	  console.log('emitting callerInfo', callerInfo);
-    //       this.shareService.emitCallerInfo(callerInfo);		   
-	// 	  console.log('showAstroCall');
-	// 	  this.showAstroCall = true;
-	// });
-    // this.callService.callEnded.subscribe(() => {
-    //   this.showAstroCall = false;
-    // });  
-        this.shareService.astro
-			.subscribe(res => {
-				this.pages.push({ title: 'My Earnings', component: '/my-earnings', icon: 'cash', spin: false});
-			});
-	// this.callService.enableCallAnswer();
   }
   onCallEnded(cEnd: any) {
 	this.showAstroCall = false;
@@ -145,70 +126,209 @@ export class AppComponent implements OnDestroy {
 		this.vring.play();
 	}
  }
-  initializeApp() {
-	
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+  async initializeApp() {
     this.platform.ready().then(() => {
 	  console.log('platform ready');
 	  try {
-			this.googlePlus.trySilentLogin({ webClientId: '242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com', requestProfile: true, scopes: 'email profile' }).then(profile => {
-	   		  console.log("User is already signed in");
-			  this.horoService.getBalance(profile.email).subscribe((res) => {
-				 this.info = '';
-            		let user: User = {
-						name: profile.displayName,
-						email: profile.email,
-						imageUrl: profile.imageUrl,
+		console.log('trySilentLogin');
+		FirebaseAuthentication.getCurrentUser().then((c) => {
+			if (c != null) {
+				FirebaseAuthentication.getIdToken().then((res) =>{
+					this.shareService.setToken(res.token);
+				})
+				this.horoService.updateProfile(this.device.uuid, c.user.email).subscribe((res) => {});
+					this.avatar = c.user.photoUrl;
+				console.log("User is already signed in");
+			  		this.horoService.getBalance(c.user.email).subscribe((res) => {
+				 		this.info = '';
+            			let user: User = {
+						name: c.user.displayName,
+						email: c.user.email,
+						imageUrl: c.user.photoUrl,
 						balance: res['balance'],
 						ccy: (res['currency_code'].length > 3) ? '' : res['currency_code'],
 						peerid: '',
 						dob: '',
 						isprivate: true
-					};
-				  this.shareService.setItem('user', user);
-			  }, (err) => {
-				  console.log(err);
-				  this.info = JSON.stringify(err);
-			  });
+						};
+						this.shareService.setItem('user', user);
+						this.shareService.getPLAN().then((pln) => {
+							this.shareService.getLANGU().then((lang) => {
+							this.shareService.getUPRO().then( prf => {
+							this.shareService.getMSGN().then((msgn) => {
+								console.log('pln', pln);
+								console.log('lang', lang);
+								console.log('prf', prf);
+								console.log('msgn', msgn);				
+								if(lang)  this.translate.use(lang);
+									if(prf) {
+										this.getProfile(prf);
+									} else {
+										this.horoService.getProfile(this.device.uuid)
+										.subscribe(res => {
+											this.shareService.setUPRO(res);
+											this.getProfile(res);
+										});
+									}
+									if(pln) {
+										console.log('calling sigPLAN');
+										this.shareService.sigPLAN(pln);
+										this.isAdmin(pln);
+									} else {
+										console.log('getting PLAN..');
+										this.horoService.getPlan(this.device.uuid).subscribe(res => {
+											let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
+											console.log('setPLAN');
+											this.shareService.setPLAN(pn);
+											this.isAdmin(pn);
+										});
+									}
+									 setTimeout(() => {
+										SplashScreen.hide();
+									  }, 1000);				
+									   if(msgn) this.router.navigate(['/tabs'], {replaceUrl: true});
+									   else this.router.navigate(['/profile'], {replaceUrl: true});
+							})			
+							.catch(e => {
+								console.log(e);
+									 setTimeout(() => {
+										SplashScreen.hide();
+									  }, 1000);				
+									  this.horoService.addTicket(this.device.uuid, 'technical', 'ERROR1', JSON.stringify(e))
+									  .subscribe(res => {
+									  });		
+										  this.router.navigate(['/profile'], {replaceUrl: true});
+							 });
+							})			
+							.catch(e => {
+								console.log(e);
+									 setTimeout(() => {
+										SplashScreen.hide();
+									  }, 1000);				
+									  this.horoService.addTicket(this.device.uuid, 'technical', 'ERROR2', JSON.stringify(e))
+									  .subscribe(res => {
+									  });		
+										  this.router.navigate(['/profile'], {replaceUrl: true});
+							}); 
+							})
+							.catch(e => {
+								console.log(e);
+									 setTimeout(() => {
+										SplashScreen.hide();
+									  }, 1000);		
+								this.shareService.setLANG('en');
+								this.translate.use('en');
+								this.router.navigate(['/profile'], {replaceUrl: true});	
+							}); 
+							})
+							.catch(e => {
+								console.log(e);
+								this.horoService.getPlan(this.device.uuid).subscribe(res => {
+									let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
+									console.log('setPLAN');
+									this.shareService.setPLAN(pn);
+									this.shareService.setLANG('en');
+									  this.translate.use('en');
+									  this.isAdmin(pn);
+									 setTimeout(() => {
+										SplashScreen.hide();
+									  }, 1000);				
+									  this.horoService.addTicket(this.device.uuid, 'technical', 'GetPlan-ERROR', JSON.stringify(e))
+									  .subscribe(res => {
+									  });		
+									 this.router.navigate(['/profile'], {replaceUrl: true});
+								});
+							});
+
+						  this.shareService.getUPRO().then(prf => {
+							this.shareService.getVIMS(prf['dob'].split('L')[0].trim()).then( vres => {
+								 console.log('getVIMS', vres);
+										this.vims = 'VIMSOTTARA DASHA';
+										this.oDas = [];
+										for(let key of Object.keys(vres)) {
+											let das : Dasha = {
+												lord: vres[key].lord,
+												per: vres[key].per,
+												type: vres[key].type,
+												style: vres[key].style,
+												subs: vres[key].subs,
+												show: vres[key].show,
+												icon: vres[key].icon
+											};
+											this.oDas.push(das);
+										}
+								this.showVIM = true;
+							})
+							.catch(e => {
+								console.log(e);
+							});
+						})
+						.catch(e => {
+							console.log(e);
+						});
+		
+			 		}, (err) => {
+						console.log(err);
+					    this.info = JSON.stringify(err);
+				    })
+			 }
+			 else {
+				this.horoService.addTicket(this.device.uuid, 'technical', 'ERROR', 'Authenticator not given us user obj')
+				.subscribe(res => {
+				});		
+				setTimeout(() => {
+					SplashScreen.hide();
+				  }, 1000);
+				this.alertController.create({
+					header: 'Authenticator Issue',
+					subHeader: 'Authenticator may not be working properly',
+					message: 'This is unpleasent, it looks like our authentication provider has some issues on your device, we have recorded this event, please report the error to info@vedichoroo.com, we should be able to help you with this problem.',
+					buttons: [
+					  {
+						text: 'EXIT',
+						handler: () => {
+						  console.log('Authenticator Error');
+						  navigator['app'].exitApp();
+						}
+					  }
+					]
+				  }).then(res => {
+					res.present();
+				  });
+
+			 }
 			})
 			.catch(error => {
-				this.router.navigate(['/sign-in'], {replaceUrl: true});
+				console.log('getCurrentUser: Exception', error);
+				  console.log('getCurrentUser Exception: routing to sign-in page from login');
+				  setTimeout(() => {
+					  SplashScreen.hide();
+					}, 1000);				
+				  this.router.navigate(['/sign-in'], {replaceUrl: true});
 			});
 		}
 		catch(e){
 			console.log(e);
-			//navigator.notification.activityStart(JSON.stringify(e));
-		  //navigator.notification.activityStop();
-		}
-      //this.statusBar.styleDefault();				
-	  console.log('stor ready');
-	                this.shareService.getUPRO().then(prf => {
-					this.shareService.getVIMS(prf['dob'].split('L')[0].trim()).then( vres => {
-						 console.log('getVIMS', vres);
-								this.vims = 'VIMSOTTARA DASHA';
-								this.oDas = [];
-								for(let key of Object.keys(vres)) {
-									let das : Dasha = {
-										lord: vres[key].lord,
-										per: vres[key].per,
-										type: vres[key].type,
-										style: vres[key].style,
-										subs: vres[key].subs,
-										show: vres[key].show,
-										icon: vres[key].icon
-									};
-									this.oDas.push(das);
-								}
-						this.showVIM = true;
-					})
-					.catch(e => {
-						console.log(e);
-					});
-				})
-				.catch(e => {
-					console.log(e);
-				});
+			this.horoService.addTicket(this.device.uuid, 'technical', 'ERROR', JSON.stringify(e))
+			.subscribe(res => {
+			});		
+		  this.alertController.create({
+			header: 'Application Error',
+			subHeader: 'Internal Application Error',
+			message: 'Unexpected application error has occurred, please close the app and try again, if this repeats please report the issue to info@vedichoroo.com, we have recorded this event for further analysis',
+			buttons: [
+			  {
+				text: 'CLOSE',
+				handler: () => {
+				  console.log('Authenticator Error');
+				  navigator['app'].exitApp();
+				}
+			  }
+			]
+		  }).then(res => {
+			res.present();
+		  });
+        }
 		this.shareService.pred.subscribe(prd => {
 		       console.log('pred', prd);
 				if(prd == 'Mo') {
@@ -268,120 +388,37 @@ export class AppComponent implements OnDestroy {
 									this.oDas.push(das);
 								}
 		});
-		console.log('logging in..');
-		//navigator.notification.activityStart('Logging in...');
-		  //navigator.notification.activityStop();
-	  this.horoService.login(this.device.uuid, this.device.uuid)
-	    .subscribe(lres => {
-				console.log('logged in', lres);
-		if(lres['status'] == 'X') {  
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);				 
-					this.shareService.getPLAN().then((pln) => {
-						this.router.navigate(['/profile'], {replaceUrl: true});
-					})
-					.catch(e => {
-						console.log(e);
-						this.horoService.getPlan(this.device.uuid).subscribe(res => {
-							let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
-							console.log('setPLAN');
-							this.shareService.setPLAN(pn);
-							this.shareService.setLANG('en');
-							  this.translate.use('en');
-							  this.isAdmin(pn);
-							 setTimeout(() => {
-								this.splashScreen.hide();
-							  }, 1000);				
-							this.router.navigate(['/profile'], {replaceUrl: true});
-						});
-					});
-		} else if(lres['status'] != 'E') {
-			this.shareService.setToken(lres['token']);
-			this.shareService.getPLAN().then((pln) => {
-			this.shareService.getLANGU().then((lang) => {
-			this.shareService.getUPRO().then( prf => {
-		    this.shareService.getMSGN().then((msgn) => {
-				if(lang)  this.translate.use(lang);
-					if(prf) {
-						this.getProfile(prf);
-					} else {
-						this.horoService.getProfile(this.device.uuid)
-						.subscribe(res => {
-							this.shareService.setUPRO(res);
-							this.getProfile(res);
-						});
-					}
-					if(pln) {
-						console.log('calling sigPLAN');
-						this.shareService.sigPLAN(pln);
-						this.isAdmin(pln);
-					} else {
-						console.log('getting PLAN..');
-						this.horoService.getPlan(this.device.uuid).subscribe(res => {
-							let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
-							console.log('setPLAN');
-							this.shareService.setPLAN(pn);
-							this.isAdmin(pn);
-						});
-					}
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);				
-					   if(msgn) this.router.navigate(['/tabs'], {replaceUrl: true});
-					   else this.router.navigate(['/profile'], {replaceUrl: true});
-			})			
-			.catch(e => {
-				console.log(e);
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);				
-				this.router.navigate(['/profile'], {replaceUrl: true});
-			 });
-			})			
-			.catch(e => {
-				console.log(e);
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);				
-				this.router.navigate(['/profile'], {replaceUrl: true});
-			}); 
-			})
-			.catch(e => {
-				console.log(e);
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);		
-				this.shareService.setLANG('en');
-				this.translate.use('en');
-			}); 
-			})
-			.catch(e => {
-				console.log(e);
-				this.horoService.getPlan(this.device.uuid).subscribe(res => {
-					let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
-					console.log('setPLAN');
-					this.shareService.setPLAN(pn);
-					this.shareService.setLANG('en');
-					  this.translate.use('en');
-					  this.isAdmin(pn);
-					 setTimeout(() => {
-						this.splashScreen.hide();
-					  }, 1000);				
-					this.router.navigate(['/profile'], {replaceUrl: true});
-				});
-			});
-		 }
-	  }, (err) => {
-		   console.log(err);
-		  	//navigator.notification.activityStart(JSON.stringify(err));
-			  //  navigator.notification.activityStop();
-	  });
+		console.log('logging in to the app..');
    }, (err) => {
 	  console.log(err);
-	  //navigator.notification.activityStart(JSON.stringify(err));
-	    //navigator.notification.activityStop();
+	  this.horoService.addTicket(this.device.uuid, 'technical', 'FATAL2:' + JSON.stringify(err), '')
+	  .subscribe(res => {
+	  });		
    });
+  }
+  async getUserProfile(accessToken: string) {
+	try {
+	  const profileResult = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+		headers: {
+		  Authorization: `Bearer ${accessToken}`,
+		},
+	  });
+  
+	  if (profileResult.ok) {
+		const userProfile = await profileResult.json();
+		console.log('User Profile:', userProfile);
+		return userProfile;
+		// Perform further actions with the user profile
+	  } else {
+		console.error('Failed to fetch user profile:', profileResult.statusText);
+		// Handle the error
+		throw 'not fould';
+	  }
+	} catch (error) {
+	  console.error('Error fetching user profile:', error);
+	  throw error;
+	  // Handle the error
+	}
   }
   close() {
 	if(this.shareService.isAST()) {
@@ -389,19 +426,23 @@ export class AppComponent implements OnDestroy {
 		.subscribe(stat => {
 		});
 	}
-	//this.callService.destroyPeer();
 	if (this.lstnr) {
       this.lstnr();
     }
     this.shareService.complete();
 	navigator['app'].exitApp();
   }
+  signOut() {
+    FirebaseAuthentication.signOut().then(() => {
+      // User is signed out
+	  this.router.navigate(['/sign-in'], {replaceUrl: true});
+    });
+  }  
   getProfile(res) {
 		if(res['uuid'] == this.device.uuid) {
-					let dob: string = '';
-					let tob: string = '';
-					let tz: string = '';
-					if(res['avatar'] != '') this.avatar = res['avatar']; 
+				   let dob: string = '';
+				   let tob: string = '';
+  				   let tz: string = '';
 				   let db: string = res['dob'].replace('$NaN$0$0','').replace('$NaN','');
 				   console.log('db', db);
 				  this.shareService.setPDOB(db);
@@ -443,21 +484,11 @@ export class AppComponent implements OnDestroy {
 							this.pages[4].title = 'Available Credits(UNL)';
 							this.showAD = false;
 							if(pln.name == 'com.mypubz.eportal.astrologer') {
-									// if(res['status'].split('|')[0] == 'A') {
-										// this.bAST = true;
-										// this.status = true;
-										// this.statuslbl = "<span class='green'>Available</span>";
-									// } else if(res['status'].split('|')[0] == 'NA'){
-										// this.bAST = true;
-										// this.status = false;
-										// this.statuslbl = "<span class='red'>Not Available</span>";
-									// }
 							}
 				} else {
 					this.pages[4].title = 'Available Credits(' + pln.credits.toString() + ')';
 						if(pln.credits > 0) {
 					} else {
-							//this.router.navigate(['/subscribe'], {replaceUrl: true});
 					}
 				} 
    }
@@ -496,13 +527,11 @@ export class AppComponent implements OnDestroy {
 	this.lstnr = this.renderer.listen('document', 'admob.interstitial.close', (event) => {
 		 this.choice.spin = false;
 		 console.log('close event triggered');
-	  // handle event
 	 })	
    });
   }
   openPage(page) {
 	  this.choice = page;
-	  //if(page.title.indexOf('Available Credits') == -1)
 		this.brow(page);
   }
   brow(page)
@@ -513,7 +542,10 @@ export class AppComponent implements OnDestroy {
 			this.router.navigate([page.component]);
 	} else if(page.title == 'Exit App') { 
 		this.close();
-	} else {
+	} else if(page.title == 'Sign Out') { 
+		this.signOut();
+	} 
+	else {
 			this.menu.close();
 			let binf: any = {};
 			binf.ref = 4;
@@ -539,7 +571,6 @@ export class AppComponent implements OnDestroy {
 		.subscribe(stat => {
 		});
 	}
-    //this.callService.stopTracks();
 	if (this.lstnr) {
       this.lstnr();
     }

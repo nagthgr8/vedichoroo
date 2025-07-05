@@ -1,24 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+      </ion-toolbar>
 </ion-header>
 <ion-content padding>
 <div class="ion-text-center">
 	<img src="https://66.media.tumblr.com/d2a74b04e9c4c36a72f4d21df3d3d971/tumblr_pjru78otip1xp0noco1_100.png" alt="126 Astrology"/>
 	</div>
 	<ion-list>
-	<ion-item>
-	<p class="label">App Name: <span ion-text color="primary">{{appn}}</span></p>
-	</ion-item>
-	<ion-item>
-	<p class="label">Package Name: <span ion-text color="secondary">{{pakn}}</span></p>
-	</ion-item>
 	<ion-item>
 	<p class="label">Version No: <span ion-text color="red">{{ver}}</span></p>
 	</ion-item>
@@ -32,4 +24,4 @@
 	<p class="label">Plan: <span ion-text color="blue">{{pln}}</span></p>
 	</ion-item>
 	</ion-list>
-</ion-content>
+<div class="fixed-content"></div></ion-content>

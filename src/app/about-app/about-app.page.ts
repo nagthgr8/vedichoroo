@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { Capacitor } from '@capacitor/core';
+import { AppUpdate } from '@capawesome/capacitor-app-update';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { ShareService } from '../share.service'
 import { HoroscopeService } from '../horoscope.service';
-
+const getCurrentAppVersion = async () => {
+	const result = await AppUpdate.getAppUpdateInfo();
+	if (Capacitor.getPlatform() === 'android') {
+	  return result.currentVersionCode;
+	} else {
+	  return result.currentVersionName;
+	}
+  };
 @Component({
   selector: 'app-about-app',
   templateUrl: './about-app.page.html',
   styleUrls: ['./about-app.page.scss'],
 })
+
 export class AboutAppPage implements OnInit {
   appn: string = '';
   ver: string = '';
@@ -17,27 +26,20 @@ export class AboutAppPage implements OnInit {
   pakn: string = '';
   pln: string = 'Undefined';
   dvid: string = '';
-  constructor(private platform: Platform, private appVersion: AppVersion, public device: Device, private shareService: ShareService, public horoService: HoroscopeService) { }
-
+  constructor(private platform: Platform, public device: Device, private shareService: ShareService, public horoService: HoroscopeService) { }
+  
   ngOnInit() {
     this.platform.ready().then(() => {
 		this.dvid = this.device.uuid;
-	this.appVersion.getAppName().then(appn => {
-	    console.log('App Name', appn);
-		this.appn = appn;
+	getCurrentAppVersion().then(ver => {
+	    console.log('Version', ver);
+		this.verc = ver;
 	});
-	this.appVersion.getPackageName().then(pakn => {
-	    console.log('Package Name', pakn);
-		this.pakn = pakn;
+	AppUpdate.getAppUpdateInfo().then((app) => {
+	    console.log('Version Name', app.currentVersionName);
+		this.ver = app.currentVersionName;
 	});
-	this.appVersion.getVersionNumber().then(ver => {
-	    console.log('Version No', ver);
-		this.ver = ver;
-	});
-	this.appVersion.getVersionCode().then(verc => {
-	    console.log('Version Code',verc);
-		this.verc = verc;
-	});
+	
 	this.shareService.getPLAN()
 		.then((pln) => {
 			if(pln) {

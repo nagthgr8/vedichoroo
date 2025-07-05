@@ -1,7 +1,35 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "com.mypubz.eportal",
   "appName": "vedichoroo",
   "webDir": "www",
+  "resources": {
+    "android": {
+      "splash": "resources/android/splash"
+    }
+  },
+  "plugins": {
+    "plugins": {
+      "FirebaseAuthentication": {
+        "skipNativeAuth": false,
+        "providers": ["google.com"]
+      },
+      "Keyboard": {
+        "resize": "body",
+        "resizeOnFullScreen": true
+      },
+      "cordova-plugin-purchase": {}      
+    },
+    "@capacitor/splash-screen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": false,
+      "backgroundColor": "#ffffff",
+      "androidScaleType": "CENTER_CROP",
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "large",
+      "showSpinner": true,
+      "splashFullScreen": true
+    }
+  },  
   "bundledWebRuntime": false,
   "cordova": {
     "preferences": {

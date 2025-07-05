@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 const routes: Routes = [
-
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+  },  
   {
     path: 'horoscope',
     loadChildren: () => import('./horoscope/horoscope.module').then( m => m.HoroscopePageModule)
@@ -66,14 +69,6 @@ const routes: Routes = [
   {
     path: 'astakvarga',
     loadChildren: () => import('./astakvarga/astakvarga.module').then( m => m.AstakvargaPageModule)
-  },
-  {
-    path: 'astrologer',
-    loadChildren: () => import('./astrologer/astrologer.module').then( m => m.AstrologerPageModule)
-  },
-  {
-    path: 'astrologers',
-    loadChildren: () => import('./astrologers/astrologers.module').then( m => m.AstrologersPageModule)
   },
   {
     path: 'about-app',
@@ -240,21 +235,14 @@ const routes: Routes = [
     loadChildren: () => import('./kp-transit/kp-transit.module').then( m => m.KpTransitPageModule)
   },
   {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  },
-  {
-    path: 'astro-call',
-    loadChildren: () => import('./astro-call/astro-call.module').then( m => m.AstroCallPageModule)
-  },
-  {
     path: 'my-earnings',
     loadChildren: () => import('./my-earnings/my-earnings.module').then( m => m.MyEarningsPageModule)
   },
   {
     path: 'sign-in',
     loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
-  },  {
+  },
+  {
     path: 'memories',
     loadChildren: () => import('./memories/memories.module').then( m => m.MemoriesPageModule)
   }

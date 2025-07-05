@@ -25,7 +25,7 @@
 			background-color: #ffffb2;
 			border-radius: 10px;
 			a {
-			  color: blue !important;
+			  color: var(--vho-color-blue);
 			}
 			margin-bottom: 20px;
 		  }
@@ -50,5 +50,5 @@
 p.info {
    text-align: center;
    font-weight: bold;
-   color: blue;
+   color: var(--vho-color-blue);
   }

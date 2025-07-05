@@ -1,12 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+      </ion-toolbar>
 </ion-header>
 <ion-content padding>
 <div class="ion-text-center">
@@ -17,4 +15,4 @@
 	<h2>How to correct birth time?</h2>
 	<p class="desc">When our App displays that the birth time needs correction, just add or subtract the minutes by 1 to the time of birth till the alert goes away. While adding or subtracting minutes whichever is worked, you will need to consider the closest one. In many cases such fine tuning would work, but there maybe some cases where the given birth time is not close enough or birth time is unknown in which case Astrologer has to use Horary method for birth time justification. Talk to our Astrologer for more details.</p>
 	
-</ion-content>
+<div class="fixed-content"></div></ion-content>

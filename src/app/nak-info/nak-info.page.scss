@@ -1,31 +1,42 @@
 body {
   font-family: roboto;
 }
-  ion-row.bd {
-    text-align:center;
-	font-weight:bold;
-	border: 1px solid #d35400;
-	ion-col.lbl {
-	  color: #d35400;
-	  background-color: #ffd9a3;
-	  padding: 5px;
-	  border: 1px solid #ffd9a3;
-	  font-weight: bold;
-	}
+ion-row.bd {
+	background-color: var(--vedic-bg-color); /* Background color, light or dark */
+	border: 1px solid var(--vedic-border-color); /* Border color, light or dark */
   }
-
+  /* Style for each column */
+ion-col {
+	border-right: 1px solid var(--vedic-border-color); /* Right border for columns */
+	padding: 10px; /* Adjust padding for spacing */
+	display: flex; /* Enable flexbox for alignment */
+	justify-content: flex-start; /* Left align content horizontally */
+	align-items: center; /* Center content vertically */
+  }
+  ion-row.bd ion-col.lbl {
+	color: var(--vedic-text-color); /* Text color, light or dark */
+	background-color: var(--vedic-border-color); /* Background color, light or dark */
+	padding: 5px;
+	border: 1px solid var(--vedic-border-color); /* Border color, light or dark */
+	font-weight: bold;
+  }
+  
   ion-row.maintitle {
-    text-align:center;
-	font-weight:bold;
-	background-color: #ffd9a3;
-	border: 1px solid #d35400;
-	ion-col {
-	  text-align:center;
-	  color: #d35400;
-	  padding: 5px;
-	  border: 1px solid #ffd9a3;
-	}
+	background-color: var(--vedic-border-color); /* Background color, light or dark */
+	border: 1px solid var(--vedic-border-color); /* Border color, light or dark */
+	color: var(--vedic-title-color); /* Title color, light or dark */
+	padding: 15px; /* Add padding for better spacing */
+	text-align: left; /* Left align the title text */
+	font-weight: bold; /* Make the title text bold */
   }
+  
+  ion-row.maintitle ion-col {
+	color: var(--vedic-title-color); /* Title text color, light or dark */
+	background-color: var(--vedic-border-color); /* Background color, light or dark */
+	border: 1px solid var(--vedic-border-color); /* Border color, light or dark */
+	font-weight: bold;
+  }
+  
   .nak {
   text-transform: uppercase;
   font-size: 1.45rem;

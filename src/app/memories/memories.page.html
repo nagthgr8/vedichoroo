@@ -1,16 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
+      <ion-title>
+          <img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" />
+      </ion-title>
+      <div slot="start" class="header-icon" menuToggle>
+          <ion-icon name="menu" size="large"></ion-icon>
+      </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-<div class="center-text"><img src="assets/imgs/bujji." alt="Your Image" class="oval-image">
-</div>
-<div>In loving memory of the memories that my dear brother Krishna Mohan(Bujji) and I shared during our younger days. Although Bujji is no longer with me, the memories we created together will forever be cherished and remembered.<br><br>Bujji was more than just a brother to me; he was a friend, a confidant, and a constant source of support and encouragement. I recall the times we spent together during our college days, and our movie nights were a source of great relief and joy for me. Bujji always showed me a great deal of respect and love, even during our most challenging moments.<br><br>Although Bujji has left home, I know that he is still alive somewhere out there, and I hope he is doing well. This mobile app is dedicated to the memories we created together, as a testament to the bond we shared and the love that will always remain.<br><br>Wherever you are, dear brother, I want you to know that you hold a special place in my heart, and I will always treasure the memories we created together. May you find happiness and fulfillment in your life's journey, and may our paths cross once again someday.</div>
+<ion-content class="ion-padding memory-content">
+  <div class="ion-text-center">
+      <img src="https://i.imgur.com/FrDU1IS.jpg" alt="Bujji" class="oval-image">
+  </div>
+  <div class="memory-details">
+    <div>Name: <strong>Krishna Mohan</strong></div>
+    <div>DOB: <strong>10 JULY 1974 4:30AM</strong></div>
+    <div>BirthStar: <strong>Purvabhadra 1st Pada</strong></div>
+  </div>
+  <div class="memory-message">
+      In loving memory of the memories that my dear brother <strong>Krishna Mohan (Bujji)</strong> and I shared during our younger days. Although Bujji is no longer with me, the memories we created together will forever be cherished and remembered.
+      <br><br>
+      Bujji was more than just a brother to me; he was a friend, a confidant, and a constant source of support and encouragement. I recall the times we spent together during our college days, and our movie nights were a source of great relief and joy for me. Bujji always showed me a great deal of respect and love, even during our most challenging moments.
+      <br><br>
+      Although Bujji has left home, I know that he is still alive somewhere out there, and I hope he is doing well. This mobile app is dedicated to the memories we created together, as a testament to the bond we shared and the love that will always remain.
+      <br><br>
+      Wherever you are, dear brother, I want you to know that you hold a special place in my heart, and I will always treasure the memories we created together. May you find happiness and fulfillment in your life's journey, and may our paths cross once again someday.
+  </div>
+  <div class="fixed-content"></div>
 </ion-content>
+

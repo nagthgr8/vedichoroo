@@ -1,32 +1,96 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+      </ion-toolbar>
 </ion-header>
-<ion-content>
-<ion-grid *ngIf="showBD">
-
- <ion-row class="maintitle"><ion-col col-12>{{'NAKSHATRA DETAILS'|translate}}</ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Name'|translate}}</div></ion-col><ion-col><div class="nak">{{nak.name}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Location'|translate}}</div></ion-col><ion-col><div>{{nak.location.start}} to {{nak.location.end}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Direction'|translate}}</div></ion-col><ion-col><div>{{nakdir}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Ruler'|translate}}</div></ion-col><ion-col><div>{{nak.ruler}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Symbol'|translate}}</div></ion-col><ion-col><div>{{nak.symbol}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Diety'|translate}}</div></ion-col><ion-col><div>{{nak.diety}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Varna'|translate}}</div></ion-col><ion-col><div>{{nak.varna}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Alphabets'|translate}}</div></ion-col><ion-col><div>{{nak.alphabets}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Ruling Animal'|translate}}</div></ion-col><ion-col><div>{{nak.rulingAnimal}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Friendly Animals'|translate}}</div></ion-col><ion-col><div>{{nak.friendlyAnimals}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Unfriendly Animals'|translate}}</div></ion-col><ion-col><div>{{nak.unfriendlyAnimals}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Neutral Animals'|translate}}</div></ion-col><ion-col><div>{{nak.neutralAnimals}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Enemy Animals'|translate}}</div></ion-col><ion-col><div>{{nak.enemyAnimals}}</div></ion-col></ion-row>
- <ion-row class="bd"><ion-col class="lbl" size="6"><div>{{'Characteristics'|translate}}</div></ion-col><ion-col><div>{{nak.characteristics}}</div></ion-col></ion-row>
- <ion-row><ion-col><div [innerHTML]='nakinfo'></div></ion-col></ion-row> 
- 
-</ion-grid>
-</ion-content>
+<ion-content class="fixed-content">
+  <ion-grid *ngIf="showBD">
+    <ion-row class="maintitle">
+      <ion-col size="12">{{'NAKSHATRA DETAILS' | translate}}</ion-col>
+    </ion-row>
+  
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Name' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div class="nak">{{nak.name}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Location' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.location.start}} to {{nak.location.end}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Direction' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nakdir}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Ruler' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.ruler}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Symbol' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.symbol}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Diety' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.diety}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Varna' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.varna}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Alphabets' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.alphabets}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Ruling Animal' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.rulingAnimal}}</div></ion-col>
+    </ion-row>
+    
+    <!-- Friendly Animals -->
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Friendly Animals' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.friendlyAnimals}}</div></ion-col>
+    </ion-row>
+    
+    <!-- Unfriendly Animals -->
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Unfriendly Animals' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.unfriendlyAnimals}}</div></ion-col>
+    </ion-row>
+    
+    <!-- Neutral Animals -->
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Neutral Animals' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.neutralAnimals}}</div></ion-col>
+    </ion-row>
+    
+    <!-- Enemy Animals -->
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Enemy Animals' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.enemyAnimals}}</div></ion-col>
+    </ion-row>
+    
+    <ion-row class="bd">
+      <ion-col size="6" size-md="6"><div>{{'Characteristics' | translate}}</div></ion-col>
+      <ion-col size="6" size-md="6"><div>{{nak.characteristics}}</div></ion-col>
+    </ion-row>
+      
+    <ion-row>
+      <ion-col size="12">
+        <div [innerHTML]='nakinfo'></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+<div class="fixed-content"></div></ion-content>

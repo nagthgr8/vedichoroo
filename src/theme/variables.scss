@@ -6,89 +6,45 @@
 
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
-/** Ionic CSS Variables **/
 :root {
-  /** primary **/
-  --ion-color-primary: #ffd9a3;
+  /** Light Theme Colors **/
+
+  /** Primary (Spiritual Gold) **/
+  --ion-color-primary: #ffd9a3; /* Soft golden/saffron */
+  --ion-color-header-button: #ffffff;
   --ion-color-primary-rgb: 255, 217, 163;
   --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #7F6C51;
+  --ion-color-primary-shade: #7F6C51; /* Brownish tint for shadow */
   --ion-color-primary-tint: #FFE8C7;
 
-  /** secondary **/
+  /** Secondary (Light Sky Blue for Divinity) **/
   --ion-color-secondary: #3dc2ff;
   --ion-color-secondary-rgb: 61, 194, 255;
   --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #36abe0;
   --ion-color-secondary-tint: #50c8ff;
 
-  /** tertiary **/
+  /** Tertiary (Earthy Orange) **/
   --ion-color-tertiary: #f4a942;
   --ion-color-tertiary-rgb: 244,169,66;
-  --ion-color-tertiary-contrast: #fff;
-  --ion-color-tertiary-contrast-rgb: 255,255,255;
+  --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-shade: #d7953a;
   --ion-color-tertiary-tint: #f5b255;
 
-  /** success **/
-  --ion-color-success: #2dd36f;
-  --ion-color-success-rgb: 45, 211, 111;
-  --ion-color-success-contrast: #ffffff;
-  --ion-color-success-contrast-rgb: 255, 255, 255;
-  --ion-color-success-shade: #28ba62;
-  --ion-color-success-tint: #42d77d;
-
-  /** warning **/
-  --ion-color-warning: #ffc409;
-  --ion-color-warning-rgb: 255, 196, 9;
-  --ion-color-warning-contrast: #000000;
-  --ion-color-warning-contrast-rgb: 0, 0, 0;
-  --ion-color-warning-shade: #e0ac08;
-  --ion-color-warning-tint: #ffca22;
-
-  /** danger **/
-  --ion-color-danger: #eb445a;
-  --ion-color-danger-rgb: 235, 68, 90;
-  --ion-color-danger-contrast: #ffffff;
-  --ion-color-danger-contrast-rgb: 255, 255, 255;
-  --ion-color-danger-shade: #cf3c4f;
-  --ion-color-danger-tint: #ed576b;
-
-  /** dark **/
-  --ion-color-dark: #222428;
-  --ion-color-dark-rgb: 34, 36, 40;
-  --ion-color-dark-contrast: #ffffff;
-  --ion-color-dark-contrast-rgb: 255, 255, 255;
-  --ion-color-dark-shade: #1e2023;
-  --ion-color-dark-tint: #383a3e;
-
-  /** medium **/
-  --ion-color-medium: #92949c;
-  --ion-color-medium-rgb: 146, 148, 156;
-  --ion-color-medium-contrast: #ffffff;
-  --ion-color-medium-contrast-rgb: 255, 255, 255;
-  --ion-color-medium-shade: #808289;
-  --ion-color-medium-tint: #9d9fa6;
-
-  /** light **/
-  --ion-color-light: #f4f5f8;
-  --ion-color-light-rgb: 244, 245, 248;
-  --ion-color-light-contrast: #000000;
-  --ion-color-light-contrast-rgb: 0, 0, 0;
-  --ion-color-light-shade: #d7d8da;
-  --ion-color-light-tint: #f5f6f9;
+  /** Text Colors for Light Theme **/
+  --frep-text-color: #34495e; /* Soft spiritual blue for texts */
+  --frep-background-color: #f8f9fa; /* Light, divine background */
   
-  /** pink **/
-  --ion-color-pink: #fdd7d7;
-  --ion-color-pink-rgb: 253, 215, 215;
-  --ion-color-pink-contrast: #000000;
-  --ion-color-pink-contrast-rgb: 0, 0, 0;
-  --ion-color-pink-shade: #ff69b4;
-  --ion-color-pink-tint: #ffb6c1;
-  
-  --ion-color-vho: rgba(var(--ion-color-primary-rgb), 0.05);
+  /** Other Custom Colors **/
+  --vho-color-blue: blue;
+  --vedic-bg-color: #fff8e7; /* Light Saffron/Beige for light theme background */
+  --vedic-border-color: #d4af37; /* Golden shade for light theme borders */
+  --vedic-text-color: #8a2be2; /* Deep purple for text in light theme */
+  --vedic-title-color: #d35400; /* Darker orange for titles in light theme */
+  --memory-background: #f9f9f9; /* Light background for light theme */
+  --memory-border: #8e44ad; /* Light theme border color */
+  --memory-text: #333; /* Light theme text color */
+  --oval-image-border: #8e44ad; /* Light theme image border color */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,69 +53,43 @@
    * -------------------------------------------
    */
 
-  body {
-    --ion-color-primary: #428cff;
-    --ion-color-primary-rgb: 66,140,255;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255,255,255;
-    --ion-color-primary-shade: #3a7be0;
-    --ion-color-primary-tint: #5598ff;
+  :root {
+    --memory-background: #2c2c2c; /* Dark background for dark theme */
+    --memory-border: #a569bd; /* Dark theme border color */
+    --memory-text: #f0f0f0; /* Dark theme text color */
+    --oval-image-border: #a569bd; /* Dark theme image border color */
 
-    --ion-color-secondary: #50c8ff;
-    --ion-color-secondary-rgb: 80,200,255;
-    --ion-color-secondary-contrast: #ffffff;
-    --ion-color-secondary-contrast-rgb: 255,255,255;
-    --ion-color-secondary-shade: #46b0e0;
-    --ion-color-secondary-tint: #62ceff;
+    /** Primary (Mystical Deep Blue) **/
+  --ion-color-primary: #1a1a2e; /* Deep indigo for spiritual depth */
+  --ion-color-primary-rgb: 26, 26, 46;
+  --ion-color-primary-contrast: #ffd700; /* Gold contrast for texts */
+  --ion-color-primary-shade: #141421; 
+  --ion-color-primary-tint: #202040;
 
-    --ion-color-tertiary: #6a64ff;
-    --ion-color-tertiary-rgb: 106,100,255;
-    --ion-color-tertiary-contrast: #ffffff;
-    --ion-color-tertiary-contrast-rgb: 255,255,255;
-    --ion-color-tertiary-shade: #5d58e0;
-    --ion-color-tertiary-tint: #7974ff;
+  /** Secondary (Soft Gold for Accent) **/
+  --ion-color-secondary: #f5a623;
+  --ion-color-secondary-rgb: 245, 166, 35;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-shade: #e0ac08;
+  --ion-color-secondary-tint: #ffca22;
 
-    --ion-color-success: #2fdf75;
-    --ion-color-success-rgb: 47,223,117;
-    --ion-color-success-contrast: #000000;
-    --ion-color-success-contrast-rgb: 0,0,0;
-    --ion-color-success-shade: #29c467;
-    --ion-color-success-tint: #44e283;
+  /** Tertiary (Earthy Maroon) **/
+  --ion-color-tertiary: #6a64ff; /* Deep mystical maroon */
+  --ion-color-tertiary-rgb: 106,100,255;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-shade: #5d58e0;
+  --ion-color-tertiary-tint: #7974ff;
 
-    --ion-color-warning: #ffd534;
-    --ion-color-warning-rgb: 255,213,52;
-    --ion-color-warning-contrast: #000000;
-    --ion-color-warning-contrast-rgb: 0,0,0;
-    --ion-color-warning-shade: #e0bb2e;
-    --ion-color-warning-tint: #ffd948;
-
-    --ion-color-danger: #ff4961;
-    --ion-color-danger-rgb: 255,73,97;
-    --ion-color-danger-contrast: #ffffff;
-    --ion-color-danger-contrast-rgb: 255,255,255;
-    --ion-color-danger-shade: #e04055;
-    --ion-color-danger-tint: #ff5b71;
-
-    --ion-color-dark: #f4f5f8;
-    --ion-color-dark-rgb: 244,245,248;
-    --ion-color-dark-contrast: #000000;
-    --ion-color-dark-contrast-rgb: 0,0,0;
-    --ion-color-dark-shade: #d7d8da;
-    --ion-color-dark-tint: #f5f6f9;
-
-    --ion-color-medium: #989aa2;
-    --ion-color-medium-rgb: 152,154,162;
-    --ion-color-medium-contrast: #000000;
-    --ion-color-medium-contrast-rgb: 0,0,0;
-    --ion-color-medium-shade: #86888f;
-    --ion-color-medium-tint: #a2a4ab;
-
-    --ion-color-light: #222428;
-    --ion-color-light-rgb: 34,36,40;
-    --ion-color-light-contrast: #ffffff;
-    --ion-color-light-contrast-rgb: 255,255,255;
-    --ion-color-light-shade: #1e2023;
-    --ion-color-light-tint: #383a3e;
+  /** Text Colors for Dark Theme **/
+  --frep-text-color: #ecf0f1; /* Light golden texts */
+  --frep-background-color: #2c3e50; /* Dark, cosmic background */
+  
+  /** Other Custom Colors **/
+  --vho-color-blue:  #add8e6; /* Soft blue tint for divinity */
+  --vedic-bg-color: #1a1a2e; 
+  --vedic-border-color: #e0c097; 
+  --vedic-text-color: #e0c097; 
+  --vedic-title-color: #d4af37; 
   }
 
   /*

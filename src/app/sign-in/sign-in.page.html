@@ -1,17 +1,42 @@
-<ion-header [translucent]="true" >
+<ion-header [translucent]="true">
     <ion-toolbar mode="ios">
-        <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-        <ion-button color="primary" slot="start" menuToggle>
-            <ion-menu-button width="24">
-                <img alt="menu" height="24" src="assets/icon/hamburger.png" />
-            </ion-menu-button>
-        </ion-button>
+      <ion-title>
+        <img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" />
+      </ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-menu-button>
+      </ion-buttons>
     </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" class="ion-content-centered">
-    <ion-button class="signin" type="button" expand="block" color="primary" tappable (click)="googleLogin()">Sign in with Google</ion-button>
-    <ion-button class="signin" type="button" expand="block" color="secondary" tappable (click)="facebookLogin()">Sign in with Facebook</ion-button>
-    <ion-button class="signin" type="button" expand="block" color="light" tappable (click)="anonymous()">Continue as Anonymous User(limited access ONLY)</ion-button>
-
-    <div class="text-center"><strong>{{info}}</strong></div>
-</ion-content>
+  </ion-header>
+  
+  <ion-content scroll="true" class="ion-content-centered welcome-container">
+    <div class="ion-text-center">
+      <h1>Welcome to VEDICHOROO!</h1>
+      <p>Enhance your experience by signing in:</p>
+    </div>
+  
+    <ion-button class="signin" expand="block" color="google" (click)="googleLogin()">
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Sign in with Google
+    </ion-button>
+  
+    <ion-button class="signin" expand="block" color="facebook" (click)="facebookLogin()">
+      <ion-icon slot="start" name="logo-facebook"></ion-icon>
+      Sign in with Facebook
+    </ion-button>
+    
+    <!-- <ion-button class="signin" expand="block" color="light" (click)="anonymous()">
+        <div class="button-text">
+          <div class="main-line">CONTINUE AS ANONYMOUS</div>
+          <div class="sub-line">Limited access only</div>
+        </div>
+      </ion-button> -->
+      
+  
+    <div class="ion-text-center">
+      <p class="info">{{ info }}</p>
+    </div>
+  <div class="fixed-content"></div></ion-content>
+  

@@ -1,19 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-    <ion-button color="primary" slot="end">
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/imgs/Mo.png" tappable (click)="rightmenu()"/>	  
-	  </ion-menu-button>
-    </ion-button>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+		  <div slot="end" class="header-icon" (click)="rightmenu()">
+			<ion-icon name="moon" size="large"></ion-icon>
+		  </div>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="fixed-content">
 <ion-card no-padding>
 <img src="https://i.imgur.com/0aUIaDI.png"/>
 </ion-card>
@@ -71,4 +67,4 @@
 </div>
 </ion-grid>
 </div>
-</ion-content>
+<div class="fixed-content"></div></ion-content>

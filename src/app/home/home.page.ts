@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, Renderer2  } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { AlertController } from '@ionic/angular';
 import { skip } from 'rxjs/operators';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -27,7 +28,46 @@ import * as nakshatras from '../nakshatras.json';
 import * as ruler_name from '../ruler_name.json';
 import * as o_rashis from '../o_rashis.json';
 declare var admob;
-@Component({
+const getCurrentAppVersion = async () => {
+	const result = await AppUpdate.getAppUpdateInfo();
+	if (Capacitor.getPlatform() === 'android') {
+	  return result.currentVersionCode;
+	} else {
+	  return result.currentVersionName;
+	}
+  };
+  
+  const getAvailableAppVersion = async () => {
+	const result = await AppUpdate.getAppUpdateInfo();
+	if (Capacitor.getPlatform() === 'android') {
+	  return result.availableVersionCode;
+	} else {
+	  return result.availableVersionName;
+	}
+  };
+  const performImmediateUpdate = async () => {
+	const result = await AppUpdate.getAppUpdateInfo();
+	if (result.updateAvailability !== AppUpdateAvailability.UPDATE_AVAILABLE) {
+	  return;
+	}
+	if (result.immediateUpdateAllowed) {
+	  await AppUpdate.performImmediateUpdate();
+	}
+  };
+  
+  const startFlexibleUpdate = async () => {
+	const result = await AppUpdate.getAppUpdateInfo();
+	if (result.updateAvailability !== AppUpdateAvailability.UPDATE_AVAILABLE) {
+	  return;
+	}
+	if (result.flexibleUpdateAllowed) {
+	  await AppUpdate.startFlexibleUpdate();
+	}
+  };
+  
+  const completeFlexibleUpdate = async () => {
+	await AppUpdate.completeFlexibleUpdate();
+  };@Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
@@ -121,7 +161,7 @@ export class HomePage  {
   constructor(private androidPermissions: AndroidPermissions, 	
   public alertController: AlertController,
    private geolocation: Geolocation,	
-private menu: MenuController, private device: Device, private appVersion: AppVersion, private market: Market, private browserTab: BrowserTab, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, 
+private menu: MenuController, private device: Device, private market: Market, private browserTab: BrowserTab, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, 
 //private callService: CallService, 
 private shareService: ShareService, private horoService: HoroscopeService, private file: File) 
   {
@@ -513,15 +553,17 @@ getSN(msgn) {
 						  this.dho.sho = true;
 						} else {
 						  console.log('calling getDailyHoro');
-						  this.horoService.getDailyHoro(msgn)
+						  this.shareService.getLANGU().then((lang) => {
+						    this.horoService.getDailyHoroEx(msgn, lang)
 							.subscribe(res2 => {
-							this.shareService.setDHORO(msgn,   res2+ '|' + cd.getDate()+'-'+cd.getMonth()+'-'+cd.getFullYear());
-						  this.dho.msg = JSON.stringify(res2);
-						  this.dho.smsg = JSON.stringify(this.dho.msg).substring(0,128);
-							this.dho.sho = true;
-						  }, (err) => {
-							//this.info = JSON.stringify(err);
-						  }) ;
+							  this.shareService.setDHORO(msgn,   res2+ '|' + cd.getDate()+'-'+cd.getMonth()+'-'+cd.getFullYear());
+						      this.dho.msg = JSON.stringify(res2);
+						      this.dho.smsg = JSON.stringify(this.dho.msg).substring(0,128);
+							  this.dho.sho = true;
+						    }, (err) => {
+							  //this.info = JSON.stringify(err);
+						    }) ;
+						  });
 					    }
 				     } else {
 						  console.log('calling getDailyHoro 2');
@@ -577,7 +619,7 @@ getSN(msgn) {
 										var ng = res['dob'].split('#')[1];
 										this.urat.name = ng.split('&')[0];
 									}
-									this.router.navigate(['/ratings'], {state : this.urat});
+									//this.router.navigate(['/ratings'], {state : this.urat});
 								});
 							}
 						});
@@ -624,7 +666,7 @@ getSN(msgn) {
 					let udys: number = 1;
 				   this.shareService.setSTATS(udys, cd.getDate()+'-'+cd.getMonth()+'-'+cd.getFullYear());
 			});
-			this.horoService.getJson('https://api.vedichoroo.com/api/GetAppMsg').subscribe(res => {
+			this.horoService.getJson('https://charts.vedichoroo.com/v1/GetAppMsg').subscribe(res => {
 				if(res['msg'] != ''){
 					this.atitle = res['title'];
 					this.amsg = res['msg'];
@@ -635,14 +677,31 @@ getSN(msgn) {
 						this.hmsg = res['resp'];
 					} 
 			});
-			this.horoService.getJson('https://api.vedichoroo.com/api/GetAppVersion').subscribe(res1 => {
-						   this.verc = res1['verc'];
-				this.appVersion.getVersionCode().then(vcode => {
-							console.log('server Version Code',this.verc);
-							console.log('local Version Code',vcode);
-				if(vcode != this.verc)  this.aumsg = "A new version of our App is available in Play Store, please update to the latest version"; // this.router.navigate(['/app-update']);
-			  });
-			});
+			getAvailableAppVersion().then(avlv => {
+				console.log('available version:', avlv);
+				getCurrentAppVersion().then(curv =>{
+					console.log('current version: ', curv)
+					if(avlv != curv) {
+						performImmediateUpdate().then(res => {
+							console.log('successfully completed App Update!');	
+						}, (err) => {
+							console.log('startFlexibleUpdate error', err);
+						})
+					}
+				}, (err) =>{
+					console.log('getCurrentVersion Error: ', err);
+				})
+			}, (err) => {
+				console.log('getAvailableVersion Error: ', err);
+			})
+			// this.horoService.getJson('https://charts.vedichoroo.com/v1/GetAppVersion').subscribe(res1 => {
+			// 			   this.verc = res1['verc'];
+			// 	this.appVersion.getVersionCode().then(vcode => {
+			// 				console.log('server Version Code',this.verc);
+			// 				console.log('local Version Code',vcode);
+			// 	if(vcode != this.verc)  this.aumsg = "A new version of our App is available in Play Store, please update to the latest version"; // this.router.navigate(['/app-update']);
+			//   });
+			// });
 			this.shareService.adv
 						 .subscribe((adc) => {
 							 console.log('adv triggered', adc);

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import {TranslateService} from '@ngx-translate/core';
 import { Platform  } from '@ionic/angular';
-import { InAppPurchase2, IAPProduct } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
-import { Device } from '@awesome-cordova-plugins/device/ngx';
+import 'cordova-plugin-purchase';
 import { Plan } from '../plan';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
+import { finished } from 'stream';
 
 declare var RazorpayCheckout: any;
+declare var CdvPurchase: any
+const {store, ProductType} = CdvPurchase;
 
 @Component({
   selector: 'app-subscribe',
@@ -16,6 +19,7 @@ declare var RazorpayCheckout: any;
   styleUrls: ['./subscribe.page.scss'],
 })
 export class SubscribePage implements OnInit {
+
  public product: any = {
     name: 'My Product',
     apid: '1234',
@@ -44,7 +48,7 @@ export class SubscribePage implements OnInit {
   title: string[];
   id: number[];
   bmsg: boolean = false;
-  constructor(private router: Router, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService, private translate: TranslateService) { 
+  constructor(private router: Router, public platform: Platform, public device: Device,  public horoService: HoroscopeService, public shareService: ShareService, private translate: TranslateService) { 
 	this.items = [];
 	this.title = ['Get upcoming 30 day planetary transit report with detailed predictions','Get Personalized Calendar for the current month & upcoming month highlighting auspicious & inauspcious dates based on your star strength & lunar strength(Muhurtha By B V Raman)','Based on KP Method know your auspicious dates for the current month on events such as opening bank, account, signing up a contract, filing a court case and many more','Prashna Jyotish, Ask a question & verify if the question in the context will happen or not using the KP Ruling planet method','Know in detail what all Yogas present in your horoscope.','Career Horoscope','Money Horoscope','Detailed analysis on each of the Divisional/Varga Charts', 'Love Compatibility Report, provides detailed report on the star matching 36 gunas and doshas that exists between the boy & girl'];
 	this.id = [1,2,3,4,5,6,7,8,9];
@@ -61,6 +65,80 @@ export class SubscribePage implements OnInit {
   ngOnInit() {
 	  this.paym = 'rpay';
 	  this.sopt = 'year';
+    this.platform.ready().then(() => {
+      // MUST WAIT for Cordova to initialize before referencing CdvPurchase namespace
+      let pid: any;
+      try {
+        if (this.platform.is('ios')) {
+          pid = this.product.apid;
+        } else if (this.platform.is('android')) {
+          pid = this.product.gpid;
+        }
+  
+        // Register Product
+        // Set Debug High
+        store.verbosity = store.DEBUG;
+        // Register the product with the store
+        store.register([{
+          type: CdvPurchase.ProductType.PAID_SUBSCRIPTION,
+          id: 'com.mypubz.eportal.astrologer',
+          platform: CdvPurchase.Platform.GOOGLE_PLAY,
+        }]);
+  
+        store.error(console.warn);
+   
+        store.initialize([CdvPurchase.Platform.GOOGLE_PLAY]);
+        store.update();
+        store.ready(() => {
+          CdvPurchase.store.when()
+          .productUpdated(product => {
+            console.log('update product', product);
+          })
+          .approved(transaction => {
+            console.log('transaction happening');
+            const monitor = store.monitor(transaction, state => {
+              console.log('new state: ', state);
+              if(state == 'finished') {
+                console.log('finished', transaction.state);
+                monitor.stop();
+                this.pur_handl();
+              }
+            })
+            console.log('transaction verify trigger');
+            console.log(transaction.verify);
+            transaction.verify();
+          })
+          .verified(receipt => {
+            console.log('receipt Verified')
+            console.log(receipt)
+            console.log('receipt native transaction log')
+            console.log(receipt.nativeTransactions)
+            receipt.finish()
+          })
+          .unverified(receipt => {
+            console.log('unverified payload')
+            console.log(receipt.payload);
+            console.log('unverified receipt')
+            console.log(receipt.receipt);
+          })
+          .receiptUpdated((receipt) => {
+            console.log('Receipt Update')
+            console.log(receipt)
+          });          
+        });
+        
+             // Errors On The Specific Product
+        store.when(pid).error( (error) => {
+          console.log('An Error Occured' + JSON.stringify(error));
+        });
+        // Refresh Always
+        console.log('Refresh Store');
+        store.refresh();
+      } catch (err) {
+        console.log('Error On Store Issues' + JSON.stringify(err));
+      }
+  
+    });
  //	this.horoService.getMsg(this.device.uuid, 'subscribe')
 //	.subscribe(res => {
 //		this.smsg = res['msg'];
@@ -87,109 +165,28 @@ export class SubscribePage implements OnInit {
 				this.info = err;
 			});	
   }
-  init_pur_and_complete() {
-    let pid: any;
-    if (!this.platform.is('cordova')) { return; }
-    try {
-      if (this.platform.is('ios')) {
-        pid = this.product.apid;
-      } else if (this.platform.is('android')) {
-        pid = this.product.gpid;
-      }
-
-      // Register Product
-      // Set Debug High
-      this.store.verbosity = this.store.DEBUG;
-      // Register the product with the store
-      this.store.register({
-        id: pid,
-        alias: pid,
-        type: (pid == 'com.mypubz.eportal.astrologer') ? this.store.PAID_SUBSCRIPTION : this.store.CONSUMABLE
-      });
-      this.pur_handl();
-
-      this.store.ready(() => {
-		this.complete_pur();
-	  });//.then((status) => {
-       // console.log(JSON.stringify(this.store.get(this.platform.is('ios') ? this.product.apid : this.product.gpid)));
-       // console.log('Store is Ready: ' + JSON.stringify(status));
-        //console.log('Products: ' + JSON.stringify(this.store.products));
-	//	this.complete_pur();
-	//	console.log('Finished Purchase!');
-	 // });
-
-      // Errors On The Specific Product
-      this.store.when(pid).error( (error) => {
-        console.log('An Error Occured' + JSON.stringify(error));
-      });
-      // Refresh Always
-      console.log('Refresh Store');
-      this.store.refresh();
-    } catch (err) {
-      console.log('Error On Store Issues' + JSON.stringify(err));
-    }
-  }
+ 
  pur_handl() {
     // Handlers
-    this.store.when(this.product.gpid).approved( (product: IAPProduct) => {
-      product.finish();
+    console.log('in pur_handl');
 	  this.plan.name = this.product.gpid;
 	  this.shareService.setPLAN(this.plan);
 	  this.horoService.setPlan(this.device.uuid, this.product.gpid)
-		   .subscribe(res => {
-				this.horoService.addSubscriber(this.device.uuid, this.product.gpid, this.nam, this.mob, this.eml)
-				   .subscribe(res => {
-				}, (err) => {
-				}) ;
-			}, (err) => {
-			});	  
-      this.router.navigate(['/home'], {replaceUrl: true});		
-		  
-    });
+		   .subscribe({
+        complete: () => {
+          this.horoService.addSubscriber(this.device.uuid, this.product.gpid, this.nam, this.mob, this.eml);
+        },
+        error: () => {
 
-    this.store.when(this.product.gpid).registered( (product: IAPProduct) => {
-      console.log('Registered: ' + JSON.stringify(product));
-    });
+        },
+        next: () => {
 
-    this.store.when(this.product.gpid).updated( (product: IAPProduct) => {
-      console.log('Loaded' + JSON.stringify(product));
-    });
-
-    this.store.when(this.product.gpid).cancelled( (product) => {
-      console.log('Purchase was Cancelled');
-	 // this.horoService.setPlan(this.device.uuid, 'com.mypubz.eportal.dob')  //default plan
-	//	   .subscribe(res => {
-	//		}, (err) => {
-	//		});	  
-    });
-
-    // Overall Store Error
-    this.store.error( (err) => {
-      console.log('Store Error ' + JSON.stringify(err));
-    });
+        }
+       });
+      console.log('routing to home')
+      this.router.navigate(['/tabs'], {replaceUrl: true});		
   }
-   async complete_pur() {
-    let pid;
-    if (!this.platform.is('cordova')) {
-      return
-    }
-
-    if (this.platform.is('ios')) {
-      pid = this.product.apid;
-    } else if (this.platform.is('android')) {
-      pid = this.product.gpid;
-    }
-
-    console.log('Products: ' + JSON.stringify(this.store.products));
-    console.log('Ordering From Store: ' + pid);
-    try {
-      let product = this.store.get(pid);
-      console.log('Product Info: ' + JSON.stringify(product));
-      let order = await this.store.order(pid);
-    } catch (err) {
-      console.log('Error Ordering ' + JSON.stringify(err));
-    }
-  }
+   
   
  subscribe()
   {
@@ -206,7 +203,7 @@ export class SubscribePage implements OnInit {
 		this.showCI = true;
 		this.bmsg = false;
 	}
-	else this.init_pur_and_complete();
+	else store.get(this.product.gpid).getOffer().order();
   }
  subscribe2()
   {
@@ -218,7 +215,7 @@ export class SubscribePage implements OnInit {
 		this.showPAY = false;
 		this.showCI = true;
 	}
-	else this.init_pur_and_complete();
+	else CdvPurchase.getOffer().order();
   }
  month()
   {
@@ -230,7 +227,7 @@ export class SubscribePage implements OnInit {
 		this.showPAY = false;
 		this.showCI = true;
 	}
-	else this.init_pur_and_complete();
+	else store.get(this.product.gpid).getOffer().order();
   }
   help()
   {

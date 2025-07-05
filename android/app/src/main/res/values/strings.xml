@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">vedichoroo</string>
+    <string name="title_activity_main">vedichoroo</string>
+    <string name="package_name">com.mypubz.eportal</string>
+    <string name="custom_url_scheme">com.mypubz.eportal</string>
+    <string name="server_client_id">242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com</string>
+</resources>

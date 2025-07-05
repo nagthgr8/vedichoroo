@@ -2,20 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import {SubscribePage} from '../subscribe/subscribe.page';
-import { InAppPurchase2, IAPProduct } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Plan } from '../plan';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
+import 'cordova-plugin-purchase';
 
 declare var RazorpayCheckout: any;
+declare var CdvPurchase: any
+const {store, ProductType} = CdvPurchase;
+
 @Component({
   selector: 'app-credits',
   templateUrl: './credits.page.html',
   styleUrls: ['./credits.page.scss'],
 })
 export class CreditsPage implements OnInit {
- public product: any = {
+  public product: any = {
     name: 'My Product',
     apid: '1234',
     gpid: 'com.mypubz.eportal.dob'
@@ -25,7 +28,7 @@ export class CreditsPage implements OnInit {
    paym: string = 'rpay';
    showCR: boolean = true;
 
-  constructor(private router: Router, public platform: Platform, public device: Device, private store: InAppPurchase2, public horoService: HoroscopeService, public shareService: ShareService) { 
+  constructor(private router: Router, public platform: Platform, public device: Device, public horoService: HoroscopeService, public shareService: ShareService) { 
    platform.ready().then(() => {
 	  this.shareService.getPLAN()
 		   .then((pln) => {
@@ -37,7 +40,51 @@ export class CreditsPage implements OnInit {
  }
 
   ngOnInit() {
+    this.platform.ready().then(() => {
+      // MUST WAIT for Cordova to initialize before referencing CdvPurchase namespace
+      let pid: any;
+      try {
+        if (this.platform.is('ios')) {
+          pid = this.product.apid;
+        } else if (this.platform.is('android')) {
+          pid = this.product.gpid;
+        }
+  
+        // Register Product
+        // Set Debug High
+        store.verbosity = store.DEBUG;
+        // Register the product with the store
+        store.register([{
+          type: ProductType.CONSUMABLE,
+          id: 'com.mypubz.eportal.dob50',
+          platform: CdvPurchase.Platform.GOOGLE_PLAY,
+        }]);
+  
+        store.error(console.warn);
+   
+        store.initialize([CdvPurchase.Platform.GOOGLE_PLAY]);
+        store.update();
+        this.pur_handl();
+  
+        store.ready(() => {
+          CdvPurchase.store.when().productUpdated(this.onProductUpdated).approved(this.finishPurchase);
+        });
+        
+             // Errors On The Specific Product
+        store.when(pid).error( (error) => {
+          console.log('An Error Occured' + JSON.stringify(error));
+        });
+        // Refresh Always
+        console.log('Refresh Store');
+        store.refresh();
+      } catch (err) {
+        console.log('Error On Store Issues' + JSON.stringify(err));
+      }
+  
+    });
+ 
   }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad CreditsPage');
   }
@@ -45,53 +92,17 @@ export class CreditsPage implements OnInit {
 	{
 	this.router.navigate(['/subscribe']);
 	}
-
-  init_pur_and_complete() {
-    let pid: any;
-    if (!this.platform.is('cordova')) { return; }
-    try {
-      if (this.platform.is('ios')) {
-        pid = this.product.apid;
-      } else if (this.platform.is('android')) {
-        pid = this.product.gpid;
-      }
-
-      // Register Product
-      // Set Debug High
-      this.store.verbosity = this.store.DEBUG;
-      // Register the product with the store
-      this.store.register({
-        id: pid,
-        alias: pid,
-        type: this.store.CONSUMABLE
-      });
-      this.pur_handl();
-
-      this.store.ready(() => {
-		this.complete_pur();
-	  });//.then((status) => {
-       // console.log(JSON.stringify(this.store.get(this.platform.is('ios') ? this.product.apid : this.product.gpid)));
-       // console.log('Store is Ready: ' + JSON.stringify(status));
-        //console.log('Products: ' + JSON.stringify(this.store.products));
-	//	this.complete_pur();
-	//	console.log('Finished Purchase!');
-	 // });
-
-      // Errors On The Specific Product
-      this.store.when(pid).error( (error) => {
-        console.log('An Error Occured' + JSON.stringify(error));
-      });
-      // Refresh Always
-      console.log('Refresh Store');
-      this.store.refresh();
-    } catch (err) {
-      console.log('Error On Store Issues' + JSON.stringify(err));
-    }
+  finishPurchase(transaction) {
+    
+    transaction.finish();
+    this.pur_handl();
   }
+  onProductUpdated() {
+   
+  }
+
  pur_handl() {
     // Handlers
-    this.store.when(this.product.gpid).approved( (product: IAPProduct) => {
-      product.finish();
 	  let creds: number = 5;
 	  switch(this.product.gpid)
 	  {
@@ -121,78 +132,37 @@ export class CreditsPage implements OnInit {
 			console.log('credits updated to server');
 			}, (err) => {
 			});	  
-		  
-    });
-
-    this.store.when(this.product.gpid).registered( (product: IAPProduct) => {
-      console.log('Registered: ' + JSON.stringify(product));
-    });
-
-    this.store.when(this.product.gpid).updated( (product: IAPProduct) => {
-      console.log('Loaded' + JSON.stringify(product));
-    });
-
-    this.store.when(this.product.gpid).cancelled( (product) => {
-      console.log('Purchase was Cancelled');
-    });
-
-    // Overall Store Error
-    this.store.error( (err) => {
-      console.log('Store Error ' + JSON.stringify(err));
-    });
-  }
-   async complete_pur() {
-    let pid;
-    if (!this.platform.is('cordova')) {
-      return
-    }
-
-    if (this.platform.is('ios')) {
-      pid = this.product.apid;
-    } else if (this.platform.is('android')) {
-      pid = this.product.gpid;
-    }
-
-    console.log('Products: ' + JSON.stringify(this.store.products));
-    console.log('Ordering From Store: ' + pid);
-    try {
-      let product = this.store.get(pid);
-      console.log('Product Info: ' + JSON.stringify(product));
-      let order = await this.store.order(pid);
-    } catch (err) {
-      console.log('Error Ordering ' + JSON.stringify(err));
-    }
   }
   
  buy()
   {
     this.product.gpid = 'com.mypubz.eportal.dob';
 	if(this.paym == 'rpay') this.razpay(10);
-	else this.init_pur_and_complete();
+	else store.get('com.mypubz.eportal.dob').getOffer().order();
   }
  buy5()
   {
     this.product.gpid = 'com.mypubz.eportal.dob5';
 	if(this.paym == 'rpay') this.razpay(40);
-	else this.init_pur_and_complete();
+	else store.get('com.mypubz.eportal.dob5').getOffer().order();
   }
  buy10()
   {
     this.product.gpid = 'com.mypubz.eportal.dob10';
 	if(this.paym == 'rpay') this.razpay(70);
-	else this.init_pur_and_complete();
+	else store.get('com.mypubz.eportal.dob10').getOffer().order();
   }
  buy25()
   {
     this.product.gpid = 'com.mypubz.eportal.dob25';
 	if(this.paym == 'rpay') this.razpay(200);
-	else this.init_pur_and_complete();
+	else store.get('com.mypubz.eportal.dob25').getOffer().order();
   }
  buy50()
   {
     this.product.gpid = 'com.mypubz.eportal.dob50';
 	if(this.paym == 'rpay') this.razpay(350);
-	else this.init_pur_and_complete();
+	else store.get('com.mypubz.eportal.dob50').getOffer().order();
   }
  paymSel(paym)
   {

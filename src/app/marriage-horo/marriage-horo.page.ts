@@ -153,8 +153,9 @@ export class MarriageHoroPage implements OnInit {
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob1 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		console.log('selected date', odt.value);
+		var ldt = odt.value.split('/');
+		this.dob1 = ldt[2]+"-"+ ldt[1] +"-"+ ldt[0];
 		},
 		err => console.log('Error occurred while getting date: ', err));
   }
@@ -165,15 +166,17 @@ export class MarriageHoroPage implements OnInit {
 		dt.setMinutes(Number(this.tob1.split(':')[1]));
 	}
 	DatePicker.present({
-		format: 'dd/MM/yyyy',
-		mode: 'time',
-		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
+		mode: 'time',  // Set mode to 'time' for time selection only
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob1 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-		},
-		err => console.log('Error occurred while getting date: ', err));
+		console.log('selected time: ', odt.value);
+		const selectedTime = new Date(odt.value);
+		const formattedTime = `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}:${selectedTime.getSeconds().toString().padStart(2, '0')}`;
+		this.tob1 = formattedTime;
+		console.log('tob', this.tob1);
+	  }, err => {
+		console.log('Error occurred while getting time: ', err);
+	  });
  }
   showHerDatePicker() {
 	var dt = new Date();
@@ -188,8 +191,9 @@ export class MarriageHoroPage implements OnInit {
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob2 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		console.log('selected date', odt.value);
+		var ldt = odt.value.split('/');
+		this.dob2 = ldt[2]+"-"+ ldt[1] +"-"+ ldt[0];
 		},
 		err => console.log('Error occurred while getting date: ', err));
   }
@@ -200,15 +204,15 @@ export class MarriageHoroPage implements OnInit {
 		dt.setMinutes(Number(this.tob2.split(':')[1]));
 	}
 	DatePicker.present({
-		format: 'dd/MM/yyyy',
 		mode: 'time',
-		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob2 = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-		},
-		err => console.log('Error occurred while getting date: ', err));
+		const selectedTime = new Date(odt.value);
+		const formattedTime = `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}:${selectedTime.getSeconds().toString().padStart(2, '0')}`;
+		this.tob2 = formattedTime;
+		console.log('tob', this.tob2);
+	  },
+	  err => console.log('Error occurred while getting date: ', err));
  }
 
   ngOnInit() {
@@ -254,7 +258,7 @@ export class MarriageHoroPage implements OnInit {
 		this.info = 'Analyzing stars..';
 //	this.horoService.getBirthStars(this.dob1 + 'T' + this.tob1 + ':00Z', this.dob2 + 'T' + this.tob2 + ':00Z', this.latlng1 + 'L' + this.latlng2, this.htz + '|' + this.rtz, ayanid)
 //       .subscribe(res => {
-	this.horoService.getCompatibilityReport(this.dob1 + 'T' + this.tob1 + ':0', this.dob2 + 'T' + this.tob2 + ':0', this.lat1, this.lng1,  this.lat2, this.lng2, this.htz, this.rtz, this.hdst, this.rdst, ayanid)
+	this.horoService.getCompatibilityReport(this.dob1 + 'T' + this.tob1, this.dob2 + 'T' + this.tob2, this.lat1, this.lng1,  this.lat2, this.lng2, this.htz, this.rtz, this.hdst, this.rdst, ayanid)
        .subscribe(res => {
 	   this.birthStar = res['birthStar'];
 	   this.pada = Number(res['pada']);

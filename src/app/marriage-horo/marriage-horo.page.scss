@@ -1,15 +1,27 @@
  body {
  font-family: roboto;
 }
- ion-row.lvlines ion-col {
-    border: 1px solid #ffb6d1;
+ion-row.bd {
+font-weight:bold;
+border: 1px solid #d35400;
+ion-col.lbl {
+  color: #d35400;
+  background-color: #ffd9a3;
+  padding: 5px;
+  border: 1px solid #ffd9a3;
+  font-weight: bold;
+}
+}
+ ion-row.lines ion-col {
+    border: 1px solid var(--vho-color-blue);
     padding: 5px;
+    text-align: left;
   }
-  ion-row.lvsubtitle {
+  ion-row.subtitle {
 	font-weight:bold;
 	font-size:1.2rem;
   }
-  ion-row.lvsubtitle2 {
+  ion-row.subtitle2 {
 	font-weight:bold;
 	font-size:1.25rem;
   }
@@ -22,12 +34,23 @@ ion-item.ion-input {
    font-size:bold;
 }
 .frep {
-   font-size: 1.25rem;
-   font-weight: bold;
-   font-style: oblique;
+  font-size: 1.5rem; /* Keep the font size large for emphasis */
+  font-weight: bold; /* Strong bold for clear visibility */
+  color: var(--frep-text-color); /* Use theme variable for text color */
+  background-color: var(--frep-background-color); /* Use theme variable for background */
+  padding: 12px 20px; /* Increased padding for better spacing */
+  border-radius: 6px; /* Slightly rounded corners for a modern touch */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+  margin: 15px 0; /* Adequate margin for spacing between elements */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for colors */
+}
+
+/* Optional: Add a hover effect */
+.frep:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Light hover effect; adjust opacity as needed */
 }
 .hn {
-	    color: blue !important;
+	    color: var(--vho-color-blue);
 		text-decoration: underline;
 }
 
@@ -37,13 +60,12 @@ ion-item.ion-input {
 	height: auto;
 	background-position: left;
   }
-  ion-row.lvtitle {
+  ion-row.title {
 	font-size:1.3rem;
-    text-align:center;
 	font-weight:bold;
 	padding: 5px;
-	background-color: #ffb6d1;
-	color: #ffffff;
+	background-color: var(--background);
+	color: var(--vho-color-blue);
   }
   ion-grid.report ion-col {
     margin: 5px;
@@ -52,9 +74,8 @@ ion-item.ion-input {
   margin:0px;
 }
   ion-grid.lines ion-col div {
-    border: 1px solid #e6e9ee;
+    border: 1px solid var(--vho-color-blue);
     padding: 5px;
-    text-align: center;
 	display: border-box;
   }
   p.info {

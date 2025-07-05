@@ -405,7 +405,7 @@ export class ShareService {
 	  this._storage.setItem('PLAN', pln);
 	  if(pln.name == 'com.mypubz.eportal.astrologer') {  
 	    console.log('issubr', 'true');
-		this.issubr = true;
+		//this.issubr = true;
 	  }
 	}
 	}
@@ -831,7 +831,7 @@ export class ShareService {
 		return new Promise((resolve,reject)=>{ 
 			this._storage.getItem('PLAN')
 							.then(res => {
-										if(res && (res.name == 'com.mypubz.eportal.astrologer')) this.issubr = true;
+										//if(res && (res.name == 'com.mypubz.eportal.astrologer')) this.issubr = true;
 										resolve(res);
 									})
 							.catch((err)=>{ 
@@ -840,16 +840,6 @@ export class ShareService {
 								});	
 		});
 	}						
-			//	this.horoService.addTicket('xxxxxxx', 'technical', 'info', 'Getting PLAN ')
-			//	.subscribe(res => {
-			//	});
-		//Promise.resolve(this._storage.getItem('PLAN')).then(res => {
-			//	this.horoService.addTicket('xxxxxxx', 'technical', 'info', 'PLAN fetched from storage')
-			//	.subscribe(res => {
-			//	});
-			//if(res && (res.name == 'com.mypubz.eportal.astrologer')) this.issubr = true;
-			//return res;
-		//});
 	
 	setREWARD(rew) {
 		this.rew = rew;

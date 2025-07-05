@@ -157,8 +157,8 @@ export class DashTransPage implements OnInit {
 						var kres = this.shareService.getKAYNM();
 						if(kres) ayanid = Number(kres);
 						this.shareService.setDSTRNS(this.dob, this.mdas1, this.adas1, this.pdas1, ayanid, res2);
-					   this.publishReport(res2);
-					   this.info = '';
+					    this.publishReport(res2);
+					    this.info = '';
 					  }, (err) => {
 						this.mon1 = JSON.stringify(err);
 					  this.horoService.addTicket('xxxxxxx', 'technical', 'KPDAS', this.mon1)
@@ -422,19 +422,6 @@ export class DashTransPage implements OnInit {
 	 let tdsc: string = '';
 	 let bvsted: boolean =  false;
 	    this['mon'+this.mcnt.toString()]= '<h2>PREDICTIONS FOR ' + this.mon_weeks_v[mon.toLowerCase()].split('|')[0] + '</h2>';
-		//let oPTs :Object[] = [];
-		//for(var da = 1; da < 32; da++){
-		   //let pkey: string = '';
-		   //(da < 10) ? pkey = '0'+ da.toString() : pkey = da.toString();
-		   //if(trns.hasOwnProperty(pkey)) {
-			  //var tns = trns[pkey].split(',');
-			  //for(var t = 0; t < tns.length; t++) {
-				 //if(tns[t] != '') {
-				    //(oPTs.hasOwnProperty(tns[t]) == true) ? oPTs[tns[t]] += ',' + da.toString() : oPTs[tns[t]] = da.toString();
-				 //}
-			  //}
-		   //}  
-		//}
 		let nT: number = 0;
 		let msub: string = '';
 		let schg: boolean = false;
@@ -456,13 +443,36 @@ export class DashTransPage implements OnInit {
 				let star_lord: string = this.nakshatra_order_v[trns[key].split('-')[1]].ruler;
 				let const_lord: string = this.oPlanet[star_lord].star;
 				let das_l: string = '';
-				if(star_lord == this.mdas1.toLowerCase()) {
-				   das_l = (this.shareService.getLANG() == 'en') ? 'Maha Dasha' : (this.shareService.getLANG() == 'te') ? ' మహా దశ' : 'महा दशा'
-				}else if(star_lord == this.adas1.toLowerCase()) {
-				   das_l = (this.shareService.getLANG() == 'en') ? 'Antar Dasha' : (this.shareService.getLANG() == 'te') ? ' అంతర్ దశ' : 'अन्तर दशा'
-				}else if(star_lord == this.pdas1.toLowerCase()) {
-				   das_l = (this.shareService.getLANG() == 'en') ? 'Pratyantar Dasha' : (this.shareService.getLANG() == 'te') ? ' ప్రత్యాంతర దశ' : 'प्रत्यंतर दशा'
+
+				// Existing logic — retained
+				if (star_lord === this.mdas1.toLowerCase()) {
+				das_l = (this.shareService.getLANG() == 'en') ? 'Maha Dasha' :
+						(this.shareService.getLANG() == 'te') ? ' మహా దశ' : 'महा दशा';
+				} else if (star_lord === this.adas1.toLowerCase()) {
+				das_l = (this.shareService.getLANG() == 'en') ? 'Antar Dasha' :
+						(this.shareService.getLANG() == 'te') ? ' అంతర్ దశ' : 'अन्तर दशा';
+				} else if (star_lord === this.pdas1.toLowerCase()) {
+				das_l = (this.shareService.getLANG() == 'en') ? 'Pratyantar Dasha' :
+						(this.shareService.getLANG() == 'te') ? ' ప్రత్యాంతర దశ' : 'प्रत्यंतर दशा';
 				}
+
+				// Enhanced logic — KP correct way to identify if transit is triggering any dasha significator
+				let transit_planet = trns[key].split('-')[0].substring(0, 2).toLowerCase(); // E.g., 'me' for Mercury
+
+				const lang = this.shareService.getLANG();
+				const triggerLabel = (en: string, te: string, hi: string) =>
+				(lang === 'en') ? en : (lang === 'te') ? te : hi;
+
+				if (this.oPlanet[this.mdas1.toLowerCase()]?.sig?.includes(transit_planet)) {
+				das_l += ' ' + triggerLabel('(triggers Maha Dasha)', '(మహా దశను ఉత్తేజితం చేస్తుంది)', '(महा दशा को सक्रिय करता है)');
+				}
+				if (this.oPlanet[this.adas1.toLowerCase()]?.sig?.includes(transit_planet)) {
+				das_l += ' ' + triggerLabel('(triggers Antar Dasha)', '(అంతర్ దశను ఉత్తేజితం చేస్తుంది)', '(अंतर दशा को सक्रिय करता है)');
+				}
+				if (this.oPlanet[this.pdas1.toLowerCase()]?.sig?.includes(transit_planet)) {
+				das_l += ' ' + triggerLabel('(triggers Pratyantar Dasha)', '(ప్రత్యాంతర దశను ఉత్తేజితం చేస్తుంది)', '(प्रत्यंतर दशा को सक्रिय करता है)');
+				}
+
 
 				if(this.shareService.getLANG() == 'te') {
 					if(!bvsted) {
@@ -713,54 +723,61 @@ export class DashTransPage implements OnInit {
 		}
 		return (px);
 	}
-	get_sub_neg2(s_h: string, lif_e: string)
-	{
-	  let sub_n: string = '';
-	  let lifs: string[] = lif_e.split(';');
-	  for(var i = 0; i < lifs.length; i++) {
-	    if(lifs[i] == '') continue;
-		let hgs: string = lifs[i].split('|')[0];
-		let ths: string[] = s_h.split(',');
-		let sub: string = '';
-		for(var j = 0; j < ths.length; j++) {
-			if(Number(hgs.split('-')[0]) == Number(ths[j])) sub = (this.shareService.getLANG() == 'en') ? ' FAVOURS ' + lifs[i] : (this.shareService.getLANG() == 'te') ? lifs[i] + ' అనుకూలంగా  ఉంది ' :  lifs[i] + ' अनुमति  है ';
-			else {
-			  let h12: number = (Number(hgs.split('-')[0]) -1 == 0) ? 12 : Number(hgs.split('-')[0])-1;
-			  if(Number(ths[j]) == h12) {
-			    sub = (this.shareService.getLANG() == 'en') ? ' OPPOSES ' + lifs[i] :  (this.shareService.getLANG() == 'te') ? lifs[i] + ' అనుకూలంగా లేదు ': lifs[i] + ' पक्ष नहीं है ';
-				break;
-			  }
+	get_sub_neg2(s_h: string, lif_e: string): string {
+		let sub_n = '';
+		const lifs = lif_e.split(';').filter(e => e);
+		const ths = s_h.split(',').map(h => Number(h));  // Sub-lord house list
+
+		for (const life of lifs) {
+			const [hgs, detail] = life.split('|');
+			const lifeHouses = hgs.split('-').map(h => Number(h)).filter(Boolean);  // ✅ All event houses
+
+			let sub = '';
+			for (const lh of lifeHouses) {
+				for (const t of ths) {
+					if (t === lh) {
+						sub = this.shareService.getLANG() === 'en'
+							? ` FAVOURS ${life}`
+							: this.shareService.getLANG() === 'te'
+								? `${life} అనుకూలంగా ఉంది `
+								: `${life} अनुमति है `;
+						break;
+					} else if (t === ((lh - 1 === 0) ? 12 : lh - 1)) {
+						sub = this.shareService.getLANG() === 'en'
+							? ` OPPOSES ${life}`
+							: this.shareService.getLANG() === 'te'
+								? `${life} అనుకూలంగా లేదు `
+								: `${life} पक्ष नहीं है `;
+						break;
+					}
+				}
+				if (sub) break;  // Only report once per life event
+			}
+			if (sub) sub_n += sub;
+		}
+
+		if (!sub_n) {
+			sub_n = this.shareService.getLANG() === 'en'
+				? ' FAVOURS this event '
+				: this.shareService.getLANG() === 'te'
+					? ' అనుకూలంగా ఉంది '
+					: ' अनुमति है ';
+		}
+
+		return sub_n;
+	}
+	get_sub_neg3(s_h: string, l_h: string): string {
+		let sub_n = '';
+		const lhs = l_h.split(',').map(h => Number(h)).filter(Boolean);
+		const ths = s_h.split(',').map(h => Number(h));
+		for (const lh of lhs) {
+			const h12 = (lh - 1 === 0) ? 12 : lh - 1;
+			const opposes = ths.includes(h12);
+			if (!opposes) {
+			sub_n += lh + ',';
 			}
 		}
-		if(sub != '') {
-			sub_n += sub;
-		}
-	  }
-	  if(sub_n == '') {
-	    sub_n = (this.shareService.getLANG() == 'en') ? ' FAVOURS this event ' : (this.shareService.getLANG() == 'te') ? ' అనుకూలంగా  ఉంది ' :  ' अनुमति  है ';
-	  }
-	  return sub_n;
-	}
-	get_sub_neg3(s_h: string, l_h: string)
-	{
-	  let sub_n: string = '';
-	  let lhs: string[] = l_h.split(',');
-	  for(var i = 0; i < lhs.length; i++) {
-	    if(lhs[i] == '') continue;
-		let ths: string[] = s_h.split(',');
-		let bf: boolean = true;
-		for(var j = 0; j < ths.length; j++) {
-			let h12: number = (Number(lhs[i]) -1 == 0) ? 12 : Number(lhs[i])-1;
-			if(Number(ths[j]) == h12) {
-			   bf = false;
-			break;
-			} 
-		}
-		if(bf) {
-			sub_n += lhs[i] + ',';
-		}
-	  }
-	  return sub_n;
+		return sub_n;
 	}
 	get_h_from_h(s_h: number, d_h: number)
 	{
@@ -813,53 +830,51 @@ export class DashTransPage implements OnInit {
 		}
 		return lif_e;
 	}
-	analyze_dash_evts(ml: string, al: string)
-	{
+	analyze_dash_evts(ml: string, al: string): string {
 		console.log(ml, al);
-		let ms: string = this.oPlanet[ml.toLowerCase()].sig;
-		let as: string = this.oPlanet[al.toLowerCase()].sig;
-		let lsig: string = ms + as;
-		console.log('lsig', lsig);
-		let lif_e: string = '';
-		for(let key of Object.keys(this.house_groups)) {
-		  let h_g: string ='';
-		  let sigs: string[] = key.split('-');
-		  let idx: number = sigs[0].indexOf('(');
-		  if(idx != -1) {
-			let s_h: number = Number(sigs[0].match(/\(([^)]+)\)/)[1]);
-			var hno = (idx == -1) ? sigs[0] : sigs[0].substring(0, idx+1);
-			let d_h: number = Number(hno);
-			sigs[0] = this.get_h_from_h(s_h, d_h).toString();
-		  }
-			let sig_c: number = 0;
-			    let lsigs: string[] = lsig.split(',');
-				for(var i = 0; i < sigs.length; i++) {
-					if(sigs[i].indexOf('(') != -1) {
-					  let s_h: number = Number(sigs[i].match(/\(([^)]+)\)/)[1]);
-					  idx = sigs.indexOf('(');
-					  hno = (idx == -1) ? sigs[0] : sigs[0].substring(0, idx+1);
-					  let d_h: number = Number(hno);
-					  sigs[i] = this.get_h_from_h(s_h, d_h).toString();
-					} else if(sigs[i] == 'BADH' || sigs[i] == 'CUSP') {
-						continue;
-					} else if(sigs[i] == 'MARS' && sigs[i].toLowerCase() != ml.toLowerCase()) {
-						continue;
-					}
-					for(var j = i; j < lsigs.length; j++) {
-						if(lsigs[j] == sigs[i]) {	//supporting house satisfied
-						if(h_g.indexOf(sigs[i]) == -1) {
-						  h_g += sigs[i] + '-';
-						  sig_c++;	
-						  }
-						}
+
+		const ms = this.oPlanet[ml.toLowerCase()]?.sig ?? '';
+		const as = this.oPlanet[al.toLowerCase()]?.sig ?? '';
+		const lsigs = (ms + ',' + as).split(',').filter(Boolean);  // avoid empty
+		console.log('lsig', lsigs);
+
+		let lif_e = '';
+
+		for (const key of Object.keys(this.house_groups)) {
+			const sigs = key.split('-').map(sig => this.parseSigHouse(sig));
+			let sig_c = 0;
+			let h_g: string[] = [];
+
+			for (const sig of sigs) {
+				if (sig === 'BADH' || sig === 'CUSP') continue;
+				if (sig === 'MARS' && sig.toLowerCase() !== ml.toLowerCase()) continue;
+				if (lsigs.includes(sig)) {
+					if (!h_g.includes(sig)) {
+					h_g.push(sig);
+					sig_c++;
 					}
 				}
-				if(sigs.length == sig_c) {  //life event statisfied
-					lif_e += h_g + '|' + this.house_groups[key].details + ';';
-				}
+			}
+
+			if (sig_c === sigs.length) {
+				lif_e += h_g.join('-') + '|' + this.house_groups[key].details + ';';
+			}
 		}
 		return lif_e;
 	}
+
+	private parseSigHouse(sig: string): string {
+		if (sig.includes('(')) {
+			const match = sig.match(/\(([^)]+)\)/);
+			if (match) {
+			const s_h = Number(match[1]);
+			const d_h = Number(sig.substring(0, sig.indexOf('(')));
+			return this.get_h_from_h(s_h, d_h).toString();
+			}
+		}
+		return sig;
+	}
+
 	calcBirthStar(moonsign: string, moondeg: number)
 	{
 	    //convert deg & mins to mins

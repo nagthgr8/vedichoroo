@@ -307,10 +307,12 @@ export class HinduCalPage implements OnInit {
 			listItem, 
 			'click',
 			(evt) => {
+				evt.stopPropagation();
 				console.log('clicked', evt);
-				console.log('clicked ', evt.path[0]);
-				console.log('clicked id', evt.path[0].id);
-				let dmy : string = evt.path[0].id.split('|')[1];
+				const clickedElement = evt.target as HTMLElement;
+				const ids = clickedElement.id.split('-');
+				console.log('clicked id', ids[0]);
+				let dmy : string = ids[0].split('|')[1];
 				let m = Number(this.mons_v[dmy.split(',')[0].split(' ')[1]]);
 				let y = Number(dmy.split(',')[1]);
 				let d =  Number(dmy.split(',')[0].split(' ')[2]);
@@ -448,7 +450,7 @@ export class HinduCalPage implements OnInit {
 					this.renderer.setAttribute(text1, "text-anchor", "middle");
 					this.renderer.setAttribute(text1, "x", (size*dx + size/2).toString());
 					this.renderer.setAttribute(text1, "y", (size*k + 25 + size/2).toString());
-					this.renderer.setAttribute(text1, "id", "t1" + k.toString() + dx.toString());
+					this.renderer.setAttribute(text1, "id", 'CDY|'+key+"-t1" + k.toString() + dx.toString());
 					//var br = document.createElement("br");
 					//this.renderer.appendChild(text1, document.createElement("br"));
 					var text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -459,7 +461,7 @@ export class HinduCalPage implements OnInit {
 					this.renderer.setAttribute(text2, "y", (size*k + 25 + size/2 + 10).toString());
 					this.renderer.setAttribute(text2, "alignment-baseline", "middle");
 					this.renderer.setAttribute(text2, "text-anchor", "middle");
-					this.renderer.setAttribute(text2, "id", "t2" + k.toString() + dx.toString());
+					this.renderer.setAttribute(text2, "id", 'CDY|'+key+"-t2" + k.toString() + dx.toString());
 					var text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
 					this.renderer.appendChild(text3, document.createTextNode(this.shareService.translate_func(oW[key].tithi)));
 					this.renderer.setAttribute(text3, "font-size", "10px");
@@ -468,7 +470,7 @@ export class HinduCalPage implements OnInit {
 					this.renderer.setAttribute(text3, "y", (size*k + 25 + size/2 + 20).toString());
 					this.renderer.setAttribute(text3, "alignment-baseline", "middle");
 					this.renderer.setAttribute(text3, "text-anchor", "middle");
-					this.renderer.setAttribute(text3, "id", "t3" + k.toString() + dx.toString());
+					this.renderer.setAttribute(text3, "id", 'CDY|'+key+"-t3" + k.toString() + dx.toString());
 					g.appendChild(text1);
 					g.appendChild(text2);			   
 					g.appendChild(text3);			   
@@ -478,7 +480,7 @@ export class HinduCalPage implements OnInit {
 						this.renderer.setAttribute(image, "y", (size*k + 25).toString());
 						this.renderer.setAttribute(image, "height", "16");
 						this.renderer.setAttribute(image, "width", "16");
-						this.renderer.setAttribute(image, "id", "i" + k.toString() + dx.toString());
+						this.renderer.setAttribute(image, "id", 'CDY|'+key+"-i" + k.toString() + dx.toString());
 						if(oW[key].tithi == 'Sapthami') {
 							if(oW[key].moonPhase == 'waxing') {
 								image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", this.moon_phases_v[oW[key].tithi].split(',')[0]);
@@ -674,10 +676,12 @@ export class HinduCalPage implements OnInit {
 			var minutes = duration.asMinutes()%60;	
 			var totmins = hours*60 + minutes;		
 			console.log('totak mins=', minutes);
-		   var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
-		   console.log('tithiRem in mins=', rem);
-		   var tite = moment(startTime).add(rem, 'm');
-		   this.tithi = this.shareService.translate_func(res3['tithi']) + ' till ' + tite.format('HH:mm');
+		   //var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
+		   console.log('tithiRem in hrs=', tithiRem);
+		   var tite = moment(startTime).add(Number(tithiRem)*60, 'm');
+		   var isNextDay = moment(tite).isAfter(moment(startTime), 'day'); // Check if it's the next day
+		   var endTimeFormatted = isNextDay ? tite.format('HH:mm, MMM DD') : tite.format('HH:mm');
+		   this.tithi = this.shareService.translate_func(res3['tithi']) + ' till ' + endTimeFormatted;
 		   this.yoga = this.shareService.translate_func(res3['yoga']);
 		   this.karana = this.shareService.translate_func(res3['karana']);
 		   console.log(res3['tithi'].toLowerCase());// + (res3['moonPhase'] == 'waxing') ? '-s' : '-k');

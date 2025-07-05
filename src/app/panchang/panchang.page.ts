@@ -151,7 +151,9 @@ export class PanchangPage implements OnInit {
 		   var rem = Math.floor((Number(tithiRem)*Number(hours))/100);
 		   console.log('tithiRem in hrs=', rem);
 		   var tite = moment(startTime).add(rem*60, 'm');
-		   this.tithi = this.shareService.translate_func(res['tithi']) + ' till ' + tite.format('HH:mm');
+		   var isNextDay = moment(tite).isAfter(moment(startTime), 'day'); // Check if it's the next day
+		   var endTimeFormatted = isNextDay ? tite.format('HH:mm, MMM DD') : tite.format('HH:mm');
+		   this.tithi = this.shareService.translate_func(res['tithi']) + ' till ' + endTimeFormatted;
 		   this.yoga = this.shareService.translate_func(res['yoga']);
 		   this.karana = this.shareService.translate_func(res['karana']);
 		   console.log(res['tithi'].toLowerCase());// + (res3['moonPhase'] == 'waxing') ? '-s' : '-k');
@@ -280,9 +282,9 @@ export class PanchangPage implements OnInit {
 		   this.nak = this.shareService.translate_func(res3['birthStar']);
 		   var tithiRem = res3['tithiRem'];
 		   console.log('tithiRem=', tithiRem);
-		   var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
-		   console.log('tithiRem in mins=', rem);
-		   var tite = moment(startTime).add(rem, 'm');
+		   //var rem = Math.floor((Number(tithiRem)*Number(totmins))/100);
+		   console.log('tithiRem in hrs=', tithiRem);
+		   var tite = moment(startTime).add(Number(tithiRem)*60, 'm');
 		   this.tithi = this.shareService.translate_func(res3['tithi']) + ' till ' + tite.format('HH:mm');
 		   this.yoga = this.shareService.translate_func(res3['yoga']);
 		   this.karana = this.shareService.translate_func(res3['karana']);

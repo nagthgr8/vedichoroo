@@ -19,7 +19,7 @@
 			background-color: #ffffb2;
 			border-radius: 10px;
 			a {
-			  color: blue !important;
+			  color: var(--vho-color-blue);
 			}
 			margin-bottom: 20px;
 		  }
@@ -34,7 +34,7 @@
 p.info {
    text-align: center;
    font-weight: bold;
-   color: blue;
+   color: var(--vho-color-blue);
   }
   .blog {
    background-color: #ffffb2;
@@ -45,7 +45,7 @@ p.info {
   }
 
    .more {
-	color: blue;
+	color: var(--vho-color-blue);
 	padding: 5px;
 	font-weight: bold;
   }
@@ -54,7 +54,7 @@ p.info {
     }
     .category {
         font-size: 1.2rem;
-        color: blue;
+        color: var(--vho-color-blue);
     }
     .title {
         font-size: 1.3rem;

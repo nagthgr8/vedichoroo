@@ -12,12 +12,10 @@ import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx'
 import { Device } from '@awesome-cordova-plugins/device/ngx';;
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { Market } from '@awesome-cordova-plugins/market/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-import { InAppPurchase2 } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -61,12 +59,10 @@ import { CalendarModule } from 'ion7-calendar';
 	File,
 	FilePath,
 	FileOpener,
-	InAppPurchase2,
     Camera,
 	//CallService,
 	HoroscopeService,
 	ShareService,
-	AppVersion,
 	AppRate,
 	Market,
     CalendarModule,

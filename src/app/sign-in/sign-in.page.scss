@@ -1,12 +1,53 @@
 ion-content {
+  
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
+    justify-content: center;
+    height: 100%;
+  }
+  
+  ion-button.signin {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .info {
+    color: #ff4500; /* Set the color for the info message */
+    font-weight: bold;
+  }
+  .welcome-container {
+    padding: 20px !important;
+    margin-bottom: 10px !important;
+  }
 
-ion-button.signin {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
+  .signin {
+    /* Add any existing styles for your button */
+  
+    .button-text {
+      text-align: center;
+    }
+  
+    .main-line {
+      font-size: 1.2em; /* Adjust the font size as needed */
+    }
+  
+    .sub-line {
+      font-size: 0.8em; /* Adjust the font size as needed */
+      color: red;
+      font-weight: bold;
+    }
+  }
+  

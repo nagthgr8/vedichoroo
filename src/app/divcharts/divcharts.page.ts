@@ -144,30 +144,37 @@ export class DivchartsPage implements OnInit {
 	   // if(this.item.ID != '-1')
 		//	this.router.navigate(['/chart-analysis'], {state: this.item});
 		console.log('creating event listners');
-		let listItems = Array.from(this.eleRef.nativeElement.querySelectorAll('*[id^="D"]'))
-		listItems.forEach((listItem, j) => {
-			this.renderer.listen(
-				listItem, 
-				'click',
-				(evt) => {
-					console.log('clicked', evt);
-					console.log('clicked ', evt.path[0]);
-					console.log('clicked id', evt.path[0].id);
-					this.item.ID = evt.path[2].id;
-					this.item.atmk = this.atmk;
-					this.item.binf = this.binf;
-					console.log('routing to', this.item.ID);
-					if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree'  || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year'|| !this.shwAD) 
-						this.router.navigate(['/chart-analysis'], {state: this.item});
-					else {
-						if(this.shwAD)
-							admob.interstitial.show();	
-						else 
+		var vgs = ["D1","D2","D3","D4","D7","D9","D10","D12","D16","D20","D24","D27", "D30", "D40", "D45", "D60"];
+		vgs.forEach((vg, j) => {
+			const svgElement = this.eleRef.nativeElement.querySelector('svg#' + vg);
+			if(svgElement) {
+				this.renderer.listen(
+					svgElement,
+					'click',
+					(evt) => {
+						console.log('clicked', evt);
+						const clickedElement = evt.target as HTMLElement;
+            
+						// Extract IDs from the clicked element's ID
+						const ids = clickedElement.id.split('-');
+
+						console.log('clicked id', ids[0]);
+						this.item.ID = ids[0];
+						this.item.atmk = this.atmk;
+						this.item.binf = this.binf;
+						console.log('routing to', this.item.ID);
+						if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree'  || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year'|| !this.shwAD) 
 							this.router.navigate(['/chart-analysis'], {state: this.item});
+						else {
+							if(this.shwAD)
+								admob.interstitial.show();	
+							else 
+								this.router.navigate(['/chart-analysis'], {state: this.item});
+						}
 					}
-				}
-			);
-		})
+				);
+			}
+		});
 	});
 	
  }
@@ -988,6 +995,7 @@ export class DivchartsPage implements OnInit {
         var size = this.device_width/2;
 		var bxz = size/4;
 		var isz = Math.floor(bxz/3);
+		const boxSize = size / 2;
   		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.renderer.setAttribute(svg, "width", (size).toString());
 		this.renderer.setAttribute(svg, "height", (size).toString());
@@ -1000,7 +1008,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(box, "stroke", "#d35400");
 		this.renderer.setAttribute(box, "stroke-width", "2");
 		this.renderer.setAttribute(box, "fill", "#ffffff");
-		this.renderer.setAttribute(box, "id", "bx1");
+		this.renderer.setAttribute(box, "id", id+"-bx1");
 		this.renderer.appendChild(g, box);
 		var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1009,7 +1017,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.setAttribute(line, "id", id+"-l1");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1018,7 +1026,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.setAttribute(line, "id", id+"-l2");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1027,7 +1035,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.setAttribute(line, "id",id+"-l3");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size).toString()); 
@@ -1036,7 +1044,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.setAttribute(line, "id", id+"-14");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1045,7 +1053,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.setAttribute(line, "id", id+"-l5");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1054,7 +1062,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.setAttribute(line, "id", id+"-l6");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1063,7 +1071,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size-bxz).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.setAttribute(line, "id",id+"-l7");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (bxz).toString()); 
@@ -1072,7 +1080,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.setAttribute(line, "id", id+"-l8");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
@@ -1081,7 +1089,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.setAttribute(line, "id",id+"-l9");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size-bxz).toString()); 
@@ -1090,7 +1098,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.setAttribute(line, "id", id+"-l10");
 		this.renderer.appendChild(g, line);
 		box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		this.renderer.setAttribute(box, "x", (bxz).toString());
@@ -1100,24 +1108,29 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(box, "stroke", "#d35400");
 		this.renderer.setAttribute(box, "stroke-width", "2");
 		this.renderer.setAttribute(box, "fill", "#ffffff");
-		this.renderer.setAttribute(box, "id", "bx2");
+		this.renderer.setAttribute(box, "id", id+"-bx2");
 		this.renderer.appendChild(g, box);
 		var tpx: number = (bxz*2);
 		var tpy: number = (bxz*2);
+		const titleSize = boxSize * 0.1;
 		var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 		this.renderer.appendChild(text, document.createTextNode(title));
 		this.renderer.setAttribute(text, "fill", "#d35400");
-		this.renderer.setAttribute(text, "font-size", "1.35rem");
+		this.renderer.setAttribute(text, "font-size", titleSize.toString());
 		this.renderer.setAttribute(text, "font-weight", "bold");
 		this.renderer.setAttribute(text, "alignment-baseline", "middle");
 		this.renderer.setAttribute(text, "text-anchor", "middle");
 		this.renderer.setAttribute(text, "x", (tpx).toString());
 		this.renderer.setAttribute(text, "y", (tpy).toString());
-		this.renderer.setAttribute(text, "id", "tc1");
+		this.renderer.setAttribute(text, "id", id+"-tc1");
 		g.appendChild(text);
 		let plc: number = 1;
 		let plh: number = 12; //font pixel height
 		let signs = ["pi", "aq", "cp", "sa", "ar","sc", "ta", "li", "ge", "cn", "le", "vi"];
+		const fontSizePercentage = 10; 
+		const fontSize = (bxz * fontSizePercentage) / 100;
+		const xPositionPercentage = 5; // Adjust this percentage as needed
+		const xPosition = (size * xPositionPercentage) / 100;
 		for(var i = 0; i < 12; i++) {
 			    let sign = signs[i];
 				let hcord = this.getRXY(sign, size);
@@ -1144,13 +1157,13 @@ export class DivchartsPage implements OnInit {
 						var plt = pls[k];
 						if(this.binf.retro.indexOf(pls[k].split(' ')[1]) > -1) plt += '[R]';
 						this.renderer.appendChild(text, document.createTextNode(plt));
-						this.renderer.setAttribute(text, "font-size", "0.75rem");
+						this.renderer.setAttribute(text, "font-size", fontSize.toString());
 						this.renderer.setAttribute(text, "font-weight", "bold");
 						this.renderer.setAttribute(text, "fill", ((pls[k].split(' ')[1] == "AC") ? "#FF5733" : (pls[k].split(' ')[1] == "Mo") ? "#011898":"#0a0a0a"));
 						this.renderer.setAttribute(text, "x", (hcord[0]-isz).toString());
-						var s8 = hcord[1] + (plh*pcnt);
+						var s8 = fontSize * pcnt;
 						this.renderer.setAttribute(text, "y",  s8.toString());
-						this.renderer.setAttribute(text, "id", "pl" + (plc++).toString());
+						this.renderer.setAttribute(text, "id", id+"-pl" + (plc++).toString());
 						g.appendChild(text);
 					}
 				}
@@ -1197,7 +1210,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(box, "stroke", "#d35400");
 		this.renderer.setAttribute(box, "stroke-width", "2");
 		this.renderer.setAttribute(box, "fill", "#ffffff");
-		this.renderer.setAttribute(box, "id", "bx1");
+		this.renderer.setAttribute(box, "id", id+"-bx1");
 		this.renderer.appendChild(g, box);
 		this.renderer.setAttribute(line, "x1", "0"); 
 		this.renderer.setAttribute(line, "y1", "0"); 
@@ -1205,7 +1218,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l1");
+		this.renderer.setAttribute(line, "id", id+"-l1");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1214,7 +1227,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l2");
+		this.renderer.setAttribute(line, "id", id+"-l2");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1223,7 +1236,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l3");
+		this.renderer.setAttribute(line, "id", id+"-l3");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size).toString()); 
@@ -1232,7 +1245,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "14");
+		this.renderer.setAttribute(line, "id", id+"-14");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1241,7 +1254,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l5");
+		this.renderer.setAttribute(line, "id", id+"-l5");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1250,7 +1263,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l6");
+		this.renderer.setAttribute(line, "id", id+"-l6");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1259,7 +1272,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l7");
+		this.renderer.setAttribute(line, "id", id+"-l7");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", "0"); 
@@ -1268,7 +1281,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l8");
+		this.renderer.setAttribute(line, "id", id+"-l8");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
@@ -1277,7 +1290,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l9");
+		this.renderer.setAttribute(line, "id", id+"-l9");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size).toString()); 
@@ -1286,7 +1299,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "#d35400");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l10");
+		this.renderer.setAttribute(line, "id", id+"-l10");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
@@ -1295,7 +1308,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "red");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l11");
+		this.renderer.setAttribute(line, "id", id+"-l11");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size/4).toString()); 
@@ -1304,7 +1317,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (size/2).toString()); 
 		this.renderer.setAttribute(line, "stroke", "red");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l12");
+		this.renderer.setAttribute(line, "id", id+"-l12");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", (size/2).toString()); 
@@ -1313,7 +1326,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", (bxz).toString()); 
 		this.renderer.setAttribute(line, "stroke", "red");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l13");
+		this.renderer.setAttribute(line, "id", id+"-l13");
 		this.renderer.appendChild(g, line);
 		line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		this.renderer.setAttribute(line, "x1", ((size/2)+bxz).toString()); 
@@ -1322,7 +1335,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(line, "y2", "0"); 
 		this.renderer.setAttribute(line, "stroke", "red");
 		this.renderer.setAttribute(line, "stroke-width", "2");
-		this.renderer.setAttribute(line, "id", "l14");
+		this.renderer.setAttribute(line, "id", id+"-l14");
 		this.renderer.appendChild(g, line);
 		console.log('ah',ah);
 		var isz = Math.floor(bxz/3);
@@ -1335,7 +1348,7 @@ export class DivchartsPage implements OnInit {
 		this.renderer.setAttribute(htxt, "text-anchor", "middle");
 		this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
 		this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
-		this.renderer.setAttribute(htxt, "id", "RH" + ah.toString());
+		this.renderer.setAttribute(htxt, "id", id+"-RH" + ah.toString());
 		this.renderer.appendChild(g, htxt);
 		var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 		this.renderer.setAttribute(image, "x", (Math.floor(hcord[0]-isz)).toString());
@@ -1360,7 +1373,7 @@ export class DivchartsPage implements OnInit {
 				this.renderer.setAttribute(text, "text-anchor", "middle");
 				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
 				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
-				this.renderer.setAttribute(text, "id", "R1" + k.toString());
+				this.renderer.setAttribute(text, id+"-id", "R1" + k.toString());
 				this.renderer.appendChild(g, text);
 				np += 12;
 			}
@@ -1381,7 +1394,7 @@ export class DivchartsPage implements OnInit {
 			this.renderer.setAttribute(htxt, "text-anchor", "middle");
 			this.renderer.setAttribute(htxt, "x", (Math.floor(hcord[0])).toString());
 			this.renderer.setAttribute(htxt, "y", (Math.floor(hcord[1])).toString());
-			this.renderer.setAttribute(htxt, "id", "RH" + ch.toString());
+			this.renderer.setAttribute(htxt, "id", id+"-RH" + ch.toString());
 			this.renderer.appendChild(g, htxt);
 			image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 			this.renderer.setAttribute(image, "x", (Math.floor(hcord[0]-isz)).toString());
@@ -1408,7 +1421,7 @@ export class DivchartsPage implements OnInit {
 				this.renderer.setAttribute(text, "text-anchor", "middle");
 				this.renderer.setAttribute(text, "x", (Math.floor(cord[0])).toString());
 				this.renderer.setAttribute(text, "y", (Math.floor(cord[1]+np)).toString());
-				this.renderer.setAttribute(text, "id", "R" + ch.toString() + k.toString());
+				this.renderer.setAttribute(text, "id", id+"-R" + ch.toString() + k.toString());
 				this.renderer.appendChild(g, text);
 				np += 12;
 			}

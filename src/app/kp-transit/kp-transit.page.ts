@@ -57,8 +57,9 @@ export class KpTransitPage implements OnInit {
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		console.log('selected date', odt.value);
+		var ldt = odt.value.split('/');
+		this.dob = ldt[2]+"-"+ ldt[1] +"-"+ ldt[0];
 		},
 		err => console.log('Error occurred while getting date: ', err));
   }
@@ -74,8 +75,11 @@ export class KpTransitPage implements OnInit {
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
+		console.log('selected time: ', odt.value);
+		const selectedTime = new Date(odt.value);
+		const formattedTime = `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}:${selectedTime.getSeconds().toString().padStart(2, '0')}`;
+		this.tob = formattedTime;
+		console.log('tob', this.tob);
 		},
 		err => console.log('Error occurred while getting date: ', err));
  }

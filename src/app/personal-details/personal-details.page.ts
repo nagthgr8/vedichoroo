@@ -8,15 +8,17 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service'
-import { InAppPurchase2, IAPProduct } from '@awesome-cordova-plugins/in-app-purchase-2/ngx';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { DatePicker } from '@capacitor-community/date-picker';
 import { Plan } from '../plan';
 import { BirthInfo } from '../birth-info';
 import { PlanetPos } from '../planet-pos';
+import 'cordova-plugin-purchase';
+declare var CdvPurchase: any
 declare let window: any; // <--- Declare it like this
 declare var google; 
 declare var RazorpayCheckout: any;
+const {store, ProductType} = CdvPurchase;
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.page.html',
@@ -72,7 +74,7 @@ export class PersonalDetailsPage implements OnInit {
 	ncdts: number = 0;
 	showL: boolean = false;
 	showP: boolean = true;
-  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private file: File, private fileOpener : FileOpener, private store: InAppPurchase2, private translate: TranslateService) {//, public admob: AdMob) {
+  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private file: File, private fileOpener : FileOpener, private translate: TranslateService) {//, public admob: AdMob) {
   this.info2 = 'Please wait...';
     this.autocompleteItems = [];
     this.autocomplete = {
@@ -84,7 +86,7 @@ export class PersonalDetailsPage implements OnInit {
 					this.showASU = false;
 					this.showYO = false;
   }
-   ngOnInit() {
+ ngOnInit() {
 	this.source = this.router.getCurrentNavigation().extras.state;
     this.platform.ready().then(() => {
 	 this.lang = this.shareService.getLANG();
@@ -125,8 +127,47 @@ export class PersonalDetailsPage implements OnInit {
 	},1000);	
 	if(this.shareService.getAYNM()) this.aynm = this.shareService.getAYNM();
 	if(this.shareService.getCHTYP()) this.chtyp = this.shareService.getCHTYP();
+	let pid: any;
+	try {
+	  if (this.platform.is('ios')) {
+		pid = this.product.apid;
+	  } else if (this.platform.is('android')) {
+		pid = this.product.gpid;
+	  }
+
+	  // Register Product
+	  // Set Debug High
+	  store.verbosity = store.DEBUG;
+	  // Register the product with the store
+	  store.register([{
+		type: ProductType.CONSUMABLE,
+		id: 'com.mypubz.eportal.dob50',
+		platform: CdvPurchase.Platform.GOOGLE_PLAY,
+	  }]);
+
+	  store.error(console.warn);
+ 
+	  store.initialize([CdvPurchase.Platform.GOOGLE_PLAY]);
+	  store.update();
+	  this.pur_handl();
+
+	  store.ready(() => {
+		CdvPurchase.store.when().productUpdated(this.onProductUpdated).approved(this.finishPurchase);
+	  });
+	  
+		   // Errors On The Specific Product
+	  store.when(pid).error( (error) => {
+		console.log('An Error Occured' + JSON.stringify(error));
+	  });
+	  // Refresh Always
+	  console.log('Refresh Store');
+	  store.refresh();
+	} catch (err) {
+	  console.log('Error On Store Issues' + JSON.stringify(err));
+	}
+
    });
-  }
+ }
   showHis() {
 		if(this.source == 'Yogas In Your Horoscope') 
 			this.showYO = true;
@@ -272,11 +313,11 @@ export class PersonalDetailsPage implements OnInit {
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-		this.year = date.getFullYear();
-		this.mon = date.getMonth()+1;
-		this.day = date.getDate();
+		console.log('selected date', odt.value);
+		var ldt = odt.value.split('/');
+		this.year = Number(ldt[2]);
+		this.mon = Number(ldt[1]);
+		this.day = Number(ldt[0]);
 		},
 		err => console.log('Error occurred while getting date: ', err));
   }
@@ -287,16 +328,15 @@ export class PersonalDetailsPage implements OnInit {
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
 	DatePicker.present({
-		format: 'dd/MM/yyyy',
 		mode: 'time',
-		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
-		this.hou = date.getHours();
-		this.min = date.getMinutes();
-		this.sec = 0;
+		console.log('selected time: ', odt.value);
+		const selectedTime = new Date(odt.value);
+		const formattedTime = `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}:${selectedTime.getSeconds().toString().padStart(2, '0')}`;
+		this.hou = selectedTime.getHours();
+		this.min = selectedTime.getMinutes();
+		this.sec = selectedTime.getSeconds();
 		},
 		err => console.log('Error occurred while getting date: ', err));
  }
@@ -346,52 +386,18 @@ export class PersonalDetailsPage implements OnInit {
     //});
    // modal.present();
   //}
-  init_pur_and_complete() {
-    let pid: any;
-    if (!this.platform.is('cordova')) { return; }
-    try {
-      if (this.platform.is('ios')) {
-        pid = this.product.apid;
-      } else if (this.platform.is('android')) {
-        pid = this.product.gpid;
-      }
 
-      // Register Product
-      // Set Debug High
-      this.store.verbosity = this.store.DEBUG;
-      // Register the product with the store
-      this.store.register({
-        id: pid,
-        alias: pid,
-        type: (pid == 'com.mypubz.eportal.astrologer') ? this.store.PAID_SUBSCRIPTION : this.store.CONSUMABLE
-      });
-      this.pur_handl();
-
-      this.store.ready(() => {
-		this.complete_pur();
-	  });//.then((status) => {
-       // console.log(JSON.stringify(this.store.get(this.platform.is('ios') ? this.product.apid : this.product.gpid)));
-       // console.log('Store is Ready: ' + JSON.stringify(status));
-        //console.log('Products: ' + JSON.stringify(this.store.products));
-	//	this.complete_pur();
-	//	console.log('Finished Purchase!');
-	 // });
-
-      // Errors On The Specific Product
-      this.store.when(pid).error( (error) => {
-        console.log('An Error Occured' + JSON.stringify(error));
-      });
-      // Refresh Always
-      console.log('Refresh Store');
-      this.store.refresh();
-    } catch (err) {
-      console.log('Error On Store Issues' + JSON.stringify(err));
-    }
+  finishPurchase(transaction) {
+    
+    transaction.finish();
+    this.pur_handl();
   }
+  onProductUpdated() {
+   
+  }
+
  pur_handl() {
     // Handlers
-    this.store.when(this.product.gpid).approved( (product: IAPProduct) => {
-      product.finish();
 	  this.showCR = false;
 	  this.showSU = true;
 	  this.showH = true;
@@ -410,45 +416,6 @@ export class PersonalDetailsPage implements OnInit {
 			}, (err) => {
 			});
         }			
-    });
-    this.store.when(this.product.gpid).registered( (product: IAPProduct) => {
-      console.log('Registered: ' + JSON.stringify(product));
-    });
-
-    this.store.when(this.product.gpid).updated( (product: IAPProduct) => {
-      console.log('Loaded' + JSON.stringify(product));
-    });
-
-    this.store.when(this.product.gpid).cancelled( (product) => {
-      console.log('Purchase was Cancelled');
-    });
-
-    // Overall Store Error
-    this.store.error( (err) => {
-      console.log('Store Error ' + JSON.stringify(err));
-    });
-  }
-   async complete_pur() {
-    let pid;
-    if (!this.platform.is('cordova')) {
-      return
-    }
-
-    if (this.platform.is('ios')) {
-      pid = this.product.apid;
-    } else if (this.platform.is('android')) {
-      pid = this.product.gpid;
-    }
-
-    console.log('Products: ' + JSON.stringify(this.store.products));
-    console.log('Ordering From Store: ' + pid);
-    try {
-      let product = this.store.get(pid);
-      console.log('Product Info: ' + JSON.stringify(product));
-      let order = await this.store.order(pid);
-    } catch (err) {
-      console.log('Error Ordering ' + JSON.stringify(err));
-    }
   }
   buy(cdts)
   {
@@ -467,13 +434,13 @@ export class PersonalDetailsPage implements OnInit {
 			   break;
 		  }
 	  }
-	else this.init_pur_and_complete();
+	else store.get(this.product.gpid).getOffer().order();
   }
   yog()
   {
     this.product.gpid = 'com.mypubz.eportal.yogas';
 	if(this.paym == 'rpay') this.razpay(126);
-	else this.init_pur_and_complete();
+	else store.get(this.product.gpid).getOffer().order();
   }
   save(evt) {
 	evt.stopPropagation();
@@ -853,12 +820,12 @@ export class PersonalDetailsPage implements OnInit {
 		let db: string = this.dob + 'T' + this.tob + 'L' + this.shareService.getLAT() + ',' + this.shareService.getLNG() + '@' + this.shareService.getTimezone() + '$' + this.dstofset.toString();
 		if(this.nam.length > 0) db += '#' + this.nam + '&' + this.gen;
 		this.info = 'Saving the profile..';
-		this.horoService.setProfile(this.device.uuid, '', db)
-				.subscribe(res => {
-					this.info = '';
-				}, (err) => {
-					this.info = err;
-				});
+		// this.horoService.setProfile(this.device.uuid, '', db)
+		// 		.subscribe(res => {
+		// 			this.info = '';
+		// 		}, (err) => {
+		// 			this.info = err;
+		// 		});
 		let ayanid: number = 4;
 		var res = this.shareService.getAYNM();
 		if(res) ayanid = Number(res);
@@ -1300,6 +1267,7 @@ export class PersonalDetailsPage implements OnInit {
     this.info = 'geocoding..';
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': address }, (results, status) => {
+		console.log(results);
     let latitude = results[0].geometry.location.lat();
     let longitude = results[0].geometry.location.lng();
 	this.shareService.setLAT( latitude);
@@ -1309,6 +1277,7 @@ export class PersonalDetailsPage implements OnInit {
 		//utc_offset = results[0].geometry.utc_offset;
     this.horoService.getTimezone(results[0].geometry.location.lat(), results[0].geometry.location.lng(), (Math.round((new Date().getTime())/1000)).toString())
 		.subscribe(res2 => {
+		   console.log(res2);
 		   this.shareService.setTimezone(res2['timeZoneId']);
 		   console.log('timezone', res2['timeZoneId']);
 		   console.log('dst', res2['dstOffset']);
@@ -1452,7 +1421,7 @@ chartSel() {
 	if(this.paym == 'rpay') {
 		this.razpay(999);
 	}
-	else this.init_pur_and_complete();
+	else store.get(this.product.gpid).getOffer().order();
   }
    enter()
    {

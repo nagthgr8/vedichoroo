@@ -5,7 +5,7 @@ body {
 color: #FF0000;
 }
 .blueText {
-color: #001EFF;
+color: var(--vho-color-blue);
 }
 .greenText {
 color: #3db161;
@@ -35,7 +35,7 @@ color: B833FF;
   }
 
   .more {
-	color: blue;
+	color: var(--vho-color-blue);
   }
   ion-row.maintitle {
     text-align:center;

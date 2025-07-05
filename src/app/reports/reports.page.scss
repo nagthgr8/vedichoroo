@@ -3,7 +3,7 @@ body {
 }
   .atxt {
   text-align: right;
-  color: blue;
+  color: var(--vho-color-blue);
   text-decoration: underline;
   }
       ion-list {
@@ -33,7 +33,7 @@ p.adtxt1 {
   }
 p.adtxt2 {
 	font-weight: bold;
-	color: blue;
+	color: var(--vho-color-blue);
 	font-size: 14px;
   }
   

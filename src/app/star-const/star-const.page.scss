@@ -5,7 +5,7 @@ body {
 color: #FF0000;
 }
 .blueText {
-color: #001EFF;
+color: var(--vho-color-blue);
 }
 .greenText {
 color: #3db161;
@@ -104,7 +104,7 @@ p.info {
   color: #222334;
  }
   .more {
-	color: blue;
+	color: var(--vho-color-blue);
 	padding: 5px;
 	font-weight: bold;
   }
@@ -159,7 +159,7 @@ p.info {
   .bstar {
 text-transform: uppercase;
 font-size: 1.125rem;
- color: blue;
+ color: var(--vho-color-blue);
   text-decoration: underline;
  }
    ion-card.amsg {

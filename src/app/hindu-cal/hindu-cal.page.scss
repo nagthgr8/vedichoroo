@@ -51,7 +51,7 @@ p.info {
  font-weight: bold;
 }
 .blue {
- color: #4176f4;
+ color: var(--vho-color-blue);
  font-weight: bold;
 }
 span.left {
@@ -61,7 +61,7 @@ span.right {
   text-align: right;
 }
   .more {
-	color: blue;
+	color: var(--vho-color-blue);
 	padding: 5px;
 	font-weight: bold;
   }

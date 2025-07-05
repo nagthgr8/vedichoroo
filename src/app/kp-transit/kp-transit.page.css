@@ -38,6 +38,6 @@ p.info {
    font-weight: bold;
   }
   .atxt {
-  color: blue;
+  color: var(--vho-color-blue);;
   text-decoration: underline;
   }

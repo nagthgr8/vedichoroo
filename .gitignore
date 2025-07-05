@@ -1,6 +1,22 @@
-# Specifies intentionally untracked files to ignore when using Git
-# http://git-scm.com/docs/gitignore
-
+android/app/*
+# Unignore the src folder
+!android/app/src/
+!android/app/src/main/
+!android/app/src/main/res/
+!android/app/src/main/res/drawable-v24/
+!android/app/src/main/res/drawable/ic_launcher_background.xml
+!android/app/src/main/res/layout/
+!android/app/src/main/res/mipmap-anydpi-v26/
+!android/app/src/main/res/values/
+!android/app/src/main/res/xml/
+# Unignore PNG/JPG files under res
+!android/app/src/main/res/**/*.png
+!android/app/src/main/res/**/*.jpg
+!android/app/src/main/res/**/*.jpeg
+!resources/android/icon/
+!resources/android/icon/**/*.png
+!resources/android/splash/
+!resources/android/splash/**/*.png
 *~
 *.sw[mnpcod]
 .tmp
@@ -12,27 +28,40 @@
 Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
+ehthumbs.db
+Icon?
 
+# Log files
 *.log
 log.txt
 npm-debug.log*
-/.angular
-/.idea
-/.ionic
-/.sass-cache
-/.sourcemaps
-/.versions
-/.vscode
+
+# Angular / Ionic / Node
+.angular/
+.idea/
+.ionic/
+.sass-cache/
+.sourcemaps/
+.versions/
+.vscode/
+coverage/
+dist/
+node_modules/
+platforms/
+plugins/
+www/
+keystore/
+.env
+.env.*
+
+# Android / Gradle
+.gradle/
+build/
+app/build/
+
+# IDEs
+.vs/
+
+# Misc
 /coverage
-/dist
-/node_modules
-/platforms
-/plugins
-/www
-/keystore
-
-# Ignore Gradle project-specific cache directory
-.gradle
-
-# Ignore Gradle build output directory
-build
+android/app/google-services.json

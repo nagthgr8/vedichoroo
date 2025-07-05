@@ -1,15 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
-    <ion-button color="primary" slot="start" menuToggle>
-      <ion-menu-button width="24">
-       <img alt="menu" height="24" src="assets/icon/hamburger.png" />	  
-	  </ion-menu-button>
-    </ion-button>
-  </ion-toolbar>
+    <ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
+<div slot="start" class="header-icon" menuToggle>
+			<ion-icon name="menu" size="large"></ion-icon>
+		  </div>
+      </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="fixed-content">
 <div class="rtitle">Dear User,<br><br>A new version of the App exists which is more stable & enhanced with more features. You may also encounter some issues if you do not update to latest version. Please update the App to latest version.</div><br><br>
 <ion-button type="button" expand="block" color="primary" tappable (click)="skip($event)">Skip Update</ion-button><br>
 <ion-button type="button" expand="block" color="tertiary" tappable (click)="update($event)">Update Now</ion-button>
-</ion-content>
+<div class="fixed-content"></div></ion-content>

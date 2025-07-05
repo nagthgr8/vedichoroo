@@ -3,17 +3,16 @@ import { filter } from 'rxjs/operators';
 import { Router, ActivatedRoute} from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
-import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { DatePicker } from '@capacitor-community/date-picker';
 import { HoroscopeService } from '../horoscope.service';
 import { ShareService } from '../share.service';
 import { User } from '../user';
+import { Plan } from '../plan';
 import * as AWS from 'aws-sdk';
 
 declare var google; 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -53,7 +52,8 @@ dob: string = '';
 //     quality: 50
 //   }
   avatar: string = 'https://i.imgur.com/LR7e1vw.png';
-  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private camera: Camera, private filePath: FilePath, private file: File) { 
+  email: string = '';
+  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, public shareService: ShareService, public horoService: HoroscopeService, public platform: Platform, public device: Device, private filePath: FilePath, private file: File) { 
   this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -64,6 +64,7 @@ dob: string = '';
 
   ngOnInit() {
 	  this.isLoading = true;
+	  this.showS = true;
 	this.source = this.router.getCurrentNavigation().extras.state;
         console.log('source', this.source); 
 		if(this.source == 'proreq-home') {
@@ -73,11 +74,14 @@ dob: string = '';
 		}
     this.platform.ready().then(() => {
 	this.shareService.getItem('user').then( user => {
+	  console.log('user', user);
 	  this.nam = user['name'];
 	  this.data.image = user['imageUrl'];
 	  this.avatar = user['imageUrl'];
+	  this.email = user['email'];
 	})
 	.catch(e => {
+		console.log('user exception', JSON.stringify(e));
 	});
     this.shareService.getPLAN().then((pln) => {
 			this.info = 'Finding your profle information..';
@@ -86,35 +90,18 @@ dob: string = '';
 		   this.isLoading = false;
 		   this.info = '';
 		   if(res['status'].length != 'X' && res['status'] != 'E') {
-			   if(res['avatar'].length > 0) {
-				 //let image : any        = new Image();
-				 //image.src 				= res['avatar'];
-				 // Assign the Image object to the ImageCropper component 
-				 //this.data.image = res['avatar'];
-				 //this.avatar = res['avatar'];
-			   } else {
-					if(pln.name == 'com.mypubz.eportal.astrologer') {
-					   this.horoService.getAstrologer(this.device.uuid)
-							.subscribe(res2 => {
-								if(res2['status'] != 'X' && res2['status'] != 'E') {
-									this.showASU = true;
-									this.tagline = res2['tagline'];
-									this.status = (res2['status'] == 'A') ? true : false;
-									//if(res2['avatar'] != '') {
-									//this.avatar = res2['avatar'];
-									 //let image : any        = new Image();
-									 //image.src 				= res2['avatar'];
-									 // Assign the Image object to the ImageCropper component 
-									 //this.data.image = image;
-									//} else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
-								} //else this.data.image = 'https://i.imgur.com/LR7e1vw.png';
-							}, (err) => {
-								this.info = JSON.stringify(err);
-							});
-					}
-			   }
-				   
-			   //this.nam = res['name'];
+				if(pln.name == 'com.mypubz.eportal.astrologer') {
+					this.horoService.getAstrologer(this.device.uuid)
+					 .subscribe(res2 => {
+						 if(res2['status'] != 'X' && res2['status'] != 'E') {
+							 this.showASU = true;
+							 this.tagline = res2['tagline'];
+							 this.status = (res2['status'] == 'A') ? true : false;
+						 } 
+					 }, (err) => {
+						 this.info = JSON.stringify(err);
+					 });
+			 	}
 			   this.gen = res['gen'];
 			   let db: string = res['dob'].replace('$NaN$0$0','').replace('$NaN','');
 			   console.log('db', db);
@@ -162,7 +149,14 @@ dob: string = '';
 			this.info = 'Error while calling getProfile ' + JSON.stringify(err);
 	});
     }, (err) => {
-		this.info = 'Error while getting the PLAN ' + JSON.stringify(err);
+		//this.info = 'Error while getting the PLAN ' + JSON.stringify(err);
+		this.horoService.getPlan(this.device.uuid).subscribe((res) => {
+			let pn: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
+			this.shareService.setPLAN(pn);
+			this.isLoading = false;
+		}, (err) => {
+		   this.info = 	'Error while getting the Plan ' + JSON.stringify(err);
+		});
 	});
    });
   }
@@ -196,6 +190,7 @@ dob: string = '';
 		this.info = 'Please enter valid date & time';
 		return;
 	}
+	this.shareService.setLANG('en');
 			let db: string = '';
 			if(this.dob.length > 0 && this.tob.length > 0)
 				db = this.dob + 'T' + this.tob;
@@ -226,7 +221,7 @@ dob: string = '';
 				});
 				
 						this.shareService.setPDOB(db);
-				this.horoService.setProfile(this.device.uuid, this.avatar, db)
+				this.horoService.setProfile(this.device.uuid, '', db, this.email)
 				.subscribe(res => {
 					this.showS = false;
 					if(res['status'] == 'E') this.info = res['dob'];
@@ -330,10 +325,10 @@ dob: string = '';
       });
     })
   }  public uploadPic() {
-    this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+    //this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
   }
   public takePic() {
-    this.takePicture(this.camera.PictureSourceType.CAMERA);
+    //this.takePicture(this.camera.PictureSourceType.CAMERA);
   }
   public takePicture(sourceType) {
   // Create options for the Camera Dialog
@@ -343,40 +338,8 @@ dob: string = '';
     saveToPhotoAlbum: false,
     correctOrientation: true
   };
- 
-  // Get the data of an image
-  this.camera.getPicture(options).then((imagePath) => {
-    // Special handling for Android library
-	    if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-      this.filePath.resolveNativePath(imagePath)
-        .then(filePath => {
-          let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-          let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-          //this.cpyNupload(correctPath, currentName, this.createFileName());
-		  this.cropImage(filePath);
-        });
-    } else {
-      var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-      var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-      //this.cpyNupload(correctPath, currentName, this.createFileName());
-	  this.cropImage(imagePath);
-    }
-  }, (err) => {
-      this.info =  'Error while selecting image.';
-  });
- }  
+}
  cropImage(imgPath) {
-    // this.crop.crop(imgPath, this.cropOptions)
-    //   .then(
-    //     newPath => {
-    //       this.showCroppedImage(newPath.split('?')[0]);
-	// 	  this.shareService.setPIMG(newPath.split('?')[0]);
-		  
-    //     },
-    //     error => {
-    //       alert('Error cropping image' + error);
-    //     }
-    //   );
   }
   
   showCroppedImage(ImagePath) {
@@ -399,35 +362,6 @@ dob: string = '';
       this.isLoading = false;
     });
   }
-  /*cropImage(ImagePath) {
-	 console.log('crop', ImagePath);
-    var copyPath = ImagePath;
-    var splitPath = copyPath.split('/');
-    var imageName = splitPath[splitPath.length - 1];
-    var filePath = ImagePath.split(imageName)[0];
-
-    this.file.readAsDataURL(filePath, imageName).then(base64 => {
-      // Create an Image object, assign retrieved base64 image from 
-         // the device photo library
-         let image : any        = new Image();
-         image.src 				= base64;
-		 // Assign the Image object to the ImageCropper component 
-         this.localFile = image;
-		 this.chg = true;
-    }, error => {
-      console.log('Error in showing image' + error);
-    });	 
-    //this.crop.crop(fileUrl, { quality: 50 })
-     // .then(
-      //  newPath => {
-        //  this.showCroppedImage(newPath.split('?')[0])
-        //},
-       // error => {
-       //   console.log('Error cropping image' + error);
-       // }
-     // );
-  }*/
-
  // Create a new name for the image
  private createFileName() {
   var d = new Date(),
@@ -456,7 +390,7 @@ dob: string = '';
 					if(this.nam.length > 0) db += '#' + this.nam;
 					if(this.gen.length > 0) db += '&' + this.gen;
 					this.info = 'Saving the profile..';
-					this.horoService.setProfile(this.device.uuid, 'https://126images.s3-us-east-2.amazonaws.com/' + result.toString(), db)
+					this.horoService.setProfile(this.device.uuid, 'https://126images.s3-us-east-2.amazonaws.com/' + result.toString(), db, this.email)
 						.subscribe(res => {
 							this.info = 'Profile is saved.';
 						}, (err) => {
@@ -509,9 +443,12 @@ dob: string = '';
 	//let utc_offset: number = 0;
 	//if(results[0].geometry.hasOwnProperty('utc_offset'))
 		//utc_offset = results[0].geometry.utc_offset;
+	this.info = 'getting the timezone, please wait..';
+	this.isLoading = true;
     this.horoService.getTimezone(results[0].geometry.location.lat(), results[0].geometry.location.lng(), (Math.round((new Date().getTime())/1000)).toString())
 		.subscribe(res2 => {
-		   this.tz = res2['timeZoneId'];
+			this.isLoading = false;
+			this.tz = res2['timeZoneId'];
 		   this.dstofset = res2['dstOffset'];
 		   console.log(res2['timeZoneId']);
 		   this.info = '';
@@ -547,11 +484,11 @@ dob: string = '';
 		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.dob = date.getFullYear().toString()+"-"+ (date.getMonth()+1).toString()+"-"+date.getDate().toString();
-		this.year = date.getFullYear();
-		this.mon = date.getMonth()+1;
-		this.day = date.getDate();
+		console.log('selected date', odt.value);
+		var ldt = odt.value.split('/');
+		this.year = Number(ldt[2]);
+		this.mon = Number(ldt[1]);
+		this.day = Number(ldt[0]);
 		},
 		err => console.log('Error occurred while getting date: ', err));
   }
@@ -562,16 +499,15 @@ dob: string = '';
 		dt.setMinutes(Number(this.tob.split(':')[1]));
 	}
 	DatePicker.present({
-		format: 'dd/MM/yyyy',
 		mode: 'time',
-		date: dt.getDate().toString() + '/' + (dt.getMonth()+1).toString() + '/' + dt.getFullYear().toString(),
 		theme: 'dark',
 	  }).then(odt => {
-		var date = new Date(odt.value);
-		this.tob = date.getHours().toString()+":"+date.getMinutes().toString();
-		this.hou = date.getHours();
-		this.min = date.getMinutes();
-		this.sec = 0;
+		console.log('selected time: ', odt.value);
+		const selectedTime = new Date(odt.value);
+		const formattedTime = `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}:${selectedTime.getSeconds().toString().padStart(2, '0')}`;
+		this.hou = selectedTime.getHours();
+		this.min = selectedTime.getMinutes();
+		this.sec = selectedTime.getSeconds();
 		},
 		err => console.log('Error occurred while getting date: ', err));
  }

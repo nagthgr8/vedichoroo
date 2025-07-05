@@ -2,11 +2,11 @@
 	<ion-menu menuId="first" contentId="main" side="start">
 		<ion-header [translucent]="true">
 			<ion-toolbar mode="ios">
-				<ion-title><ion-img src="assets/imgs/vho-title5.png" ></ion-img></ion-title>
+				<ion-title><img alt="title" src="assets/imgs/vho-title5.png" style="height: auto; max-height: 100%; width: auto; max-width: 100%;" /></ion-title>
 			</ion-toolbar>
 		</ion-header>
-		<ion-content>
-			<div class="ion-text-center"><img [src]="avatar" alt="profile picture" class="avatar" /></div>
+		<ion-content class="fixed-content">
+			<div class="ion-text-center"><img referrerpolicy="no-referrer" [src]="avatar" alt="profile picture" class="avatar" /></div>
 			<ion-list *ngIf="btran">
 				<ion-menu-toggle auto-hide="true">
 					<div *ngIf="bAST">
@@ -22,10 +22,10 @@
 					</ion-button>
 				</ion-menu-toggle>
 			</ion-list>
-		</ion-content>
+		<div class="fixed-content"></div></ion-content>
 	</ion-menu>
 	<ion-menu menuId="second" contentId="main" side="end">
-		<ion-content>
+		<ion-content class="fixed-content">
 			<ion-menu-toggle auto-hide="true">
 				<ion-item><span class="green">{{predn}}</span>&nbsp;sign {{'Predictions' |translate}}<ion-badge color="primary" tappable (click)="chgpred()">change</ion-badge></ion-item>
 				<div class="ion-text-center">{{info}}</div>
@@ -98,7 +98,7 @@
 					</ion-row>
 				</ion-grid>
 			</ion-menu-toggle>
-		</ion-content>
+		<div class="fixed-content"></div></ion-content>
 	</ion-menu>
 	<app-astro-call (callEndedEvent)="onCallEnded($event)" [callEnded]="callEnded" *ngIf="showAstroCall"></app-astro-call>
 	<ng-container *ngIf="!showAstroCall"><ion-router-outlet id="main"></ion-router-outlet></ng-container>

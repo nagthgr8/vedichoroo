@@ -83,6 +83,12 @@ color: --ion-color-warning;
    display: inline-block;
    text-align: center;
 }
+ion-row.lines ion-col {
+  border: 1px solid #ffd9a3;
+  padding: 5px;
+  text-align: center;
+display: border-box;
+}
    div.lines  {
     border: 1px solid rgba(var(--ion-color-warning-rgb), 0.05);
 	display: border-box;

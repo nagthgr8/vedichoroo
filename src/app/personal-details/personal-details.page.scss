@@ -1,6 +1,10 @@
 body {
   font-family: roboto;
 }
+.page-content {
+  height: 100%;
+  overflow-y: auto;
+}
 .title {
   font-size: 1.45rem;
   font-weight: bold;
@@ -141,11 +145,11 @@ ion-label {
 	margin-left:25px;
   }
   .more {
-	color: blue;
+	color: var(--vho-color-blue);
   }
   .atxt {
   text-align: right;
-  color: blue;
+  color: var(--vho-color-blue);
   text-decoration: underline;
   }
 .subhead {

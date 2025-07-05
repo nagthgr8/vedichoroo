@@ -1,5 +1,34 @@
-.oval-image {
-  border-radius: 50%;
-  width: 200px;
-  height: 100px;
+.memory-content {
+  background-color: var(--memory-background); /* Default light theme background */
+  border-radius: 12px; /* Rounded corners */
+  border: 2px solid var(--memory-border); /* Default light theme border */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 20px; /* Padding for spacing */
+  margin: 15px; /* Margin to separate cards */
 }
+.memory-details {
+  background-color: var(--memory-background);
+  border-radius: 10px; /* Slight rounding for the detail box */
+  padding: 15px; /* Padding for spacing */
+  margin: 15px 0; /* Margin to separate from other elements */
+  border: 1px solid var(--memory-border); /* Light theme border */
+  text-align: left; /* Align text to the left */
+}
+
+/* Oval image styling */
+.oval-image {
+  width: 150px; /* Set a fixed width for the image */
+  height: 150px; /* Set a fixed height for the image */
+  border-radius: 50%; /* Make the image circular */
+  border: 3px solid var(--oval-image-border); /* Default light theme border around the image */
+  object-fit: cover; /* Ensure the image covers the circular area */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for the image */
+}
+
+.memory-message {
+  font-size: 1rem; /* Base font size for readability */
+  line-height: 1.5; /* Improve line spacing */
+  color: var(--memory-text); /* Default light theme text color */
+  margin-top: 20px; /* Space above the message */
+}
+

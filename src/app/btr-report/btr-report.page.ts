@@ -151,136 +151,139 @@ export class BtrReportPage implements OnInit {
 			  else this.oHouse2[v_iter] = housePos;
 		   }
   }
+  ngAfterViewInit() {
+	let ges: string = '';
+	let dob: string = this.btr.binf1.dob_short.split('T')[0];
+	let tob = this.btr.binf1.dob_short.split('T')[1];
+	let bh: number = Number(tob.split(':')[0]);
+	let bm: number = Number(tob.split(':')[1]);
+	let bs: number = Number(tob.split(':')[2].split('Z')[0]);
+	this.bdt = new Date(Number(dob.split('-')[0]), Number(dob.split('-')[1])-1, Number(dob.split('-')[2]), bh, bm, bs); 
+	let bt0:  BirthTimeRecfy = {
+	id: 'BTR0',
+	name: 'Birth Time before rectification',
+	desc: '',
+	res: this.btr.binf1.dob_short,
+	style: 'blueText',
+	fetch: false,
+	rdt: null
+	};
+	this.oRecfy['BTR0'] = bt0;
+	if(this.btr.binf2) {
+			let bt3:  BirthTimeRecfy = {
+			id: this.btr.id,
+			name: '',
+			desc: '',
+			res: '',
+			style: 'blueText',
+			fetch: true,
+			rdt: null
+		};
+		switch(this.btr.id)
+		{
+			case 'RGY':
+				bt3.name = '3rd house sub-sub with younger co-born moon star';
+				ges = 'Younger coborn';
+				break;
+			case 'RGE':
+				bt3.name = '11th house sub-sub with elder co-born moon star';
+				ges = 'Elder coborn';
+				break;
+			case 'RGM':
+				bt3.name = '4th house sub-sub with Mother moon star';
+				ges = 'Mother';
+				break;
+			case 'RGF':
+				bt3.name = '9th house sub-sub with Father moon star';
+				ges = 'Father';
+				break;
+			default:
+				break;
+		}
+		this.oRecfy[this.btr.id] = bt3;
+	} 
+	let bt:  BirthTimeRecfy = {
+	id: 'RAM',
+	name: 'Lagna Sub-Sub with Moon Star',
+	desc: '',
+	res: '',
+	style: 'blueText',
+	fetch: true,
+	rdt: null
+	};
+	this.oRecfy['RAM'] = bt;
+	let bt2:  BirthTimeRecfy = {
+	id: 'SML',
+	name: 'Lagna, Sun & Moon signify 1-7-10',
+	desc: '',
+	res: '',
+	style: 'blueText',
+	fetch: true,
+	rdt: null
+	};
+	this.oRecfy['SML'] = bt2;
+	let bt4:  BirthTimeRecfy = {
+	id: 'BTR',
+	name: 'Rectified Birth Time',
+	desc: '',
+	res: 'checking...',
+	style: 'blueText',
+	fetch: true,
+	rdt: null
+	};
+	this.oRecfy['BTR'] = bt4;
+	this.showBT = true; 
+	var res = this.shareService.getAYNM();
+	if(res) this.ayanid = Number(res);
+	this.oRecfy['RAM'].res = 'Getting the natives birth chart...';
+  this.horoService.getCuspsEx(this.btr.binf1.lat, this.btr.binf1.lng, this.btr.binf1.dob_short, this.btr.binf1.timezone, this.btr.binf1.dstofset, this.ayanid)
+	.subscribe(res1 => {
+		console.log('res1', res1);
+		this.oRecfy['RAM'].res = 'Completed';
+		this.getPPOS(res1['planetPos'], true);
+		this.getHPOS(res1['housePos'], true);
+		this.oRecfy[this.btr.id].res = 'Getting ' + ges + ' birth chart...';
+		if(this.btr.binf2 != null) {
+			this.oRecfy['RAM'].fetch = false;
+			this.horoService.getCuspsEx(this.btr.binf2.lat, this.btr.binf2.lng, this.btr.binf2.dob_short, this.btr.binf2.timezone, this.btr.binf2.dstofset, this.ayanid)
+			.subscribe(res2 => {
+				console.log('res2', res2);
+				this.oRecfy[this.btr.id].res = 'Completed';
+				this.getPPOS(res2['planetPos'], false);
+				this.getHPOS(res2['housePos'], false);
+				console.log('oHouse1', this.oHouse1);
+				if(this.oHouse1.length > 0) {
+					this.oRdtf = [];
+					this.oRdtb = [];
+					this.oRecfy[this.btr.id].res = 'Finding SSSLs...';
+					this.processBTR(this.btr.id, this.ntks);
+					this.ntks += 5;
+					this.oRecfy[this.btr.id].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
+					//let mo: string = this.get_sgn(this.oPlanet2['moon'].pos);
+					//for(let i = 0; i < oRdtf.length; i++) {
+						//this.processBTR('RAM', this.ntks);
+						//this.ntks += 5;
+						//this.oRecfy['RAM'].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
+						this.processSML();
+					//}
+				}
+			});
+		} else {
+			this.oRdtf = [];
+			this.oRdtb = [];
+			this.oRecfy[this.btr.id].res = 'Finding SSSLs...';
+			this.oRecfy[this.btr.id].fetch = true;
+			 this.processBTR(this.btr.id, this.ntks);
+			 this.ntks += 5;
+			this.oRecfy[this.btr.id].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
+			 this.oRecfy['SML'].res = 'Verifying the Sun, Moon & Lagna..';
+			   this.processSML();
+		} 
+	});
+
+  }
   ngOnInit() {
 	   this.btr = this.router.getCurrentNavigation().extras.state;
-			  let dob: string = this.btr.binf1.dob_short.split('T')[0];
-			  let tob = this.btr.binf1.dob_short.split('T')[1];
-			  let bh: number = Number(tob.split(':')[0]);
-			  let bm: number = Number(tob.split(':')[1]);
-			  let bs: number = Number(tob.split(':')[2].split('Z')[0]);
-			  this.bdt = new Date(Number(dob.split('-')[0]), Number(dob.split('-')[1])-1, Number(dob.split('-')[2]), bh, bm, bs); 
-		let ges: string = '';
-	   let bt0:  BirthTimeRecfy = {
-		id: 'BTR0',
-		name: 'Birth Time before rectification',
-		desc: '',
-		res: this.btr.binf1.dob_short,
-		style: 'blueText',
-		fetch: false,
-		rdt: null
-	 };
-	 this.oRecfy['BTR0'] = bt0;
-	   if(this.btr.binf2) {
-				  let bt3:  BirthTimeRecfy = {
-					id: this.btr.id,
-					name: '',
-					desc: '',
-					res: '',
-					style: 'blueText',
-					fetch: true,
-					rdt: null
-				};
-				switch(this.btr.id)
-				{
-					case 'RGY':
-						bt3.name = '3rd house sub-sub with younger co-born moon star';
-						ges = 'Younger coborn';
-						break;
-					case 'RGE':
-						bt3.name = '11th house sub-sub with elder co-born moon star';
-						ges = 'Elder coborn';
-						break;
-					case 'RGM':
-						bt3.name = '4th house sub-sub with Mother moon star';
-						ges = 'Mother';
-						break;
-					case 'RGF':
-						bt3.name = '9th house sub-sub with Father moon star';
-						ges = 'Father';
-						break;
-					default:
-						break;
-				}
-				this.oRecfy[this.btr.id] = bt3;
-	   } 
-	  let bt:  BirthTimeRecfy = {
-		id: 'RAM',
-		name: 'Lagna Sub-Sub with Moon Star',
-		desc: '',
-		res: '',
-		style: 'blueText',
-		fetch: true,
-		rdt: null
-	 };
-	 this.oRecfy['RAM'] = bt;
-	  let bt2:  BirthTimeRecfy = {
-		id: 'SML',
-		name: 'Lagna, Sun & Moon signify 1-7-10',
-		desc: '',
-		res: '',
-		style: 'blueText',
-		fetch: true,
-		rdt: null
-	 };
-	 this.oRecfy['SML'] = bt2;
-	  let bt4:  BirthTimeRecfy = {
-		id: 'BTR',
-		name: 'Rectified Birth Time',
-		desc: '',
-		res: 'checking...',
-		style: 'blueText',
-		fetch: true,
-		rdt: null
-	 };
-	 this.oRecfy['BTR'] = bt4;
-	 this.showBT = true; 
-		var res = this.shareService.getAYNM();
-		if(res) this.ayanid = Number(res);
-		this.oRecfy['RAM'].res = 'Getting the natives birth chart...';
-	  this.horoService.getCuspsEx(this.btr.binf1.lat, this.btr.binf1.lng, this.btr.binf1.dob_short, this.btr.binf1.timezone, this.btr.binf1.dstofset, this.ayanid)
-		.subscribe(res1 => {
-			console.log('res1', res1);
-			this.oRecfy['RAM'].res = 'Completed';
-		    this.getPPOS(res1['planetPos'], true);
-		    this.getHPOS(res1['housePos'], true);
-		    this.oRecfy[this.btr.id].res = 'Getting ' + ges + ' birth chart...';
-			if(this.btr.binf2 != null) {
-				this.oRecfy['RAM'].fetch = false;
-				this.horoService.getCuspsEx(this.btr.binf2.lat, this.btr.binf2.lng, this.btr.binf2.dob_short, this.btr.binf2.timezone, this.btr.binf2.dstofset, this.ayanid)
-				.subscribe(res2 => {
-					console.log('res2', res2);
-					this.oRecfy[this.btr.id].res = 'Completed';
-					this.getPPOS(res2['planetPos'], false);
-					this.getHPOS(res2['housePos'], false);
-					console.log('oHouse1', this.oHouse1);
-					if(this.oHouse1.length > 0) {
-						this.oRdtf = [];
-						this.oRdtb = [];
-						this.oRecfy[this.btr.id].res = 'Finding SSSLs...';
-						this.processBTR(this.btr.id, this.ntks);
-						this.ntks += 5;
-						this.oRecfy[this.btr.id].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
-						//let mo: string = this.get_sgn(this.oPlanet2['moon'].pos);
-						//for(let i = 0; i < oRdtf.length; i++) {
-							//this.processBTR('RAM', this.ntks);
-							//this.ntks += 5;
-							//this.oRecfy['RAM'].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
-							this.processSML();
-						//}
-					}
-				});
-			} else {
-				this.oRdtf = [];
-				this.oRdtb = [];
-				this.oRecfy[this.btr.id].res = 'Finding SSSLs...';
-				this.oRecfy[this.btr.id].fetch = true;
-				 this.processBTR(this.btr.id, this.ntks);
-				 this.ntks += 5;
-				this.oRecfy[this.btr.id].res = 'Collected SSSLs matching ' + this.ntks.toString() + ' mins time radius';
-				 this.oRecfy['SML'].res = 'Verifying the Sun, Moon & Lagna..';
-				   this.processSML();
-			} 
-		});
   }
   processSML() {
 		  this.oRecfy['SML'].res = 'Calculating Lagna, this could take sometime..';
