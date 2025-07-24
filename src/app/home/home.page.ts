@@ -5,7 +5,6 @@ import { AlertController } from '@ionic/angular';
 import { skip } from 'rxjs/operators';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
-import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -161,7 +160,7 @@ export class HomePage  {
   constructor(private androidPermissions: AndroidPermissions, 	
   public alertController: AlertController,
    private geolocation: Geolocation,	
-private menu: MenuController, private device: Device, private market: Market, private browserTab: BrowserTab, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, 
+private menu: MenuController, private device: Device, private market: Market, private router: Router, private appRate: AppRate, private renderer: Renderer2, private platform: Platform, private translate: TranslateService, 
 //private callService: CallService, 
 private shareService: ShareService, private horoService: HoroscopeService, private file: File) 
   {
@@ -694,14 +693,6 @@ getSN(msgn) {
 			}, (err) => {
 				console.log('getAvailableVersion Error: ', err);
 			})
-			// this.horoService.getJson('https://charts.vedichoroo.com/v1/GetAppVersion').subscribe(res1 => {
-			// 			   this.verc = res1['verc'];
-			// 	this.appVersion.getVersionCode().then(vcode => {
-			// 				console.log('server Version Code',this.verc);
-			// 				console.log('local Version Code',vcode);
-			// 	if(vcode != this.verc)  this.aumsg = "A new version of our App is available in Play Store, please update to the latest version"; // this.router.navigate(['/app-update']);
-			//   });
-			// });
 			this.shareService.adv
 						 .subscribe((adc) => {
 							 console.log('adv triggered', adc);
@@ -830,38 +821,63 @@ getSN(msgn) {
 			console.log('Fetched', res3);
 			this.info = '';
 		   this.bthi = false;
-		   this.sunrise = res3['sunrise'];
-		   this.sunset = res3['sunset'];
-		   this.nak_en = res3['birthStar'];
-		   this.nak = this.shareService.translate_func(res3['birthStar']);
-		   this.tithi = this.shareService.translate_func(res3['tithi']);
-		   this.yog = this.shareService.translate_func(res3['yoga']);
-		   this.karn = this.shareService.translate_func(res3['karana']);
+		   
+		   // Validate response data
+		   if(!res3) {
+			   console.error('Invalid response from getProMoonPhase');
+			   this.info3 = 'Failed to fetch panchang data. Please try again.';
+			   return;
+		   }
+		   
+		   this.sunrise = res3['sunrise'] || '';
+		   this.sunset = res3['sunset'] || '';
+		   this.nak_en = res3['birthStar'] || '';
+		   this.nak = this.shareService.translate_func(res3['birthStar'] || '');
+		   this.tithi = this.shareService.translate_func(res3['tithi'] || '');
+		   this.yog = this.shareService.translate_func(res3['yoga'] || '');
+		   this.karn = this.shareService.translate_func(res3['karana'] || '');
 		   this.calcPanch(cd, this.shareService.getCLAT(), this.shareService.getCLNG(), -(cd.getTimezoneOffset() / 60));
+		   
 		   var ascPos = res3['ascPos'];
 		   console.log(ascPos);
+		   
 		   var lag = this.getDms(ascPos[0]);
 		   console.log(lag);
 		   this.lagna = lag;
-		   this.lag_d = Number(lag.substring(0, lag.indexOf('º')));
-		   console.log(this.lag_d);
-		   this.lag_m = Number(lag.substring(lag.indexOf('º')+1,  lag.indexOf("'")));
-		   console.log(this.lag_m);
-		   this.lag_s = Math.floor(lag.substring(lag.indexOf("'")+1,  lag.indexOf('"')));
-		   console.log(this.lag_s);
+		   
+		   try {
+			   this.lag_d = Number(lag.substring(0, lag.indexOf('º')));
+			   console.log(this.lag_d);
+			   this.lag_m = Number(lag.substring(lag.indexOf('º')+1,  lag.indexOf("'")));
+			   console.log(this.lag_m);
+			   this.lag_s = Math.floor(lag.substring(lag.indexOf("'")+1,  lag.indexOf('"')));
+			   console.log(this.lag_s);
+		   } catch(error) {
+			   console.error('Error parsing lagna degrees', error);
+			   this.lag_d = 0;
+			   this.lag_m = 0;
+			   this.lag_s = 0;
+		   }
 		   let sssl: string = this.calcStar(this.dmsToDec(this.lag_d, this.lag_m, this.lag_s));
 		   console.log(sssl);
 		   this.blag = false;
-		   this.lagml = sssl.split('|')[0];
-		   this.lagal = sssl.split('|')[1];
-		   this.lagsl = sssl.split('|')[2];
+		   if(sssl && sssl !== '-1' && sssl.includes('|')) {
+			   this.lagml = sssl.split('|')[0];
+			   this.lagal = sssl.split('|')[1];
+			   this.lagsl = sssl.split('|')[2];
+		   } else {
+			   this.lagml = '';
+			   this.lagal = '';
+			   this.lagsl = '';
+		   }
 		   var intv = setInterval(() =>  {
+		   try {
 		   var cdt = new Date();
 			this.today = this.weekday[cdt.getDay()] + ',' + cdt.getDate().toString() + ' ' + cdt.toLocaleString('en-us', { month: 'short' }) + ' ' + cdt.getFullYear().toString() + ' ' + cdt.getHours().toString() + ':' + cdt.getMinutes().toString() + ':' + cdt.getSeconds().toString();
 			if(this.ticks > 0) {
 			this.lag_s += 15; 
 			if(this.lag_s > 59) {
-				this.lag_s = this.lag_s -59;
+				this.lag_s = this.lag_s - 60;
 				this.lag_m++;
 				if(this.lag_m > 59) {
 					this.lag_m = 0;
@@ -869,6 +885,12 @@ getSN(msgn) {
 				}
 			}
 			let lag_r: string = '';
+			// Ensure lag_d is within valid range (0-359 degrees)
+			if(this.lag_d < 0 || this.lag_d >= 360) {
+				this.lag_d = this.lag_d % 360;
+				if(this.lag_d < 0) this.lag_d += 360;
+			}
+			
 			if(this.lag_d < 29) lag_r = this.shareService.translate_func('Aries');
 			else if(this.lag_d < 59) lag_r = this.shareService.translate_func('Taurus');
 			else if(this.lag_d < 89) lag_r = this.shareService.translate_func('Gemini');
@@ -880,12 +902,18 @@ getSN(msgn) {
 			else if(this.lag_d < 269) lag_r = this.shareService.translate_func('Sagittarius');
 			else if(this.lag_d < 299) lag_r = this.shareService.translate_func('Capricorn');
 			else if(this.lag_d < 329) lag_r = this.shareService.translate_func('Aquarius');
-			else lag_r = 'Pisces';
+			else lag_r = this.shareService.translate_func('Pisces');
 			this.lagna = lag_r + ' ' + this.lag_d.toString() + 'º' + this.lag_m.toString() + "'" + this.lag_s.toString() + '"';
 		   let sl: string = this.calcStar(this.dmsToDec(this.lag_d, this.lag_m, this.lag_s));
-		   this.lagml = this.shareService.translate_func(sl.split('|')[0]);
-		   this.lagal = this.shareService.translate_func(sl.split('|')[1]);
-		   this.lagsl = this.shareService.translate_func(sl.split('|')[2]);
+		   if(sl && sl !== '-1' && sl.includes('|')) {
+			   this.lagml = this.shareService.translate_func(sl.split('|')[0]);
+			   this.lagal = this.shareService.translate_func(sl.split('|')[1]);
+			   this.lagsl = this.shareService.translate_func(sl.split('|')[2]);
+		   } else {
+			   this.lagml = '';
+			   this.lagal = '';
+			   this.lagsl = '';
+		   }
 		   if(this.lag_d >= 360) {
 			   this.lag_d = 0;
 			   this.lag_m = 0;
@@ -893,6 +921,9 @@ getSN(msgn) {
 		   }
 		  }
 		    this.ticks++;
+		   } catch(error) {
+			   console.error('Error in panchang interval', error);
+		   }
 		   },1000);
 		  }, (err) => {
 				this.info3 = 'App failed to get panchang, Please check if the location access is enabled in your device.  Our App will not work without access to current location.';
@@ -1382,23 +1413,30 @@ getSN(msgn) {
   calcStar(mins: number)
   {
 		//console.log('calcStar', mins);
+		if(!this.sublords_v || !mins || isNaN(mins)) {
+			console.log('calcStar: Invalid input', mins);
+			return '-1';
+		}
+		
 		for(var i = 0; i < Object.keys(this.sublords_v).length; i++)
 		{
 			var nak = this.sublords_v[i];
-			var degs = this.sublords_v[i].deg;
-			var s_mins = this.dmsToDec(Number(degs.split('-')[0].split('.')[0]), Number(degs.split('-')[0].split('.')[1]), Number(degs.split('-')[0].split('.')[2]));
-			var e_mins = this.dmsToDec(Number(degs.split('-')[1].split('.')[0]), Number(degs.split('-')[1].split('.')[1]), Number(degs.split('-')[1].split('.')[2]));
-			//var deg_s = parseFloat(degs.split('-')[0].split('.')[0] + '.' + degs.split('-')[0].split('.')[1]);
-			//var deg_e = parseFloat(degs.split('-')[1].split('.')[0] + '.' + degs.split('-')[1].split('.')[1]);
-			//console.log(s_mins);
-			//console.log(e_mins);
-			if(mins >= s_mins && mins < e_mins) {
-			    //console.log(s_mins);
-				//console.log(e_mins);
-				return nak.sign + '|' + nak.star + '|' + nak.sub;
+			if(!nak || !nak.deg) continue;
+			
+			var degs = nak.deg;
+			try {
+				var s_mins = this.dmsToDec(Number(degs.split('-')[0].split('.')[0]), Number(degs.split('-')[0].split('.')[1]), Number(degs.split('-')[0].split('.')[2]));
+				var e_mins = this.dmsToDec(Number(degs.split('-')[1].split('.')[0]), Number(degs.split('-')[1].split('.')[1]), Number(degs.split('-')[1].split('.')[2]));
+				
+				if(mins >= s_mins && mins < e_mins) {
+					return nak.sign + '|' + nak.star + '|' + nak.sub;
+				}
+			} catch(error) {
+				console.log('calcStar: Error processing nakshatra', i, error);
+				continue;
 			}
 		}
-		console.log('calcStar', -1);
+		console.log('calcStar: No matching nakshatra found for', mins);
 		return '-1';
   }
   
@@ -1467,16 +1505,6 @@ getSN(msgn) {
 	  this.router.navigate(['/subscribe']);
   }
   openUrl() {
-    this.browserTab.isAvailable()
-        .then((isAvailable: boolean) => {
-        if(isAvailable) {
-            this.browserTab.openUrl('https://www.gamezop.com/?id=bh0UMvrkw');
-        } else {
-            // if custom tabs are not available you may  use InAppBrowser
-			console.log('custom tabs not available');
-			window.location.href = "https://www.gamezop.com/?id=bh0UMvrkw";
-        }
-      });   
 	}
 	article() {
 		this.router.navigate(['/publish-blog']);

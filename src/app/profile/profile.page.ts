@@ -84,12 +84,6 @@ dob: string = '';
 		console.log('user exception', JSON.stringify(e));
 	});
     this.shareService.getPLAN().then((pln) => {
-			this.info = 'Finding your profle information..';
-			this.horoService.getProfile(this.device.uuid)
-		.subscribe(res => {
-		   this.isLoading = false;
-		   this.info = '';
-		   if(res['status'].length != 'X' && res['status'] != 'E') {
 				if(pln.name == 'com.mypubz.eportal.astrologer') {
 					this.horoService.getAstrologer(this.device.uuid)
 					 .subscribe(res2 => {
@@ -102,7 +96,12 @@ dob: string = '';
 						 this.info = JSON.stringify(err);
 					 });
 			 	}
-			   this.gen = res['gen'];
+			this.info = 'Finding your profle information..';
+			this.horoService.getProfile(this.device.uuid)
+		.subscribe(res => {
+		   this.isLoading = false;
+		   this.info = '';
+		   if(res['dob'] != null) {
 			   let db: string = res['dob'].replace('$NaN$0$0','').replace('$NaN','');
 			   console.log('db', db);
 			   if(db.indexOf('L') > -1) {
@@ -137,7 +136,7 @@ dob: string = '';
 					this.nam = ng.split('&')[0];
 					this.gen = ng.split('&')[1];
 				}
-			}
+			} 
 			if(this.dstofset == -1) { 
 			  this.showP = true;
 			  this.showL = false;

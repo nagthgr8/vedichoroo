@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, Renderer2  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Renderer2  } from '@angular/core';
 import { App } from '@capacitor/app';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +22,8 @@ import { BirthInfo } from './birth-info';
 import { Dasha } from './dasha';
 import { User } from './user';
 import { Caller } from './caller';
+import { environment } from '../environments/environment';
+
 //declare var navigator: any;
 declare var admob;
 const timer = ms => new Promise(res => setTimeout(res, ms));
@@ -113,6 +115,17 @@ export class AppComponent implements OnDestroy {
 	  { title: 'Sign Out', component: '/sign-in', icon: 'log-out', spin: false},
 	  { title: 'Exit App', component: '/exit-app', icon: 'exit', spin: false}
     ];
+  }
+   ngOnInit() {
+    this.loadGoogleMapsScript();
+  }
+
+  loadGoogleMapsScript() {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.MAPS_API_KEY}&libraries=places`;
+    script.defer = true;
+    script.async = true;
+    document.head.appendChild(script);
   }
   onCallEnded(cEnd: any) {
 	this.showAstroCall = false;

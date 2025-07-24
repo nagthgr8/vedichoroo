@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Platform, MenuController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,7 +26,7 @@ export class RatingsPage implements OnInit {
 	urat: any;
 	rtitle: string = 'Please rate our App';
 	rimg: string = 'assets/icon/icon.png';
-  constructor(private route: ActivatedRoute, private device: Device, private platform: Platform, private location: Location, private market: Market, private browserTab: BrowserTab, private router: Router, private shareService: ShareService, private horoService: HoroscopeService) { }
+  constructor(private route: ActivatedRoute, private device: Device, private platform: Platform, private location: Location, private market: Market, private router: Router, private shareService: ShareService, private horoService: HoroscopeService) { }
 
   ngOnInit() {
 	this.urat = this.router.getCurrentNavigation().extras.state;

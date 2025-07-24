@@ -114,44 +114,12 @@ export class HinduCalPage implements OnInit {
     console.log('hindu-cal ngOnInit');
     this.shareService.getPLAN()
 		   .then(res => {
-		if(res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.adfree' && res['name'] != 'com.mypubz.eportal.month' && res['name'] != 'com.mypubz.eportal.year') {
- 		  //admob.setDevMode(true);
-		  admob.banner.show({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/7598247902',
-			  ios: 'ca-app-pub-8442845715303800/7598247902',
-			},
-		  }).then(() => {
-			setTimeout(() => {
-			  admob.banner.hide({
-				// replace with your ad unit IDs
-				android: 'ca-app-pub-8442845715303800/7598247902',
-				ios: 'ca-app-pub-8442845715303800/7598247902',
-			  })
-			}, 10000)
-		  })		
-		}
 	}, (err) => {
 	});	 
-		//let ayanid: number = (this.shareService.getAYNM()) ? Number(this.shareService.getAYNM()) : 4;
-		//this.clat = this.shareService.getCLAT();
-		//this.clng = this.shareService.getCLNG();
-		this.localtz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-		//this.info = 'Getting todays panchang...';
-		//this.horoService.getProMoonPhase(this.shareService.getCLAT(), this.shareService.getCLNG(), cd.getFullYear() + '-' + (cd.getMonth()+1).toString() + '-' + cd.getDate() + 'T' + cd.getHours() + ':' + cd.getMinutes()+ ':' + cd.getSeconds()+'Z', Intl.DateTimeFormat().resolvedOptions().timeZone, ayanid)
-		  // .subscribe(res => {
-		//console.log('vedicperfs', res);
-	    //var jsonv = JSON.parse(res);
-        //this.sunrise = res['sunrise'];
-		//this.sunset = res['sunset'];
-		//this.getMoonPhase(cd);
-	//}, (err) => {
-		//	this.info = JSON.stringify(err);
-	  //});
   }
   ngAfterViewInit()
   {
+		this.localtz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		var cd = new Date();
 		this.ofset = -(cd.getTimezoneOffset() / 60);
 		var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];

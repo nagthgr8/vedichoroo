@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
-import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { Router } from '@angular/router';
 import { Platform, IonContent  } from '@ionic/angular';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
@@ -75,7 +74,7 @@ service = new google.maps.places.AutocompleteService();
    ncdts: number = 0;
    promo: string = '';
    pinfo: string = '';
- constructor(public router: Router, private zone: NgZone, private browserTab: BrowserTab, public platform: Platform, public device: Device, public horoService: HoroscopeService, private shareService: ShareService, private file: File, private fileOpener: FileOpener, private camera: Camera, private filePath: FilePath) { 
+ constructor(public router: Router, private zone: NgZone, public platform: Platform, public device: Device, public horoService: HoroscopeService, private shareService: ShareService, private file: File, private fileOpener: FileOpener, private camera: Camera, private filePath: FilePath) { 
       this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -749,14 +748,6 @@ chartSel() {
 		this.router.navigate(['/credits']);
 	}
 	fbp() {
-    this.browserTab.isAvailable()
-        .then((isAvailable: boolean) => {
-        if(isAvailable) {
-            this.browserTab.openUrl('https://www.facebook.com/groups/1542179609242725/');
-        } else {
-            // if custom tabs are not available you may  use InAppBrowser
-        }
-      });   
 	}
     apromo(event) {
 		event.stopPropagation();

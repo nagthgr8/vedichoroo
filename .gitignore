@@ -1,3 +1,4 @@
+google-services.json
 android/app/*
 # Unignore the src folder
 !android/app/src/
@@ -44,6 +45,7 @@ npm-debug.log*
 .sourcemaps/
 .versions/
 .vscode/
+src/environments/
 coverage/
 dist/
 node_modules/

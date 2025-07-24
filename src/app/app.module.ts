@@ -25,7 +25,6 @@ import { HoroscopeService } from './horoscope.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { CalendarModule } from 'ion7-calendar';
 
 @NgModule({
@@ -54,7 +53,6 @@ import { CalendarModule } from 'ion7-calendar';
     TranslateService,
     StatusBar,
     SplashScreen,
-	BrowserTab,
 	Device,
 	File,
 	FilePath,

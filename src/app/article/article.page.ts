@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BrowserTab } from '@awesome-cordova-plugins/browser-tab/ngx';
 import { Router } from '@angular/router';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { HoroscopeService } from '../horoscope.service';
@@ -32,7 +31,7 @@ export class ArticlePage implements OnInit {
   showAVT: boolean = false;
   info: string = '';
   info2: string = '';
-  constructor(private browserTab: BrowserTab, private router: Router, private device: Device, public horoService: HoroscopeService, public shareService: ShareService) {
+  constructor(private router: Router, private device: Device, public horoService: HoroscopeService, public shareService: ShareService) {
   this.comments = [];
 	  }
 
@@ -206,13 +205,5 @@ export class ArticlePage implements OnInit {
 	 this.router.navigate(['/profile']);
  }
   openUrl() {
-    this.browserTab.isAvailable()
-        .then((isAvailable: boolean) => {
-        if(isAvailable) {
-            this.browserTab.openUrl('https://www.gamezop.com/?id=bh0UMvrkw');
-        } else {
-            // if custom tabs are not available you may  use InAppBrowser
-        }
-      });   
-	}
+  }
 }
