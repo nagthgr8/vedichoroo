@@ -332,6 +332,7 @@ export class DashTransPage implements OnInit {
 				{
 				    dx++;
 				}
+				if(dx > 5) dx = dx - 5;
 				var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 			    var box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 				this.renderer.setAttribute(box, "width", size.toString());

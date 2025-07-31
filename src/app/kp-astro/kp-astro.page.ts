@@ -543,26 +543,16 @@ export class KpAstroPage implements OnInit {
 	}
   	calcStarEx(val: number)
 	{
-	  
-		//console.log('calcStar', val);
 		for(var i = 0; i < Object.keys(this.sublords_v).length; i++)
 		{
 			var nak = this.sublords_v[i];
 			var degs = this.sublords_v[i].deg;
 			var s_mins = this.dmsToDec(Number(degs.split('-')[0].split('.')[0]), Number(degs.split('-')[0].split('.')[1]), Number(degs.split('-')[0].split('.')[2]));
 			var e_mins = this.dmsToDec(Number(degs.split('-')[1].split('.')[0]), Number(degs.split('-')[1].split('.')[1]), Number(degs.split('-')[1].split('.')[2]));
-			//var deg_s = parseFloat(degs.split('-')[0].split('.')[0] + '.' + degs.split('-')[0].split('.')[1]);
-			//var deg_e = parseFloat(degs.split('-')[1].split('.')[0] + '.' + degs.split('-')[1].split('.')[1]);
-			//console.log(s_mins);
-			//console.log(e_mins);
 			if(val >= s_mins && val < e_mins) {
-			    //console.log(s_mins);
-				//console.log(e_mins);
-			   //console.log(nak.sign + '|' + nak.star + '|' + nak.sub);
 			   return nak.sign + '|' + nak.star + '|' + nak.sub;
 			}
 		}
-		//console.log('-1');
 		return '-1';
 	}
         calcBStar(plpos: number, sign: string)
@@ -1106,7 +1096,7 @@ export class KpAstroPage implements OnInit {
 		console.log('fortuna', fop);
 		
 		let ftu: string = this.getDms(fop.toFixed(2));
-		console.log('calcStarEx');
+		console.log('calcStarEx', this.oPlanet);
 		var fstar = this.calcStarEx(fop);
 	 // this.horoService.addTicket(this.device.uuid, 'technical', 'FORTUNA',  fop.toString() + ' ' + ftu + ' ' + fstar)
 	 // 						.subscribe(res => {

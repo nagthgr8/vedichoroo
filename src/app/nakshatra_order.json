@@ -184,7 +184,7 @@
 "mula" :
 	{
 "order":19,	
-"location" :[ "0.00,sa", "13.20,sa"],
+"location" :[ "0.00,sg", "13.20,sg"],
 "ruler":"ketu",
 "symbol":"roots",
 "diety":"nirriti",
@@ -194,7 +194,7 @@
 "purvaashada" :
 	{
 "order":20,	
-"location" :[ "13.20,sa", "26.40,sa"],
+"location" :[ "13.20,sg", "26.40,sg"],
 "ruler":"venus",
 "symbol":"fan",
 "diety":"varuna",
@@ -204,7 +204,7 @@
 "uttaraashada" :
 	{
 "order":21,	
-"location" :[ "26.40,sa", "10.00,cp"],
+"location" :[ "26.40,sg", "10.00,cp"],
 "ruler":"sun",
 "symbol":"tusk",
 "diety":"vishvadevas",
@@ -239,7 +239,7 @@
 "symbol":"1000 stars",
 "diety":"varuna",
 "varna":"butcher",
-"alphabets":"go,sa,si,su"
+"alphabets":"go,sg,si,su"
 	},
 "purvabhadra" :
 	{
