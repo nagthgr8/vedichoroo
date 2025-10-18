@@ -165,6 +165,37 @@ ion-row.kmaintitle {
 				font-weight: bold;
 			}
 
+            align-items: flex-start;
+            min-height: 72px;
+            ion-avatar {
+              min-width: 48px;
+              min-height: 48px;
+              margin-right: 12px;
+              img {
+                width: 48px;
+                height: 48px;
+                object-fit: cover;
+              }
+            }
+            ion-label {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              .kitem {
+                font-weight: bold;
+                font-size: 1.2rem;
+              }
+              .ksitem {
+                font-size: 1rem;
+                color: #d35400;
+              }
+              .fuse {
+                color: #f71702;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin-top: 2px;
+              }
+            }
         }
     }
 
@@ -206,4 +237,84 @@ ion-card {
 	ion-button {
 		float: right;
 	}
+}
+
+.level1 {
+  color: var(--vho-level1-color, #ff3b30); // fallback to a red shade
+  font-weight: bold;
+}
+.level2 {
+  color: var(--vho-level2-color, #3db161); // fallback to a green shade
+  font-weight: bold;
+}
+.level3 {
+  color: var(--vho-level3-color, #5648D5); // fallback to a blue/violet shade
+  font-weight: bold;
+}
+.level4 {
+  color: var(--vho-level4-color, #f0882f); // fallback to an orange shade
+  font-weight: bold;
+}
+
+ion-grid {
+  background: var(--ion-background-color, #f8f6f2);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(var(--ion-color-primary-rgb, 160,120,60), 0.06);
+  padding: 8px 0;
+}
+
+ion-row.kptitle, ion-row.kpsubtitle {
+  background: var(--vho-kp-row-bg, var(--ion-item-background, #fdf6e3));
+  border: 1px solid var(--vho-kp-row-border, var(--ion-border-color, #f3e1c0));
+  color: var(--vho-kp-row-fg, var(--ion-text-color, #7a4c15));
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 4px 0;
+}
+
+ion-row.kptitle ion-col, ion-row.kpsubtitle ion-col {
+  border: none;
+}
+
+.ksubtitle {
+  color: var(--vho-kp-row-fg, var(--ion-text-color, #7a4c15));
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.level1 { color: var(--vho-level1, #e74c3c); font-weight: bold; }
+.level2 { color: var(--vho-level2, #27ae60); font-weight: bold; }
+.level3 { color: var(--vho-level3, #5648D5); font-weight: bold; }
+.level4 { color: var(--vho-level4, #f0882f); font-weight: bold; }
+
+ion-card.amsg {
+  background: var(--ion-card-background, #fffdfa);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(var(--ion-color-primary-rgb, 160,120,60), 0.08);
+  padding: 10px 8px;
+}
+
+  .cfn {
+    font-weight: bold;
+    margin-right: 2px;
+    color: var(--ion-text-color, #7a4c15);
+  }
+  .cvl {
+    font-weight: 500;
+    color: var(--ion-text-color, #222428);
+  }
+
+
+.kitem {
+  font-weight: 600;
+  color: var(--ion-text-color, #222428);
+}
+.ksitem {
+  color: var(--ion-color-medium, #666);
+}
+.fuse {
+  color: var(--ion-color-danger, #f71702);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 2px;
 }

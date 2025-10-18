@@ -1,0 +1,27 @@
+<form (ngSubmit)="submitForm()">
+  <ion-item>
+    <ion-label position="floating">Name</ion-label>
+    <ion-input [(ngModel)]="nam" name="nam" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Date of Birth</ion-label>
+    <ion-datetime [(ngModel)]="dob" name="dob" displayFormat="YYYY-MM-DD"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Time of Birth</ion-label>
+    <ion-datetime [(ngModel)]="tob" name="tob" displayFormat="HH:mm"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Place</ion-label>
+    <ion-input [(ngModel)]="place" name="place"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Gender</ion-label>
+    <ion-select [(ngModel)]="gen" name="gen">
+      <ion-select-option value="male">Male</ion-select-option>
+      <ion-select-option value="female">Female</ion-select-option>
+      <ion-select-option value="other">Other</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button expand="block" type="submit">Continue</ion-button>
+</form>

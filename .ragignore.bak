@@ -1,0 +1,38 @@
+# Already suggested
+node_modules/
+bin/
+obj/
+dist/
+wwwroot/
+.git/
+*.log
+*.exe
+*.dll
+*.pdb
+*.user
+*.vs/
+
+# Add these based on your project structure:
+.angular/
+.gradle/
+gradle/
+android/
+keystore/
+e2e/
+resources/
+www/
+
+# Build scripts and config caches
+.gradle/
+.gradle-cache/
+.gradle-wrapper/
+gradlew
+gradlew.bat
+
+# Package manager files you might want to exclude (optional)
+package-lock.json
+
+# IDE/editor files (if any others show up)
+.vscode/
+.idea/
+*.iml

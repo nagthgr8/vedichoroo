@@ -21,13 +21,11 @@ export class SignInPage {
     this.info = 'Please wait..';
     let profile = await FirebaseAuthentication.signInWithGoogle();
    try {
-  //   this.info = 'Logging in..';
-  //   const profile = await this.googlePlus.login({
-  //     webClientId: '242286730499-tr8dq77hb8k2e0s55cvhh3m57cjabf1i.apps.googleusercontent.com',
-  //     offline: true,
-  //   });
      this.info = 'Authenticated, fetching user data..';
-     this.shareService.setToken(profile.credential.idToken);
+     const tokenResult = await FirebaseAuthentication.getIdToken();
+     const firebaseIdToken = tokenResult.token;
+     console.log('Firebase ID Token: ', firebaseIdToken);
+     this.shareService.setToken(firebaseIdToken);
     this.horoService.getBalance(profile.user.email).subscribe((res) => {
        this.info = '';
             	let user: User = {

@@ -52,14 +52,14 @@ export class ReportPage implements OnInit {
    mob: string = '';
    eml: string = '';
    qta: number = 0;
-   ast: boolean = false;
+   ast: boolean = true;
    rs: string = '149/-';
    sav: string = '';
    act: string = '';
    pc: number = 199;
    dpc: number = 0;
    his: boolean = true;
-   btnam: string = 'Buy Now';
+   btnam: string = 'Submit';
    dbtn1: string = 'Download Sample Report(Hindi)';
    dbtn2: string = 'Download Sample Report(English)';
    dbtn3: string = 'Download Sample Report(Tamil';
@@ -179,7 +179,6 @@ export class ReportPage implements OnInit {
 		 
 			  store.initialize([CdvPurchase.Platform.GOOGLE_PLAY]);
 			  store.update();
-			  this.pur_handl();
 		
 			  store.ready(() => {
 				CdvPurchase.store.when().productUpdated(this.onProductUpdated).approved(this.finishPurchase);

@@ -8,35 +8,35 @@
 </ion-header>
 <ion-content padding>
 <ion-list>
-<ion-item>
-  <ion-label>Rahu Kaalam</ion-label>
-  <ion-toggle [(ngModel)]="rahu" [checked]="rahu" (ionChange)="notifyRahu()" ></ion-toggle>
-</ion-item>
-<div *ngIf="showRAH">
-<ion-item>
-<ion-label>Notify me 1 hour before</ion-label>
- <ion-toggle [(ngModel)]="rahut1" [checked]="rahut1" (ionChange)="notifyRahut1()"></ion-toggle>
+  <ion-item>
+  <ion-label>
+    Notify me about important transits in my current Dasha period
+    <p class="note">Get alerts when a major transit affects your Mahadasha, Antardasha, or Pratyantardasha lords.</p>
+  </ion-label>
+  <ion-toggle [(ngModel)]="transitNotify" (ionChange)="onToggle('transitNotify', transitNotify)"></ion-toggle>
 </ion-item>
 <ion-item>
-<ion-label>Notify me 30mins before</ion-label>
- <ion-toggle [(ngModel)]="rahut2" [checked]="rahut2" (ionChange)="notifyRahut2()"></ion-toggle>
+  <ion-label>
+    6 AM Panchang Summary
+    <p class="note">Get a daily notification with Sunrise, Sunset, Rahu Kaalam, Yamagandam, Abhijit, Tithi, Nakshatra, and more.</p>
+  </ion-label>
+  <ion-toggle [(ngModel)]="panchangSummary" (ionChange)="onToggle('panchangSummary', panchangSummary)"></ion-toggle>
 </ion-item>
 <ion-item>
-<ion-label>Notify me at 6 AM everyday</ion-label>
- <ion-toggle [(ngModel)]="rahut3" [checked]="rahut3" (ionChange)="notifyRahut3()"></ion-toggle>
+  <ion-label>Notify me at Rahu Kaalam start</ion-label>
+  <ion-toggle [(ngModel)]="rahu" (ionChange)="onToggle('rahu', rahu)"></ion-toggle>
 </ion-item>
 <ion-item>
- <ion-label>Play Rahu Kaalam shanti mantra</ion-label>
- <ion-toggle [(ngModel)]="rahus" [checked]="rahus" (ionChange)="notifyRahus()"></ion-toggle>
+  <ion-label>Play Rahu Kaalam shanti mantra</ion-label>
+  <ion-toggle [(ngModel)]="rahus" (ionChange)="onToggle('rahus', rahus)"></ion-toggle>
 </ion-item>
-</div>
 <ion-item>
 <ion-label>Notify me on Sunrise</ion-label>
-<ion-toggle [(ngModel)]="sunrise" [checked]="sunrise" (ionChange)="notifySunrise()"></ion-toggle>
+<ion-toggle [(ngModel)]="sunrise" (ionChange)="onToggle('sunrise', sunrise)"></ion-toggle>
 </ion-item>
 <ion-item>
 <ion-label>Notify me on Sunset</ion-label>
-<ion-toggle [(ngModel)]="sunset" [checked]="sunset" (ionChange)="notifySunset()"></ion-toggle>
+<ion-toggle [(ngModel)]="sunset" (ionChange)="onToggle('sunset', sunset)"></ion-toggle>
 </ion-item>
 </ion-list>
 <div class="fixed-content"></div></ion-content>

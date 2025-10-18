@@ -737,60 +737,69 @@ export class LifEventPage implements OnInit {
 	}
     calcPanch(cd) {
 		this.sdt = cd;
-			//var cd = new Date();
 			console.log('calcPanch', cd);
 			console.log('ofset', this.ofset);
-		  var jd = this.shareService.getJD(cd.getDate(), cd.getMonth()+1, cd.getFullYear());
-		  console.log('jd', jd);
-		  console.log('lat', this.clat);
-		  console.log('lng', this.clng);
-		  //var datestr = this.horoService.getDateString(cd)
-		 // var utcoffset = moment(datestr).tz(this.localtz).format('Z');
-		  //var a = utcoffset.split(":")
-		  //var tz = parseFloat(a[0]) + parseFloat(a[1])/60.0
-		  this.sunrise = this.shareService.calcSunriseSet(1, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
-		  console.log('sunrise', this.sunrise);
-		  this.sunset = this.shareService.calcSunriseSet(0, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
-		  console.log('sunset', this.sunset);
-		var startTime=moment(this.sunrise +':00 am', "HH:mm:ss a");
-		var endTime=moment(this.sunset + ':00 pm', "HH:mm:ss a");
-		var duration = moment.duration(endTime.diff(startTime));
-		var hours = duration.asHours();
-		var minutes = duration.asMinutes()%60;
-		//var tmins = moment(endTime).add(startTime.minutes(), 'm');
-		var smins = startTime.hour()*60 + startTime.minute();
-		var emins = endTime.hour()*60 + endTime.minute();
-		var tmins = (smins + emins)/2;
-		var tothrs = Math.floor(tmins/60);
-		var totmins = (tmins % 60);
-		var midTime = moment(tothrs.toString() + ':' + totmins.toString() + ':00 pm', "HH:mm:ss a");
-		//var lnt = Math.floor(tothrs/2);
-		//var totmins = hours*60 + minutes;
-		var totalsec = hours*60*60 + minutes*60;
-		var abhsecs = Math.floor(totalsec/2);
-		var abh = Math.floor((hours/30)*60);
-		var abhs = moment(midTime).subtract(abh, 'm');
-		var abhe = moment(midTime).add(abh, 'm');
-		var ethsec = Math.floor(totalsec/8);
-		var ethmin = Math.floor(ethsec/60);
-		var eth = moment.utc(ethsec*1000).format('HH:mm:ss');
-		var weekdays = new Array(7);
-		weekdays[0] = "SUN|8|5";
-		weekdays[1] = "MON|2|4";
-		weekdays[2] = "TUE|7|3";
-		weekdays[3] = "WED|5|2";
-		weekdays[4] = "THU|6|1";
-		weekdays[5] = "FRI|4|7";
-		weekdays[6] = "SAT|3|6";	
-        var rwv = parseInt(weekdays[cd.getDay()].split('|')[1]);
-        var ywv = parseInt(weekdays[cd.getDay()].split('|')[2]);
-        var srhu = moment(startTime).add((rwv-1)*ethmin, 'm');
-        var erhu = moment(srhu).add(ethmin, 'm');
-        var sym = moment(startTime).add((ywv-1)*ethmin, 'm');
-        var eym = moment(sym).add(ethmin, 'm');
-        this.rahukal = srhu.format('HH:mm')	+ ' To ' + erhu.format('HH:mm');
-        this.yama = sym.format('HH:mm')	+ ' To ' + eym.format('HH:mm');
-		this.abhjit = abhs.format('HH:mm') + ' To ' + abhe.format('HH:mm');	
+
+			var jd = this.shareService.getJD(cd.getDate(), cd.getMonth() + 1, cd.getFullYear());
+			console.log('jd', jd);
+			console.log('lat', this.clat);
+			console.log('lng', this.clng);
+
+			this.sunrise = this.shareService.calcSunriseSet(1, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+			console.log('sunrise', this.sunrise);
+			this.sunset = this.shareService.calcSunriseSet(0, jd, Number(this.clat), Number(this.clng), this.ofset, 0);
+			console.log('sunset', this.sunset);
+
+			// --- Abhijit Muhurat Calculation (fixed) ---
+			// Parse sunrise and sunset as minutes since midnight
+			const sunriseParts = this.sunrise.split(':').map(Number);
+			const sunsetParts = this.sunset.split(':').map(Number);
+
+			const sunriseMins = sunriseParts[0] * 60 + sunriseParts[1];
+			const sunsetMins = sunsetParts[0] * 60 + sunsetParts[1];
+
+			// Solar noon in minutes
+			const midMins = Math.floor((sunriseMins + sunsetMins) / 2);
+
+			// Abhijit Muhurat: 24 minutes before and after solar noon
+			const abhijitStartMins = midMins - 24;
+			const abhijitEndMins = midMins + 24;
+
+			// Helper to format minutes as HH:mm
+			function minsToTime(mins: number) {
+				const h = Math.floor(mins / 60);
+				const m = mins % 60;
+				return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+			}
+
+			this.abhjit = minsToTime(abhijitStartMins) + ' To ' + minsToTime(abhijitEndMins);
+
+			// --- Rahu Kalam & Yamagandam (existing logic, unchanged) ---
+			var startTime = moment(this.sunrise + ':00 am', "HH:mm:ss a");
+			var endTime = moment(this.sunset + ':00 pm', "HH:mm:ss a");
+			var duration = moment.duration(endTime.diff(startTime));
+			var hours = duration.asHours();
+			var minutes = duration.asMinutes() % 60;
+			var totalsec = hours * 60 * 60 + minutes * 60;
+			var ethsec = Math.floor(totalsec / 8);
+			var ethmin = Math.floor(ethsec / 60);
+
+			var weekdays = new Array(7);
+			weekdays[0] = "SUN|8|5";
+			weekdays[1] = "MON|2|4";
+			weekdays[2] = "TUE|7|3";
+			weekdays[3] = "WED|5|2";
+			weekdays[4] = "THU|6|1";
+			weekdays[5] = "FRI|4|7";
+			weekdays[6] = "SAT|3|6";
+			var rwv = parseInt(weekdays[cd.getDay()].split('|')[1]);
+			var ywv = parseInt(weekdays[cd.getDay()].split('|')[2]);
+			var srhu = moment(startTime).add((rwv - 1) * ethmin, 'm');
+			var erhu = moment(srhu).add(ethmin, 'm');
+			var sym = moment(startTime).add((ywv - 1) * ethmin, 'm');
+			var eym = moment(sym).add(ethmin, 'm');
+			this.rahukal = srhu.format('HH:mm') + ' To ' + erhu.format('HH:mm');
+			this.yama = sym.format('HH:mm') + ' To ' + eym.format('HH:mm');
 	}
 	getPanch(dt) {
 		this.nak = this.shareService.translate_func(this.hcal[dt].star);

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Renderer2  } fr
 import { App } from '@capacitor/app';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { Platform, MenuController, AlertController } from '@ionic/angular';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
@@ -9,7 +10,6 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { Plugins } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { TranslateService} from '@ngx-translate/core';
@@ -116,7 +116,7 @@ export class AppComponent implements OnDestroy {
 	  { title: 'Exit App', component: '/exit-app', icon: 'exit', spin: false}
     ];
   }
-   ngOnInit() {
+  ngOnInit() {
     this.loadGoogleMapsScript();
   }
 
@@ -139,17 +139,28 @@ export class AppComponent implements OnDestroy {
 		this.vring.play();
 	}
  }
+ async getFcmToken() {
+  try {
+    const { token } = await FirebaseMessaging.getToken();
+    console.log('FCM Token:', token);
+    return token;
+  } catch (err) {
+    console.error('Error getting FCM token', err);
+  }
+}
   async initializeApp() {
     this.platform.ready().then(() => {
 	  console.log('platform ready');
 	  try {
 		console.log('trySilentLogin');
-		FirebaseAuthentication.getCurrentUser().then((c) => {
+		FirebaseAuthentication.getCurrentUser().then(async (c) => {
 			if (c != null) {
 				FirebaseAuthentication.getIdToken().then((res) =>{
 					this.shareService.setToken(res.token);
 				})
-				this.horoService.updateProfile(this.device.uuid, c.user.email).subscribe((res) => {});
+				let fcmToken = await this.getFcmToken();
+				console.log('fcmToken', fcmToken);
+				this.horoService.updateProfile(this.device.uuid, c.user.email, fcmToken).subscribe((res) => {});
 					this.avatar = c.user.photoUrl;
 				console.log("User is already signed in");
 			  		this.horoService.getBalance(c.user.email).subscribe((res) => {

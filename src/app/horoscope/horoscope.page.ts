@@ -120,7 +120,7 @@ export class HoroscopePage implements OnInit {
 
   ngOnInit() {
 	this.preferDark = window.matchMedia('(prefers-color-scheme: dark)');
-	 var doshas = ['Kaal Sarpa Dosha|KSD', 'Pitru Dosha|PTD', 'Guru Chandal Dosha|GCD', 'Mangal Dosha|AND', 'Grahan Dosha|GRD', 'Gandamool Dosha|GMD', 'Shani Dosha|SND', 'Shrapit Dosha|SPD', 'Paap Kartari Dosha|PKD', 'Bandhan Dosha|BND', 'Kemadruma Dosha|KMD'];
+	 var doshas = ['Kaal Sarpa Dosha|KSD', 'Pitru Dosha|PTD', 'Putra Dosha|PUD','Guru Chandal Dosha|GCD', 'Mangal Dosha|AND', 'Grahan Dosha|GRD', 'Gandamool Dosha|GMD', 'Shani Dosha|SND', 'Shrapit Dosha|SPD', 'Paap Kartari Dosha|PKD', 'Bandhan Dosha|BND', 'Kemadruma Dosha|KMD'];
     for(let i = 0; i < doshas.length; i++) {
 		let ds: Dosha  = {
 			id: doshas[i].split('|')[1],

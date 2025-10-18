@@ -124,7 +124,7 @@ export class KpAstroPage implements OnInit {
   hgmsg: string = '';
   showSGF: boolean = false;
   info: string = '';info1: string = '';
-  items: Array<{title: string, note: string, spin: boolean, show: boolean, fuse: boolean, img: string}>;
+  items: Array<{title: string, note: string, spin: boolean, show: boolean, fuse: boolean, icon: string}>;
   plan: any;
   choice: string = '';
   shn: string = '';
@@ -134,20 +134,20 @@ export class KpAstroPage implements OnInit {
   showTPD: boolean = false;
   rcft: string = 'Know more...';
   constructor(private router: Router, private translate: TranslateService, public shareService: ShareService, public platform: Platform, private menu: MenuController, public renderer: Renderer2, public horoService: HoroscopeService, private device: Device ) {
-    this.items = [
-      { title: 'Planet & Significance', note: 'Know what each planet bestows based on its position', spin: false, show: true, fuse: true, img: 'assets/imgs/planets.png' },
-	  { title: 'KP Transit', note: 'Get KP Transit for a given date & time', spin: false, show: true, fuse: false, img: 'assets/imgs/kptrans.png' },
-	  { title: 'Dasha & Transit predictions', note: 'Get Current Dasha & Transit predictions', spin: false, show: true, fuse: false, img: 'assets/imgs/dashatrans.png' },
-	  { title: 'Lucky Days to sign an Agreement', note: 'Know the favourable days to sign an agreement', spin: false, show: true, fuse: true, img: 'assets/imgs/agree.png' },
-	  { title: 'Lucky Days for opening bank account', note: 'Know the favourable days for obtaining bank account', spin: false, show: true, fuse: true, img: 'assets/imgs/bank.png' },
-	  { title: 'To undergo a treatment', note: 'Know the favourable days to undergo health treatment', spin: false, show: true, fuse: true, img: 'assets/imgs/medical.png' },
-	  { title: 'Filing a court case', note: 'Know the favourable days for filing a court case', spin: false, show: true, fuse: true, img: 'assets/imgs/court.png' },
-	  { title: 'To Occupy a new house', note: 'Know the favourable days to occupy a new house', spin: false, show: true, fuse: true, img: 'assets/imgs/house.png' },
-	  { title: 'To take delivery of vehicle', note: 'Know the favourable days to take the new vehicle', spin: false, show: true, fuse: true, img: 'assets/imgs/vehicle.png' },
-   	  { title: 'To apply for passport', note: 'Know the favourable days to apply for passport', spin: false, show: true, fuse: true, img: 'assets/imgs/passport.png' },
- 	  { title: 'For college admission', note: 'Know the favourable days for college admission', spin: false, show: true, fuse: true, img: 'assets/imgs/college.png' }
-];
-    console.log('kp-astro constructor called');	  
+	this.items = [
+	{ title: 'Planet & Significance', note: 'Know what each planet bestows based on its position', spin: false, show: true, fuse: true, icon: 'planet' },
+	{ title: 'KP Transit', note: 'Get KP Transit for a given date & time', spin: false, show: true, fuse: true, icon: 'swap-horizontal-outline' },
+	{ title: 'Dasha & Transit predictions', note: 'Get Current Dasha & Transit predictions', spin: false, show: true, fuse: true, icon: 'trending-up-outline' },
+	{ title: 'Lucky Days to sign an Agreement', note: 'Know the favourable days to sign an agreement', spin: false, show: true, fuse: true, icon: 'document-text-outline' },
+	{ title: 'Lucky Days for opening bank account', note: 'Know the favourable days for obtaining bank account', spin: false, show: true, fuse: true, icon: 'card-outline' },
+	{ title: 'To undergo a treatment', note: 'Know the favourable days to undergo health treatment', spin: false, show: true, fuse: true, icon: 'medkit-outline' },
+	{ title: 'Filing a court case', note: 'Know the favourable days for filing a court case', spin: false, show: true, fuse: true, icon: 'hammer-outline' },
+	{ title: 'To Occupy a new house', note: 'Know the favourable days to occupy a new house', spin: false, show: true, fuse: true, icon: 'home-outline' },
+	{ title: 'To take delivery of vehicle', note: 'Know the favourable days to take the new vehicle', spin: false, show: true, fuse: true, icon: 'car-outline' },
+	{ title: 'To apply for passport', note: 'Know the favourable days to apply for passport', spin: false, show: true, fuse: true, icon: 'airplane-outline' },
+	{ title: 'For college admission', note: 'Know the favourable days for college admission', spin: false, show: true, fuse: true, icon: 'school-outline' }
+	];    
+	console.log('kp-astro constructor called');	  
   }
 
   ngOnInit() {

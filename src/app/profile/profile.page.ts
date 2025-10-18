@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Router, ActivatedRoute} from '@angular/router';
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { Platform } from '@ionic/angular';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
@@ -164,7 +165,16 @@ dob: string = '';
 	   this.showL = false;
 	   this.showP = true;
    }
-   save(evt)
+   async getFcmToken() {
+	try {
+		const { token } = await FirebaseMessaging.getToken();
+		console.log('FCM Token:', token);
+		return token;
+	} catch (err) {
+		console.error('Error getting FCM token', err);
+	}
+}
+   async save(evt)
    {
 	   evt.stopPropagation();
 	   this.info = '';
@@ -219,18 +229,20 @@ dob: string = '';
 					this.info = JSON.stringify(e);
 				});
 				
-						this.shareService.setPDOB(db);
-				this.horoService.setProfile(this.device.uuid, '', db, this.email)
-				.subscribe(res => {
-					this.showS = false;
-					if(res['status'] == 'E') this.info = res['dob'];
-					else{
-						this.info = 'Profile saved successfully.';
-						this.shareService.setUPRO(res);
-					}
-				}, (err) => {
-					this.info = err;
-				});
+				this.shareService.setPDOB(db);
+				let fcmToken = await this.getFcmToken();
+				console.log('fcmToken', fcmToken);
+					this.horoService.setProfile(this.device.uuid, '', db, this.email, fcmToken)
+						.subscribe(res => {
+							this.showS = false;
+							if (res['status'] == 'E') this.info = res['dob'];
+							else {
+												this.info = 'Profile saved successfully.';
+												this.shareService.setUPRO(res);
+											}
+										}, (err) => {
+											this.info = JSON.stringify(err);
+										});
 			//	if(this.source == 'home' || this.source == 'proreq-home') {
 					let ayanid: number = 4;
 					var res = this.shareService.getAYNM();
@@ -368,38 +380,6 @@ dob: string = '';
   newFileName =  n + ".jpg";
   return newFileName;
  }
-
-	
- uploadImage(image) {
-    return new Promise((resolve, reject) => {
-
-      const body = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-      const ext = image.split(';')[0].split('/')[1] || 'jpg';
-      let date =  Date.now();
-      let key = 'images/profile-126-' + date + '.jpg';
-      this.s3Putimage({ body, mime: `image/${ext}` }, key, 'base64').then((result) => { 
-					resolve(result); 
-					console.log('aws', result);
-					this.avatar = 'https://126images.s3-us-east-2.amazonaws.com/' + result.toString();
-					let db: string = '';
-					if(this.dob.length > 0 && this.tob.length > 0)
-						db = this.dob + 'T' + this.tob;
-					if(this.latlng.length > 0) db += 'L' + this.latlng;
-					if(this.tz.length > 0) db += '@' + this.tz;
-					if(this.nam.length > 0) db += '#' + this.nam;
-					if(this.gen.length > 0) db += '&' + this.gen;
-					this.info = 'Saving the profile..';
-					this.horoService.setProfile(this.device.uuid, 'https://126images.s3-us-east-2.amazonaws.com/' + result.toString(), db, this.email)
-						.subscribe(res => {
-							this.info = 'Profile is saved.';
-						}, (err) => {
-							this.info = err;
-						});
-				}).catch((err) => { 
-					reject(err); 
-				});
-    })
-  }
   updateSearch() {
     console.log('updateSearch');
     if (this.autocomplete.query == '' || this.autocomplete.query.length < 3 || this.autocomplete.query == this.place) {

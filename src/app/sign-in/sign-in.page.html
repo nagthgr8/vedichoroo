@@ -16,7 +16,7 @@
       <h1>Welcome to VEDICHOROO!</h1>
       <p>Enhance your experience by signing in:</p>
     </div>
-  
+    <div class="signin-options" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
     <ion-button class="signin" expand="block" color="google" (click)="googleLogin()">
       <ion-icon slot="start" name="logo-google"></ion-icon>
       Sign in with Google
@@ -26,7 +26,10 @@
       <ion-icon slot="start" name="logo-facebook"></ion-icon>
       Sign in with Facebook
     </ion-button>
-    
+    <div class="ion-text-center">
+      <p class="info">{{ info }}</p>
+    </div>
+    </div>
     <!-- <ion-button class="signin" expand="block" color="light" (click)="anonymous()">
         <div class="button-text">
           <div class="main-line">CONTINUE AS ANONYMOUS</div>
@@ -35,8 +38,5 @@
       </ion-button> -->
       
   
-    <div class="ion-text-center">
-      <p class="info">{{ info }}</p>
-    </div>
   <div class="fixed-content"></div></ion-content>
   

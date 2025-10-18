@@ -1,4 +1,4 @@
- body {
+body {
   font-family: roboto;
  }
  .page-content {
@@ -51,10 +51,10 @@ ion-grid {
   background: rgba(var(--ion-color-primary-rgb), 0.1); /* Light background for distinction */
   display: flex; /* Enable flex for proper alignment */
   align-items: center; /* Center items vertically */
-  padding: 5px 10px; /* Reduced padding for horizontal space, 5px top/bottom and 10px left/right */
+  padding: 2px 6px; /* Less padding */
   border-bottom: 2px solid var(--vedic-border-color); /* Bottom border for separation */
-  margin-bottom: 10px; /* Space between rows */
-  border-radius: 10px; /* Rounded corners */
+  margin-bottom: 6px;
+  border-radius: 8px;
 }
 
 .dcont {
@@ -65,25 +65,35 @@ ion-grid {
 
 .dimg-container {
   flex: 0 0 auto; /* Prevent image from growing too large */
-  margin-right: 10px; /* Space between image and text */
+  margin-right: 6px; /* Space between image and text */
 }
 
 .dimg {
-  width: 56px; /* Fixed width for consistency */
-  height: 56px; /* Fixed height for consistency */
-  border-radius: 50%; /* Circular image */
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
 }
 
 .dtxt {
-  flex: 1; /* Allow text to take remaining space */
-  font-size: 1rem; /* Font size for readability */
-  color: var(--vedic-text-color); /* Text color */
+  flex: 1;
+  font-size: 0.82rem;         // Reduced font size
+  margin: 0;
+  line-height: 1.2;
+  color: var(--vedic-text-color);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;      // Limit to 2 lines
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .more {
-  color: var(--vedic-title-color); /* Distinct color for "Read More" */
-  font-weight: bold; /* Make it stand out */
-  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 0.85rem;
+  color: var(--ion-color-primary-contrast, #fff); // Use a light color for contrast
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 6px;
+  text-decoration: underline;
 }
 .dhoro {
   font-size: 1rem;
@@ -133,7 +143,7 @@ float: right;
 }
 .fuse {
   color: #f71702;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: bold;
 }
 ion-button span.title {
@@ -141,34 +151,34 @@ ion-button span.title {
   text-transform: none;
 }
 .ched {
-  font-size: 1.5rem !important;
-  color: #d35400; /* Date color */
-  font-weight: bold;
-  margin-bottom: 5px; /* Space below date */
+  font-size: 1.05rem !important;
+  margin-bottom: 2px;
+  font-weight: 600;
 }
 
 .panch-image img {
-  width: 100%; /* Make image responsive */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px; /* Rounded image */
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
 }
 
 .detail-item {
-  display: flex; /* Flexbox for alignment */
-  justify-content: space-between; /* Space out labels and values */
-  padding: 3px 0; /* Reduced padding */
-  font-size: 1rem; /* Consistent font size */
+  font-size: 0.92rem;
+  padding: 1px 0;
+  margin: 0;
+  line-height: 1.2;
 }
 
-.cfn {
-  color: #ffffff; /* Retaining label color for better visibility */
-  font-weight: bold;
+.cfn, .cvl {
+  font-size: 0.92rem;
 }
 
-.cvl {
-  font-weight: bold;
-  color: #f1c40f; /* Enhanced color for the text next to the labels, brighter than before */
-  white-space: nowrap; /* Prevent wrapping for values */
+.panch {
+  padding: 8px 6px !important;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  font-size: 0.97rem;
 }
 
 .ion-text-center {
@@ -290,6 +300,61 @@ ion-fab-button[title]::after {
   box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
 }
 .panch {
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 8px; /* Reduce padding */
+  margin-bottom: 10px; /* Less space below */
+}
+ion-card > ion-grid,
+ion-card ion-grid {
+  // Only targets ion-grid inside ion-card
+  ion-row {
+    margin-bottom: 2px !important; // Reduce space between rows
+    padding: 2px 0 !important;     // Reduce vertical padding
+  }
+}
+.panch-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 4px 0;
+}
+.panch-header-img {
+  width: 40px; // Smaller image
+  height: 40px;
+  margin: 0 auto 4px auto;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 1px #ffe082;
+  background: #fffbe7;
+  border: 2px solid #ffe082;
+  display: block;
+}
+
+.panch-header-date {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0;
+  color: var(--ion-text-color, #7a4c15);
+}
+
+.panch-row {
+  margin-bottom: 2px;
+  border-radius: 8px; // Add rounding to grid rows for harmony
+  background: transparent; // Let the card's gradient show through
+}
+
+.panch.divine-bg {
+  background: linear-gradient(135deg, #f8e8d0 0%, #f3f0e0 100%);
+  border-radius: 12px; // Reduced from 18px to 12px for harmony
+  box-shadow: 0 4px 24px rgba(160, 120, 60, 0.08);
+  padding-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+ion-card.panch {
+  border-radius: 12px !important; // Match with .panch.divine-bg
+  overflow: hidden;
 }

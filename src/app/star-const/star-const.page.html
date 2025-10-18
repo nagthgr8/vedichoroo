@@ -10,11 +10,13 @@
 <ion-card no-padding *ngIf="!amsg">
 <img src="https://i.imgur.com/KgBaFEa.png"/>
 </ion-card>
+<div style="display: flex; justify-content: center;">
 <ion-card class="amsg" no-padding *ngIf="amsg">
 <div class="amsg-title">{{atitle | translate}}</div>
 <div class="amsg-subtitle">{{amsg | translate}}</div>
 <ion-button type="button" size="small" color="success" tappable (click)="msgok()">OK, Got It!</ion-button>
 </ion-card>
+</div>
  <ion-item><ion-label>AYANAMSA: </ion-label><span class="more">{{aynt}}</span><ion-badge color="primary" tappable (click)="chgayan()">change</ion-badge></ion-item>
 <ion-grid *ngIf="showBD" no-padding>
  <ion-row class="bd"><ion-col class="lbl" size="12">{{'Birth Details'|translate}}</ion-col></ion-row>

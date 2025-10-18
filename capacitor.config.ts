@@ -4,6 +4,8 @@ const config: CapacitorConfig = {
   appId: 'com.mypubz.eportal',
   appName: 'vedichoroo',
   webDir: 'www',
+
+  // Capacitor 7 uses this plugins section
   plugins: {
     FirebaseAuthentication: {
       skipNativeAuth: false,
@@ -12,11 +14,15 @@ const config: CapacitorConfig = {
     Keyboard: {
       resize: "body",
       resizeOnFullScreen: true,
-    },    
-  },  
+    },
+    FirebaseMessaging: {} // <-- Add Firebase Messaging plugin
+  },
+
   server: {
     androidScheme: 'https'
   },
+
+  // Cordova settings are still supported if you have other Cordova plugins
   cordova: {
     preferences: {
       ScrollEnabled: 'false',

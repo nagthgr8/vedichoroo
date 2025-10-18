@@ -47,37 +47,176 @@
     <ion-row class="kpsubtitle"><ion-col size="2" class="hn"><div ion-text tappable (click)="showInf('Fortuna')">Fortuna</div></ion-col><ion-col size="2"><div color="primary" ion-text [innerHTML]='fpos'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='fras'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='fnak'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='fsub'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='hssub13'></div></ion-col></ion-row>
     <ion-row class="kpsubtitle"><ion-col size="2"><div color="secondary" ion-text>Ascendant</div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='apos'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='aras'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='anak'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='asub'></div></ion-col><ion-col size="2" ><div color="primary" ion-text [innerHTML]='hssub14'></div></ion-col></ion-row>
     <ion-row class="kptitle"><ion-col col-4>PLANET</ion-col><ion-col col-8>SIGNIFICATORS</ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col><div color="primary" ion-text [innerHTML]='pn1'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps1 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps1 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps1}}</span><span style='color:#f0882f;font-weight:'>{{L4ps1}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk1'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn2'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps2 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps2 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps2}}</span><span style='color:#f0882f;font-weight:'>{{L4ps2}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk2'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn3'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps3 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps3 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps3}}</span><span style='color:#f0882f;font-weight:'>{{L4ps3}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk3'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn4'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps4 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps4 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps4}}</span><span style='color:#f0882f;font-weight:'>{{L4ps4}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk4'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn5'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps5 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps5 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps5}}</span><span style='color:#f0882f;font-weight:'>{{L4ps5}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk5'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn6'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps6 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps6 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps6}}</span><span style='color:#f0882f;font-weight:'>{{L4ps6}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk6'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn7'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps7 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps7 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps7}}</span><span style='color:#f0882f;font-weight:'>{{L4ps7}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk7'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn8'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps8 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps8 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps8}}</span><span style='color:#f0882f;font-weight:'>{{L4ps8}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk8'></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-4><div color="primary" ion-text [innerHTML]='pn9'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1ps9 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2ps9 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3ps9}}</span><span style='color:#f0882f;font-weight:'>{{L4ps9}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk9'></div></ion-col></ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col>
+    <div color="primary" ion-text [innerHTML]='pn1'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps1 }}</span>
+      <span class="level2">{{ L2ps1 }}</span>
+      <span class="level3">{{ L3ps1 }}</span>
+      <span class="level4">{{ L4ps1 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk1'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn2'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps2 }}</span>
+      <span class="level2">{{ L2ps2 }}</span>
+      <span class="level3">{{ L3ps2 }}</span>
+      <span class="level4">{{ L4ps2 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk2'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn3'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps3 }}</span>
+      <span class="level2">{{ L2ps3 }}</span>
+      <span class="level3">{{ L3ps3 }}</span>
+      <span class="level4">{{ L4ps3 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk3'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn4'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps4 }}</span>
+      <span class="level2">{{ L2ps4 }}</span>
+      <span class="level3">{{ L3ps4 }}</span>
+      <span class="level4">{{ L4ps4 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk4'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn5'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps5 }}</span>
+      <span class="level2">{{ L2ps5 }}</span>
+      <span class="level3">{{ L3ps5 }}</span>
+      <span class="level4">{{ L4ps5 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk5'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn6'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps6 }}</span>
+      <span class="level2">{{ L2ps6 }}</span>
+      <span class="level3">{{ L3ps6 }}</span>
+      <span class="level4">{{ L4ps6 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk6'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn7'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps7 }}</span>
+      <span class="level2">{{ L2ps7 }}</span>
+      <span class="level3">{{ L3ps7 }}</span>
+      <span class="level4">{{ L4ps7 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk7'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn8'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps8 }}</span>
+      <span class="level2">{{ L2ps8 }}</span>
+      <span class="level3">{{ L3ps8 }}</span>
+      <span class="level4">{{ L4ps8 }}</span>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-12>
+    <div color="level2" ion-text [innerHTML] = 'krk8'></div>
+  </ion-col>
+</ion-row>
+<ion-row class="kpsubtitle">
+  <ion-col col-4>
+    <div color="primary" ion-text [innerHTML]='pn9'></div>
+  </ion-col>
+  <ion-col size="8">
+    <div>
+      <span class="level1">{{ L1ps9 }}</span>
+      <span class="level2">{{ L2ps9 }}</span>
+      <span class="level3">{{ L3ps9 }}</span>
+      <span class="level4">{{ L4ps9 }}</span>
+    </div>
+  </ion-col>
+</ion-row>	<ion-row class="kpsubtitle"><ion-col col-12><div color="level2" ion-text [innerHTML] = 'krk9'></div></ion-col></ion-row>
     <ion-row class="kptitle"><ion-col col-4>HOUSE</ion-col><ion-col col-8>SIGNIFICATORS</ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text [innerHTML]='hn1' tappable (click)="hsignf(1)"></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs1 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs1 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs1}}</span><span style='color:#f0882f;font-weight:'>{{L4hs1}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(2)" [innerHTML]='hn2'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs2 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs2 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs2}}</span><span style='color:#f0882f;font-weight:'>{{L4hs2}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(3)" [innerHTML]='hn3'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs3 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs3 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs3}}</span><span style='color:#f0882f;font-weight:'>{{L4hs3}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(4)"[innerHTML]='hn4'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs4 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs4 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs4}}</span><span style='color:#f0882f;font-weight:'>{{L4hs4}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(5)" [innerHTML]='hn5'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs5 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs5 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs5}}</span><span style='color:#f0882f;font-weight:'>{{L4hs5}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(6)" [innerHTML]='hn6'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs6 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs6 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs6}}</span><span style='color:#f0882f;font-weight:'>{{L4hs6}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(7)" [innerHTML]='hn7'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs7 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs7 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs7}}</span><span style='color:#f0882f;font-weight:'>{{L4hs7}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(8)" [innerHTML]='hn8'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs8 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs8 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs8}}</span><span style='color:#f0882f;font-weight:'>{{L4hs8}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(9)" [innerHTML]='hn9'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs9 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs9 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs9}}</span><span style='color:#f0882f;font-weight:'>{{L4hs9}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(10)" [innerHTML]='hn10'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs10 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs10 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs10}}</span><span style='color:#f0882f;font-weight:'>{{L4hs10}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(11)" [innerHTML]='hn11'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs11 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs11 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs11}}</span><span style='color:#f0882f;font-weight:'>{{L4hs11}}</span></div></ion-col></ion-row>
-	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(12)" [innerHTML]='hn12'></div></ion-col><ion-col size="8"><div><span style='color:#FF0000;font-weight:bold'>{{ L1hs12 }}</span><span style='color:#3db161;font-weight:bold'>{{ L2hs12 }}</span><span style='color:#5648D5;font-weight:bold;'>{{L3hs12}}</span><span style='color:#f0882f;font-weight:'>{{L4hs12}}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text [innerHTML]='hn1' tappable (click)="hsignf(1)"></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs1 }}</span><span class="level2">{{ L2hs1 }}</span><span class="level3">{{ L3hs1 }}</span><span class="level4">{{ L4hs1 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(2)" [innerHTML]='hn2'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs2 }}</span><span class="level2">{{ L2hs2 }}</span><span class="level3">{{ L3hs2 }}</span><span class="level4">{{ L4hs2 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(3)" [innerHTML]='hn3'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs3 }}</span><span class="level2">{{ L2hs3 }}</span><span class="level3">{{ L3hs3 }}</span><span class="level4">{{ L4hs3 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(4)"[innerHTML]='hn4'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs4 }}</span><span class="level2">{{ L2hs4 }}</span><span class="level3">{{ L3hs4 }}</span><span class="level4">{{ L4hs4 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(5)" [innerHTML]='hn5'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs5 }}</span><span class="level2">{{ L2hs5 }}</span><span class="level3">{{ L3hs5 }}</span><span class="level4">{{ L4hs5 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(6)" [innerHTML]='hn6'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs6 }}</span><span class="level2">{{ L2hs6 }}</span><span class="level3">{{ L3hs6 }}</span><span class="level4">{{ L4hs6 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(7)" [innerHTML]='hn7'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs7 }}</span><span class="level2">{{ L2hs7 }}</span><span class="level3">{{ L3hs7 }}</span><span class="level4">{{ L4hs7 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(8)" [innerHTML]='hn8'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs8 }}</span><span class="level2">{{ L2hs8 }}</span><span class="level3">{{ L3hs8 }}</span><span class="level4">{{ L4hs8 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(9)" [innerHTML]='hn9'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs9 }}</span><span class="level2">{{ L2hs9 }}</span><span class="level3">{{ L3hs9 }}</span><span class="level4">{{ L4hs9 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(10)" [innerHTML]='hn10'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs10 }}</span><span class="level2">{{ L2hs10 }}</span><span class="level3">{{ L3hs10 }}</span><span class="level4">{{ L4hs10 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(11)" [innerHTML]='hn11'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs11 }}</span><span class="level2">{{ L2hs11 }}</span><span class="level3">{{ L3hs11 }}</span><span class="level4">{{ L4hs11 }}</span></div></ion-col></ion-row>
+	<ion-row class="kpsubtitle"><ion-col class="hn"><div ion-text tappable (click)="hsignf(12)" [innerHTML]='hn12'></div></ion-col><ion-col size="8"><div><span class="level1">{{ L1hs12 }}</span><span class="level2">{{ L2hs12 }}</span><span class="level3">{{ L3hs12 }}</span><span class="level4">{{ L4hs12 }}</span></div></ion-col></ion-row>
 </ion-grid>
   <ion-card>
    <ion-card-content><span><strong>LEVEL I Signinificators are highlighted in <span style="color:#f44141;font-size:bold">RED</span><br/>LEVEL II Signinificators are highlighted in <span style="color:#3db161;font-size:bold">GREEN</span><br/>LEVEL III Signinificators are highlighted in <span style="color:#5648D5;font-size:bold">VOILET</span><br/>LEVEL IV Signinificators are highlighted in <span style="color:#f0882f;font-size:bold">ORANGE</span></strong></span>
@@ -85,12 +224,18 @@
   </ion-card>
 	</div>
 	<div *ngIf="showTPD">
-  <ion-list class="kpitems">
-	      <ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
-	  <img [src]="item.img" slot="start"/>
-        <p> <span class="kitem">{{item.title}}</span><br><span class="ksitem"> {{item.note | translate}}</span><br><span *ngIf="!item.fuse" class="fuse"> Available for Subscribers</span></p>
-      </ion-item>
-	</ion-list>
+<ion-list class="kpitems">
+  <ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
+    <ion-avatar slot="start">
+      <img [src]="item.icon" />
+    </ion-avatar>
+    <ion-label>
+      <span class="kitem">{{item.title}}</span><br>
+      <span class="ksitem">{{item.note | translate}}</span><br>
+      <span *ngIf="!item.fuse" class="fuse">Available for Subscribers</span>
+    </ion-label>
+  </ion-item>
+</ion-list>
 	</div>
  <p ion-text class="info" color="primary" [innerHTML]='info'></p>
 <div class="fixed-content"></div></ion-content>

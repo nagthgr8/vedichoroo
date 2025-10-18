@@ -84,9 +84,7 @@ export class HomePage  {
   icons: string[];
   title: string[];
   note: string[];
-  r1items: Array<{title: string, note: string, icon: string, spin: boolean, fuse: boolean}>;
-  r2items: Array<{title: string, note: string, icon: string, spin: boolean, fuse: boolean}>;
-  r3items: Array<{title: string, note: string, icon: string, spin: boolean, fuse: boolean}>;
+  dashItems: Array<{title: string, note: string, icon: string, spin: boolean, fuse: boolean}>;
   today: string = '';
   lang: string;
   sunrise: string = '';
@@ -165,49 +163,100 @@ private menu: MenuController, private device: Device, private market: Market, pr
 private shareService: ShareService, private horoService: HoroscopeService, private file: File) 
   {
 	  console.log('home', 'constructor');
+	  this.dashItems = [
+		{
+			title: 'Rashi Chart',
+			note: 'Vedic Horoscope with Vimsottara Dasha predictions',
+			icon: 'ellipse-outline', 
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Varga Charts',
+			note: 'Analysis On Each Life Aspect',
+			icon: 'grid-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Love Compatibility',
+			note: 'Based On Your Moon Sign',
+			icon: 'heart-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'KP Astrology',
+			note: 'KP Astrology, Life Event Predictions',
+			icon: 'star-half-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Star Constellation',
+			note: 'Know your lucky days/star strength, based on Muhurta by B V Raman',
+			icon: 'sparkles-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Prashna Jyotish',
+			note: 'Horary, Ask any question & know the answer.',
+			icon: 'help-circle-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Money Horoscope',
+			note: 'Know your wealth using Hora Chart analysis',
+			icon: 'cash-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Career Horoscope',
+			note: 'Career Predictions using Dasamsa Chart',
+			icon: 'briefcase-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Lucky Gemstones',
+			note: 'Find your lucky gemstones',
+			icon: 'diamond-outline',
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Transits & Predictions',
+			note: 'Get your monthly prediction based on planetary transits',
+			icon: 'planet', // Ionic icon for planetary theme
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'BTR',
+			note: 'Get the rectified birth time through the scientifically proven KP Stellar Astrology',
+			icon: 'time', // Ionic icon for time/rectification
+			spin: false,
+			fuse: true
+		},
+		{
+			title: 'Your Rajayogas',
+			note: 'Know your Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yogas and many more..',
+			icon: 'star', // Ionic icon for yogas/auspiciousness
+			spin: false,
+			fuse: true
+		}  
+	];
     this.items = [
       { title: 'Planetary Transits & Predictions', note: 'Get your monthly  prediction based on planetary transits', spin: false, show: true, fuse: true, img: 'assets/imgs/planets.png' },
-	  { title: 'Birth Time Rectification', note: 'Get the rectified birth time through the scientifically proven KP Stellar Astrology', spin: false, show: true, fuse: false, img: 'assets/imgs/btr1.png' },
-	  { title: 'Yogas In Your Horoscope', note: 'Know your Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yogas and many more..', spin: false, show: true, fuse: false, img: 'assets/imgs/yogas.png' },
- ];
+	  { title: 'Birth Time Rectification', note: 'Get the rectified birth time through the scientifically proven KP Stellar Astrology', spin: false, show: true, fuse: true, img: 'assets/imgs/btr1.png' },
+	  { title: 'Yogas In Your Horoscope', note: 'Know your Raja Yogas, Panchmahapurush Yogas, Gajakesari Yoga, Lakshmi Yogas and many more..', spin: false, show: true, fuse: true, img: 'assets/imgs/yogas.png' },
+   ];
     this.icons = ['assets/imgs/chart.png','assets/imgs/vargas.png','assets/imgs/love.png','assets/imgs/kp.png', 'assets/imgs/tarabal.png', 'assets/imgs/prashna.png','assets/imgs/money.png','assets/imgs/career.png', 'assets/imgs/gems.png'];
 	this.title = ['Birth Chart Analysis','Divisional Charts','Love Compatibility','KP Astrology', 'Star Constellation', 'Prashna Jyotish','Money Horoscope','Career Horoscope','Lucky Gemstones']
-    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Analysis On Each Life Aspect','Based On Your Moon Sign', 'Love/Marriage Compatibility Report', 'KP Astrology, Life Event Predictions','Know your lucky days/star strength, based on Muhurta by B V Raman','Horary, Ask any question & know the answer.','Career Predictions using Dasamsa Chart','Know yoour wealth using Hora Chart analysis, ', 'Vedic Astrology Stories','Play 250+ Trending Games']
-    this.r1items = [];
-    this.r2items = [];
-    this.r3items = [];
-   //this.today = Date.now();
-  			for(let i = 1; i < 16; i++) {
-				let fuse: boolean = true;
-			  if( i == 4 ) fuse = false;
-			  if(i < 4) {
-				  this.r1items.push({
-					title: this.title[i-1],
-					note: this.note[i-1],
-					icon: this.icons[i-1],
-					spin: false,
-					fuse: fuse
-				  });
-			  }
-			  else if(i < 7) {
-				  this.r2items.push({
-					title: this.title[i-1],
-					note: this.note[i-1],
-					icon: this.icons[i-1],
-					spin: false,
-					fuse: fuse
-				  });
-			  }
-			  else if(i < 10) {
-				  this.r3items.push({
-					title: this.title[i-1],
-					note: this.note[i-1],
-					icon: this.icons[i-1],
-					spin: false,
-					fuse: fuse
-				  });
-			  }
-			}
+    this.note = ['Vedic Horoscope with Vimsottara Dasha predictions','Analysis On Each Life Aspect','Based On Your Moon Sign', 'Love/Marriage Compatibility Report', 'KP Astrology, Life Event Predictions','Know your lucky days/star strength, based on Muhurta by B V Raman','Horary, Ask any question & know the answer.','Career Predictions using Dasamsa Chart','Know yoour wealth using Hora Chart analysis, ', 'Vedic Astrology Stories']
 }
     showRatePrompt(){
 	 this.appRate.setPreferences({
@@ -937,25 +986,41 @@ getSN(msgn) {
 		console.log('ofset', ofset);
 		console.log('sunrise', this.sunrise);
 		console.log('sunset', this.sunset);
+
+		// --- Abhijit Muhurat Calculation (fixed) ---
+		// Parse sunrise and sunset as minutes since midnight
+		const sunriseParts = this.sunrise.split(':').map(Number);
+		const sunsetParts = this.sunset.split(':').map(Number);
+
+		const sunriseMins = sunriseParts[0] * 60 + sunriseParts[1];
+		const sunsetMins = sunsetParts[0] * 60 + sunsetParts[1];
+
+		// Solar noon in minutes
+		const midMins = Math.floor((sunriseMins + sunsetMins) / 2);
+
+		// Abhijit Muhurat: 24 minutes before and after solar noon
+		const abhijitStartMins = midMins - 24;
+		const abhijitEndMins = midMins + 24;
+
+		// Helper to format minutes as HH:mm
+		function minsToTime(mins: number) {
+			const h = Math.floor(mins / 60);
+			const m = mins % 60;
+			return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+		}
+
+		this.abhjit = minsToTime(abhijitStartMins) + ' To ' + minsToTime(abhijitEndMins);
+
+		// --- Rahu Kalam & Yamagandam (existing logic, unchanged) ---
 		var startTime = moment(this.sunrise + ':00 am', "HH:mm:ss a");
 		var endTime = moment(this.sunset + ':00 pm', "HH:mm:ss a");
 		var duration = moment.duration(endTime.diff(startTime));
 		var hours = duration.asHours();
 		var minutes = duration.asMinutes() % 60;
-		var smins = startTime.hour() * 60 + startTime.minute();
-		var emins = endTime.hour() * 60 + endTime.minute();
-		var tmins = (smins + emins) / 2;
-		var tothrs = Math.floor(tmins / 60);
-		var totmins = (tmins % 60);
-		var midTime = moment(tothrs.toString() + ':' + totmins.toString() + ':00 pm', "HH:mm:ss a");
 		var totalsec = hours * 60 * 60 + minutes * 60;
-		var abhsecs = Math.floor(totalsec / 2);
-		var abh = Math.floor((hours / 30) * 60);
-		var abhs = moment(midTime).subtract(abh, 'm');
-		var abhe = moment(midTime).add(abh, 'm');
 		var ethsec = Math.floor(totalsec / 8);
 		var ethmin = Math.floor(ethsec / 60);
-		var eth = moment.utc(ethsec * 1000).format('HH:mm:ss');
+
 		var weekdays = new Array(7);
 		weekdays[0] = "SUN|8|5";
 		weekdays[1] = "MON|2|4";
@@ -972,7 +1037,6 @@ getSN(msgn) {
 		var eym = moment(sym).add(ethmin, 'm');
 		this.rahukal = srhu.format('HH:mm') + ' To ' + erhu.format('HH:mm');
 		this.yama = sym.format('HH:mm') + ' To ' + eym.format('HH:mm');
-		this.abhjit = abhs.format('HH:mm') + ' To ' + abhe.format('HH:mm');
 	}
 
    ngOnDestroy() {
@@ -995,14 +1059,8 @@ getSN(msgn) {
 		  this.shareService.getADV()
 	  }
 	  if(this.bpf) {
-		for(let i = 0; i < 3 ; i++) {
-		  this.r1items[i].spin = false;
-		}
-		for(let i = 0; i < 3; i++) {
-		  this.r2items[i].spin = false;
-		}
-		for(let i = 0; i < 3; i++) {
-		  this.r3items[i].spin = false;
+		for(let i = 0; i < 12 ; i++) {
+		  this.dashItems[i].spin = false;
 		}
 	  }
   
@@ -1027,14 +1085,15 @@ getSN(msgn) {
 	    switch(this.choice)
 		{
 		 case 'Birth Chart':
+		 case 'Rashi Chart':
 		 case 'Birth Chart Analysis':
 		 case 'KP Astrology':
 		 case 'Predictions':
-		 case 'Yogas In Your Horoscope':
+		 case 'Your Yogas':
 		 case 'Career Horoscope':
 		 case 'Money Horoscope':
-		 case 'Muhurtha by BV Raman':
-		 case 'Divisional Charts':
+		 case 'Star Constellation':
+		 case 'Varga Charts':
 			this.router.navigate(['/personal-details'], {state : this.choice as any});
 			break;
 		 case 'Daily Horoscope':
@@ -1103,48 +1162,23 @@ getSN(msgn) {
    this.choice = item.title;
     switch(item.title)
     {
-	 case 'Birth Chart':
-	 case 'Birth Chart Analysis':
+	 case 'Rashi Chart':
 	 case 'KP Astrology':
 	 case 'Transit Predictions':
-	 case 'Planetary Transits & Predictions':
-	 case 'Yogas In Your Horoscope':
+	 case 'Transits & Predictions':
+	 case 'Your Rajayogas':
 	 case 'Career Horoscope':
 	 case 'Money Horoscope':
 	 case 'Star Constellation':
-	 case 'Divisional Charts':
+	 case 'Varga Charts':
 	 case 'Lucky Gemstones':
 	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') 
 			this.router.navigate(['/personal-details'], {state : item.title as any});
 		else if(this.plan.credits > 0) {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-				let adu: string = this.adUnit(item.title);
-				//admob.setDevMode(true);
-				admob.interstitial.load({
-				id: {
-				  // replace with your ad unit IDs
-				  android: adu,
-				  ios: adu,
-				  },
-				}).then(() =>  {
-				this.shareService.setADV(true);
-				})		
-			}
 			this.router.navigate(['/personal-details'], {state : item.title as any});
-		} else if(this.shareService.getREWARD() && item.title != 'Personalized Calendar') {
-			//admob.setDevMode(true);
-		    admob.rewardVideo.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/5788035885',
-			  ios: 'ca-app-pub-8442845715303800/5788035885',
-			  },
-		    }).then(() => admob.rewardVideo.show())			
-		}
+		} 
 		else
 			this.router.navigate(['/personal-details'], {state : item.title as any});
-			//this.router.navigate(['/subscribe'], {queryParams : {title: item.title}});
 		break;
 	 case 'Daily Horoscope':
 	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') {
@@ -1154,30 +1188,7 @@ getSN(msgn) {
 				console.log('Moonsign', this.shareService.getMoonSign())
 				this.router.navigate(['/daily-forecast'], {state : this.dho});
 			}
-		} else if(this.shareService.getREWARD()) {
-		    admob.rewardVideo.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/5788035885',
-			  ios: 'ca-app-pub-8442845715303800/5788035885',
-			  },
-		    }).then(() => admob.rewardVideo.show())			
 		} else {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-			 let adu: string = this.adUnit(item.title);
-			//admob.setDevMode(true);
-		     admob.interstitial.load({
-			 id: {
-			  // replace with your ad unit IDs
-			  android: adu,
-			  ios: adu,
-			  },
-		     }).then(() => {
-				this.shareService.setADV(true);
-				//admob.interstitial.show()
-			 })	
-			}
 			if(this.shareService.getMoonSign() == null || this.shareService.getMoonSign().trim() == '') {
 				this.router.navigate(['/profile'], {state : 'home' as any});
 			} else {
@@ -1187,88 +1198,14 @@ getSN(msgn) {
 		}		
 		break;
 	 case 'Prashna Jyotish':
-	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') 
-			this.router.navigate(['/prashna-jyotish'], {state : item.title as any});
-		else if(this.plan.name == 'com.mypubz.eportal.month'|| this.plan.name == 'com.mypubz.eportal.year' || this.plan.credits > 0) {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-				let adu: string = this.adUnit(item.title);
-			//admob.setDevMode(true);
-				admob.interstitial.load({
-				id: {
-			  // replace with your ad unit IDs
-				android: adu,
-				ios: adu,
-				},
-				}).then(() => { 
-					this.shareService.setADV(true);
-				})
-			  }
-			  this.router.navigate(['/prashna-jyotish'], {state : item.title as any});
-		} else if(this.shareService.getREWARD()) {
-		    admob.rewardVideo.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/5788035885',
-			  ios: 'ca-app-pub-8442845715303800/5788035885',
-			  },
-		    }).then(() => admob.rewardVideo.show())			
-		} else
-			this.router.navigate(['/subscribe'], {state : item.title as any});
+		this.router.navigate(['/prashna-jyotish'], {state : item.title as any});
 	    break;
-	 case 'Kundli Matching':
+	case 'Kundli Matching':
 	case 'Love Compatibility':
-	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') 
-			this.router.navigate(['/marriage-horo'], {state :  item.title as any});
-		else if(this.plan.name == 'com.mypubz.eportal.month'|| this.plan.name == 'com.mypubz.eportal.year' || this.plan.credits > 0) {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-				let adu: string = this.adUnit(item.title);
-			//admob.setDevMode(true);
-				admob.interstitial.load({
-				id: {
-			  // replace with your ad unit IDs
-				android: adu,
-				ios: adu,
-				},
-				}).then(() => {
-				//admob.interstitial.show())		
-					this.shareService.setADV(true);
-				})
-			}				
-			this.router.navigate(['/marriage-horo'], {state : item.title as any});
-		} else if(this.shareService.getREWARD()) {
-		    admob.rewardVideo.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/5788035885',
-			  ios: 'ca-app-pub-8442845715303800/5788035885',
-			  },
-		    }).then(() => admob.rewardVideo.show())			
-		} else
-			this.router.navigate(['/subscribe'], {state : item.title as any});
+		this.router.navigate(['/marriage-horo'], {state :  item.title as any});
 		break;
-	 case 'Vedic Stories':
-	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') 
-			this.router.navigate(['/stories'], {state : item.title as any});
-		else {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-				let adu: string = this.adUnit(item.title);
-			//admob.setDevMode(true);
-				admob.interstitial.load({
-				id: {
-			  // replace with your ad unit IDs
-				android: adu,
-				ios: adu,
-				},
-				}).then(() => {
-				//admob.interstitial.show())		
-					this.shareService.setADV(true);
-				})
-			}				
-			this.router.navigate(['/stories'], {state : item.title as any});
-		}			
+	case 'Vedic Stories':
+		this.router.navigate(['/stories'], {state : item.title as any});
 		break;
 	case 'Write an Article':
 	   this.article();
@@ -1279,11 +1216,8 @@ getSN(msgn) {
 	case 'Hindu Calendar':
 	    this.router.navigate(['/hindu-cal']);
 		break;
-	case 'Birth Time Rectification':
+	case 'BTR':
 		this.btr();
-		break;
-	case 'Games':
-	    this.openUrl();
 		break;
 	case 'Personalized Report':
 	    this.router.navigate(['/report']);
@@ -1299,106 +1233,15 @@ getSN(msgn) {
 	    this.router.navigate(['/personal-details'], {state : 'Transit Predictions' as any});
    }
    daily() {
-	    if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.month' || this.plan.name == 'com.mypubz.eportal.year') {
-			if(this.shareService.getMoonSign() == '') {
-				this.router.navigate(['/profile'], {state : 'home' as any});
-			} else {
-				this.router.navigate(['/daily-forecast'], {state : this.dho});
-			}
-		} else if(this.shareService.getREWARD()) {
-		    admob.rewardVideo.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/5788035885',
-			  ios: 'ca-app-pub-8442845715303800/5788035885',
-			  },
-		    }).then(() => admob.rewardVideo.show())			
-		} else {
-			if(this.ticks > 60) {
-				this.ticks = 0;
-				let adu: string = this.adUnit('Daily Horoscope');
-			//admob.setDevMode(true);
-				admob.interstitial.load({
-				id: {
-			  // replace with your ad unit IDs
-				android: adu,
-				ios: adu,
-				},
-			 }).then(() => {
-				this.shareService.setADV(true);
-				//admob.interstitial.show()
-			})	
-		  }			
-			this.router.navigate(['/daily-forecast'], {state : this.dho});
-		}		
-   }
-   adUnit(choice: string)
-   {
-	   let adu: string = 'ca-app-pub-8442845715303800/9358299242';
-	   switch(choice)
-	   {
-		 case 'Birth Chart':
-		 case 'Birth Chart Analysis':
-			adu = 'ca-app-pub-8442845715303800/9358299242';
-			break;
-		 case 'KP Astrology':
-			adu = 'ca-app-pub-8442845715303800/7470502506';
-			break;
-		 case 'Predictions':
-			adu = 'ca-app-pub-8442845715303800/8031293215';
-			break;
-		 case 'Yogas In Your Horoscope':
-			adu = 'ca-app-pub-8442845715303800/6353921799';
-			break;
-		 case 'Career Horoscope':
-			adu = 'ca-app-pub-8442845715303800/2090107688';
-			break;
-		 case 'Money Horoscope':
-			adu = 'ca-app-pub-8442845715303800/8867601157';
-			break;
-		 case 'Personalized Calendar':
-			adu = 'ca-app-pub-8442845715303800/3342144443';
-			break;
-		 case 'Divisional Charts':
-			adu = 'ca-app-pub-8442845715303800/2339277287';
-			break;
-		 case 'Daily Horoscope':
-			adu = 'ca-app-pub-8442845715303800/2778966539';
-			break;
-		 case 'Prashna Jyotish':
-			adu = 'ca-app-pub-8442845715303800/6131959316';
-			break;
-		 case 'Kundli Matching':
-		case 'Love Compatibility':
-			adu = 'ca-app-pub-8442845715303800/2040599938';
-			break;
-		 case 'Vedic Stories':
-		    adu = 'ca-app-pub-8442845715303800/8208869109';
-			break;
-		 default:
-			break;
-	   }
-	   return adu;
+		this.router.navigate(['/daily-forecast'], {state : this.dho});
    }
   viewPanchang()
   {
 	  console.log('viewPanchang');
 	    if(this.plan.name != 'com.mypubz.eportal.astrologer' && this.plan.name != 'com.mypubz.eportal.adfree' && this.plan.name != 'com.mypubz.eportal.month' && this.plan.name != 'com.mypubz.eportal.year') {
-			//admob.setDevMode(true);
 			this.choice = 'Panch';
-		    admob.interstitial.load({
-			id: {
-			  // replace with your ad unit IDs
-			  android: 'ca-app-pub-8442845715303800/4044525017',
-			  ios: 'ca-app-pub-8442845715303800/4044525017',
-			  },
-		    }).then(() => {
-				//admob.interstitial.show())
-				this.shareService.setADV(true);
-			})
 		} 		
 	  this.router.navigate(['/panchang'], {state : 'panchang' as any});
-	//this.navCtrl.push(PanchangPage);
   }
   switchLanguage() {
     this.translate.use(this.lang);
@@ -1407,8 +1250,6 @@ getSN(msgn) {
   }
   advt()
   {
-//	 if(this.adv.tag == 'blogad')  
-	//	this.navCtrl.push(PublishBlogPage, {item: 'PublishBlogPage'});
   }
   calcStar(mins: number)
   {
@@ -1563,7 +1404,6 @@ getSN(msgn) {
     }
  }
 showAlert() {
-
     this.alertController.create({
       header: 'Location Error',
       subHeader: 'Location Not Found',

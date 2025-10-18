@@ -1,34 +1,90 @@
 .memory-content {
-  background-color: var(--memory-background); /* Default light theme background */
-  border-radius: 12px; /* Rounded corners */
-  border: 2px solid var(--memory-border); /* Default light theme border */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  padding: 20px; /* Padding for spacing */
-  margin: 15px; /* Margin to separate cards */
+  background: linear-gradient(135deg, #fffbe6 0%, #f7f1e3 100%);
+  border-radius: 16px;
+  border: 1.5px solid #f5d082;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  padding: 18px;
+  margin: 15px;
 }
 .memory-details {
-  background-color: var(--memory-background);
-  border-radius: 10px; /* Slight rounding for the detail box */
-  padding: 15px; /* Padding for spacing */
-  margin: 15px 0; /* Margin to separate from other elements */
-  border: 1px solid var(--memory-border); /* Light theme border */
-  text-align: left; /* Align text to the left */
+  background: #fff9e3;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 18px 0 10px 0;
+  border: 1px solid #f5d082;
+  text-align: left;
 }
 
 /* Oval image styling */
 .oval-image {
-  width: 150px; /* Set a fixed width for the image */
-  height: 150px; /* Set a fixed height for the image */
-  border-radius: 50%; /* Make the image circular */
-  border: 3px solid var(--oval-image-border); /* Default light theme border around the image */
-  object-fit: cover; /* Ensure the image covers the circular area */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for the image */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #f5d082;
+  object-fit: cover;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+  margin-bottom: 8px;
+}
+
+.bujji-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #d35400;
+  margin-top: 6px;
+}
+
+.bujji-dates {
+  font-size: 0.98rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.memory-intro {
+  font-size: 1.05rem;
+  color: #b9770e;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .memory-message {
-  font-size: 1rem; /* Base font size for readability */
-  line-height: 1.5; /* Improve line spacing */
-  color: var(--memory-text); /* Default light theme text color */
-  margin-top: 20px; /* Space above the message */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6d4c1c;
+  margin-top: 10px;
+}
+
+.sai-baba-quote {
+  margin: 18px 0 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sai-baba-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #f5d082;
+  background: #fff;
+}
+
+.sai-baba-attribution {
+  font-size: 0.92rem;
+  color: #b9770e;
+  margin-top: 2px;
+  display: block;
+}
+
+.memory-footer {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  color: #b9770e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 

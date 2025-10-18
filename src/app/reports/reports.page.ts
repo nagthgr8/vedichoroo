@@ -414,25 +414,11 @@ getREP(evt) {
     let geocoder = new google.maps.Geocoder();
 	geocoder.geocode({ 'latLng': latlng }, (results, status) => {
 	    console.log('geocoder result=', results);
-		//var dt = new Date();
-		//var n = dt.getTimezoneOffset();
-		//n = n/60;
-		//let ofset: number = Number(n.toFixed(1));
-		//let ayanid: number = 4;
-		//var ayn = this.shareService.getAYNM();
-		//if(ayn) ayanid = Number(ayn);
-//	this.horoService.downloadPdf(this.device.uuid, pd.name, pd.gender, pd.dob, results[0].formatted_address, pd.lat, pd.lng, pd.timezone, ofset, ayanid, this.shareService.getLANG(), (this.shareService.getCHTYP() == null) //? 'si':this.shareService.getCHTYP())
 	this.horoService.downloadPdfEx(this.device.uuid, pd.name, pd.gender, pd.dob, results[0].formatted_address, pd.lat, pd.lng, pd.timezone, pd.dstofset, Number(this.rayn), this.rlng, this.rchtyp, this.data.image, this.cnme, this.cnum, this.ceml)
 	.subscribe(res => {
-		//var fpth = '';
-		 //if (this.platform.isIOS()) {
-         //   fpth = this.file.documentsDirectory;
-        //} else {
            let fpth: string = this.file.externalDataDirectory;
-        //}
 		pd.genrep = false;
 		let fn = pd.name.split(' ').join() + Date.now() + '.pdf';
-		//let blob:any = new Blob([res], { type: 'application/pdf; charset=utf-8' });
 		this.file.writeFile(fpth,  fn, res, {replace: true, append: false})
 		.then(res =>  {
 			console.log('success');
@@ -440,10 +426,8 @@ getREP(evt) {
 				this.shareService.setREP(pd.name+'$'+pd.dob_short + '$'+ fn);
 				console.log('show pdf 2', this.file.externalDataDirectory+fn)
 				this.showPdf(fpth+fn);
-				//window.open(encodeURI(fpth+fn), '_system');
            }, function(error) {
             });	
-		//const url= window.URL.createObjectURL(res);
     }, (err) => {
 		this.info = JSON.stringify(err);
 		console.log(err);

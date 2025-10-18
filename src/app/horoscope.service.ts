@@ -1,8 +1,7 @@
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { map, catchError } from 'rxjs/operators';
 import { ShareService } from './share.service';
 
@@ -87,12 +86,12 @@ export class HoroscopeService {
   private apiUrl83 = 'https://www.126news.com/GetComment';
   private apiUrl84 = 'https://www.126news.com/PostComment';
   private apiUrl85 = 'https://charts.vedichoroo.com/v1/GeneratePDFDoc';
-	private apiUrl86 = 'https://charts.vedichoroo.com/v1/ProfileBanner';
-	private apiUrl87 = 'https://charts.vedichoroo.com/v1/ProfileBio';
+  private apiUrl86 = 'https://charts.vedichoroo.com/v1/ProfileBanner';
+  private apiUrl87 = 'https://charts.vedichoroo.com/v1/ProfileBio';
   private apiUrl88 = 'https://charts.vedichoroo.com/v1/GeneratePDFDocEx';
-private apiUrl89 = 'https://charts.vedichoroo.com/v1/StarsForDay';
-private apiUrl90 = 'https://charts.vedichoroo.com/v1/DailyTrans';
-private apiUrl91 = 'https://charts.vedichoroo.com/v1/GetDoshas';
+  private apiUrl89 = 'https://charts.vedichoroo.com/v1/StarsForDay';
+  private apiUrl90 = 'https://charts.vedichoroo.com/v1/DailyTrans';
+  private apiUrl91 = 'https://charts.vedichoroo.com/v1/GetDoshas';
   private apiUrl92 = 'https://charts.vedichoroo.com/v1/AnalyzeD3';
   private apiUrl93 = 'https://charts.vedichoroo.com/v1/AnalyzeD7';
   private apiUrl94 = 'https://charts.vedichoroo.com/v1/RecfyBTSML';
@@ -115,13 +114,14 @@ private apiUrl91 = 'https://charts.vedichoroo.com/v1/GetDoshas';
   private apiUrl112 = 'https://charts.vedichoroo.com/v1/GetDashTrans4DT';
   private apiUrl113 = 'https://charts.vedichoroo.com/v1/LogCall';
   private apiUrl114 = 'https://charts.vedichoroo.com/v1/GetCallInfo';
-   private apiUrl115 = 'https://charts.vedichoroo.com/v1/GetExchangeRate';
+  private apiUrl115 = 'https://charts.vedichoroo.com/v1/GetExchangeRate';
   private apiUrl116 = 'https://charts.vedichoroo.com/v1/GetBalance';
   private apiUrl117 = 'https://charts.vedichoroo.com/v1/CreateOrder';
   private apiUrl118 = 'https://charts.vedichoroo.com/v1/Orders';
   private apiUrl119 = 'https://charts.vedichoroo.com/v1/IsAstrologer';
   private apiUrl120 = 'https://charts.vedichoroo.com/v1/SetProfileEx';
   private apiUrl121 = 'https://charts.vedichoroo.com/v1/DailyHoroscopeEx';
+  private apiUrl122 = 'https://charts.vedichoroo.com/v1/preferences';
   constructor(private http: HttpClient, private shareService: ShareService) { }
   getJson(url: string): Observable<{}> {
 	return this.http.get(url).pipe(
@@ -149,7 +149,8 @@ getBalance(uid):Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8');   
 	let httpParams = new HttpParams()
-                        .set('cid', uid);
+                        .set('cid', uid)
+						.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	return this.http.get(this.apiUrl116, {headers: headers, params: httpParams}).pipe(
     map(this.extractData),
     catchError(this.handleError)
@@ -172,7 +173,8 @@ getBalance(uid):Observable<{}> {
   }
     getCurrencyExchangeRate(ccode, ccy): Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');   
+			.set('Accept', 'application/json; charset=utf-8')   
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('ccode', ccode)
 						.set('ccy', ccy);
@@ -184,7 +186,8 @@ getBalance(uid):Observable<{}> {
   getOrderStatus(orderid): Observable<{}> {
      let url = this.apiUrl118 + '/' + orderid + '/status';
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');   
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	return this.http.get(url, {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
@@ -197,7 +200,8 @@ getBalance(uid):Observable<{}> {
 	  };
 	  let headers = new HttpHeaders()
 		  .set('Accept', 'application/json; charset=utf-8')
-		  .set('Content-Type', 'application/json; charset=utf-8');
+		  .set('Content-Type', 'application/json; charset=utf-8')
+		  .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	  return this.http.post(this.apiUrl117, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
@@ -205,7 +209,8 @@ getBalance(uid):Observable<{}> {
    }
    isAstro(eml):Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');   
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('eml', eml);
 	return this.http.get(this.apiUrl95, {headers: headers, params: httpParams}).pipe(
@@ -216,14 +221,10 @@ getBalance(uid):Observable<{}> {
    }
 
   uploadImage(b64img: string) : Observable<{}> {
-  //  var oDat = {
-//		key: '838018be3fb23483659f6041c6586217',
-//		image: b64img.split(',')[1]
-//	};
 	  let headers = new HttpHeaders()
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
-			.set('Authorization', 'Bearer ' + this.shareService.getToken());
+          .set('Authorization', 'Bearer ' + this.shareService.getToken());
    var form = new FormData();
    form.append('image', b64img.split(',')[1]);
 	  return this.http.post('https://charts.imgbb.com/1/upload', form, { params: {key: '838018be3fb23483659f6041c6586217'} }).pipe(
@@ -243,7 +244,7 @@ getBalance(uid):Observable<{}> {
 	  let headers = new HttpHeaders()
 		  .set('Accept', 'application/json; charset=utf-8')
 		  .set('Content-Type', 'application/json; charset=utf-8')
-			.set('Authorization', 'Bearer ' + this.shareService.getToken());
+		  .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	  return this.http.post(this.apiUrl113, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
@@ -348,8 +349,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
    var oDat = {
    dob: '',
    tob: '',
@@ -402,9 +401,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')  
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -426,9 +422,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -451,9 +444,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -475,9 +465,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
@@ -502,9 +489,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
@@ -530,9 +514,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
@@ -556,8 +537,6 @@ getBalance(uid):Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -576,7 +555,6 @@ getBalance(uid):Observable<{}> {
   }
   getTransPreds(dob: string): Observable<{}> {
 
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -782,7 +760,7 @@ getBalance(uid):Observable<{}> {
   getAstrologer(uuid: string): Observable<{}> {
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid);
 	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl32.replace('https://charts', 'https://scharts') : this.apiUrl32, {headers: headers, params: httpParams}).pipe(
@@ -792,7 +770,8 @@ getBalance(uid):Observable<{}> {
   }
   getStory(uuid: string, title: string): Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('title', title);
@@ -803,7 +782,8 @@ getBalance(uid):Observable<{}> {
   }
   getComments(title: string): Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
 						.set('page_id', title);
 	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl83.replace('https://charts', 'https://scharts') : this.apiUrl83, {headers: headers, params: httpParams}).pipe(
@@ -813,7 +793,8 @@ getBalance(uid):Observable<{}> {
   }
   getMsg(uuid: string, tag: string): Observable<{}> {
 	let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uuid', uuid)
 						.set('tag', tag);
@@ -833,27 +814,37 @@ getBalance(uid):Observable<{}> {
     catchError(this.handleError)
    );
   }
-  setProfile(uuid: string, avatar: string, dob: string, email: string): Observable<{}> {
-	var oDat = {
-		uuid: uuid,
-		avatar: avatar,
-		dob: dob,
-		email: email
-	};
-	let headers = new HttpHeaders()
-	.set('Accept', 'application/json; charset=utf-8')
-	.set('Content-Type', 'application/json; charset=utf-8')
-	  .set('Authorization', 'Bearer ' + this.shareService.getToken());
-					
-	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl120.replace('https://charts', 'https://scharts') : this.apiUrl120, JSON.stringify(oDat), {headers: headers}).pipe(
+setProfile(uuid: string, avatar: string, dob: string, email: string, fcmToken: string): Observable<{}> {
+  const oDat = {
+    uuid: uuid,
+    avatar: avatar,
+    dob: dob,
+    email: email,
+    fcmToken: fcmToken   // <-- include FCM token here
+  };
+
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/json; charset=utf-8')
+    .set('Content-Type', 'application/json; charset=utf-8')
+    .set('Authorization', 'Bearer ' + this.shareService.getToken());
+
+  return this.http.post(
+    (this.shareService.isSubscr() == true) 
+      ? this.apiUrl120.replace('https://charts', 'https://scharts') 
+      : this.apiUrl120,
+    JSON.stringify(oDat),
+    { headers: headers }
+  ).pipe(
     map(this.extractData),
     catchError(this.handleError)
-   );
-  }  
-  updateProfile(uuid: string, email: string): Observable<{}> {
+  );
+}
+
+  updateProfile(uuid: string, email: string, fcmToken: string): Observable<{}> {
 	var oDat = {
 		uuid: uuid,
-		email: email
+		email: email,
+		fcmToken: fcmToken
 	};
 	let headers = new HttpHeaders()
 	.set('Accept', 'application/json; charset=utf-8')
@@ -1056,7 +1047,8 @@ let httpParams = new HttpParams()
  };
  let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
-			.set('Content-Type', 'application/json; charset=utf-8');
+			.set('Content-Type', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
  	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl84.replace('https://charts', 'https://scharts') : this.apiUrl84, JSON.stringify(oDat), {headers: headers}).pipe(
     map(this.extractData),
     catchError(this.handleError)
@@ -1117,9 +1109,6 @@ getHoro(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -1134,16 +1123,7 @@ getHoro(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
    );
   }
 getProHoro(lat: number, lng: number, dob: string, tz: string, ofset: number, ayanid: number): Observable<{}> {
-	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
-	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	//if(lat.toString().indexOf('º') > -1)
-		//lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
-	//if(lng.toString().indexOf('º') > -1)
-		//lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat.toString() + '|' + lng.toString();
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -1162,17 +1142,8 @@ getProHoro(lat: number, lng: number, dob: string, tz: string, ofset: number, aya
    );
   }
 getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: number, ayanid: number): Observable<{}> {
-	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
-	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	//if(lat.toString().indexOf('º') > -1)
-		//lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
-	//if(lng.toString().indexOf('º') > -1)
-		//lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat.toString() + '|' + lng.toString();
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
-   let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
+    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
@@ -1197,9 +1168,6 @@ getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: nu
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')  
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -1223,14 +1191,11 @@ getBirthchartEx2(lat: number, lng: number, dob: string, tz: string, dstofset: nu
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1250,14 +1215,11 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
-   let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
+    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
     tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8') 
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1272,74 +1234,100 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
     catchError(this.handleError)
    );
   }
- getMoonPhase(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
-	if(lat.toString().indexOf('º') > -1)
-		lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
-	if(lng.toString().indexOf('º') > -1)
-		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
-	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
-   let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
-    tsec = (tsec == '00') ? '0' : tsec;
-	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	let httpParams = new HttpParams()
-                        .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
-						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' +  tsec)
-						.set('latlng', latlng)
-						.set('timezone', tz);
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl42.replace('https://charts', 'https://scharts') : this.apiUrl42, {headers: headers, params: httpParams}).pipe(
-    map(this.extractData),
-    catchError(this.handleError)
-   );
-  }
- getProMoonPhase(lat: number, lng: number, dob: string, tz: string, ayanid: number): Observable<{}> {
-	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
-	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	var latlng = lat.toString() + '|' + lng.toString();
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
-   let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
-   (tsec == '00') ? '0' :  tsec;
-   console.log(tsec);
-	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')	
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	let httpParams = new HttpParams()
-                        .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
-						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
-						.set('latlng', latlng)
-						.set('timezone', tz)
-						.set('ayanid', ayanid.toString());
-	return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl47.replace('https://charts', 'https://scharts') : this.apiUrl47, {headers: headers, params: httpParams}).pipe(
-    map(this.extractData),
-    catchError(this.handleError)
-   );
-  }
+getMoonPhase(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
+  // Normalize lat/lng if needed
+  if (lat.toString().indexOf('º') > -1)
+    lat = lat.split("º")[0] + '.' + lat.split("º")[1].split("'")[0];
+  if (lng.toString().indexOf('º') > -1)
+    lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
+  var latlng = lat + '|' + lng;
+
+  // Build cache key
+  const cacheKey = `moonphase|${lat}|${lng}|${dob}|${tz}`;
+
+  return new Observable(observer => {
+    this.shareService.getItem(cacheKey).then(cached => {
+      if (cached) {
+        observer.next(cached);
+        observer.complete();
+      } else {
+        let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0];
+        tsec = (tsec == '00') ? '0' : tsec;
+        let headers = new HttpHeaders();
+        headers = headers.set('Accept', 'application/json; charset=utf-8')
+                         .set('Authorization', 'Bearer ' + this.shareService.getToken());
+        let httpParams = new HttpParams()
+          .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
+          .set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
+          .set('latlng', latlng)
+          .set('timezone', tz);
+
+        this.http.get(
+          (this.shareService.isSubscr() == true) ? this.apiUrl42.replace('https://charts', 'https://scharts') : this.apiUrl42,
+          {headers: headers, params: httpParams}
+        ).pipe(
+          map(this.extractData),
+          catchError(this.handleError)
+        ).subscribe(
+          data => {
+            this.shareService.setItem(cacheKey, data); // Cache the result
+            observer.next(data);
+            observer.complete();
+          },
+          err => observer.error(err)
+        );
+      }
+    }).catch(err => observer.error(err));
+  });
+} 
+getProMoonPhase(lat: number, lng: number, dob: string, tz: string, ayanid: number): Observable<{}> {
+  const cacheKey = `moonphase|${lat}|${lng}|${dob}|${tz}|${ayanid}`;
+
+  // Try to get from cache first
+  return new Observable(observer => {
+    this.shareService.getItem(cacheKey).then(cached => {
+      if (cached) {
+        observer.next(cached);
+        observer.complete();
+      } else {
+        // Not cached, call API
+        var latlng = lat.toString() + '|' + lng.toString();
+        let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0];
+        (tsec == '00') ? '0' : tsec;
+        let headers = new HttpHeaders();
+        headers = headers.set('Accept', 'application/json; charset=utf-8')
+                         .set('Authorization', 'Bearer ' + this.shareService.getToken());
+        let httpParams = new HttpParams()
+          .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
+          .set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
+          .set('latlng', latlng)
+          .set('timezone', tz)
+          .set('ayanid', ayanid.toString());
+
+        this.http.get(
+          (this.shareService.isSubscr() == true) ? this.apiUrl47.replace('https://charts', 'https://scharts') : this.apiUrl47,
+          {headers: headers, params: httpParams}
+        ).pipe(
+          map(this.extractData),
+          catchError(this.handleError)
+        ).subscribe(
+          data => {
+            this.shareService.setItem(cacheKey, data); // Cache the result
+            observer.next(data);
+            observer.complete();
+          },
+          err => observer.error(err)
+        );
+      }
+    }).catch(err => observer.error(err));
+  });
+ }
  getDailyTrans(dob: string, latlng: string, tz: string, msgn: string, dstofset: number, ayanid: number): Observable<{}> {
-	//var lat = dmslat.split("º")[0] + '.' + dmslat.split("º")[1].split("'")[0];
-	//var lng = dmslng.split("º")[0] + '.' + dmslng.split("º")[1].split("'")[0];
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
    (tsec == '00') ? '0' :  tsec;
    console.log(tsec);
 	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')
+	headers = headers.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
@@ -1360,7 +1348,6 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
  let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
  tsec = (tsec == '00') ? '0' : tsec;
    var oDat = {
@@ -1373,13 +1360,8 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
    oDat.tob = dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec;
    oDat.latlng = latlng;
    oDat.timezone = tz;
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')	
+	headers = headers.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
@@ -1397,17 +1379,11 @@ getTransPredsEx(lat: any, lng: any, dob: string, tz: string, ofset: number, ayan
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
    tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+	headers = headers.set('Accept', 'application/json; charset=utf-8')
+  					 .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1448,17 +1424,11 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
 	let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
 	tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+	headers = headers.set('Accept', 'application/json; charset=utf-8')
+					 .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1476,17 +1446,11 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
  let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
  tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders();
-	headers = headers.set('Accept', 'application/json; charset=utf-8');  
-    headers.append('Cache-control', 'no-cache');
-	headers.append('Cache-control', 'no-store');
-	headers.append('Expires', '0');
-	headers.append('Pragma', 'no-cache')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+	headers = headers.set('Accept', 'application/json; charset=utf-8')
+					 .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1500,14 +1464,13 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
    );
   }  
   getBirthStars(dob: string, partnerdob: string, latlng: string, tz: string, ayanid: number): Observable<{}> {
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '-' + //partnerdob.split('T')[0].split('-')[2] + '|' + partnerdob.split('T')[0].split('-')[1] + '|' + partnerdob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '-' + partnerdob.split('T')[1].split(':')[0]  + '|' + //partnerdob.split('T')[1].split(':')[1] + '|' + '0';
 	let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
 	tsec = (tsec == '00') ? '0' : tsec;
 	let tsec2: string = partnerdob.split('T')[1].split(':')[2].split('Z')[0]; 
 	tsec2 = (tsec2 == '00') ? '0' : tsec2;
 	let headers = new HttpHeaders();
 	headers = headers.set('Accept', 'application/json; charset=utf-8') 
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+					 .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '-' + partnerdob.split('T')[0].split('-')[2] + '|' + partnerdob.split('T')[0].split('-')[1] + '|' + partnerdob.split('T')[0].split('-')[0])
 						.set('tob',  dob.split('T')[1].split(':')[0] + '|'+ dob.split('T')[1].split(':')[1]+'|' + tsec + '-'+ partnerdob.split('T')[1].split(':')[0]+'|' + partnerdob.split('T')[1].split(':')[1]+ '|'+ tsec2)
@@ -1543,7 +1506,6 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 		  );
   }
   getBirthStar(dob: string): Observable<{}> {
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
@@ -1561,12 +1523,11 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0';
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
    tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1579,10 +1540,9 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
    );
   }
   getStarConst(star: string, sign: string, moondeg: string): Observable<{}> {
-	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('star', star)
 						.set('sign', sign)
@@ -1593,12 +1553,9 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
    );
   }
   getProStarConst(star: string, sign: string, moondeg: string, latlng: string, tz: string, ayanid: number): Observable<{}> {
-	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
-	
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-				//.set('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('star', star)
 						.set('sign', sign)
@@ -1624,20 +1581,18 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
 	  let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
 				.set('Content-Type', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl95.replace('https://charts', 'https://scharts') : this.apiUrl95, JSON.stringify(oDat), { headers: headers }).pipe(
 		  map(this.extractData),
 		  catchError(this.handleError)
 		  );
 }
   getStarsForDay(dob: string, star: string, sign: string, moondeg: string, latlng: string, tz: string, dstofset: number, ayanid: number): Observable<{}> {
-	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
    (tsec == '00') ? '0' :  tsec;
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-				//.set('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
 						.set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)
@@ -1653,24 +1608,43 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
     catchError(this.handleError)
    );
   }
-  calForMon(mon: number, yer: number, latlng: string, tz: string, ayanid: number): Observable<{}> {
-	//var oDat = 'star=' + star + '&sign=' + sign + '&moondeg=' + moondeg;
-	let headers = new HttpHeaders()
-				.set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-	let httpParams = new HttpParams()
-                        .set('mon', mon.toString())
-						.set('yer', yer.toString())
-						.set('latlng', latlng)
-						.set('timezone', tz)
-						.set('ayanid', ayanid.toString());
-  return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl82.replace('https://charts', 'https://scharts') : this.apiUrl82, {headers: headers, params: httpParams}).pipe(
-    map(this.extractData),
-    catchError(this.handleError)
-   );
-  }
+calForMon(mon: number, yer: number, latlng: string, tz: string, ayanid: number): Observable<{}> {
+  const cacheKey = `calForMon|${mon}|${yer}|${latlng}|${tz}|${ayanid}`;
+
+  return new Observable(observer => {
+    this.shareService.getItem(cacheKey).then(cached => {
+      if (cached) {
+        observer.next(cached);
+        observer.complete();
+      } else {
+        let headers = new HttpHeaders()
+          .set('Accept', 'application/json; charset=utf-8')
+          .set('Authorization', 'Bearer ' + this.shareService.getToken());
+        let httpParams = new HttpParams()
+          .set('mon', mon.toString())
+          .set('yer', yer.toString())
+          .set('latlng', latlng)
+          .set('timezone', tz)
+          .set('ayanid', ayanid.toString());
+        this.http.get(
+          (this.shareService.isSubscr() == true) ? this.apiUrl82.replace('https://charts', 'https://scharts') : this.apiUrl82,
+          {headers: headers, params: httpParams}
+        ).pipe(
+          map(this.extractData),
+          catchError(this.handleError)
+        ).subscribe(
+          data => {
+            this.shareService.setItem(cacheKey, data); // Cache the result
+            observer.next(data);
+            observer.complete();
+          },
+          err => observer.error(err)
+        );
+      }
+    }).catch(err => observer.error(err));
+  });
+}
   getTimezone(lat: any, lng: any, timestamp: string): Observable<{}> {
-   //var oDat = 'location=' + lat + ',' + lng + '&timestamp=' + timestamp + '&key=' + 'AIzaSyANvr-rVst44P0DMBpDxsu6s0GXUVPrl9M';
 	let headers = new HttpHeaders()
 				.set('Accept', 'application/json; charset=utf-8');
 	let httpParams = new HttpParams()
@@ -1684,7 +1658,8 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
   }  
  getStories(): Observable<{}> {
 	let headers = new HttpHeaders()
-				.set('Accept', 'application/json; charset=utf-8');
+				.set('Accept', 'application/json; charset=utf-8')
+				.set('Authorization', 'Bearer ' + this.shareService.getToken());
    return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl8.replace('https://charts', 'https://scharts') : this.apiUrl8, {headers: headers}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
@@ -1692,7 +1667,8 @@ recfyBTSML(dobf: string, dobr: string, lat: any, lng: any, tz: string, dstofset:
   }
 getArticle(tok: string): Observable<{}> {
   let headers = new HttpHeaders()
-			.set('Accept', 'application/json; charset=utf-8');
+			.set('Accept', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('tok', tok);
    return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl44.replace('https://charts', 'https://scharts') : this.apiUrl44, {headers: headers, params: httpParams}).pipe(
@@ -1703,8 +1679,8 @@ getArticle(tok: string): Observable<{}> {
   
 getBlogs(uid: string): Observable<{}> {
   let headers = new HttpHeaders()
-  .set('Accept', 'application/json; charset=utf-8')
-					.set('Authorization', 'Bearer ' + this.shareService.getToken());
+				 .set('Accept', 'application/json; charset=utf-8')
+				 .set('Authorization', 'Bearer ' + this.shareService.getToken());
 	let httpParams = new HttpParams()
                         .set('uid', uid);
    return this.http.get((this.shareService.isSubscr() == true) ? this.apiUrl39.replace('https://charts', 'https://scharts') : this.apiUrl39, {headers: headers, params: httpParams}).pipe(
@@ -1723,7 +1699,8 @@ pubBlog(uuid: string, name: string, avatar: string, title: string, story: string
  };
   let headers = new HttpHeaders()
 			.set('Accept', 'application/json; charset=utf-8')
-			.set('Content-Type', 'application/json; charset=utf-8');
+			.set('Content-Type', 'application/json; charset=utf-8')
+			.set('Authorization', 'Bearer ' + this.shareService.getToken());
    return this.http.post((this.shareService.isSubscr() == true) ? this.apiUrl40.replace('https://charts', 'https://scharts') : this.apiUrl40, JSON.stringify(oDat), {headers: headers}).pipe(
 	map(this.extractData),
     catchError(this.handleError)
@@ -1855,9 +1832,6 @@ getBirthInfo(lat: any, lng: any, dob: string, tz: string): Observable<{}> {
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
    let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
    tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
@@ -1879,9 +1853,6 @@ getBirthInfoEx(lat: any, lng: any, dob: string, tz: string, ayanid: number): Obs
 	if(lng.toString().indexOf('º') > -1)
 		lng = lng.split("º")[0] + '.' + lng.split("º")[1].split("'")[0];
 	var latlng = lat + '|' + lng;
-	//var oDat = 'dob=' + dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0] + '&tob=' + //dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + '0' + '&latlng=' + latlng + '&timezone=' + tz + '&name=' + '&eml=';
-
-   //let headers = new Headers({ 'Accept': 'application/json; charset=utf-8' });
  let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
  tsec = (tsec == '00') ? '0' : tsec;
 	let headers = new HttpHeaders()
@@ -1968,45 +1939,37 @@ getDoshas(lat: any, lng: any, dob: string, tz: string, dstofset: number, ayanid:
 			.set('Accept', 'application/pdf; charset=utf-8') 
 			.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl85.replace('https://charts', 'https://scharts') : this.apiUrl85, JSON.stringify(oDat), { headers : headers,responseType : 
+	return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl85.replace('https://charts', 'https://scharts') : this.apiUrl85, JSON.stringify(oDat), { headers : headers,responseType : 
          'blob' as 'json'});			
-	//return this.http.post(this.apiUrl85, JSON.stringify(oDat), {headers: headers}).pipe(
-    // map(this.extractData),
-    //catchError(this.handleError)
-   //);
    }
   downloadPdfEx(uuid: string, name: string, gender: string, dob: string, pob: string, lat: string, lng: string, timezone: string, dstofset: number, ayanid: number, lang: string, chtyp, cimg: string, cnme: string, cnum: string, ceml: string ) : Observable<Blob> {
- let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
- console.log(tsec);
- tsec = (tsec == '00') ? '0' : tsec;
- var oDat = {
-	 uuid: uuid,
-	 name: name,
-	 gender: gender,
-	 dob: dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0],
-	 tob: dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec,
-	 pob: pob,
-	 latlng: lat + '|'+lng,
-	 timezone: timezone,
-	 dstofset: dstofset,
-	 ayanid: ayanid,
-	 lang: lang,
-	 chtyp: chtyp,
-	 cimg: cimg,
-	 cnme: cnme,
-	 cnum: cnum,
-	 ceml: ceml
-   };
+	let tsec: string = dob.split('T')[1].split(':')[2].split('Z')[0]; 
+	console.log(tsec);
+	tsec = (tsec == '00') ? '0' : tsec;
+	var oDat = {
+		uuid: uuid,
+		name: name,
+		gender: gender,
+		dob: dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0],
+		tob: dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec,
+		pob: pob,
+		latlng: lat + '|'+lng,
+		timezone: timezone,
+		dstofset: dstofset,
+		ayanid: ayanid,
+		lang: lang,
+		chtyp: chtyp,
+		cimg: cimg,
+		cnme: cnme,
+		cnum: cnum,
+		ceml: ceml
+	};
 	let headers = new HttpHeaders()
 			.set('Accept', 'application/pdf; charset=utf-8') 
 			.set('Content-Type', 'application/json; charset=utf-8')
 					.set('Authorization', 'Bearer ' + this.shareService.getToken());
-return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl88.replace('https://charts', 'https://scharts') : this.apiUrl88, JSON.stringify(oDat), { headers : headers,responseType : 
+	return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl88.replace('https://charts', 'https://scharts') : this.apiUrl88, JSON.stringify(oDat), { headers : headers,responseType : 
          'blob' as 'json'});			
-	//return this.http.post(this.apiUrl85, JSON.stringify(oDat), {headers: headers}).pipe(
-    // map(this.extractData),
-    //catchError(this.handleError)
-   //);
    }
   talkToAstro(uid: string, uuid: string, aid: string) : Observable<{}> {
 	let headers = new HttpHeaders()
@@ -2020,23 +1983,36 @@ return this.http.post<Blob>((this.shareService.isSubscr() == true) ? this.apiUrl
     map(this.extractData),
     catchError(this.handleError)
    );
-   
   }
+  setNotificationPreferences(preferences: any): Observable<{}> {
+  let headers = new HttpHeaders()
+    .set('Accept', 'application/json; charset=utf-8')
+    .set('Content-Type', 'application/json; charset=utf-8')
+    .set('Authorization', 'Bearer ' + this.shareService.getToken());
+
+  // Use the correct API URL for preferences (adjust if needed)
+  const url = (this.shareService.isSubscr() == true)
+    ? this.apiUrl122.replace('https://charts', 'https://scharts')
+    : this.apiUrl122;
+
+  return this.http.post(url, JSON.stringify(preferences), { headers: headers }).pipe(
+    map(this.extractData),
+    catchError(this.handleError)
+  );
+}
   private extractData(res: Response) {
-  let body = res;
-  return body || { };
- }
-  
-  private handleError (error: Response | any) {
-  let errMsg: string;
-  if (error instanceof Response) {
-    const err = error || '';
-    errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-  } else {
-    errMsg = error.message ? error.message : error.toString();
+	let body = res;
+	return body || { };
   }
-  console.error(errMsg);
-  return observableThrowError(errMsg);
- }
- 
+  private handleError (error: Response | any) {
+	let errMsg: string;
+	if (error instanceof Response) {
+		const err = error || '';
+		errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+	} else {
+		errMsg = error.message ? error.message : error.toString();
+	}
+	console.error(errMsg);
+	return observableThrowError(errMsg);
+  }
 }

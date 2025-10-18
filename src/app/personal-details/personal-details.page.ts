@@ -352,10 +352,6 @@ export class PersonalDetailsPage implements OnInit {
      console.log('personal-details ionViewDidEnter');
      this.info = '';
   this.platform.ready().then(() => {
-//     this.splashscreen.hide();
-  //  this.info2 = 'Loading..';
-//    this.shareService.plan.subscribe((pln) => {
-	 //   this.info2 = '';
 		if(this.shareService.getREWARD()) {
 			this.showSU = true;
 			this.showCR = false;
@@ -363,29 +359,9 @@ export class PersonalDetailsPage implements OnInit {
 			if(this.source == 'Yogas In Your Horoscope') 
 			 this.showYO = true;
 		} 
-		//if(pln.name != 'com.mypubz.eportal.astrologer') {
-		  //this.showBanner();
-		//}
-  //  }, (err) => {
-	//				this.showSU = false;
-	//				this.showCR = false;
-	//				this.showASU = false;
-	//			this.info2 = JSON.stringify(err);
-	//		});
    });
   }
 
-   //showAddressModal () {
-   // let modal = this.modalCtrl.create(AutocompletePage);
-   // let me = this;
-   // modal.onDidDismiss(data => {
-      //this.personalDetailsForm.controls['place'].setValue(data);
-	 // console.log('onDidDismiss', data);
-	 // this.place = data;
-	 // this.geoCode(data);
-    //});
-   // modal.present();
-  //}
 
   finishPurchase(transaction) {
     
@@ -544,15 +520,7 @@ export class PersonalDetailsPage implements OnInit {
 			let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: ob, rating: res['rating'] };
 			this.plan = pln;
 			console.log('after adding dob', this.plan);
-			//this.plan.dobs = res['dobs'];
 		   this.shareService.setPLAN(pln);
-		   //if(res['credits'] == -1) {
-			//error
-		 //  if (res['name'] != 'com.mypubz.eportal.astrologer' && res['name'] != 'com.mypubz.eportal.offer499' && res['credits'] == 0) {
-			// this.showCR = true;
-			 //this.showSU = false;
-			 //return;
-		   //}
 			this.info = '';
 			this.nwait = 0;
 		}, (err) => {
@@ -568,14 +536,10 @@ export class PersonalDetailsPage implements OnInit {
 	console.log('processReq', dob);
 	 this.nwait = 18;
 	 if(this.source == 'Star Constellation') {
-	  if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.year') {
 		 let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: null, retro: '', plstr: '',  hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 		  this.info = '';
 		  this.nwait = 0;
 		 this.router.navigate(['/star-const'], {state: binf});
-	  } else {
-	    this.router.navigate(['/subscribe']);
-	  }
 	 } else if(this.source == 'Lucky Gemstones') {
 		let ayanid: number = 4;
 		var res = this.shareService.getAYNM();
@@ -627,7 +591,7 @@ export class PersonalDetailsPage implements OnInit {
 			  }) ;
 		});
 	   });
-	 } else if(this.source == 'Birth Chart Analysis' || this.source == 'Birth Chart') {
+	 } else if(this.source == 'Birth Chart Analysis' || this.source == 'Birth Chart' || this.source == 'Rashi Chart') {
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
@@ -762,10 +726,8 @@ export class PersonalDetailsPage implements OnInit {
 		let ayanid: number = 3;
 		var res = this.shareService.getKAYNM();
 		if(res) ayanid = Number(res);
-		//this.shareService.getRETRO(dob).then( retro => {
 		this.shareService.getKPPOS(dob).then( ppos => {
 		this.shareService.getHPOS(dob).then( hpos => {
-		//this.shareService.getPLSTR(dob).then( plstr => {
 		if(ppos) {
 			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: ppos, retro: null, plstr: null, hpos: hpos, vims: null, sdb: null, akv: null, dohs: null};
 			this.info = '';
@@ -775,8 +737,6 @@ export class PersonalDetailsPage implements OnInit {
 		  this.horoService.getCuspsEx(lat, lng, dob, tz, this.dstofset, ayanid)
 		   .subscribe(res => {
 			this.shareService.setKPPOS(dob, res['planetPos']);
-			//this.shareService.setRETRO(dob, res['retroPls']);
-			//this.shareService.setPLPOS(res['planetPos']);
 		    console.log(res['housePos']);
  		    this.shareService.setHPOS(dob, res['housePos']);
 			this.info = '';
@@ -792,9 +752,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.nwait = 0;
 		  }) ;
 	    }
-	    //});
 	    });
-	    //});
 	    })
 		.catch(e => {
 		  this.horoService.getCuspsEx(lat, lng, dob, tz, this.dstofset, ayanid)
@@ -820,12 +778,6 @@ export class PersonalDetailsPage implements OnInit {
 		let db: string = this.dob + 'T' + this.tob + 'L' + this.shareService.getLAT() + ',' + this.shareService.getLNG() + '@' + this.shareService.getTimezone() + '$' + this.dstofset.toString();
 		if(this.nam.length > 0) db += '#' + this.nam + '&' + this.gen;
 		this.info = 'Saving the profile..';
-		// this.horoService.setProfile(this.device.uuid, '', db)
-		// 		.subscribe(res => {
-		// 			this.info = '';
-		// 		}, (err) => {
-		// 			this.info = err;
-		// 		});
 		let ayanid: number = 4;
 		var res = this.shareService.getAYNM();
 		if(res) ayanid = Number(res);
@@ -848,7 +800,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.nwait = 0;
 		}) ;
 	   
-	  }else if(this.source == 'Yogas In Your Horoscope') {
+	  }else if(this.source == 'Your Rajayogas') {
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
@@ -870,7 +822,6 @@ export class PersonalDetailsPage implements OnInit {
 		   .subscribe(res1 => {
 			this.shareService.setRETRO(dob, res1['retroPls']);
 			this.shareService.setPLSTR(dob, res1['plStren']);
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res1['planetPos']);
 			let binf: BirthInfo = { dob: dob, dob_short: dob, lat: lat, lng: lng, timezone: tz, dstofset: dof, lagna:'',lagna_lord:'',moon_sign:'',sun_sign:'',tithi:'',birth_star:'',star_lord:'',moon_phase:'',name:nam,gender:gen,ref:'2', fetch: false, show: true, genrep: false, ppos: res1['planetPos'], retro: res1['retroPls'], plstr: res1['plStren'], hpos: null, vims: null, sdb: null, akv: null, dohs: null};
 			this.router.navigate(['/rajayoga'], {state: binf});
@@ -907,7 +858,6 @@ export class PersonalDetailsPage implements OnInit {
 		   .subscribe(res1 => {
 			this.shareService.setRETRO(dob, res1['retroPls']);
 			this.shareService.setPLSTR(dob, res1['plStren']);
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res1['planetPos']);
 				this.horoService.getYogas(lat, lng, dob, tz, this.shareService.getLANG())
 				.subscribe(res2 => {
@@ -925,7 +875,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.nwait = 0;
 		  })
 		});
-	  }else if(this.source == 'Planetary Transits & Predictions') {
+	  }else if(this.source == 'Transits & Predictions') {
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
@@ -944,7 +894,6 @@ export class PersonalDetailsPage implements OnInit {
 		} else {
 	     this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -963,7 +912,6 @@ export class PersonalDetailsPage implements OnInit {
 		.catch(e => {
 	     this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -976,7 +924,7 @@ export class PersonalDetailsPage implements OnInit {
 			this.nwait = 0;
 		});
 		});
-	  } else if(this.source == 'Divisional Charts') {
+	  } else if(this.source == 'Varga Charts') {
 		var dt = new Date();
 		var n = dt.getTimezoneOffset();
 		n = n/60;
@@ -995,7 +943,6 @@ export class PersonalDetailsPage implements OnInit {
 		} else {
 		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1014,7 +961,6 @@ export class PersonalDetailsPage implements OnInit {
 		.catch(e => {
 		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1046,7 +992,6 @@ export class PersonalDetailsPage implements OnInit {
 		} else {
  		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1065,7 +1010,6 @@ export class PersonalDetailsPage implements OnInit {
 		.catch(e => {
  		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1097,7 +1041,6 @@ export class PersonalDetailsPage implements OnInit {
 		} else {
 		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1116,7 +1059,6 @@ export class PersonalDetailsPage implements OnInit {
 		.catch(e => {
 		 this.horoService.getBirthchartEx2(lat, lng, dob, tz, dof, ayanid)
 		   .subscribe(res => {
-			//this.shareService.setPLPOS(res['planetPos']);
 			this.shareService.setPPOS(dob, res['planetPos']);
 			this.shareService.setRETRO(dob, res['retroPls']);
 			this.shareService.setPLSTR(dob, res['plStren']);
@@ -1133,7 +1075,7 @@ export class PersonalDetailsPage implements OnInit {
     }	
     more()
 	{
-		this.router.navigate(['/subscribe']);
+//		this.router.navigate(['/subscribe']);
 	}
 	morecred()
 	{
@@ -1214,21 +1156,7 @@ export class PersonalDetailsPage implements OnInit {
     evt.stopPropagation();
     console.log('selDOB', pd);
 	pd.fetch = true;
-	//var dob = pd.dob;
-	//if(dob.indexOf('L') > -1) {
-		//var db = dob.split('L')[0].trim();
-		//var lat = dob.split('L')[1].split('@')[0].split(',')[0].trim();
-		//var lng = dob.split('L')[1].split('@')[0].split(',')[1].trim();
-		//let tz: string = dob.split('L')[1].split('@')[1];
-		//let nam: string = '';
-		//let gen: string = '';
-		//if(tz.indexOf('#') > -1) {
-			//tz = tz.split('#')[0];
-			//nam = tz.split('&')[0];
-			//gen = tz.split('&')[1];
-		//}
-		this.processReq(pd.lat, pd.lng, pd.dob_short, pd.timezone, pd.dstofset, pd.name, pd.gender);
-	//}
+	this.processReq(pd.lat, pd.lng, pd.dob_short, pd.timezone, pd.dstofset, pd.name, pd.gender);
   }
   
   updateSearch() {
@@ -1240,19 +1168,18 @@ export class PersonalDetailsPage implements OnInit {
     console.log('getPlacePredictions');
     let me = this;
     this.service.getPlacePredictions({
-    input: this.autocomplete.query,
+	    input: this.autocomplete.query,
     
-   }, (predictions, status) => {
-     console.log('getPlacePredictions', predictions);
-     me.autocompleteItems = [];
-
-   me.zone.run(() => {
-     console.log('zone.run', predictions);
-     if (predictions != null) {
-        predictions.forEach((prediction) => {
-          me.autocompleteItems.push(prediction.description);
-        });
-       }
+   	}, (predictions, status) => {
+    	console.log('getPlacePredictions', predictions);
+     	me.autocompleteItems = [];
+	   me.zone.run(() => {
+    	 console.log('zone.run', predictions);
+     	 if (predictions != null) {
+        	predictions.forEach((prediction) => {
+          	  me.autocompleteItems.push(prediction.description);
+            });
+         }
      });
    });
   }
@@ -1262,7 +1189,7 @@ export class PersonalDetailsPage implements OnInit {
     this.geoCode(item);
 	this.autocompleteItems = [];
   }
-//convert Address string to lat and long
+ //convert Address string to lat and long
   geoCode(address:any) {
     this.info = 'geocoding..';
     let geocoder = new google.maps.Geocoder();
@@ -1272,9 +1199,6 @@ export class PersonalDetailsPage implements OnInit {
     let longitude = results[0].geometry.location.lng();
 	this.shareService.setLAT( latitude);
 	this.shareService.setLNG(longitude);
-	//let utc_offset: number = 0;
-	//if(results[0].geometry.hasOwnProperty('utc_offset'))
-		//utc_offset = results[0].geometry.utc_offset;
     this.horoService.getTimezone(results[0].geometry.location.lat(), results[0].geometry.location.lng(), (Math.round((new Date().getTime())/1000)).toString())
 		.subscribe(res2 => {
 		   console.log(res2);
@@ -1297,7 +1221,6 @@ export class PersonalDetailsPage implements OnInit {
 	.subscribe(res => {
 			let pln: Plan = { uuid: res['uuid'], name: res['name'], credits: res['credits'], dobs: res['dobs'], rating: res['rating'] };
 			this.plan = pln;
-			//this.plan.dobs = res['dobs'];
 		    this.shareService.setPLAN(pln);
 	}, (err) => {
 		console.log(err);
@@ -1328,15 +1251,9 @@ export class PersonalDetailsPage implements OnInit {
 		if(ayn) ayanid = Number(ayn);
 	this.horoService.downloadPdf(this.device.uuid, pd.name, pd.gender, pd.dob, results[0].formatted_address, pd.lat, pd.lng, pd.timezone, ofset, ayanid, this.shareService.getLANG(), (this.shareService.getCHTYP() == null) ? 'si':this.shareService.getCHTYP())
 	.subscribe(res => {
-		//var fpth = '';
-		 //if (this.platform.isIOS()) {
-         //   fpth = this.file.documentsDirectory;
-        //} else {
-           let fpth: string = this.file.externalDataDirectory;
-        //}
+        let fpth: string = this.file.externalDataDirectory;
 		pd.genrep = false;
 		let fn = pd.name.split(' ').join() + Date.now() + '.pdf';
-		//let blob:any = new Blob([res], { type: 'application/pdf; charset=utf-8' });
 		this.file.writeFile(fpth,  fn, res, {replace: true, append: false})
 		.then(res =>  {
 			console.log('success');
@@ -1344,10 +1261,8 @@ export class PersonalDetailsPage implements OnInit {
 				this.shareService.setREP(pd.name+'$'+pd.dob_short + '$'+ fn);
 				console.log( fpth, fn);
 				this.showPdf(fpth+fn);
-				//window.open(encodeURI(fpth+fn), '_system');
            }, function(error) {
             });	
-		//const url= window.URL.createObjectURL(res);
     }, (err) => {
 		this.info = JSON.stringify(err);
 		console.log(err);
