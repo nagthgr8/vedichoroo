@@ -233,12 +233,12 @@ export class ShareService {
 		});			
 	}
 	getItem(key) {
-			return this._storage.getItem(key).then(res => {
-		  return res;
-		});
+	  return this._storage.getItem(key)
+		.then(res => res)
+		.catch(err => null); // Return null if not found
 	}
 	setItem(key, val) {
-	   this._storage.setItem(key,val);
+	   return this._storage.setItem(key,val);
 	}
 	emitSignIn(usr) {
 		this.dsSignIn.next(usr);

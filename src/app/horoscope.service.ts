@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ShareService } from './share.service';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -1296,7 +1296,7 @@ getProMoonPhase(lat: number, lng: number, dob: string, tz: string, ayanid: numbe
         (tsec == '00') ? '0' : tsec;
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/json; charset=utf-8')
-                         .set('Authorization', 'Bearer ' + this.shareService.getToken());
+                         .set('Authorization', 'Bearer ' + environment.aiAgentToken);
         let httpParams = new HttpParams()
           .set('dob', dob.split('T')[0].split('-')[2] + '|' + dob.split('T')[0].split('-')[1] + '|' + dob.split('T')[0].split('-')[0])
           .set('tob', dob.split('T')[1].split(':')[0]  + '|' + dob.split('T')[1].split(':')[1] + '|' + tsec)

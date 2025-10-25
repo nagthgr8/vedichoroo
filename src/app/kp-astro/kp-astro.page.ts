@@ -2287,18 +2287,11 @@ export class KpAstroPage implements OnInit {
 	   switch(item.title)
 	   {
 		 case 'KP Transit':
-			if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.year') {
-				this.getTrans(this.mdas1, this.adas1, this.pdas1);
-				this.router.navigate(['/kp-event'], {state: this.binf});
-			} else
-				this.router.navigate(['/subscribe']);
+			this.router.navigate(['/kp-event'], {state: this.binf});
 			break;
 		 case 'Dasha & Transit predictions':
-		   console.log('kpd', kpd);
-			if(this.plan.name == 'com.mypubz.eportal.astrologer' || this.plan.name == 'com.mypubz.eportal.adfree' || this.plan.name == 'com.mypubz.eportal.year') 
-				this.router.navigate(['/dash-trans'], {state: kpd});
-			else
-				this.router.navigate(['/subscribe']);
+		    console.log('kpd', kpd);
+			this.router.navigate(['/dash-trans'], {state: kpd});
 		    break;
 		 case 'Planet & Significance':
 		    this.router.navigate(['/planet-sig'], {state: this.oPlanet});

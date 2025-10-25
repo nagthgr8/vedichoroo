@@ -227,7 +227,7 @@
 <ion-list class="kpitems">
   <ion-item *ngFor="let item of items" tappable (click)="itemTapped($event, item)">
     <ion-avatar slot="start">
-      <img [src]="item.icon" />
+      <ion-icon [name]="item.icon" size="large"></ion-icon>
     </ion-avatar>
     <ion-label>
       <span class="kitem">{{item.title}}</span><br>

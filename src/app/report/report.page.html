@@ -10,10 +10,6 @@
 	<div>
 	 <p><span class="title">Personalized Report</span></p>
 	 <p class="desc">A detailed 25 page personalized report will be sent to your email address within 24hrs. The report can also be accessible from our 126 Astrolgy App through <strong>Reports</strong> menu on left hand side. You can send request for upto 10 date of births at a time. <span *ngIf="!ast"><ion-badge color="primary" (click)="subscribe()">subscribe</ion-badge> now & get  the reports for FREE.</span><br></p>
-	 <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event, 'HI')">{{dbtn1}}</ion-button>
-    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'EN')">{{dbtn2}}</ion-button>
-    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'TA')">{{dbtn3}}</ion-button>
-    <ion-button type="button" expand="block" color="tertiary" tappable (click)="smrep($event,'TE')">{{dbtn4}}</ion-button>
 	</div>
    <ion-list class="pd">
 		  <div class="title">Contact Details</div>
@@ -155,7 +151,7 @@
 			  <div>
 				<p ion-text class="info" color="primary" [innerHTML]='info'></p>
 				<p ion-text class="info" color="primary" [innerHTML]='info2'></p>
-				<div *ngIf="showSU"><ion-button type="button" expand="block" color="tertiary" tappable (click)="buy()">{{btnam}}</ion-button></div><br>
+				<div><ion-button type="button" expand="block" color="tertiary" tappable (click)="buy()">{{btnam}}</ion-button></div><br>
 			  </div>
 <div class="fixed-content"></div></ion-content>
 
